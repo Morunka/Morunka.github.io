@@ -102,3 +102,21 @@ telegramBtn.addEventListener('click', (e) => {
     linksRow.classList.toggle('telegram-active');
     telegramBtn.classList.toggle('back');
 });
+
+// Добавляем обработчики для проверки кликабельности иконок
+const youtubeBtn = document.querySelector('.youtube');
+const kogamaBtn = document.querySelector('.kogama');
+
+youtubeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!linksRow.classList.contains('telegram-active')) {
+        window.location.href = youtubeBtn.getAttribute('href');
+    }
+});
+
+kogamaBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!linksRow.classList.contains('telegram-active')) {
+        window.location.href = kogamaBtn.getAttribute('href');
+    }
+});
