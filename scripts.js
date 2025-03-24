@@ -18,22 +18,29 @@ function adjustContentPosition() {
     const windowHeight = window.innerHeight;
     const headerHeight = headerContainer.offsetHeight;
     const footerHeight = footer.offsetHeight;
+    const descriptionHeight = descriptionContainer.offsetHeight;
+    const linksHeight = linksContainer.offsetHeight;
 
-    // Вычисляем доступное пространство между заголовком и футером
-    const availableSpace = windowHeight - headerHeight - footerHeight;
+    // Позиция заголовка в неактивном состоянии (центр экрана)
+    const headerDefaultTop = (windowHeight - headerHeight) / 2;
 
     // Позиция заголовка в активном состоянии (10% от верха или 5% на мобильных)
     const headerActiveTop = window.innerWidth <= 768 ? windowHeight * 0.05 : windowHeight * 0.1;
 
-    // Позиция контента: середина оставшегося пространства
-    const contentTop = headerActiveTop + headerHeight + (availableSpace - headerHeight - footerHeight) / 2;
+    // Доступное пространство между нижней границей заголовка (в активном состоянии) и футером
+    const availableSpace = windowHeight - headerActiveTop - headerHeight - footerHeight;
 
-    // Устанавливаем позицию для описания и ссылок
+    // Позиция контента: середина доступного пространства
+    const contentTop = headerActiveTop + headerHeight + (availableSpace - Math.max(descriptionHeight, linksHeight)) / 2;
+
+    // Устанавливаем позиции
+    if (!body.classList.contains('active') && !body.classList.contains('links-active')) {
+        headerContainer.style.top = `${headerDefaultTop}px`;
+    } else {
+        headerContainer.style.top = `${headerActiveTop}px`;
+    }
     descriptionContainer.style.top = `${contentTop}px`;
     linksContainer.style.top = `${contentTop}px`;
-
-    // Начальная позиция заголовка
-    headerContainer.style.top = `${(windowHeight - headerHeight) / 2}px`;
 }
 
 // Пересчитываем позицию при изменении размера окна
@@ -50,6 +57,7 @@ aboutBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('links-active')) {
         body.classList.remove('links-active');
+        linksBtn.classList.remove('active'); // Убираем выделение с кнопки "Связи"
         links.classList.add('hide');
     }
     body.classList.toggle('active');
@@ -57,6 +65,7 @@ aboutBtn.addEventListener('click', (e) => {
     if (!body.classList.contains('active')) {
         description.classList.add('hide');
     }
+    adjustContentPosition(); // Пересчитываем позицию после изменения состояния
 });
 
 // Логика кнопки "Связи"
@@ -64,7 +73,7 @@ linksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
         body.classList.remove('active');
-        aboutBtn.classList.remove('active');
+        aboutBtn.classList.remove('active'); // Убираем выделение с кнопки "О студии"
         description.classList.add('hide');
     }
     body.classList.toggle('links-active');
@@ -72,4 +81,5 @@ linksBtn.addEventListener('click', (e) => {
     if (!body.classList.contains('links-active')) {
         links.classList.add('hide');
     }
+    adjustContentPosition(); // Пересчитываем позицию после изменения состояния
 });
