@@ -183,6 +183,7 @@ h1 {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .link-icon {
@@ -192,7 +193,7 @@ h1 {
     background-size: cover;
     background-position: center;
     overflow: hidden;
-    transition: transform 0.3s;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .link-icon:hover {
@@ -212,13 +213,13 @@ h1 {
     font-size: 10px;
     text-align: center;
     text-decoration: none;
-    transition: transform 0.3s;
-    line-height: 1.2; /* Уменьшаем высоту строки для лучшего размещения текста */
-    padding: 5px; /* Добавляем отступы для текста */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    line-height: 1.2;
+    padding: 5px;
 }
 
 .link-text.characters {
-    font-size: 8px; /* Уменьшаем размер шрифта для "Персонажи" */
+    font-size: 8px;
 }
 
 .link-text:hover {
@@ -241,32 +242,43 @@ h1 {
     background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
 }
 
+.telegram.back {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/back.png'); /* Стрелка назад */
+    transform: translateX(100px); /* Смещение вправо */
+}
+
 .scratch {
     background-image: url('https://img.icons8.com/color/50/000000/scratch.png');
 }
 
-.telegram-wrapper {
-    position: relative;
-    z-index: 10;
+/* Скрываем иконки при открытии Telegram-секции */
+.links-row.telegram-active .gamejolt,
+.links-row.telegram-active .kogama,
+.links-row.telegram-active .youtube,
+.links-row.telegram-active .scratch {
+    opacity: 0;
+    transform: scale(0);
 }
 
-.telegram-sub-links {
-    display: none;
+/* Показываем Telegram-ссылки */
+.telegram-links {
+    display: flex;
+    gap: 20px;
     position: absolute;
-    top: 60px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    flex-direction: column;
-    gap: 10px;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 10px;
-    border-radius: 5px;
 }
 
-/* Подменю остается видимым при наведении на саму иконку Telegram или на подменю */
-.telegram-wrapper:hover .telegram-sub-links,
-.telegram-sub-links:hover {
-    display: flex;
+.telegram-link {
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.links-row.telegram-active .telegram-link {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .active .header-container {
@@ -341,8 +353,8 @@ h1 {
         font-size: 6px;
     }
 
-    .telegram-sub-links {
-        top: 50px;
+    .telegram.back {
+        transform: translateX(80px);
     }
 
     .active .header-container,
@@ -383,8 +395,8 @@ h1 {
         font-size: 5px;
     }
 
-    .telegram-sub-links {
-        top: 45px;
+    .telegram.back {
+        transform: translateX(60px);
     }
 
     .footer {
