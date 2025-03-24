@@ -1,0 +1,6 @@
+Username="@MEOW_MUR920":
+  UserDesc="Создатель компании и кодер всех игр, автор сюжетов для ONaM, TiC!, TNTaP, Freezing, Flash и ProtectPikacky."
+  UserTelegramContact="https://t.me/MEOW_MUR920"
+Username="@DFG":
+  UserDesc="Разработчик The is coffe! первой и второй части"
+  UserTelegramContact="https://t.me/DFG"
