@@ -87,7 +87,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 50%; /* Начальная позиция, будет переопределена JS */
+    top: 50%;
     transform: translateY(-50%);
     transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
@@ -199,12 +199,32 @@ h1 {
     transform: scale(1.1);
 }
 
+.link-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.link-text:hover {
+    transform: scale(1.1);
+}
+
 .gamejolt {
     background-image: url('https://img.icons8.com/color/50/000000/gamejolt.png');
 }
 
 .kogama {
-    background-image: url('https://img.icons8.com/color/50/000000/kogama.png');
+    background-image: url('Kogama.png'); /* Локальный файл из репозитория */
 }
 
 .youtube {
@@ -213,14 +233,6 @@ h1 {
 
 .telegram {
     background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
-}
-
-.fn as {
-    background-image: url('https://img.icons8.com/color/50/000000/fnaf.png');
-}
-
-.characters {
-    background-image: url('https://img.icons8.com/color/50/000000/characters.png');
 }
 
 .scratch {
@@ -308,9 +320,13 @@ h1 {
         font-size: 14px;
     }
 
-    .link-icon {
+    .link-icon, .link-text {
         width: 40px;
         height: 40px;
+    }
+
+    .link-text {
+        font-size: 8px;
     }
 
     .telegram-sub-links {
@@ -342,9 +358,13 @@ h1 {
         font-size: 12px;
     }
 
-    .link-icon {
+    .link-icon, .link-text {
         width: 35px;
         height: 35px;
+    }
+
+    .link-text {
+        font-size: 7px;
     }
 
     .telegram-sub-links {
