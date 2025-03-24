@@ -62,33 +62,33 @@ const kogamaBtn = document.querySelector('.kogama');
 
 gamejoltBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('GameJolt button clicked'); // Отладочный лог
+    console.log('GameJolt button clicked');
     if (!linksRow.classList.contains('telegram-active')) {
-        console.log('Navigating to GameJolt:', gamejoltBtn.getAttribute('href')); // Отладочный лог
+        console.log('Navigating to GameJolt:', gamejoltBtn.getAttribute('href'));
         window.location.href = gamejoltBtn.getAttribute('href');
     } else {
-        console.log('GameJolt click ignored: Telegram section is active'); // Отладочный лог
+        console.log('GameJolt click ignored: Telegram section is active');
     }
 });
 
 youtubeBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('YouTube button clicked'); // Отладочный лог
+    console.log('YouTube button clicked');
     if (!linksRow.classList.contains('telegram-active')) {
-        console.log('Navigating to YouTube:', youtubeBtn.getAttribute('href')); // Отладочный лог
+        console.log('Navigating to YouTube:', youtubeBtn.getAttribute('href'));
         window.location.href = youtubeBtn.getAttribute('href');
     } else {
-        console.log('YouTube click ignored: Telegram section is active'); // Отладочный лог
+        console.log('YouTube click ignored: Telegram section is active');
     }
 });
 
 kogamaBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('Kogama button clicked'); // Отладочный лог
+    console.log('Kogama button clicked');
     if (!linksRow.classList.contains('telegram-active')) {
-        console.log('Navigating to Kogama:', kogamaBtn.getAttribute('href')); // Отладочный лог
+        console.log('Navigating to Kogama:', kogamaBtn.getAttribute('href'));
         window.location.href = kogamaBtn.getAttribute('href');
     } else {
-        console.log('Kogama click ignored: Telegram section is active'); // Отладочный лог
+        console.log('Kogama click ignored: Telegram section is active');
     }
 });
