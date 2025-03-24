@@ -56,8 +56,20 @@ telegramBtn.addEventListener('click', (e) => {
 });
 
 // Добавляем обработчики для проверки кликабельности иконок
+const gamejoltBtn = document.querySelector('.gamejolt');
 const youtubeBtn = document.querySelector('.youtube');
 const kogamaBtn = document.querySelector('.kogama');
+
+gamejoltBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('GameJolt button clicked'); // Отладочный лог
+    if (!linksRow.classList.contains('telegram-active')) {
+        console.log('Navigating to GameJolt:', gamejoltBtn.getAttribute('href')); // Отладочный лог
+        window.location.href = gamejoltBtn.getAttribute('href');
+    } else {
+        console.log('GameJolt click ignored: Telegram section is active'); // Отладочный лог
+    }
+});
 
 youtubeBtn.addEventListener('click', (e) => {
     e.preventDefault();
