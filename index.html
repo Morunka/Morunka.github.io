@@ -16,6 +16,24 @@
             flex-direction: column;
             align-items: center;
             font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        /* Кастомный скроллбар */
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+        body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00f, #0ff);
+            border-radius: 10px;
+            box-shadow: 0 0 10px #0ff, 0 0 5px #00f;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        body::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #0ff, #00f);
         }
         h1 {
             color: white;
@@ -25,6 +43,15 @@
             margin: 20px 0;
             transition: margin-top 0.5s;
         }
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: top 0.5s, transform 0.5s;
+        }
         .button-container {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 20px;
@@ -33,7 +60,6 @@
             gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
-            transition: margin-top 0.5s;
         }
         .button {
             display: inline-block;
@@ -61,9 +87,7 @@
             padding: 20px;
             border-radius: 10px;
             max-width: 800px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            margin: 20px 0;
             transition: opacity 0.5s;
         }
         .description {
@@ -77,15 +101,9 @@
         .description strong {
             font-weight: bold;
         }
-        .active .button-container, .active h1 {
-            margin-top: 0;
-            position: fixed;
+        .active .header-container {
             top: 0;
-            width: 100%;
-            text-align: center;
-        }
-        .active .button-container {
-            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(0);
         }
         .active .description-container {
             display: block;
@@ -103,13 +121,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>By ROlil Studio</h1>
-    <div class="button-container">
-        <a href="#" class="button" id="about-btn">О студии</a>
-        <a href="links.html" class="button">Связи</a>
-        <a href="docs.html" class="button">Документы</a>
-        <a href="dev.html" class="button">Разработка</a>
-        <a href="team.html" class="button">Команда</a>
+    <div class="header-container">
+        <h1>By ROlil Studio</h1>
+        <div class="button-container">
+            <a href="#" class="button" id="about-btn">О студии</a>
+            <a href="links.html" class="button">Связи</a>
+            <a href="docs.html" class="button">Документы</a>
+            <a href="dev.html" class="button">Разработка</a>
+            <a href="team.html" class="button">Команда</a>
+        </div>
     </div>
     <div class="description-container" id="description">
         <p class="description"><strong>By ROlil Studio</strong> — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на <strong>FNaF</strong>. Название <strong>By ROlil</strong> отражает мою личную роль как создателя (ник <strong>ROlil</strong> был моим старым игровым именем), а символ "= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат. Следите за новостями в нашем Telegram-канале: <a href="https://t.me/By_RORlil">t.me/By_RORlil</a>.</p>
