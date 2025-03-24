@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
     body.classList.add('loaded');
 });
 
-// Загружаем данные о разрабатываемой игре сразу при загрузке страницы
+// Загружаем данные о разрабатываемой игре
 fetch('DevelopingGameProc.txt')
     .then(response => response.text())
     .then(data => {
@@ -30,7 +30,7 @@ fetch('DevelopingGameProc.txt')
         document.getElementById('game-version').textContent = 'Версия: -';
     });
 
-// Логика кнопки "О студии"
+// Элементы
 const aboutBtn = document.getElementById('about-btn');
 const description = document.getElementById('description');
 const linksBtn = document.getElementById('links-btn');
@@ -42,9 +42,12 @@ const devBtn = document.getElementById('dev-btn');
 const dev = document.getElementById('dev');
 const teamBtn = document.getElementById('team-btn');
 const team = document.getElementById('team');
+const extensionsBtn = document.getElementById('extensions-btn');
+const extensions = document.getElementById('extensions');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
 
+// Логика кнопки "О студии"
 aboutBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('links-active')) {
@@ -68,6 +71,11 @@ aboutBtn.addEventListener('click', (e) => {
         body.classList.remove('team-active');
         teamBtn.classList.remove('active');
         team.classList.add('hide');
+    }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
     }
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
@@ -98,6 +106,11 @@ linksBtn.addEventListener('click', (e) => {
         body.classList.remove('team-active');
         teamBtn.classList.remove('active');
         team.classList.add('hide');
+    }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
     }
     body.classList.toggle('links-active');
     linksBtn.classList.toggle('active');
@@ -133,6 +146,11 @@ docsBtn.addEventListener('click', (e) => {
         teamBtn.classList.remove('active');
         team.classList.add('hide');
     }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
+    }
     body.classList.toggle('docs-active');
     docsBtn.classList.toggle('active');
     if (!body.classList.contains('docs-active')) {
@@ -164,6 +182,11 @@ devBtn.addEventListener('click', (e) => {
         body.classList.remove('team-active');
         teamBtn.classList.remove('active');
         team.classList.add('hide');
+    }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
     }
     body.classList.toggle('dev-active');
     devBtn.classList.toggle('active');
@@ -197,17 +220,21 @@ teamBtn.addEventListener('click', (e) => {
         devBtn.classList.remove('active');
         dev.classList.add('hide');
     }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
+    }
     body.classList.toggle('team-active');
     teamBtn.classList.toggle('active');
     if (!body.classList.contains('team-active')) {
         team.classList.add('hide');
     } else {
-        // Загружаем данные о команде
         fetch('BRC-Team.txt')
             .then(response => response.text())
             .then(data => {
                 const teamList = document.getElementById('team-list');
-                teamList.innerHTML = ''; // Очищаем список перед заполнением
+                teamList.innerHTML = '';
 
                 const members = [];
                 let currentMember = {};
@@ -233,22 +260,63 @@ teamBtn.addEventListener('click', (e) => {
                     members.push(currentMember);
                 }
 
-                members.forEach(member => {
-                    const memberDiv = document.createElement('div');
-                    memberDiv.classList.add('team-member');
-                    memberDiv.innerHTML = `
-                        <h3>${member.Username}</h3>
-                        <p>${member.UserDesc}</p>
-                        <a href="${member.UserTelegramContact}" class="contact-icon" aria-label="Telegram"></a>
-                    `;
-                    teamList.appendChild(memberDiv);
-                });
+                if (members.length === 0) {
+                    teamList.innerHTML = '<p>Данные о команде отсутствуют.</p>';
+                } else {
+                    members.forEach(member => {
+                        const memberDiv = document.createElement('div');
+                        memberDiv.classList.add('team-member');
+                        memberDiv.innerHTML = `
+                            <h3>${member.Username}</h3>
+                            <p>${member.UserDesc}</p>
+                            <a href="${member.UserTelegramContact}" class="contact-icon" aria-label="Telegram"></a>
+                        `;
+                        teamList.appendChild(memberDiv);
+                    });
+                }
             })
             .catch(error => {
                 console.error('Ошибка загрузки данных о команде:', error);
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '<p>Ошибка загрузки данных о команде</p>';
             });
+    }
+});
+
+// Логика кнопки "Расширения"
+extensionsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (body.classList.contains('active')) {
+        body.classList.remove('active');
+        aboutBtn.classList.remove('active');
+        description.classList.add('hide');
+    }
+    if (body.classList.contains('links-active')) {
+        body.classList.remove('links-active');
+        linksBtn.classList.remove('active');
+        linksRow.classList.remove('telegram-active');
+        telegramBtn.classList.remove('back');
+        links.classList.add('hide');
+    }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
+    }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
+    }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
+    }
+    body.classList.toggle('extensions-active');
+    extensionsBtn.classList.toggle('active');
+    if (!body.classList.contains('extensions-active')) {
+        extensions.classList.add('hide');
     }
 });
 
@@ -259,41 +327,29 @@ telegramBtn.addEventListener('click', (e) => {
     telegramBtn.classList.toggle('back');
 });
 
-// Добавляем обработчики для проверки кликабельности иконок
+// Обработчики для иконок
 const gamejoltBtn = document.querySelector('.gamejolt');
 const youtubeBtn = document.querySelector('.youtube');
 const kogamaBtn = document.querySelector('.kogama');
 
 gamejoltBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('GameJolt button clicked');
     if (!linksRow.classList.contains('telegram-active')) {
-        console.log('Navigating to GameJolt:', gamejoltBtn.getAttribute('href'));
         window.location.href = gamejoltBtn.getAttribute('href');
-    } else {
-        console.log('GameJolt click ignored: Telegram section is active');
     }
 });
 
 youtubeBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('YouTube button clicked');
     if (!linksRow.classList.contains('telegram-active')) {
-        console.log('Navigating to YouTube:', youtubeBtn.getAttribute('href'));
         window.location.href = youtubeBtn.getAttribute('href');
-    } else {
-        console.log('YouTube click ignored: Telegram section is active');
     }
 });
 
 kogamaBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('Kogama button clicked');
     if (!linksRow.classList.contains('telegram-active')) {
-        console.log('Navigating to Kogama:', kogamaBtn.getAttribute('href'));
         window.location.href = kogamaBtn.getAttribute('href');
-    } else {
-        console.log('Kogama click ignored: Telegram section is active');
     }
 });
 
