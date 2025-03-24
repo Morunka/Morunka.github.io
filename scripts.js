@@ -247,7 +247,7 @@ teamBtn.addEventListener('click', (e) => {
 
                 const members = [];
                 let currentMember = {};
-                const lines = data.split('\n');
+                const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach(line => {
                     const [key, value] = line.split('=');
                     if (key && value) {
@@ -259,7 +259,7 @@ teamBtn.addEventListener('click', (e) => {
                             }
                             currentMember = { Username: trimmedValue };
                         } else if (trimmedKey === 'Description') {
-                            currentMember.Description = trimmedValue;
+                            currentMember.Description = trimmedValue || 'Описание отсутствует';
                         } else if (trimmedKey === 'Telegram') {
                             currentMember.Telegram = trimmedValue;
                         }
@@ -275,10 +275,11 @@ teamBtn.addEventListener('click', (e) => {
                     members.forEach(member => {
                         const memberDiv = document.createElement('div');
                         memberDiv.classList.add('team-member');
+                        const telegramLink = member.Telegram ? `https://t.me/${member.Telegram.replace('@', '')}` : '#';
                         memberDiv.innerHTML = `
                             <h3>${member.Username}</h3>
                             <p>${member.Description || 'Описание отсутствует'}</p>
-                            <a href="${member.Telegram}" class="contact-icon" aria-label="Telegram"></a>
+                            <a href="${telegramLink}" class="contact-icon" aria-label="Telegram"></a>
                         `;
                         teamList.appendChild(memberDiv);
                     });
