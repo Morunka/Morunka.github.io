@@ -61,14 +61,22 @@ const kogamaBtn = document.querySelector('.kogama');
 
 youtubeBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    console.log('YouTube button clicked'); // Отладочный лог
     if (!linksRow.classList.contains('telegram-active')) {
+        console.log('Navigating to YouTube:', youtubeBtn.getAttribute('href')); // Отладочный лог
         window.location.href = youtubeBtn.getAttribute('href');
+    } else {
+        console.log('YouTube click ignored: Telegram section is active'); // Отладочный лог
     }
 });
 
 kogamaBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    console.log('Kogama button clicked'); // Отладочный лог
     if (!linksRow.classList.contains('telegram-active')) {
+        console.log('Navigating to Kogama:', kogamaBtn.getAttribute('href')); // Отладочный лог
         window.location.href = kogamaBtn.getAttribute('href');
+    } else {
+        console.log('Kogama click ignored: Telegram section is active'); // Отладочный лог
     }
 });
