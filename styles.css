@@ -126,7 +126,8 @@ h1 {
 }
 
 .description-container {
-    display: none;
+    display: block; /* Устанавливаем display: block изначально */
+    visibility: hidden; /* Скрываем элемент, но оставляем его в DOM */
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
@@ -134,8 +135,14 @@ h1 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0; /* Явно задаем начальное значение */
-    transition: opacity 1s ease-in-out;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out; /* Время появления 1s */
+}
+
+.description-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; /* Время исчезновения 0.5s */
 }
 
 .description {
@@ -157,7 +164,7 @@ h1 {
 }
 
 .active .description-container {
-    display: block;
+    visibility: visible;
     opacity: 1;
 }
 
