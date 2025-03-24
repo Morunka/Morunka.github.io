@@ -133,8 +133,8 @@ h1 {
     border-radius: 10px;
     max-width: 600px;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 200px; /* Фиксированное положение от верха */
+    transform: translateY(0); /* Убираем смещение */
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
@@ -166,8 +166,8 @@ h1 {
     padding: 15px;
     border-radius: 10px;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 200px; /* Фиксированное положение от верха */
+    transform: translateY(0); /* Убираем смещение */
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
@@ -196,17 +196,16 @@ h1 {
     background-position: center;
     overflow: hidden;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    cursor: pointer; /* Указываем, что элемент кликабельный */
+    cursor: pointer;
 }
 
 .link-icon:hover {
     transform: scale(1.1);
 }
 
-/* Эффект при нажатии на иконки */
 .link-icon:active {
-    transform: scale(0.9); /* Уменьшение при нажатии */
-    opacity: 0.7; /* Легкое затемнение */
+    transform: scale(0.9);
+    opacity: 0.7;
     transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
@@ -226,7 +225,7 @@ h1 {
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     line-height: 1.2;
     padding: 5px;
-    cursor: pointer; /* Указываем, что элемент кликабельный */
+    cursor: pointer;
 }
 
 .link-text.characters {
@@ -237,7 +236,6 @@ h1 {
     transform: scale(1.1);
 }
 
-/* Эффект при нажатии на текстовые кнопки */
 .link-text:active {
     transform: scale(0.9);
     opacity: 0.7;
@@ -281,6 +279,7 @@ h1 {
 /* Telegram-ссылки изначально скрыты */
 .telegram-links {
     display: flex;
+    flex-direction: column; /* Вертикальное расположение */
     gap: 20px;
     position: absolute;
     top: 0;
@@ -347,11 +346,13 @@ h1 {
     .description-container {
         max-width: 90%;
         padding: 10px;
+        top: 150px; /* Фиксированное положение для мобильных */
     }
 
     .links-container {
         max-width: 90%;
         padding: 10px;
+        top: 150px; /* Фиксированное положение для мобильных */
     }
 
     .description {
