@@ -81,6 +81,8 @@ aboutBtn.addEventListener('click', (e) => {
     aboutBtn.classList.toggle('active');
     if (!body.classList.contains('active')) {
         description.classList.add('hide');
+    } else {
+        description.classList.remove('hide');
     }
 });
 
@@ -118,6 +120,8 @@ linksBtn.addEventListener('click', (e) => {
         linksRow.classList.remove('telegram-active');
         telegramBtn.classList.remove('back');
         links.classList.add('hide');
+    } else {
+        links.classList.remove('hide');
     }
 });
 
@@ -155,6 +159,8 @@ docsBtn.addEventListener('click', (e) => {
     docsBtn.classList.toggle('active');
     if (!body.classList.contains('docs-active')) {
         docs.classList.add('hide');
+    } else {
+        docs.classList.remove('hide');
     }
 });
 
@@ -192,6 +198,8 @@ devBtn.addEventListener('click', (e) => {
     devBtn.classList.toggle('active');
     if (!body.classList.contains('dev-active')) {
         dev.classList.add('hide');
+    } else {
+        dev.classList.remove('hide');
     }
 });
 
@@ -230,6 +238,7 @@ teamBtn.addEventListener('click', (e) => {
     if (!body.classList.contains('team-active')) {
         team.classList.add('hide');
     } else {
+        team.classList.remove('hide');
         fetch('BRC-Team.txt')
             .then(response => response.text())
             .then(data => {
@@ -317,6 +326,8 @@ extensionsBtn.addEventListener('click', (e) => {
     extensionsBtn.classList.toggle('active');
     if (!body.classList.contains('extensions-active')) {
         extensions.classList.add('hide');
+    } else {
+        extensions.classList.remove('hide');
     }
 });
 
