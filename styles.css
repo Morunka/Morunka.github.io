@@ -133,7 +133,7 @@ h1 {
     border-radius: 10px;
     max-width: 600px;
     position: absolute;
-    top: 50%; /* Всегда посередине */
+    top: 50%;
     transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -142,7 +142,7 @@ h1 {
 .description-container.hide {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-30px); /* Плавное смещение вверх при скрытии */
+    transform: translateY(-30px);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
@@ -163,10 +163,11 @@ h1 {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
+    padding: 10px; /* Уменьшаем отступы */
     border-radius: 10px;
+    max-width: 300px; /* Уменьшаем ширину фона */
     position: absolute;
-    top: 50%; /* Всегда посередине */
+    top: 50%;
     transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -175,14 +176,14 @@ h1 {
 .links-container.hide {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-30px); /* Плавное смещение вверх при скрытии */
+    transform: translateY(-30px);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .links-row {
     display: flex;
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-start; /* Выравниваем иконки слева */
     align-items: center;
     flex-wrap: wrap;
     position: relative;
@@ -256,7 +257,7 @@ h1 {
 
 .telegram {
     background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
-    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out; /* Плавный переход для иконки */
+    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .telegram.back {
@@ -273,16 +274,16 @@ h1 {
 .links-row.telegram-active .kogama,
 .links-row.telegram-active .youtube,
 .links-row.telegram-active .scratch {
-    opacity: 0;
-    transform: scale(0);
+    display: none; /* Полностью скрываем иконки */
 }
 
 /* Telegram-ссылки изначально скрыты */
 .telegram-links {
     display: flex;
-    flex-direction: row; /* Горизонтальное расположение */
+    flex-direction: row;
     gap: 20px;
-    position: relative; /* Оставляем на том же уровне, что и иконки */
+    position: absolute; /* Позиционируем поверх скрытых иконок */
+    left: 0; /* Начинаем с левого края */
 }
 
 .telegram-link {
@@ -347,8 +348,8 @@ h1 {
     }
 
     .links-container {
-        max-width: 90%;
-        padding: 10px;
+        max-width: 250px; /* Уменьшаем ширину фона для мобильных */
+        padding: 8px;
     }
 
     .description {
