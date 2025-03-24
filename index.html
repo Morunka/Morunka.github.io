@@ -4,6 +4,36 @@
     <meta charset="UTF-8">
     <title>By ROlil Studio</title>
     <style>
+        /* Стили для прелоадера */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #0ff;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         body {
             background-image: url('BRC-Background.jpg');
             background-size: cover;
@@ -17,6 +47,11 @@
             align-items: center;
             font-family: Arial, sans-serif;
             overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        body.loaded {
+            opacity: 1;
         }
         /* Кастомный скроллбар */
         body::-webkit-scrollbar {
@@ -83,9 +118,9 @@
         .description-container {
             display: none;
             background-color: rgba(255, 255, 255, 0.3);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            max-width: 800px;
+            max-width: 600px;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -122,8 +157,12 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="preload" href="BRC-Background.jpg" as="image">
 </head>
 <body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
     <div class="header-container">
         <h1>By ROlil Studio</h1>
         <div class="button-container">
@@ -140,6 +179,15 @@
     <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
 
     <script>
+        // Прелоадер
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+            preloader.classList.add('hidden');
+            body.classList.add('loaded');
+        });
+
+        // Логика кнопки "О студии"
         const aboutBtn = document.getElementById('about-btn');
         const description = document.getElementById('description');
         const body = document.body;
