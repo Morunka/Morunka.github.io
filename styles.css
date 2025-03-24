@@ -126,8 +126,8 @@ h1 {
 }
 
 .description-container {
-    display: block; /* Устанавливаем display: block изначально */
-    visibility: hidden; /* Скрываем элемент, но оставляем его в DOM */
+    display: block;
+    visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
@@ -136,13 +136,13 @@ h1 {
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
-    transition: opacity 1s ease-in-out, visibility 1s ease-in-out; /* Время появления 1s */
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
 }
 
 .description-container.hide {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; /* Время исчезновения 0.5s */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .description {
@@ -158,12 +158,109 @@ h1 {
     font-weight: bold;
 }
 
+.links-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.links-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.links-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.link-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+    text-indent: -9999px;
+    transition: transform 0.3s;
+}
+
+.link-icon:hover {
+    transform: scale(1.1);
+}
+
+.gamejolt {
+    background-image: url('https://img.icons8.com/color/50/000000/gamejolt.png');
+}
+
+.kogama {
+    background-image: url('https://img.icons8.com/color/50/000000/kogama.png');
+}
+
+.youtube {
+    background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
+}
+
+.telegram {
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+}
+
+.fn as {
+    background-image: url('https://img.icons8.com/color/50/000000/fnaf.png');
+}
+
+.characters {
+    background-image: url('https://img.icons8.com/color/50/000000/characters.png');
+}
+
+.scratch {
+    background-image: url('https://img.icons8.com/color/50/000000/scratch.png');
+}
+
+.telegram-wrapper {
+    position: relative;
+}
+
+.telegram-sub-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    gap: 10px;
+}
+
+.telegram-wrapper:hover .telegram-sub-links {
+    display: flex;
+}
+
 .active .header-container {
     top: 10%;
     transform: translateY(0);
 }
 
 .active .description-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+.links-active .header-container {
+    top: 10%;
+    transform: translateY(0);
+}
+
+.links-active .links-container {
     visibility: visible;
     opacity: 1;
 }
@@ -198,11 +295,26 @@ h1 {
         padding: 10px;
     }
 
+    .links-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+
     .description {
         font-size: 14px;
     }
 
-    .active .header-container {
+    .link-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .telegram-sub-links {
+        top: 50px;
+    }
+
+    .active .header-container,
+    .links-active .header-container {
         top: 5%;
     }
 }
@@ -224,6 +336,15 @@ h1 {
 
     .description {
         font-size: 12px;
+    }
+
+    .link-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .telegram-sub-links {
+        top: 45px;
     }
 
     .footer {
