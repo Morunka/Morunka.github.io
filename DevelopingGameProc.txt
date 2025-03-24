@@ -1,0 +1,3 @@
+GameName="Five Nights at Stickmans"
+GameVersion="2.3 (Beta)"
+Game%Dev="5,4%"
