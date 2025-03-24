@@ -30,8 +30,16 @@ function adjustContentPosition() {
     // Доступное пространство между нижней границей заголовка (в активном состоянии) и футером
     const availableSpace = windowHeight - headerActiveTop - headerHeight - footerHeight;
 
-    // Позиция контента: середина доступного пространства
-    const contentTop = headerActiveTop + headerHeight + availableSpace / 2 - Math.max(descriptionHeight, linksHeight) / 2;
+    // Позиция контента: учитываем высоту текущего активного контейнера
+    let contentHeight = 0;
+    if (body.classList.contains('active')) {
+        contentHeight = descriptionHeight;
+    } else if (body.classList.contains('links-active')) {
+        contentHeight = linksHeight;
+    }
+
+    // Позиция контента: середина доступного пространства с учетом высоты контента
+    const contentTop = headerActiveTop + headerHeight + (availableSpace - contentHeight) / 2;
 
     // Устанавливаем позиции
     if (!body.classList.contains('active') && !body.classList.contains('links-active')) {
