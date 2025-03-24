@@ -6,6 +6,30 @@ window.addEventListener('load', () => {
     body.classList.add('loaded');
 });
 
+// Загружаем данные о разрабатываемой игре сразу при загрузке страницы
+fetch('DevelopingGameProc.txt')
+    .then(response => response.text())
+    .then(data => {
+        const lines = data.split('\n');
+        const gameData = {};
+        lines.forEach(line => {
+            const [key, value] = line.split('=');
+            if (key && value) {
+                gameData[key.trim()] = value.trim().replace(/"/g, '');
+            }
+        });
+
+        document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
+        document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
+        document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
+    })
+    .catch(error => {
+        console.error('Ошибка загрузки данных:', error);
+        document.getElementById('game-name').textContent = 'Ошибка загрузки';
+        document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
+        document.getElementById('game-version').textContent = 'Версия: -';
+    });
+
 // Логика кнопки "О студии"
 const aboutBtn = document.getElementById('about-btn');
 const description = document.getElementById('description');
@@ -145,30 +169,6 @@ devBtn.addEventListener('click', (e) => {
     devBtn.classList.toggle('active');
     if (!body.classList.contains('dev-active')) {
         dev.classList.add('hide');
-    } else {
-        // Загружаем данные при открытии панели
-        fetch('DevelopingGameProc.txt')
-            .then(response => response.text())
-            .then(data => {
-                const lines = data.split('\n');
-                const gameData = {};
-                lines.forEach(line => {
-                    const [key, value] = line.split('=');
-                    if (key && value) {
-                        gameData[key.trim()] = value.trim().replace(/"/g, '');
-                    }
-                });
-
-                document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
-                document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
-                document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
-            })
-            .catch(error => {
-                console.error('Ошибка загрузки данных:', error);
-                document.getElementById('game-name').textContent = 'Ошибка загрузки';
-                document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
-                document.getElementById('game-version').textContent = 'Версия: -';
-            });
     }
 });
 
