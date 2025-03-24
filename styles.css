@@ -191,7 +191,7 @@ h1 {
     height: 50px;
     background-size: cover;
     background-position: center;
-    text-indent: -9999px;
+    overflow: hidden; /* Предотвращаем случайное отображение текста */
     transition: transform 0.3s;
 }
 
