@@ -142,7 +142,7 @@ h1 {
 .description-container.hide {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px); /* Плавное смещение вниз при скрытии */
+    transform: translateY(20px);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
@@ -175,7 +175,7 @@ h1 {
 .links-container.hide {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px); /* Плавное смещение вниз при скрытии */
+    transform: translateY(20px);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
@@ -196,10 +196,18 @@ h1 {
     background-position: center;
     overflow: hidden;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    cursor: pointer; /* Указываем, что элемент кликабельный */
 }
 
 .link-icon:hover {
     transform: scale(1.1);
+}
+
+/* Эффект при нажатии на иконки */
+.link-icon:active {
+    transform: scale(0.9); /* Уменьшение при нажатии */
+    opacity: 0.7; /* Легкое затемнение */
+    transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
 .link-text {
@@ -218,6 +226,7 @@ h1 {
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     line-height: 1.2;
     padding: 5px;
+    cursor: pointer; /* Указываем, что элемент кликабельный */
 }
 
 .link-text.characters {
@@ -226,6 +235,13 @@ h1 {
 
 .link-text:hover {
     transform: scale(1.1);
+}
+
+/* Эффект при нажатии на текстовые кнопки */
+.link-text:active {
+    transform: scale(0.9);
+    opacity: 0.7;
+    transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
 .gamejolt {
@@ -325,4 +341,84 @@ h1 {
 
     .button {
         padding: 8px 16px;
-        font
+        font-size: 14px;
+    }
+
+    .description-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+
+    .links-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+
+    .link-icon, .link-text {
+        width: 40px;
+        height: 40px;
+    }
+
+    .link-text {
+        font-size: 8px;
+    }
+
+    .link-text.characters {
+        font-size: 6px;
+    }
+
+    .telegram.back {
+        transform: translateX(80px);
+    }
+
+    .active .header-container,
+    .links-active .header-container {
+        top: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .description {
+        font-size: 12px;
+    }
+
+    .link-icon, .link-text {
+        width: 35px;
+        height: 35px;
+    }
+
+    .link-text {
+        font-size: 7px;
+    }
+
+    .link-text.characters {
+        font-size: 5px;
+    }
+
+    .telegram.back {
+        transform: translateX(60px);
+    }
+
+    .footer {
+        font-size: 10px;
+        padding: 10px;
+    }
+}
