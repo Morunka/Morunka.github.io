@@ -15,12 +15,7 @@ aboutBtn.addEventListener('click', (e) => {
     e.preventDefault();
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
-    if (body.classList.contains('active')) {
-        description.style.display = 'block';
-    } else {
-        description.style.opacity = '0';
-        setTimeout(() => {
-            description.style.display = 'none';
-        }, 1000); // Соответствует времени анимации в CSS
+    if (!body.classList.contains('active')) {
+        description.classList.add('hide');
     }
 });
