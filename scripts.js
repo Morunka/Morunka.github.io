@@ -249,7 +249,7 @@ teamBtn.addEventListener('click', (e) => {
                 let currentMember = {};
                 const lines = data.split('\n');
                 lines.forEach(line => {
-                    const [key, value] = line.split(':');
+                    const [key, value] = line.split('=');
                     if (key && value) {
                         const trimmedKey = key.trim();
                         const trimmedValue = value.trim().replace(/"/g, '');
@@ -258,10 +258,10 @@ teamBtn.addEventListener('click', (e) => {
                                 members.push(currentMember);
                             }
                             currentMember = { Username: trimmedValue };
-                        } else if (trimmedKey === 'UserDesc') {
-                            currentMember.UserDesc = trimmedValue;
-                        } else if (trimmedKey === 'UserTelegramContact') {
-                            currentMember.UserTelegramContact = trimmedValue;
+                        } else if (trimmedKey === 'Description') {
+                            currentMember.Description = trimmedValue;
+                        } else if (trimmedKey === 'Telegram') {
+                            currentMember.Telegram = trimmedValue;
                         }
                     }
                 });
@@ -277,8 +277,8 @@ teamBtn.addEventListener('click', (e) => {
                         memberDiv.classList.add('team-member');
                         memberDiv.innerHTML = `
                             <h3>${member.Username}</h3>
-                            <p>${member.UserDesc}</p>
-                            <a href="${member.UserTelegramContact}" class="contact-icon" aria-label="Telegram"></a>
+                            <p>${member.Description}</p>
+                            <a href="${member.Telegram}" class="contact-icon" aria-label="Telegram"></a>
                         `;
                         teamList.appendChild(memberDiv);
                     });
