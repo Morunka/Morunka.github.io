@@ -277,7 +277,7 @@ teamBtn.addEventListener('click', (e) => {
                         memberDiv.classList.add('team-member');
                         memberDiv.innerHTML = `
                             <h3>${member.Username}</h3>
-                            <p>${member.Description}</p>
+                            <p>${member.Description || 'Описание отсутствует'}</p>
                             <a href="${member.Telegram}" class="contact-icon" aria-label="Telegram"></a>
                         `;
                         teamList.appendChild(memberDiv);
