@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
 // Логика кнопки "О студии"
 const aboutBtn = document.getElementById('about-btn');
 const description = document.getElementById('description');
-const linksBtn = document.getElementById('links-btn');
+const linksBtn = document.getElementById('links-btn'); // Исправлено с linksBtn на links-btn
 const links = document.getElementById('links');
 const body = document.body;
 
