@@ -133,8 +133,8 @@ h1 {
     border-radius: 10px;
     max-width: 600px;
     position: absolute;
-    top: 200px; /* Фиксированное положение от верха */
-    transform: translateY(0); /* Убираем смещение */
+    top: 50%; /* Всегда посередине */
+    transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
@@ -142,7 +142,7 @@ h1 {
 .description-container.hide {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
+    transform: translateY(-30px); /* Плавное смещение вверх при скрытии */
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
@@ -166,8 +166,8 @@ h1 {
     padding: 15px;
     border-radius: 10px;
     position: absolute;
-    top: 200px; /* Фиксированное положение от верха */
-    transform: translateY(0); /* Убираем смещение */
+    top: 50%; /* Всегда посередине */
+    transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
@@ -175,7 +175,7 @@ h1 {
 .links-container.hide {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
+    transform: translateY(-30px); /* Плавное смещение вверх при скрытии */
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
@@ -256,6 +256,7 @@ h1 {
 
 .telegram {
     background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out; /* Плавный переход для иконки */
 }
 
 .telegram.back {
@@ -279,12 +280,9 @@ h1 {
 /* Telegram-ссылки изначально скрыты */
 .telegram-links {
     display: flex;
-    flex-direction: column; /* Вертикальное расположение */
+    flex-direction: row; /* Горизонтальное расположение */
     gap: 20px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative; /* Оставляем на том же уровне, что и иконки */
 }
 
 .telegram-link {
@@ -346,13 +344,11 @@ h1 {
     .description-container {
         max-width: 90%;
         padding: 10px;
-        top: 150px; /* Фиксированное положение для мобильных */
     }
 
     .links-container {
         max-width: 90%;
         padding: 10px;
-        top: 150px; /* Фиксированное положение для мобильных */
     }
 
     .description {
