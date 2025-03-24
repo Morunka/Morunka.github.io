@@ -21,8 +21,8 @@ function adjustContentPosition() {
     const descriptionHeight = descriptionContainer.offsetHeight;
     const linksHeight = linksContainer.offsetHeight;
 
-    // Позиция заголовка в неактивном состоянии (центр экрана)
-    const headerDefaultTop = (windowHeight - headerHeight) / 2;
+    // Позиция заголовка в неактивном состоянии (чуть выше центра)
+    const headerDefaultTop = windowHeight * 0.4 - headerHeight / 2;
 
     // Позиция заголовка в активном состоянии (10% от верха или 5% на мобильных)
     const headerActiveTop = window.innerWidth <= 768 ? windowHeight * 0.05 : windowHeight * 0.1;
@@ -31,7 +31,7 @@ function adjustContentPosition() {
     const availableSpace = windowHeight - headerActiveTop - headerHeight - footerHeight;
 
     // Позиция контента: середина доступного пространства
-    const contentTop = headerActiveTop + headerHeight + (availableSpace - Math.max(descriptionHeight, linksHeight)) / 2;
+    const contentTop = headerActiveTop + headerHeight + availableSpace / 2 - Math.max(descriptionHeight, linksHeight) / 2;
 
     // Устанавливаем позиции
     if (!body.classList.contains('active') && !body.classList.contains('links-active')) {
@@ -57,7 +57,7 @@ aboutBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('links-active')) {
         body.classList.remove('links-active');
-        linksBtn.classList.remove('active'); // Убираем выделение с кнопки "Связи"
+        linksBtn.classList.remove('active');
         links.classList.add('hide');
     }
     body.classList.toggle('active');
@@ -65,7 +65,7 @@ aboutBtn.addEventListener('click', (e) => {
     if (!body.classList.contains('active')) {
         description.classList.add('hide');
     }
-    adjustContentPosition(); // Пересчитываем позицию после изменения состояния
+    adjustContentPosition();
 });
 
 // Логика кнопки "Связи"
@@ -73,7 +73,7 @@ linksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
         body.classList.remove('active');
-        aboutBtn.classList.remove('active'); // Убираем выделение с кнопки "О студии"
+        aboutBtn.classList.remove('active');
         description.classList.add('hide');
     }
     body.classList.toggle('links-active');
@@ -81,5 +81,5 @@ linksBtn.addEventListener('click', (e) => {
     if (!body.classList.contains('links-active')) {
         links.classList.add('hide');
     }
-    adjustContentPosition(); // Пересчитываем позицию после изменения состояния
+    adjustContentPosition();
 });
