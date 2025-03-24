@@ -87,7 +87,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 50%;
+    top: 50%; /* Начальная позиция, будет переопределена JS */
     transform: translateY(-50%);
     transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
@@ -204,7 +204,7 @@ h1 {
 }
 
 .kogama {
-    background-image: url('https://img.icons8.com/color/50/000000/kogama.png'); /* Иконка добавлена */
+    background-image: url('https://img.icons8.com/color/50/000000/kogama.png');
 }
 
 .youtube {
@@ -229,7 +229,7 @@ h1 {
 
 .telegram-wrapper {
     position: relative;
-    z-index: 10; /* Добавлено для корректного отображения подменю */
+    z-index: 10;
 }
 
 .telegram-sub-links {
@@ -246,7 +246,7 @@ h1 {
 }
 
 .telegram-wrapper:hover .telegram-sub-links {
-    display: flex; /* Подменю теперь отображается */
+    display: flex;
 }
 
 .active .header-container {
