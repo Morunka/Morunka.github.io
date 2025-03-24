@@ -4,53 +4,7 @@ window.addEventListener('load', () => {
     const body = document.body;
     preloader.classList.add('hidden');
     body.classList.add('loaded');
-    adjustContentPosition();
 });
-
-// Функция для автоматического расчета позиции
-function adjustContentPosition() {
-    const headerContainer = document.querySelector('.header-container');
-    const descriptionContainer = document.querySelector('.description-container');
-    const linksContainer = document.querySelector('.links-container');
-    const footer = document.querySelector('.footer');
-
-    // Получаем высоту окна и элементов
-    const windowHeight = window.innerHeight;
-    const headerHeight = headerContainer.offsetHeight;
-    const footerHeight = footer.offsetHeight;
-
-    // Вычисляем высоту активного контейнера
-    let contentHeight = 0;
-    if (body.classList.contains('active')) {
-        contentHeight = descriptionContainer.offsetHeight;
-    } else if (body.classList.contains('links-active')) {
-        contentHeight = linksContainer.offsetHeight;
-    }
-
-    // Позиция заголовка в неактивном состоянии (чуть выше центра)
-    const headerDefaultTop = windowHeight * 0.4 - headerHeight / 2;
-
-    // Позиция заголовка в активном состоянии (10% от верха или 5% на мобильных)
-    const headerActiveTop = window.innerWidth <= 768 ? windowHeight * 0.05 : windowHeight * 0.1;
-
-    // Доступное пространство между нижней границей заголовка и футером
-    const availableSpace = windowHeight - headerActiveTop - headerHeight - footerHeight;
-
-    // Позиция контента: середина доступного пространства с учетом высоты контента
-    const contentTop = headerActiveTop + headerHeight + (availableSpace - contentHeight) / 2;
-
-    // Устанавливаем позиции
-    if (!body.classList.contains('active') && !body.classList.contains('links-active')) {
-        headerContainer.style.top = `${headerDefaultTop}px`;
-    } else {
-        headerContainer.style.top = `${headerActiveTop}px`;
-    }
-    descriptionContainer.style.top = `${contentTop}px`;
-    linksContainer.style.top = `${contentTop}px`;
-}
-
-// Пересчитываем позицию при изменении размера окна
-window.addEventListener('resize', adjustContentPosition);
 
 // Логика кнопки "О студии"
 const aboutBtn = document.getElementById('about-btn');
@@ -75,7 +29,6 @@ aboutBtn.addEventListener('click', (e) => {
     if (!body.classList.contains('active')) {
         description.classList.add('hide');
     }
-    adjustContentPosition();
 });
 
 // Логика кнопки "Связи"
@@ -93,7 +46,6 @@ linksBtn.addEventListener('click', (e) => {
         telegramBtn.classList.remove('back');
         links.classList.add('hide');
     }
-    adjustContentPosition();
 });
 
 // Логика кнопки Telegram
