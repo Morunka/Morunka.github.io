@@ -226,7 +226,7 @@ h1 {
 }
 
 .links-container.telegram-active {
-    width: 500px;
+    width: 550px;
     height: auto;
     padding: 20px;
 }
@@ -309,7 +309,7 @@ h1 {
     opacity: 1;
     transform: scale(1);
     text-align: center;
-    width: 110px;
+    width: 100px;
     padding: 8px;
 }
 
