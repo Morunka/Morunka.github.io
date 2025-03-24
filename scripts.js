@@ -16,6 +16,8 @@ const docsBtn = document.getElementById('docs-btn');
 const docs = document.getElementById('docs');
 const devBtn = document.getElementById('dev-btn');
 const dev = document.getElementById('dev');
+const teamBtn = document.getElementById('team-btn');
+const team = document.getElementById('team');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
 
@@ -37,6 +39,11 @@ aboutBtn.addEventListener('click', (e) => {
         body.classList.remove('dev-active');
         devBtn.classList.remove('active');
         dev.classList.add('hide');
+    }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
     }
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
@@ -62,6 +69,11 @@ linksBtn.addEventListener('click', (e) => {
         body.classList.remove('dev-active');
         devBtn.classList.remove('active');
         dev.classList.add('hide');
+    }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
     }
     body.classList.toggle('links-active');
     linksBtn.classList.toggle('active');
@@ -92,6 +104,11 @@ docsBtn.addEventListener('click', (e) => {
         devBtn.classList.remove('active');
         dev.classList.add('hide');
     }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
+    }
     body.classList.toggle('docs-active');
     docsBtn.classList.toggle('active');
     if (!body.classList.contains('docs-active')) {
@@ -118,6 +135,11 @@ devBtn.addEventListener('click', (e) => {
         body.classList.remove('docs-active');
         docsBtn.classList.remove('active');
         docs.classList.add('hide');
+    }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
     }
     body.classList.toggle('dev-active');
     devBtn.classList.toggle('active');
@@ -146,6 +168,86 @@ devBtn.addEventListener('click', (e) => {
                 document.getElementById('game-name').textContent = 'Ошибка загрузки';
                 document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
                 document.getElementById('game-version').textContent = 'Версия: -';
+            });
+    }
+});
+
+// Логика кнопки "Команда"
+teamBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (body.classList.contains('active')) {
+        body.classList.remove('active');
+        aboutBtn.classList.remove('active');
+        description.classList.add('hide');
+    }
+    if (body.classList.contains('links-active')) {
+        body.classList.remove('links-active');
+        linksBtn.classList.remove('active');
+        linksRow.classList.remove('telegram-active');
+        telegramBtn.classList.remove('back');
+        links.classList.add('hide');
+    }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
+    }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
+    }
+    body.classList.toggle('team-active');
+    teamBtn.classList.toggle('active');
+    if (!body.classList.contains('team-active')) {
+        team.classList.add('hide');
+    } else {
+        // Загружаем данные о команде
+        fetch('BRC-Team.txt')
+            .then(response => response.text())
+            .then(data => {
+                const teamList = document.getElementById('team-list');
+                teamList.innerHTML = ''; // Очищаем список перед заполнением
+
+                const members = [];
+                let currentMember = {};
+                const lines = data.split('\n');
+                lines.forEach(line => {
+                    const [key, value] = line.split(':');
+                    if (key && value) {
+                        const trimmedKey = key.trim();
+                        const trimmedValue = value.trim().replace(/"/g, '');
+                        if (trimmedKey === 'Username') {
+                            if (Object.keys(currentMember).length > 0) {
+                                members.push(currentMember);
+                            }
+                            currentMember = { Username: trimmedValue };
+                        } else if (trimmedKey === 'UserDesc') {
+                            currentMember.UserDesc = trimmedValue;
+                        } else if (trimmedKey === 'UserTelegramContact') {
+                            currentMember.UserTelegramContact = trimmedValue;
+                        }
+                    }
+                });
+                if (Object.keys(currentMember).length > 0) {
+                    members.push(currentMember);
+                }
+
+                members.forEach(member => {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.classList.add('team-member');
+                    memberDiv.innerHTML = `
+                        <h3>${member.Username}</h3>
+                        <p>${member.UserDesc}</p>
+                        <a href="${member.UserTelegramContact}" class="contact-icon" aria-label="Telegram"></a>
+                    `;
+                    teamList.appendChild(memberDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных о команде:', error);
+                const teamList = document.getElementById('team-list');
+                teamList.innerHTML = '<p>Ошибка загрузки данных о команде</p>';
             });
     }
 });
