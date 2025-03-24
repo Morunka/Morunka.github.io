@@ -170,9 +170,11 @@ h1 {
     transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-    /* Убираем max-width, чтобы контейнер подстраивался под содержимое */
+    width: 300px; /* Фиксированная ширина */
+    height: 70px; /* Фиксированная высота */
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .links-container.hide {
@@ -185,9 +187,9 @@ h1 {
 .links-row {
     display: flex;
     gap: 20px;
-    justify-content: center; /* Центрируем кнопки */
+    justify-content: center;
     align-items: center;
-    flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
+    flex-wrap: nowrap;
     position: relative;
 }
 
@@ -236,11 +238,11 @@ h1 {
 }
 
 .link-text:hover {
-    transform: scale(1.1); /* Такая же анимация, как у .link-icon */
+    transform: scale(1.1);
 }
 
 .link-text:active {
-    transform: scale(0.9); /* Такая же анимация, как у .link-icon */
+    transform: scale(0.9);
     opacity: 0.7;
     transition: transform 0.1s ease, opacity 0.1s ease;
 }
@@ -276,7 +278,7 @@ h1 {
 .links-row.telegram-active .kogama,
 .links-row.telegram-active .youtube,
 .links-row.telegram-active .scratch {
-    display: none; /* Полностью скрываем иконки */
+    display: none;
 }
 
 /* Telegram-ссылки изначально скрыты */
@@ -285,7 +287,7 @@ h1 {
     flex-direction: row;
     gap: 20px;
     position: absolute;
-    left: 0; /* Начинаем с левого края */
+    left: 20px; /* Сдвигаем влево, учитывая padding контейнера */
 }
 
 .telegram-link {
@@ -351,6 +353,8 @@ h1 {
 
     .links-container {
         padding: 8px;
+        width: 250px; /* Фиксированная ширина для мобильных */
+        height: 60px; /* Фиксированная высота для мобильных */
     }
 
     .description {
@@ -377,6 +381,10 @@ h1 {
     .active .header-container,
     .links-active .header-container {
         top: 5%;
+    }
+
+    .telegram-links {
+        left: 15px; /* Учитываем меньший padding */
     }
 }
 
@@ -419,5 +427,14 @@ h1 {
     .footer {
         font-size: 10px;
         padding: 10px;
+    }
+
+    .links-container {
+        width: 220px; /* Еще меньше для маленьких экранов */
+        height: 55px;
+    }
+
+    .telegram-links {
+        left: 10px;
     }
 }
