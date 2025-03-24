@@ -33,6 +33,7 @@
             gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            margin-bottom: 20px;
         }
         .button {
             display: inline-block;
@@ -41,10 +42,22 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: transform 0.3s, border 0.3s;
+            border: 2px solid transparent;
         }
         .button:hover {
+            transform: scale(1.1);
+            border: 2px solid white;
             background-color: #555;
+        }
+        .description {
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -58,5 +71,6 @@
         <a href="dev.html" class="button">Разработка</a>
         <a href="team.html" class="button">Команда</a>
     </div>
+    <p class="description">By ROlil CO — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на FNaF. Название "By ROlil" отражает мою личную роль как создателя (ник ROlil был моим старым игровым именем), а символ "= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат. Следите за новостями в нашем Telegram-канале: <a href="https://t.me/By_RORlil">t.me/By_RORlil</a>.</p>
 </body>
 </html>
