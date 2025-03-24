@@ -11,11 +11,10 @@
             background-repeat: no-repeat;
             margin: 0;
             padding: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             font-family: Arial, sans-serif;
         }
         h1 {
@@ -23,7 +22,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 48px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            margin-bottom: 20px;
+            margin: 20px 0;
             transition: margin-top 0.5s;
         }
         .button-container {
@@ -43,12 +42,16 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            transition: transform 0.3s, border 0.3s;
+            transition: transform 0.3s, border 0.3s, background-color 0.3s;
             border: 2px solid transparent;
             cursor: pointer;
         }
         .button:hover {
             transform: scale(1.1);
+            border: 2px solid white;
+            background-color: #555;
+        }
+        .button.active {
             border: 2px solid white;
             background-color: #555;
         }
@@ -67,17 +70,34 @@
             color: white;
             font-family: 'Orbitron', sans-serif;
             font-size: 16px;
-            font-weight: bold;
             text-align: center;
             line-height: 1.6;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
+        .description strong {
+            font-weight: bold;
+        }
         .active .button-container, .active h1 {
-            margin-top: -150px;
+            margin-top: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .active .button-container {
+            background-color: rgba(255, 255, 255, 0.3);
         }
         .active .description-container {
             display: block;
             opacity: 1;
+        }
+        .footer {
+            color: #aaa;
+            font-size: 12px;
+            text-align: center;
+            margin-top: auto;
+            padding: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -92,8 +112,9 @@
         <a href="team.html" class="button">Команда</a>
     </div>
     <div class="description-container" id="description">
-        <p class="description">*By ROlil Studio* — креативная сила, рожденная 1 мая 2021 года. Мы — вымышленная студия, объединяющая безграничные идеи в создании инди-игр, приложений, музыки, видео, анимаций и сюжетов. Наш конек — атмосферные хорроры и пародии на FNaF, созданные с душой русскими разработчиками. Название *By ROlil* — это отсылка к моему старому игровому нику и символу "=, воплощающему мою роль как основателя. Мы работаем на любых движках и языках, следуя принципу: чем глубже погружение в одиночную работу, тем ярче результат. Узнайте больше в нашем Telegram: <a href="https://t.me/By_RORlil">t.me/By_RORlil</a>.</p>
+        <p class="description"><strong>By ROlil Studio</strong> — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на <strong>FNaF</strong>. Название <strong>By ROlil</strong> отражает мою личную роль как создателя (ник <strong>ROlil</strong> был моим старым игровым именем), а символ "= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат. Следите за новостями в нашем Telegram-канале: <a href="https://t.me/By_RORlil">t.me/By_RORlil</a>.</p>
     </div>
+    <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
 
     <script>
         const aboutBtn = document.getElementById('about-btn');
@@ -103,6 +124,7 @@
         aboutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             body.classList.toggle('active');
+            aboutBtn.classList.toggle('active');
             if (description.style.display === 'block') {
                 description.style.opacity = '0';
                 setTimeout(() => { description.style.display = 'none'; }, 500);
