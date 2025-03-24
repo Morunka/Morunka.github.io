@@ -163,14 +163,16 @@ h1 {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
-    padding: 10px; /* Уменьшаем отступы */
+    padding: 10px;
     border-radius: 10px;
-    max-width: 300px; /* Уменьшаем ширину фона */
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    /* Убираем max-width, чтобы контейнер подстраивался под содержимое */
+    display: flex;
+    justify-content: center;
 }
 
 .links-container.hide {
@@ -183,9 +185,9 @@ h1 {
 .links-row {
     display: flex;
     gap: 20px;
-    justify-content: flex-start; /* Выравниваем иконки слева */
+    justify-content: center; /* Центрируем кнопки */
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
     position: relative;
 }
 
@@ -234,11 +236,11 @@ h1 {
 }
 
 .link-text:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Такая же анимация, как у .link-icon */
 }
 
 .link-text:active {
-    transform: scale(0.9);
+    transform: scale(0.9); /* Такая же анимация, как у .link-icon */
     opacity: 0.7;
     transition: transform 0.1s ease, opacity 0.1s ease;
 }
@@ -282,7 +284,7 @@ h1 {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    position: absolute; /* Позиционируем поверх скрытых иконок */
+    position: absolute;
     left: 0; /* Начинаем с левого края */
 }
 
@@ -348,7 +350,6 @@ h1 {
     }
 
     .links-container {
-        max-width: 250px; /* Уменьшаем ширину фона для мобильных */
         padding: 8px;
     }
 
