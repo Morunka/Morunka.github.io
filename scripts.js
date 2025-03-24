@@ -14,6 +14,8 @@ const links = document.getElementById('links');
 const telegramBtn = document.getElementById('telegram-btn');
 const docsBtn = document.getElementById('docs-btn');
 const docs = document.getElementById('docs');
+const devBtn = document.getElementById('dev-btn');
+const dev = document.getElementById('dev');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
 
@@ -30,6 +32,11 @@ aboutBtn.addEventListener('click', (e) => {
         body.classList.remove('docs-active');
         docsBtn.classList.remove('active');
         docs.classList.add('hide');
+    }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
     }
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
@@ -50,6 +57,11 @@ linksBtn.addEventListener('click', (e) => {
         body.classList.remove('docs-active');
         docsBtn.classList.remove('active');
         docs.classList.add('hide');
+    }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
     }
     body.classList.toggle('links-active');
     linksBtn.classList.toggle('active');
@@ -75,10 +87,66 @@ docsBtn.addEventListener('click', (e) => {
         telegramBtn.classList.remove('back');
         links.classList.add('hide');
     }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
+    }
     body.classList.toggle('docs-active');
     docsBtn.classList.toggle('active');
     if (!body.classList.contains('docs-active')) {
         docs.classList.add('hide');
+    }
+});
+
+// Логика кнопки "Разработка"
+devBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (body.classList.contains('active')) {
+        body.classList.remove('active');
+        aboutBtn.classList.remove('active');
+        description.classList.add('hide');
+    }
+    if (body.classList.contains('links-active')) {
+        body.classList.remove('links-active');
+        linksBtn.classList.remove('active');
+        linksRow.classList.remove('telegram-active');
+        telegramBtn.classList.remove('back');
+        links.classList.add('hide');
+    }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
+    }
+    body.classList.toggle('dev-active');
+    devBtn.classList.toggle('active');
+    if (!body.classList.contains('dev-active')) {
+        dev.classList.add('hide');
+    } else {
+        // Загружаем данные при открытии панели
+        fetch('DevelopingGameProc.txt')
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n');
+                const gameData = {};
+                lines.forEach(line => {
+                    const [key, value] = line.split('=');
+                    if (key && value) {
+                        gameData[key.trim()] = value.trim().replace(/"/g, '');
+                    }
+                });
+
+                document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
+                document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
+                document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных:', error);
+                document.getElementById('game-name').textContent = 'Ошибка загрузки';
+                document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
+                document.getElementById('game-version').textContent = 'Версия: -';
+            });
     }
 });
 
