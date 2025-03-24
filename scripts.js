@@ -12,6 +12,8 @@ const description = document.getElementById('description');
 const linksBtn = document.getElementById('links-btn');
 const links = document.getElementById('links');
 const telegramBtn = document.getElementById('telegram-btn');
+const docsBtn = document.getElementById('docs-btn');
+const docs = document.getElementById('docs');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
 
@@ -23,6 +25,11 @@ aboutBtn.addEventListener('click', (e) => {
         linksRow.classList.remove('telegram-active');
         telegramBtn.classList.remove('back');
         links.classList.add('hide');
+    }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
     }
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
@@ -39,12 +46,39 @@ linksBtn.addEventListener('click', (e) => {
         aboutBtn.classList.remove('active');
         description.classList.add('hide');
     }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
+    }
     body.classList.toggle('links-active');
     linksBtn.classList.toggle('active');
     if (!body.classList.contains('links-active')) {
         linksRow.classList.remove('telegram-active');
         telegramBtn.classList.remove('back');
         links.classList.add('hide');
+    }
+});
+
+// Логика кнопки "Документы"
+docsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (body.classList.contains('active')) {
+        body.classList.remove('active');
+        aboutBtn.classList.remove('active');
+        description.classList.add('hide');
+    }
+    if (body.classList.contains('links-active')) {
+        body.classList.remove('links-active');
+        linksBtn.classList.remove('active');
+        linksRow.classList.remove('telegram-active');
+        telegramBtn.classList.remove('back');
+        links.classList.add('hide');
+    }
+    body.classList.toggle('docs-active');
+    docsBtn.classList.toggle('active');
+    if (!body.classList.contains('docs-active')) {
+        docs.classList.add('hide');
     }
 });
 
@@ -91,4 +125,22 @@ kogamaBtn.addEventListener('click', (e) => {
     } else {
         console.log('Kogama click ignored: Telegram section is active');
     }
+});
+
+// Логика кнопок скроллбара
+const scrollUpBtn = document.querySelector('.scroll-up');
+const scrollDownBtn = document.querySelector('.scroll-down');
+
+scrollUpBtn.addEventListener('click', () => {
+    window.scrollBy({
+        top: -100,
+        behavior: 'smooth'
+    });
+});
+
+scrollDownBtn.addEventListener('click', () => {
+    window.scrollBy({
+        top: 100,
+        behavior: 'smooth'
+    });
 });
