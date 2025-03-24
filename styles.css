@@ -170,8 +170,8 @@ h1 {
     transform: translateY(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-    width: 300px; /* Фиксированная ширина */
-    height: 70px; /* Фиксированная высота */
+    width: 300px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -202,6 +202,7 @@ h1 {
     overflow: hidden;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     cursor: pointer;
+    z-index: 2; /* Устанавливаем z-index, чтобы иконки были кликабельны */
 }
 
 .link-icon:hover {
@@ -287,7 +288,8 @@ h1 {
     flex-direction: row;
     gap: 20px;
     position: absolute;
-    left: 20px; /* Сдвигаем влево, учитывая padding контейнера */
+    left: 20px;
+    z-index: 1; /* Устанавливаем ниже, чтобы не перекрывать иконки */
 }
 
 .telegram-link {
@@ -309,6 +311,7 @@ h1 {
 .active .description-container {
     visibility: visible;
     opacity: 1;
+    transform: translateY(-50%); /* Устанавливаем корректное положение при появлении */
 }
 
 .links-active .header-container {
@@ -353,8 +356,8 @@ h1 {
 
     .links-container {
         padding: 8px;
-        width: 250px; /* Фиксированная ширина для мобильных */
-        height: 60px; /* Фиксированная высота для мобильных */
+        width: 250px;
+        height: 60px;
     }
 
     .description {
@@ -384,7 +387,7 @@ h1 {
     }
 
     .telegram-links {
-        left: 15px; /* Учитываем меньший padding */
+        left: 15px;
     }
 }
 
@@ -430,7 +433,7 @@ h1 {
     }
 
     .links-container {
-        width: 220px; /* Еще меньше для маленьких экранов */
+        width: 220px;
         height: 55px;
     }
 
