@@ -1,3 +1,226 @@
-document.getElementById("notifyBtn").addEventListener("click", function() {
-    alert("Спасибо за интерес! Подробности о 'Тени прошлого' скоро появятся!");
-});
+/* Стили для прелоадера */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #0ff;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+body {
+    background-image: url('BRC-Background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+/* Кастомный скроллбар */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00f, #0ff);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0ff, 0 0 5px #00f;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #0ff, #00f);
+}
+
+h1 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 20px 0;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+
+.button-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+}
+
+.button.active {
+    border: 2px solid white;
+    background-color: #555;
+}
+
+.description-container {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    max-width: 600px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.description {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.description strong {
+    font-weight: bold;
+}
+
+.active .header-container {
+    top: 10%;
+    transform: translateY(0);
+}
+
+.active .description-container {
+    display: block;
+    opacity: 1;
+}
+
+.footer {
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+    margin-top: auto;
+    padding: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    .button-container {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .description-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+
+    .active .header-container {
+        top: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .description {
+        font-size: 12px;
+    }
+
+    .footer {
+        font-size: 10px;
+        padding: 10px;
+    }
+}
