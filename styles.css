@@ -1,3 +1,17 @@
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: url('BRC-Background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease;
+}
+
+body.loaded {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 #preloader {
     position: fixed;
     top: 0;
@@ -14,15 +28,15 @@
 
 #preloader.hidden {
     opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
 }
 
 .loader {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #0ff;
-    border-top: 5px solid transparent;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
     border-radius: 50%;
+    width: 60px;
+    height: 60px;
     animation: spin 1s linear infinite;
 }
 
@@ -31,105 +45,24 @@
     100% { transform: rotate(360deg); }
 }
 
-body {
-    background-image: url('BRC-Background.jpg');
-    background-size: 50%;
-    background-position: top left;
-    background-repeat: repeat;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    min-height: 100vh;
-}
-
-body.loaded {
-    opacity: 1;
-}
-
-body::-webkit-scrollbar {
-    width: 12px;
-}
-
-body::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-}
-
-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #00f, #0ff);
-    border-radius: 10px;
-    box-shadow: 0 0 10px #0ff, 0 0 5px #00f;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-body::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(45deg, #0ff, #00f);
-}
-
-.scroll-buttons {
-    position: fixed;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    z-index: 1000;
-}
-
-.scroll-button {
-    width: 30px;
-    height: 30px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.scroll-button:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.scroll-button:active {
-    background-color: rgba(255, 255, 255, 0.7);
-}
-
-h1 {
-    color: white;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 48px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    margin: 20px 0;
-}
-
 .header-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
-    z-index: 1001;
+    text-align: center;
+    padding: 20px;
+}
+
+.header-container h1 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .button-container {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 10px;
     display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 .button {
@@ -139,373 +72,149 @@ h1 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: transform 0.3s, border 0.3s, background-color 0.3s;
-    border: 2px solid transparent;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    text-align: center;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .button:hover {
-    transform: scale(1.1);
-    border: 2px solid white;
     background-color: #555;
+    transform: scale(1.05);
 }
 
 .button.active {
-    border: 2px solid white;
-    background-color: #555;
+    background-color: #1a73e8;
 }
 
-.button.characters {
-    font-size: 12px;
-}
-
-.button.license {
-    padding: 10px 15px;
-    font-size: 12px;
-}
-
-.description-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    max-width: 600px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    z-index: 1000;
-}
-
-.description-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-}
-
-.description {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 16px;
-    text-align: center;
-    line-height: 1.6;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.description strong {
-    font-weight: bold;
-}
-
-.links-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 320px;
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    z-index: 1000;
-}
-
-.links-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-}
-
-.links-container.telegram-active {
-    width: 600px;
-    height: auto;
-    min-height: 200px;
+.description-container, .links-container, .docs-container, .dev-container, .team-container, .extensions-container, .games-container, .utils-container {
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
-    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    display: none;
+    transition: opacity 0.5s ease;
+}
+
+.description-container p {
+    line-height: 1.6;
+}
+
+body.active .description-container,
+body.links-active .links-container,
+body.docs-active .docs-container,
+body.dev-active .dev-container,
+body.team-active .team-container,
+body.extensions-active .extensions-container,
+body.games-active .games-container,
+body.utils-active .utils-container {
+    display: block;
+    opacity: 1;
+}
+
+.hide {
+    display: none !important;
+    opacity: 0;
 }
 
 .links-row {
     display: flex;
-    gap: 15px;
     justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
+    gap: 20px;
+    flex-wrap: wrap;
     position: relative;
-    width: 100%;
 }
 
 .link-icon {
-    display: inline-block;
     width: 50px;
     height: 50px;
     background-size: cover;
-    background-position: center;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-    cursor: pointer;
-    z-index: 2;
+    transition: transform 0.3s ease;
 }
 
 .link-icon:hover {
     transform: scale(1.1);
 }
 
-.link-icon:active {
-    transform: scale(1.3);
+.gamejolt { background: url('gamejolt-icon.png') no-repeat center; }
+.kogama { background: url('kogama-icon.png') no-repeat center; }
+.youtube { background: url('youtube-icon.png') no-repeat center; }
+.telegram { background: url('telegram-icon.png') no-repeat center; }
+.scratch { background: url('scratch-icon.png') no-repeat center; }
+
+.links-row.telegram-active .telegram {
+    background: url('back-icon.png') no-repeat center;
 }
 
-.gamejolt {
-    background-image: url('https://img.icons8.com/color/50/000000/gamejolt.png');
-}
-
-.kogama {
-    background-image: url('Kogama.png');
-}
-
-.youtube {
-    background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
-}
-
-.telegram {
-    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
-    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.telegram.back {
-    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/back.png');
-    transform: translateX(0);
-}
-
-.scratch {
-    background-image: url('https://img.icons8.com/color/50/000000/scratch.png');
-}
-
-.links-row.telegram-active .gamejolt,
-.links-row.telegram-active .kogama,
-.links-row.telegram-active .youtube,
-.links-row.telegram-active .scratch {
-    display: none;
+.links-row .telegram.back {
+    background: url('back-icon.png') no-repeat center;
 }
 
 .telegram-links {
     display: none;
-    flex-direction: row;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-    box-sizing: border-box;
-    max-width: 100%;
-    padding: 10px;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .links-row.telegram-active .telegram-links {
-    display: flex;
-}
-
-.links-row.telegram-active .telegram-link {
-    opacity: 1;
-    transform: scale(1);
-    text-align: center;
-    width: 150px;
-    padding: 10px;
-    box-sizing: border-box;
-    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
-    border: 2px solid transparent;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.links-row.telegram-active .telegram-link:hover {
-    transform: scale(1.1);
-    border: 2px solid white;
-    background-color: #555;
-}
-
-.docs-container {
     display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 250, 0.3);
-    padding: 10px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 300px;
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
 }
 
-.docs-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+.telegram-link {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    min-width: 200px;
 }
 
 .docs-row {
     display: flex;
+    justify-content: center;
     gap: 20px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    position: relative;
-}
-
-.dev-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.dev-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-}
-
-.dev-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+    flex-wrap: wrap;
 }
 
 .dev-info h2 {
-    color: white;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin: 0;
-}
-
-.dev-info p {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin: 0;
-}
-
-.team-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 400px;
-    max-height: 400px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-}
-
-.team-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    margin: 0 0 10px;
 }
 
 .team-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 100%;
 }
 
 .team-member {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
 }
 
 .team-member h3 {
-    color: white;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin: 0;
+    margin: 0 0 5px;
 }
 
-.team-member p {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin: 0;
-}
-
-.team-member .contact-icon {
+.contact-icon {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    background: url('telegram-icon.png') no-repeat center;
     background-size: cover;
-    background-position: center;
-    transition: transform 0.3s ease-in-out;
-}
-
-.team-member .contact-icon:hover {
-    transform: scale(1.1);
-}
-
-.team-member .contact-icon:active {
-    transform: scale(1.3);
 }
 
 .team-join {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 12px;
+    margin-top: 20px;
     text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin-top: 10px;
 }
 
 .team-join a {
-    color: #0ff;
+    color: #1a73e8;
     text-decoration: none;
 }
 
@@ -513,221 +222,73 @@ h1 {
     text-decoration: underline;
 }
 
-.extensions-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.extensions-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-}
-
 .extensions-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
 }
 
 .extension-link {
-    color: #0ff;
+    color: #1a73e8;
     text-decoration: none;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .extension-link:hover {
     text-decoration: underline;
 }
 
-.extensions-list p {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin: 0;
-}
-
-/* Стили для списка игр */
 .games-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 600px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-}
-
-.games-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .games-header {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 
 .category-btn {
-    padding: 8px 16px;
-    background-color: #333;
+    padding: 10px 20px;
+    background: #333;
     color: white;
-    border: 2px solid transparent;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .category-btn:hover {
-    background-color: #555;
-    border: 2px solid white;
+    background: #555;
 }
 
 .category-btn.active {
-    background-color: #555;
-    border: 2px solid white;
+    background: #1a73e8;
 }
 
-.filter-input {
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #0ff;
-    border: 2px solid transparent;
+.filter-input, .filter-select {
+    padding: 10px;
     border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    width: 120px;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.filter-input::placeholder {
-    color: rgba(0, 255, 255, 0.5);
-}
-
-.filter-input:hover, .filter-input:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.02);
-    outline: none;
-}
-
-.filter-select {
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #0ff;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.filter-select:hover, .filter-select:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.02);
-    outline: none;
-}
-
-.pagination {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.page-btn {
-    padding: 8px 16px;
-    background-color: #333;
+    border: none;
+    background: #333;
     color: white;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
-}
-
-.page-btn:hover {
-    background-color: #555;
-    border: 2px solid white;
-}
-
-.page-btn:disabled {
-    background-color: #222;
-    color: #666;
-    cursor: not-allowed;
-}
-
-.page-info {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .games-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 100%;
-}
-
-.games-list p {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .game-card {
-    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
     background-size: cover;
     background-position: center;
-    border-radius: 10px;
-    padding: 15px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    position: relative;
     overflow: hidden;
 }
 
@@ -739,26 +300,23 @@ h1 {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.game-header, .game-description, .game-footer {
+    position: relative;
     z-index: 1;
 }
 
 .game-header {
-    position: relative;
-    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 5px 10px;
-    border-radius: 5px;
 }
 
 .game-title {
-    color: white;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     margin: 0;
+    font-size: 1.2em;
 }
 
 .game-meta {
@@ -767,489 +325,164 @@ h1 {
 }
 
 .game-version, .game-engine {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 12px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
 }
 
 .game-description {
-    position: relative;
-    z-index: 2;
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     margin: 10px 0;
 }
 
 .game-footer {
-    position: relative;
-    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .game-play-btn {
-    padding: 8px 16px;
-    background-color: #333;
+    padding: 5px 15px;
+    background: #1a73e8;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .game-play-btn:hover {
-    background-color: #555;
-    transform: scale(1.05);
+    background: #1557b0;
 }
 
 .game-year {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 12px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-/* Стили для утилит */
-.utils-container {
-    display: block;
-    visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 15px;
-    border-radius: 10px;
-    position: absolute;
-    top: 100%;
-    transform: translateY(0);
-    opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    width: 600px;
+.pagination {
     display: flex;
-    flex-direction: column;
+    gap: 10px;
     align-items: center;
-    z-index: 1000;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-.utils-container.hide {
-    opacity: 0;
-    visibility: hidden;
-    top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+.page-btn {
+    padding: 5px 15px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.page-btn:hover {
+    background: #555;
+}
+
+.page-btn:disabled {
+    background: #222;
+    cursor: not-allowed;
+}
+
+.page-info {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .utils-header {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
-    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .utils-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    width: 100%;
-}
-
-.utils-list p {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    text-align: center;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    gap: 10px;
 }
 
 .utils-item {
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
-}
-
-.utils-item p {
-    color: white;
-    font-family: 'Russo One', sans-serif;
-    font-size: 16px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin: 0;
-}
-
-.games-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.games-active .games-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.utils-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.utils-active .utils-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.active .description-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.links-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.links-active .links-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.docs-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.docs-active .docs-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.dev-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.dev-active .dev-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.team-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.team-active .team-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
-}
-
-.extensions-active .header-container {
-    top: 10%;
-    transform: translateY(0);
-}
-
-.extensions-active .extensions-container {
-    visibility: visible;
-    opacity: 1;
-    top: 50%;
 }
 
 .footer {
-    color: #aaa;
-    font-size: 12px;
     text-align: center;
-    margin-top: auto;
     padding: 20px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+    bottom: 0;
     width: 100%;
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 36px;
-    }
+.scroll-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-    .button-container {
-        padding: 10px;
-        gap: 10px;
-        flex-wrap: wrap;
+.scroll-button {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.scroll-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width: 600px) {
+    .header-container h1 {
+        font-size: 1.5em;
     }
 
     .button {
-        padding: 12px 24px;
-        font-size: 16px;
+        padding: 8px 15px;
+        font-size: 0.9em;
     }
 
-    .button.characters {
-        font-size: 12px;
-    }
-
-    .button.license {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-
-    .description-container {
-        max-width: 90%;
-        padding: 10px;
-    }
-
-    .links-container, .docs-container, .dev-container, .extensions-container {
-        padding: 8px;
-        width: 300px;
-        height: 60px;
-    }
-
-    .links-container.telegram-active {
-        width: 350px;
-        height: auto;
-        min-height: 150px;
+    .description-container, .links-container, .docs-container, .dev-container, .team-container, .extensions-container, .games-container, .utils-container {
+        margin: 10px;
         padding: 15px;
     }
 
-    .team-container {
-        width: 300px;
-        max-height: 300px;
+    .links-row {
+        gap: 15px;
+    }
+
+    .telegram-links {
+        width: 250px;
         padding: 10px;
     }
 
-    .games-container, .utils-container {
-        width: 300px;
-        padding: 10px;
-    }
-
-    .game-card {
-        min-height: 180px;
-    }
-
-    .description {
-        font-size: 14px;
-    }
-
-    .link-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .telegram.back {
-        transform: translateX(0);
-    }
-
-    .active .header-container,
-    .links-active .header-container,
-    .docs-active .header-container,
-    .dev-active .header-container,
-    .team-active .header-container,
-    .extensions-active .header-container,
-    .games-active .header-container,
-    .utils-active .header-container {
-        top: 5%;
-    }
-
-    .scroll-button {
-        width: 25px;
-        height: 25px;
-        font-size: 14px;
-    }
-
-    .dev-info h2 {
-        font-size: 18px;
-    }
-
-    .dev-info p {
-        font-size: 12px;
-    }
-
-    .team-member h3 {
-        font-size: 16px;
-    }
-
-    .team-member p {
-        font-size: 12px;
-    }
-
-    .team-member .contact-icon {
-        width: 25px;
-        height: 25px;
-    }
-
-    .team-join {
-        font-size: 10px;
+    .telegram-link {
+        min-width: 180px;
+        font-size: 0.9em;
     }
 
     .game-title {
-        font-size: 16px;
+        font-size: 1em;
     }
 
-    .game-version, .game-engine {
-        font-size: 10px;
-    }
-
-    .game-description {
-        font-size: 12px;
-    }
-
-    .game-play-btn {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
-
-    .game-year {
-        font-size: 10px;
-    }
-
-    .filter-input, .filter-select {
-        font-size: 12px;
-        padding: 6px;
-        width: 100px;
-    }
-
-    .utils-item p {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 28px;
-    }
-
-    .button-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .button {
-        padding: 10px 18px;
-        font-size: 14px;
-    }
-
-    .button.characters {
-        font-size: 10px;
-    }
-
-    .button.license {
-        padding: 6px 10px;
-        font-size: 10px;
-    }
-
-    .description {
-        font-size: 12px;
-    }
-
-    .link-icon {
-        width: 35px;
-        height: 35px;
-    }
-
-    .telegram.back {
-        transform: translateX(0);
-    }
-
-    .footer {
-        font-size: 10px;
-        padding: 10px;
-    }
-
-    .links-container, .docs-container, .dev-container, .extensions-container {
-        width: 250px;
-        height: 55px;
-    }
-
-    .links-container.telegram-active {
-        width: 300px;
-        height: auto;
-        min-height: 120px;
-        padding: 10px;
-    }
-
-    .team-container {
-        width: 250px;
-        max-height: 250px;
-        padding: 8px;
-    }
-
-    .games-container, .utils-container {
-        width: 250px;
-        padding: 8px;
-    }
-
-    .game-card {
-        min-height: 160px;
-    }
-
-    .scroll-button {
-        width: 20px;
-        height: 20px;
-        font-size: 12px;
-    }
-
-    .dev-info h2 {
-        font-size: 16px;
-    }
-
-    .dev-info p {
-        font-size: 10px;
-    }
-
-    .team-member h3 {
-        font-size: 14px;
-    }
-
-    .team-member p {
-        font-size: 10px;
-    }
-
-    .team-member .contact-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .team-join {
-        font-size: 8px;
-    }
-
-    .game-title {
-        font-size: 14px;
-    }
-
-    .game-version, .game-engine {
-        font-size: 8px;
-    }
-
-    .game-description {
-        font-size: 10px;
-    }
-
-    .game-play-btn {
-        font-size: 10px;
-        padding: 5px 10px;
-    }
-
-    .game-year {
-        font-size: 8px;
-    }
-
-    .filter-input, .filter-select {
-        font-size: 10px;
-        padding: 5px;
-        width: 90px;
-    }
-
-    .utils-item p {
-        font-size: 12px;
+    .game-meta, .game-year {
+        font-size: 0.8em;
     }
 }
