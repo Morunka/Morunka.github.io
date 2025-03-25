@@ -162,33 +162,31 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (sortValue === 'year-desc') {
             filteredGames.sort((a, b) => parseInt(b.Year || 0) - parseInt(a.Year || 0));
         } else if (sortValue === 'year-asc') {
-            filteredGames.sort((a, b) => parseInt(a.Year || 0) - parseInt(b.Year || 0));
+            filteredGames.sort((a, b) => parseInt(a.Year || 0) - parseInt(a.Year || 0));
         }
 
         currentPage = 1;
         displayGames(filteredGames);
     }
 
-    // Функция для загрузки игр
-    function loadGames(file) {
-        fetch(file)
+    // Функция для загрузки данных из одного файла
+    function loadGameFile(file) {
+        return fetch(file)
             .then(response => {
                 if (!response.ok) throw new Error(`Файл ${file} не найден`);
                 return response.text();
             })
             .then(data => {
-                console.log('Сырые данные GamesList.txt:', data);
+                console.log(`Сырые данные ${file}:`, data);
                 const gamesData = [];
                 let currentGame = {};
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach((line, index) => {
-                    console.log(`Строка ${index}:`, line);
-                    // Учитываем двоеточия вместо равно
-                    const [key, value] = line.split(':');
+                    console.log(`Строка ${index} (${file}):`, line);
+                    const [key, value] = line.split('=');
                     if (key && value) {
                         const trimmedKey = key.trim();
                         let trimmedValue = value.trim();
-                        // Убираем кавычки, если они есть
                         if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
                             trimmedValue = trimmedValue.slice(1, -1);
                         }
@@ -198,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             currentGame = { Name: trimmedValue };
                         } else if (trimmedKey === 'Tags') {
-                            // Обрабатываем теги, разделенные запятыми внутри кавычек
                             currentGame.Tags = trimmedValue.split(',').map(tag => tag.trim().replace(/"/g, ''));
                         } else if (trimmedKey === 'Desc') {
                             currentGame.Desc = trimmedValue;
@@ -218,13 +215,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (Object.keys(currentGame).length > 0) {
                     gamesData.push(currentGame);
                 }
+                return gamesData;
+            });
+    }
 
-                console.log('Загруженные игры:', gamesData);
-                currentGames = gamesData;
+    // Функция для загрузки всех игр из двух файлов
+    function loadGames() {
+        Promise.all([
+            loadGameFile('HorrorGames.txt'),
+            loadGameFile('OthersGames.txt')
+        ])
+            .then(([horrorGames, othersGames]) => {
+                currentGames = [...horrorGames, ...othersGames];
+                console.log('Все загруженные игры:', currentGames);
                 filterAndSortGames();
             })
             .catch(error => {
-                console.error(`Ошибка загрузки данных из ${file}:`, error);
+                console.error('Ошибка загрузки данных из файлов:', error);
                 gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
             });
     }
@@ -232,27 +239,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для отображения утилит
     function displayUtils(category) {
         utilsList.innerHTML = '';
-        utilsList.classList.remove('fade-in');
-        setTimeout(() => {
-            if (category === 'our') {
-                const utilsData = [
-                    { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
-                    { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
-                ];
-                utilsData.forEach(util => {
-                    const utilItem = document.createElement('a');
-                    utilItem.classList.add('utils-button');
-                    utilItem.href = util.link;
-                    utilItem.textContent = util.name;
-                    utilsList.appendChild(utilItem);
-                });
-            } else {
-                const noUtils = document.createElement('p');
-                noUtils.textContent = 'Пока здесь ничего нет.';
-                utilsList.appendChild(noUtils);
-            }
-            utilsList.classList.add('fade-in');
-        }, 50);
+        if (category === 'our') {
+            const utilsData = [
+                { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
+                { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
+            ];
+            utilsData.forEach(util => {
+                const utilItem = document.createElement('div');
+                utilItem.classList.add('utils-item');
+                utilItem.innerHTML = `<p><a href="${util.link}" class="extension-link">${util.name}</a></p>`;
+                utilsList.appendChild(utilItem);
+            });
+        } else {
+            utilsList.innerHTML = '<p>Пока здесь ничего нет.</p>';
+        }
     }
 
     // Пасхалка: клик на логотип
@@ -506,16 +506,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach((line, index) => {
                     console.log(`Строка ${index}:`, line);
-                    // Учитываем двоеточия вместо равно
-                    const [key, value] = line.split(':');
+                    const [key, value] = line.split('=');
                     if (key && value) {
                         const trimmedKey = key.trim();
                         let trimmedValue = value.trim();
-                        // Убираем кавычки, если они есть
                         if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
                             trimmedValue = trimmedValue.slice(1, -1);
                         }
-                        // Адаптируем ключи под ожидаемые в коде
                         if (trimmedKey === 'Username') {
                             if (Object.keys(currentMember).length > 0) {
                                 members.push(currentMember);
@@ -647,8 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
-        // Исправляем путь к файлу
-        loadGames('./GamesList.txt');
+        loadGames();
     });
 
     utilsBtn.addEventListener('click', (e) => {
