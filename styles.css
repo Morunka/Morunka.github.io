@@ -157,7 +157,7 @@ body.utils-active .utils-container {
     background: rgba(0, 0, 0, 0.8);
     padding: 15px;
     border-radius: 10px;
-    width: 300px;
+    width: 300px; /* Увеличена ширина для вмещения кнопок */
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -170,7 +170,7 @@ body.utils-active .utils-container {
     display: block;
     margin: 10px 0;
     padding: 10px;
-    min-width: 200px;
+    min-width: 200px; /* Минимальная ширина кнопок */
 }
 
 .docs-row {
@@ -469,12 +469,12 @@ body.utils-active .utils-container {
     }
 
     .telegram-links {
-        width: 250px;
+        width: 250px; /* Уменьшена ширина для мобильных устройств */
         padding: 10px;
     }
 
     .telegram-link {
-        min-width: 180px;
+        min-width: 180px; /* Уменьшена минимальная ширина кнопок */
         font-size: 0.9em;
     }
 
