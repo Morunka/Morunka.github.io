@@ -68,20 +68,6 @@ let currentGames = [];
 let currentPage = 1;
 const gamesPerPage = 3;
 
-// Функция для извлечения года из строки
-function getYear(yearStr) {
-    if (yearStr.length == 4 && !isNaN(yearStr)) {
-        return yearStr;
-    } else {
-        const parts = yearStr.split(' ');
-        if (parts.length >= 3) {
-            return parts[2];
-        } else {
-            return yearStr;
-        }
-    }
-}
-
 // Функция для отображения игр на текущей странице
 function displayGames(gamesData) {
     gamesList.innerHTML = '';
@@ -144,19 +130,10 @@ function filterAndSortGames() {
     // Фильтрация
     let filteredGames = currentGames.filter(game => {
         const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
-        const matchesYear = year ? getYear(game.Year) === year : true;
+        const matchesYear = year ? game.Year === year : true;
         const matchesEngine = engine ? game.Engine === engine : true;
         return matchesCategory && matchesYear && matchesEngine;
     });
-
-    // Если поле года пустое, показываем все игры в зависимости от категории
-    if (!year) {
-        filteredGames = currentGames.filter(game => {
-            const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
-            const matchesEngine = engine ? game.Engine === engine : true;
-            return matchesCategory && matchesEngine;
-        });
-    }
 
     // Сортировка
     if (sortValue === 'name-asc') {
@@ -164,9 +141,9 @@ function filterAndSortGames() {
     } else if (sortValue === 'name-desc') {
         filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
     } else if (sortValue === 'year-desc') {
-        filteredGames.sort((a, b) => parseInt(getYear(b.Year)) - parseInt(getYear(a.Year)));
+        filteredGames.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
     } else if (sortValue === 'year-asc') {
-        filteredGames.sort((a, b) => parseInt(getYear(a.Year)) - parseInt(getYear(b.Year)));
+        filteredGames.sort((a, b) => parseInt(a.Year) - parseInt(a.Year));
     }
 
     // Сбрасываем страницу на первую после фильтрации/сортировки
