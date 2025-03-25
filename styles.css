@@ -109,7 +109,7 @@ h1 {
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin: 20px 0;
-    cursor: pointer; /* Делаем логотип кликабельным */
+    cursor: pointer;
 }
 
 .header-container {
@@ -171,7 +171,7 @@ h1 {
 .description-container {
     display: block;
     visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
+    background color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
     max-width: 600px;
@@ -979,17 +979,17 @@ h1 {
 .easter-egg {
     position: fixed;
     top: 10px;
-    right: -300px; /* Скрываем за правым краем */
-    z-index: 10000; /* Поверх всех элементов */
+    right: -300px;
+    z-index: 10000;
     transition: right 0.5s ease-in-out;
 }
 
 .easter-egg.active {
-    right: 10px; /* Выезжает слева */
+    right: 10px;
 }
 
 .easter-egg img {
-    width: 200px; /* Размер фото, можно настроить */
+    width: 200px;
     height: auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
@@ -1111,13 +1111,13 @@ h1 {
         font-size: 14px;
     }
     .easter-egg {
-        right: -150px; /* Меньший отступ для меньших экранов */
+        right: -150px;
     }
     .easter-egg.active {
         right: 10px;
     }
     .easter-egg img {
-        width: 150px; /* Уменьшаем размер фото */
+        width: 150px;
     }
 }
 
