@@ -105,13 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('active');
         aboutBtn.classList.add('active');
         description.classList.remove('hide');
+        description.style.display = 'block'; // Явно устанавливаем стиль
         description.style.visibility = 'visible';
         description.style.opacity = '1';
         description.style.top = '50%';
     };
 
     // Открываем "О студии" сразу после загрузки
-    setTimeout(openAboutSection, 0);
+    openAboutSection();
 
     // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
@@ -132,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('links-active');
         linksBtn.classList.add('active');
         links.classList.remove('hide');
+        links.style.display = 'block';
         links.style.visibility = 'visible';
         links.style.opacity = '1';
         links.style.top = '50%';
@@ -139,19 +141,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Исправляем подменю Telegram
     if (telegramBtn && linksRow) {
+        // Убедимся, что подменю изначально скрыто
+        const telegramLinks = linksRow.querySelector('.telegram-links');
+        if (telegramLinks) {
+            telegramLinks.style.display = 'none'; // Скрываем изначально
+        }
+
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const isActive = linksRow.classList.contains('telegram-active');
             linksRow.classList.toggle('telegram-active');
             telegramBtn.classList.toggle('back');
-            const telegramLinks = linksRow.querySelector('.telegram-links');
             if (telegramLinks) {
                 if (isActive) {
                     telegramLinks.style.display = 'none';
                     links.style.width = '320px';
                     links.style.height = '70px';
+                    links.style.padding = '10px';
                 } else {
                     telegramLinks.style.display = 'flex';
+                    telegramLinks.style.flexDirection = 'column';
+                    telegramLinks.style.gap = '10px';
                     links.style.width = '600px';
                     links.style.height = 'auto';
                     links.style.minHeight = '200px';
@@ -175,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('docs-active');
         docsBtn.classList.add('active');
         docs.classList.remove('hide');
+        docs.style.display = 'block';
         docs.style.visibility = 'visible';
         docs.style.opacity = '1';
         docs.style.top = '50%';
@@ -190,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('dev-active');
         devBtn.classList.add('active');
         dev.classList.remove('hide');
+        dev.style.display = 'block';
         dev.style.visibility = 'visible';
         dev.style.opacity = '1';
         dev.style.top = '50%';
@@ -235,12 +247,13 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('team-active');
         teamBtn.classList.add('active');
         team.classList.remove('hide');
+        team.style.display = 'block';
         team.style.visibility = 'visible';
         team.style.opacity = '1';
         team.style.top = '50%';
         const teamList = document.querySelector('.team-list');
         if (teamList) {
-            teamList.innerHTML = ''; // Очищаем список перед добавлением
+            teamList.innerHTML = ''; // Очищаем список один раз перед добавлением
             fetch('./BRC-Team.txt')
                 .then(response => {
                     if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
@@ -259,24 +272,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     if (members.length === 0) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
-                        return;
+                    } else {
+                        members.forEach((member, index) => {
+                            const cleanUsername = (member.Username || 'Не указано').replace(/["':]/g, '');
+                            const memberDiv = document.createElement('div');
+                            memberDiv.classList.add('team-member');
+                            memberDiv.innerHTML = `
+                                <h3>${cleanUsername}</h3>
+                                <p class="team-role">${member.UserDesc || 'Не указано'}</p>
+                                <a href="${member.UserTelegramContact || '#'}" class="contact-icon"></a>
+                            `;
+                            teamList.appendChild(memberDiv);
+                            if (index < members.length - 1) {
+                                const divider = document.createElement('hr');
+                                divider.classList.add('team-divider');
+                                teamList.appendChild(divider);
+                            }
+                        });
+                        // Добавляем надпись о присоединении
+                        const joinDiv = document.createElement('p');
+                        joinDiv.classList.add('team-join');
+                        joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
+                        teamList.appendChild(joinDiv);
                     }
-                    members.forEach((member, index) => {
-                        const cleanUsername = (member.Username || 'Не указано').replace(/["':]/g, '');
-                        const memberDiv = document.createElement('div');
-                        memberDiv.classList.add('team-member');
-                        memberDiv.innerHTML = `
-                            <h3>${cleanUsername}</h3>
-                            <p class="team-role">${member.UserDesc || 'Не указано'}</p>
-                            <a href="${member.UserTelegramContact || '#'}" class="contact-icon"></a>
-                        `;
-                        teamList.appendChild(memberDiv);
-                        if (index < members.length - 1) {
-                            const divider = document.createElement('hr');
-                            divider.classList.add('team-divider');
-                            teamList.appendChild(divider);
-                        }
-                    });
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки команды:', error);
@@ -295,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('extensions-active');
         extensionsBtn.classList.add('active');
         extensions.classList.remove('hide');
+        extensions.style.display = 'block';
         extensions.style.visibility = 'visible';
         extensions.style.opacity = '1';
         extensions.style.top = '50%';
@@ -437,6 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
+        games.style.display = 'block';
         games.style.visibility = 'visible';
         games.style.opacity = '1';
         games.style.top = '50%';
@@ -532,6 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
         utils.classList.remove('hide');
+        utils.style.display = 'block';
         utils.style.visibility = 'visible';
         utils.style.opacity = '1';
         utils.style.top = '50%';
