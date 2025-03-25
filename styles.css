@@ -41,7 +41,7 @@ body {
     margin: 0;
     padding: 0;
     padding-top: 80px;
-六    display: flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
@@ -140,7 +140,7 @@ h1 {
     flex-wrap: nowrap;
     justify-content: center;
     position: fixed;
-    top: 70px; /* Изменено с 60px на 70px, чтобы избежать пересечения с логотипом */
+    top: 70px;
     width: 100%;
     z-index: 1000;
     overflow-x: auto;
@@ -193,7 +193,8 @@ h1 {
     max-width: 600px;
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     z-index: 1000;
@@ -230,7 +231,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
     width: 320px;
@@ -386,7 +388,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
@@ -424,7 +427,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
@@ -475,7 +479,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 400px;
@@ -579,7 +584,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
@@ -635,7 +641,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 600px;
@@ -887,7 +894,8 @@ h1 {
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
-    transform: translateY(0);
+    left: 50%; /* Добавлено для центрирования */
+    transform: translateX(-50%) translateY(0); /* Центрирование по горизонтали */
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 600px;
@@ -1075,6 +1083,8 @@ h1 {
     padding: 20px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     width: 100%;
+    position: relative; /* Добавлено для надёжности */
+    bottom: 0; /* Прижимаем к низу */
 }
 
 /* Медиа-запросы */
