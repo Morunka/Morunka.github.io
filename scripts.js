@@ -2,8 +2,10 @@
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     const body = document.body;
-    preloader.classList.add('hidden');
-    body.classList.add('loaded');
+    if (preloader && body) {
+        preloader.classList.add('hidden');
+        body.classList.add('loaded');
+    }
 });
 
 // Ждём загрузки DOM
@@ -48,15 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredGames = [];
     let currentPage = 1;
     const gamesPerPage = 5;
+    let currentUtilsCategory = 'our';
+
+    // Проверка на существование элементов
+    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo) {
+        console.error('Один или несколько элементов не найдены в HTML');
+        return;
+    }
 
     // Пасхалка
     let clickCount = 0;
     logo.addEventListener('click', () => {
         clickCount++;
-        if (clickCount === 5) {
+        if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
         }
     });
+
+    // Автоматическое открытие вкладки "О студии"
+    aboutBtn.click();
 
     // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
@@ -67,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('docs-active')) {
@@ -152,11 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
         links.classList.remove('hide');
     });
 
-    telegramBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        linksRow.classList.toggle('telegram-active');
-        telegramBtn.classList.toggle('back');
-    });
+    if (telegramBtn && linksRow) {
+        telegramBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            linksRow.classList.toggle('telegram-active');
+            telegramBtn.classList.toggle('back');
+        });
+    } else {
+        console.warn('Элементы telegramBtn или linksRow не найдены');
+    }
 
     // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
@@ -172,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('dev-active')) {
@@ -220,8 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('docs-active')) {
@@ -253,25 +269,32 @@ document.addEventListener('DOMContentLoaded', () => {
         devBtn.classList.add('active');
         dev.classList.remove('hide');
         fetch('./DevelopingGameProc.txt')
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error('Файл DevelopingGameProc.txt не найден');
+                return response.text();
+            })
             .then(data => {
                 const lines = data.split('\n').map(line => line.trim()).filter(line => line);
                 const gameData = {};
                 lines.forEach(line => {
                     const [key, value] = line.split(': ').map(item => item.trim());
-                    gameData[key] = value;
+                    gameData[key] = value || 'Не указано';
                 });
                 const devInfo = document.querySelector('.dev-info');
-                devInfo.innerHTML = `
-                    <h2>${gameData.Name}</h2>
-                    <p>Прогресс: ${gameData.Progress}</p>
-                    <p>Дата: ${gameData.Date}</p>
-                `;
+                if (devInfo) {
+                    devInfo.innerHTML = `
+                        <h2>${gameData.Name || 'Не указано'}</h2>
+                        <p>Прогресс: ${gameData.Progress || 'Не указано'}</p>
+                        <p>Дата: ${gameData.Date || 'Не указано'}</p>
+                    `;
+                }
             })
             .catch(error => {
                 console.error('Ошибка загрузки данных разработки:', error);
                 const devInfo = document.querySelector('.dev-info');
-                devInfo.innerHTML = '<p>Ошибка загрузки данных разработки</p>';
+                if (devInfo) {
+                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки</p>';
+                }
             });
     });
 
@@ -289,8 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('docs-active')) {
@@ -322,47 +345,52 @@ document.addEventListener('DOMContentLoaded', () => {
         teamBtn.classList.add('active');
         team.classList.remove('hide');
         const teamList = document.querySelector('.team-list');
-        teamList.innerHTML = '';
-        fetch('./BRC-Team.txt')
-            .then(response => response.text())
-            .then(data => {
-                const members = data.split('\n\n').map(member => {
-                    const lines = member.split('\n').map(line => line.trim()).filter(line => line);
-                    const memberData = {};
-                    lines.forEach(line => {
-                        const [key, value] = line.split(': ').map(item => item.trim());
-                        memberData[key] = value;
+        if (teamList) {
+            teamList.innerHTML = '';
+            fetch('./BRC-Team.txt')
+                .then(response => {
+                    if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
+                    return response.text();
+                })
+                .then(data => {
+                    const members = data.split('\n\n').map(member => {
+                        const lines = member.split('\n').map(line => line.trim()).filter(line => line);
+                        const memberData = {};
+                        lines.forEach(line => {
+                            const [key, value] = line.split(': ').map(item => item.trim());
+                            memberData[key] = value || 'Не указано';
+                        });
+                        return memberData;
                     });
-                    return memberData;
-                });
-                if (members.length === 0) {
-                    teamList.innerHTML = '<p>Команда отсутствует</p>';
-                    return;
-                }
-                members.forEach((member, index) => {
-                    const memberDiv = document.createElement('div');
-                    memberDiv.classList.add('team-member');
-                    memberDiv.innerHTML = `
-                        <h3>${member.Username}</h3>
-                        <p class="team-role">${member.UserDesc}</p>
-                        <a href="${member.UserTelegramContact}" class="contact-icon"></a>
-                    `;
-                    teamList.appendChild(memberDiv);
-                    if (index < members.length - 1) {
-                        const divider = document.createElement('hr');
-                        divider.classList.add('team-divider');
-                        teamList.appendChild(divider);
+                    if (members.length === 0) {
+                        teamList.innerHTML = '<p>Команда отсутствует</p>';
+                        return;
                     }
+                    members.forEach((member, index) => {
+                        const memberDiv = document.createElement('div');
+                        memberDiv.classList.add('team-member');
+                        memberDiv.innerHTML = `
+                            <h3>${member.Username || 'Не указано'}</h3>
+                            <p class="team-role">${member.UserDesc || 'Не указано'}</p>
+                            <a href="${member.UserTelegramContact || '#'}" class="contact-icon"></a>
+                        `;
+                        teamList.appendChild(memberDiv);
+                        if (index < members.length - 1) {
+                            const divider = document.createElement('hr');
+                            divider.classList.add('team-divider');
+                            teamList.appendChild(divider);
+                        }
+                    });
+                    const joinDiv = document.createElement('div');
+                    joinDiv.classList.add('team-join');
+                    joinDiv.innerHTML = 'Хотите присоединиться? <a href="https://t.me/MEOW_MUR920">Напишите нам!</a>';
+                    teamList.appendChild(joinDiv);
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки команды:', error);
+                    teamList.innerHTML = '<p>Ошибка загрузки команды: файл не найден или повреждён</p>';
                 });
-                const joinDiv = document.createElement('div');
-                joinDiv.classList.add('team-join');
-                joinDiv.innerHTML = 'Хотите присоединиться? <a href="https://t.me/MEOW_MUR920">Напишите нам!</a>';
-                teamList.appendChild(joinDiv);
-            })
-            .catch(error => {
-                console.error('Ошибка загрузки команды:', error);
-                teamList.innerHTML = '<p>Ошибка загрузки команды</p>';
-            });
+        }
     });
 
     // Кнопка "Расширения"
@@ -379,8 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('docs-active')) {
@@ -412,45 +440,48 @@ document.addEventListener('DOMContentLoaded', () => {
         extensionsBtn.classList.add('active');
         extensions.classList.remove('hide');
         const extensionsList = document.querySelector('.extensions-list');
-        extensionsList.innerHTML = '';
+        if (extensionsList) {
+            extensionsList.innerHTML = '';
 
-        // Добавляем надпись
-        const header = document.createElement('p');
-        header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
-        header.style.color = 'white';
-        header.style.fontFamily = "'Russo One', sans-serif";
-        header.style.fontSize = '14px';
-        header.style.textAlign = 'center';
-        header.style.textShadow = '1px 1px 3px rgba(0, 0, 0, 0.5)';
-        header.style.marginBottom = '15px';
-        extensionsList.appendChild(header);
+            const header = document.createElement('p');
+            header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
+            header.style.color = 'white';
+            header.style.fontFamily = "'Russo One', sans-serif";
+            header.style.fontSize = '14px';
+            header.style.textAlign = 'center';
+            header.style.textShadow = '1px 1px 3px rgba(0, 0, 0, 0.5)';
+            header.style.marginBottom = '15px';
+            extensionsList.appendChild(header);
 
-        // Добавляем кнопки
-        const extensionsData = [
-            { name: 'Telegram API Pack Edition', link: 'https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition' },
-            { name: 'Scratch API', link: 'https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js' },
-            { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js' }
-        ];
-        extensionsData.forEach(ext => {
-            const extLink = document.createElement('a');
-            extLink.href = ext.link;
-            extLink.classList.add('telegram-link');
-            extLink.textContent = ext.name;
-            extensionsList.appendChild(extLink);
-        });
+            const extensionsData = [
+                { name: 'Telegram API Pack Edition', link: 'https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition' },
+                { name: 'Scratch API', link: 'https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js' },
+                { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js' }
+            ];
+            extensionsData.forEach(ext => {
+                const extLink = document.createElement('a');
+                extLink.href = ext.link;
+                extLink.classList.add('telegram-link');
+                extLink.textContent = ext.name;
+                extensionsList.appendChild(extLink);
+            });
+        }
     });
 
     // Загрузка игр
     const loadGames = (file) => {
         fetch(file)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error(`Файл ${file} не найден`);
+                return response.text();
+            })
             .then(data => {
                 const games = data.split('\n\n').map(game => {
                     const lines = game.split('\n').map(line => line.trim()).filter(line => line);
                     const gameData = {};
                     lines.forEach(line => {
                         const [key, value] = line.split(': ').map(item => item.trim());
-                        gameData[key] = value;
+                        gameData[key] = value || 'Не указано';
                     });
                     return gameData;
                 });
@@ -459,7 +490,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Ошибка загрузки игр:', error);
-                gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
+                if (gamesList) {
+                    gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
+                }
             });
     };
 
@@ -493,6 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Отображение игр
     const displayGames = () => {
+        if (!gamesList) return;
         gamesList.innerHTML = '';
         const start = (currentPage - 1) * gamesPerPage;
         const end = start + gamesPerPage;
@@ -543,8 +577,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('docs-active')) {
@@ -579,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
     });
 
-    // Переключение категорий
+    // Переключение категорий игр
     horrorBtn.addEventListener('click', () => {
         if (currentCategory === 'horror') return;
         currentCategory = 'horror';
@@ -617,6 +651,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Загрузка утилит
+    const loadUtils = () => {
+        utilsList.innerHTML = '';
+
+        const ourUtilsData = [
+            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
+            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
+        ];
+
+        const otherUtilsData = [
+            { name: 'Пример утилиты', link: '#' } // Здесь можно добавить другие утилиты
+        ];
+
+        const utilsData = currentUtilsCategory === 'our' ? ourUtilsData : otherUtilsData;
+
+        if (utilsData.length === 0) {
+            utilsList.innerHTML = '<p>Утилиты не найдены</p>';
+        } else {
+            utilsData.forEach(utility => {
+                const utilItem = document.createElement('div');
+                utilItem.classList.add('utils-item');
+                utilItem.innerHTML = `
+                    <a href="${utility.link}" class="telegram-link">${utility.name}</a>
+                `;
+                utilsList.appendChild(utilItem);
+            });
+        }
+    };
+
     // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -631,8 +694,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
+            if (linksRow) linksRow.classList.remove('telegram-active');
+            if (telegramBtn) telegramBtn.classList.remove('back');
             links.classList.add('hide');
         }
         if (body.classList.contains('docs-active')) {
@@ -663,32 +726,39 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
         utils.classList.remove('hide');
-        const utilsList = document.querySelector('.utils-list');
-        utilsList.innerHTML = '';
+        loadUtils();
+    });
 
-        const utilsData = [
-            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
-            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
-        ];
-        utilsData.forEach(utility => {
-            const utilItem = document.createElement('div');
-            utilItem.classList.add('utils-item');
-            utilItem.innerHTML = `
-                <a href="${utility.link}" class="telegram-link">${utility.name}</a>
-            `;
-            utilsList.appendChild(utilItem);
-        });
+    // Переключение категорий утилит
+    ourUtilsBtn.addEventListener('click', () => {
+        if (currentUtilsCategory === 'our') return;
+        currentUtilsCategory = 'our';
+        ourUtilsBtn.classList.add('active');
+        otherUtilsBtn.classList.remove('active');
+        loadUtils();
+    });
+
+    otherUtilsBtn.addEventListener('click', () => {
+        if (currentUtilsCategory === 'other') return;
+        currentUtilsCategory = 'other';
+        otherUtilsBtn.classList.add('active');
+        ourUtilsBtn.classList.remove('active');
+        loadUtils();
     });
 
     // Кнопки прокрутки
     const scrollTopBtn = document.getElementById('scroll-top');
     const scrollBottomBtn = document.getElementById('scroll-bottom');
 
-    scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
-    scrollBottomBtn.addEventListener('click', () => {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    });
+    if (scrollBottomBtn) {
+        scrollBottomBtn.addEventListener('click', () => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    }
 });
