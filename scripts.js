@@ -22,12 +22,21 @@ fetch('DevelopingGameProc.txt')
         document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
         document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
         document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
+
+        const moreBtn = document.getElementById('game-more-btn');
+        if (gameData.GameMoreLink && gameData.GameMoreLink !== '') {
+            moreBtn.href = gameData.GameMoreLink;
+            moreBtn.style.display = 'inline-block';
+        } else {
+            moreBtn.style.display = 'none';
+        }
     })
     .catch(error => {
         console.error('Ошибка загрузки данных:', error);
         document.getElementById('game-name').textContent = 'Ошибка загрузки';
         document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
         document.getElementById('game-version').textContent = 'Версия: -';
+        document.getElementById('game-more-btn').style.display = 'none';
     });
 
 // Элементы
@@ -130,8 +139,8 @@ function filterAndSortGames() {
     // Фильтрация
     let filteredGames = currentGames.filter(game => {
         const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
-        const matchesYear = year ? game.Year === year : true;
-        const matchesEngine = engine ? game.Engine === engine : true;
+        const matchesYear = year === '' ? true : game.Year === year;
+        const matchesEngine = engine === '' ? true : game.Engine === engine;
         return matchesCategory && matchesYear && matchesEngine;
     });
 
