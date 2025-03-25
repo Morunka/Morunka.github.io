@@ -61,6 +61,8 @@ const otherUtilsBtn = document.getElementById('other-utils-btn');
 const utilsList = document.getElementById('utils-list');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
+const logo = document.getElementById('logo');
+const easterEgg = document.getElementById('easter-egg');
 
 // Глобальные переменные для пагинации и списка игр
 let currentGames = [];
@@ -135,7 +137,7 @@ function filterAndSortGames() {
     if (sortValue === 'name-asc') {
         filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
     } else if (sortValue === 'name-desc') {
-        filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
+        filteredGames.sort((a, b) => b.Name.localeCompare(b.Name));
     } else if (sortValue === 'year-desc') {
         filteredGames.sort((a, b) => parseInt(b.Year.split(' ')[2] || 0) - parseInt(a.Year.split(' ')[2] || 0));
     } else if (sortValue === 'year-asc') {
@@ -213,7 +215,12 @@ function displayUtils(category) {
     }
 }
 
-// Логика кнопок (без изменений, кроме "Игры")
+// Пасхалка: клик на логотип
+logo.addEventListener('click', () => {
+    easterEgg.classList.toggle('active');
+});
+
+// Логика кнопок
 aboutBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('links-active')) {
