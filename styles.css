@@ -565,7 +565,6 @@ h1 {
     margin: 0;
 }
 
-/* Стили для списка игр */
 .games-container {
     display: block;
     visibility: hidden;
@@ -671,6 +670,7 @@ h1 {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-top: 15px;
 }
 
 .page-btn {
@@ -814,7 +814,6 @@ h1 {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Стили для утилит */
 .utils-container {
     display: block;
     visibility: hidden;
@@ -980,73 +979,59 @@ h1 {
     h1 {
         font-size: 36px;
     }
-
     .button-container {
         padding: 10px;
         gap: 10px;
         flex-wrap: wrap;
     }
-
     .button {
         padding: 12px 24px;
         font-size: 16px;
     }
-
     .button.characters {
         font-size: 12px;
     }
-
     .button.license {
         padding: 8px 12px;
         font-size: 12px;
     }
-
     .description-container {
         max-width: 90%;
         padding: 10px;
     }
-
     .links-container, .docs-container, .dev-container, .extensions-container {
         padding: 8px;
         width: 300px;
         height: 60px;
     }
-
     .links-container.telegram-active {
         width: 350px;
         height: auto;
         min-height: 150px;
         padding: 15px;
     }
-
     .team-container {
         width: 300px;
         max-height: 300px;
         padding: 10px;
     }
-
     .games-container, .utils-container {
         width: 300px;
         padding: 10px;
     }
-
     .game-card {
         min-height: 180px;
     }
-
     .description {
         font-size: 14px;
     }
-
     .link-icon {
         width: 40px;
         height: 40px;
     }
-
     .telegram.back {
         transform: translateX(0);
     }
-
     .active .header-container,
     .links-active .header-container,
     .docs-active .header-container,
@@ -1057,65 +1042,51 @@ h1 {
     .utils-active .header-container {
         top: 5%;
     }
-
     .scroll-button {
         width: 25px;
         height: 25px;
         font-size: 14px;
     }
-
     .dev-info h2 {
         font-size: 18px;
     }
-
     .dev-info p {
         font-size: 12px;
     }
-
     .team-member h3 {
         font-size: 16px;
     }
-
     .team-member p {
         font-size: 12px;
     }
-
     .team-member .contact-icon {
         width: 25px;
         height: 25px;
     }
-
     .team-join {
         font-size: 10px;
     }
-
     .game-title {
         font-size: 16px;
     }
-
     .game-version, .game-engine {
         font-size: 10px;
     }
-
     .game-description {
         font-size: 12px;
     }
-
     .game-play-btn {
         font-size: 12px;
         padding: 6px 12px;
     }
-
     .game-year {
         font-size: 10px;
     }
-
     .filter-input, .filter-select {
         font-size: 12px;
         padding: 6px;
         width: 100px;
     }
-
     .utils-item p {
         font-size: 14px;
     }
@@ -1125,130 +1096,103 @@ h1 {
     h1 {
         font-size: 28px;
     }
-
     .button-container {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
     }
-
     .button {
         padding: 10px 18px;
         font-size: 14px;
     }
-
     .button.characters {
         font-size: 10px;
     }
-
     .button.license {
         padding: 6px 10px;
         font-size: 10px;
     }
-
     .description {
         font-size: 12px;
     }
-
     .link-icon {
         width: 35px;
         height: 35px;
     }
-
     .telegram.back {
         transform: translateX(0);
     }
-
     .footer {
         font-size: 10px;
         padding: 10px;
     }
-
     .links-container, .docs-container, .dev-container, .extensions-container {
         width: 250px;
         height: 55px;
     }
-
     .links-container.telegram-active {
         width: 300px;
         height: auto;
         min-height: 120px;
         padding: 10px;
     }
-
     .team-container {
         width: 250px;
         max-height: 250px;
         padding: 8px;
     }
-
     .games-container, .utils-container {
         width: 250px;
         padding: 8px;
     }
-
     .game-card {
         min-height: 160px;
     }
-
     .scroll-button {
         width: 20px;
         height: 20px;
         font-size: 12px;
     }
-
     .dev-info h2 {
         font-size: 16px;
     }
-
     .dev-info p {
         font-size: 10px;
     }
-
     .team-member h3 {
         font-size: 14px;
     }
-
     .team-member p {
         font-size: 10px;
     }
-
     .team-member .contact-icon {
         width: 20px;
         height: 20px;
     }
-
     .team-join {
         font-size: 8px;
     }
-
     .game-title {
         font-size: 14px;
     }
-
     .game-version, .game-engine {
         font-size: 8px;
     }
-
     .game-description {
         font-size: 10px;
     }
-
     .game-play-btn {
         font-size: 10px;
         padding: 5px 10px;
     }
-
     .game-year {
         font-size: 8px;
     }
-
     .filter-input, .filter-select {
         font-size: 10px;
         padding: 5px;
         width: 90px;
     }
-
     .utils-item p {
         font-size: 12px;
     }
