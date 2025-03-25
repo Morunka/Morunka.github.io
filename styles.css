@@ -109,6 +109,7 @@ h1 {
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin: 20px 0;
+    cursor: pointer; /* Делаем логотип кликабельным */
 }
 
 .header-container {
@@ -975,6 +976,25 @@ h1 {
     width: 100%;
 }
 
+.easter-egg {
+    position: fixed;
+    top: 10px;
+    right: -300px; /* Скрываем за правым краем */
+    z-index: 10000; /* Поверх всех элементов */
+    transition: right 0.5s ease-in-out;
+}
+
+.easter-egg.active {
+    right: 10px; /* Выезжает слева */
+}
+
+.easter-egg img {
+    width: 200px; /* Размер фото, можно настроить */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 36px;
@@ -1090,6 +1110,15 @@ h1 {
     .utils-item p {
         font-size: 14px;
     }
+    .easter-egg {
+        right: -150px; /* Меньший отступ для меньших экранов */
+    }
+    .easter-egg.active {
+        right: 10px;
+    }
+    .easter-egg img {
+        width: 150px; /* Уменьшаем размер фото */
+    }
 }
 
 @media (max-width: 480px) {
@@ -1195,5 +1224,14 @@ h1 {
     }
     .utils-item p {
         font-size: 12px;
+    }
+    .easter-egg {
+        right: -120px;
+    }
+    .easter-egg.active {
+        right: 5px;
+    }
+    .easter-egg img {
+        width: 120px;
     }
 }
