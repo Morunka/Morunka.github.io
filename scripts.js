@@ -66,9 +66,6 @@ const nextPageBtn = document.getElementById('next-page');
 const pageInfo = document.getElementById('page-info');
 const utilsBtn = document.getElementById('utils-btn');
 const utils = document.getElementById('utils');
-const ourUtilsBtn = document.getElementById('our-utils-btn');
-const otherUtilsBtn = document.getElementById('other-utils-btn');
-const utilsList = document.getElementById('utils-list');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
 
@@ -207,25 +204,6 @@ function loadGames(file) {
             console.error(`Ошибка загрузки данных из ${file}:`, error);
             gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
         });
-}
-
-// Функция для отображения утилит
-function displayUtils(category) {
-    utilsList.innerHTML = '';
-    if (category === 'our') {
-        const utilsData = [
-            { name: 'UNMiner Tool' },
-            { name: 'TS3-Music-Downloader' }
-        ];
-        utilsData.forEach(util => {
-            const utilItem = document.createElement('div');
-            utilItem.classList.add('utils-item');
-            utilItem.innerHTML = `<p>${util.name}</p>`;
-            utilsList.appendChild(utilItem);
-        });
-    } else {
-        utilsList.innerHTML = '<p>Пока здесь ничего нет.</p>';
-    }
 }
 
 // Логика кнопки "О студии"
@@ -670,7 +648,6 @@ utilsBtn.addEventListener('click', (e) => {
         utils.classList.add('hide');
     } else {
         utils.classList.remove('hide');
-        displayUtils('our');
     }
 });
 
@@ -713,17 +690,4 @@ nextPageBtn.addEventListener('click', () => {
         currentPage++;
         filterAndSortGames();
     }
-});
-
-// Логика кнопок категорий утилит
-ourUtilsBtn.addEventListener('click', () => {
-    ourUtilsBtn.classList.add('active');
-    otherUtilsBtn.classList.remove('active');
-    displayUtils('our');
-});
-
-otherUtilsBtn.addEventListener('click', () => {
-    otherUtilsBtn.classList.add('active');
-    ourUtilsBtn.classList.remove('active');
-    displayUtils('other');
 });
