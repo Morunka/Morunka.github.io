@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BY ROLII STUDIO</title>
+    <title>By ROlil Studio</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="preload" href="BRC-Background.jpg" as="image">
 </head>
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
-
-    <div class="scroll-buttons">
-        <button class="scroll-button" onclick="window.scrollBy(0, -100)">↑</button>
-        <button class="scroll-button" onclick="window.scrollBy(0, 100)">↓</button>
-    </div>
-
     <div class="header-container">
-        <h1>BY ROLII STUDIO</h1>
+        <h1>By ROlil Studio</h1>
         <div class="button-container">
             <a href="#" class="button" id="about-btn">О студии</a>
             <a href="#" class="button" id="links-btn">Связи</a>
@@ -30,90 +26,84 @@
             <a href="#" class="button" id="utils-btn">Утилиты</a>
         </div>
     </div>
-
-    <div class="description-container hide" id="description">
-        <p class="description">
-            <strong>BY ROLII STUDIO</strong> — это команда разработчиков, создающая игры и утилиты с 2023 года. Мы вдохновляемся такими играми, как FNAF и Poppy Playtime, и стремимся подарить игрокам уникальный опыт. Присоединяйтесь к нам, чтобы узнать больше о наших проектах!
-        </p>
+    <div class="description-container" id="description">
+        <p class="description"><strong>By ROlil Studio</strong> — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на <strong>FNaF</strong>. Название <strong>By ROlil</strong> отражает мою личную роль как создателя (ник <strong>ROlil</strong> был моим старым игровым именем), а символ ="= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат.</p>
     </div>
-
-    <div class="links-container hide" id="links">
+    <div class="links-container" id="links">
         <div class="links-row">
-            <a href="https://gamejolt.com/@BY_ROLII_STUDIO" class="link-icon gamejolt" aria-label="GameJolt"></a>
-            <a href="https://www.kogama.com/profile/6646149/" class="link-icon kogama" aria-label="Kogama"></a>
-            <a href="https://www.youtube.com/@BY_ROLII_STUDIO" class="link-icon youtube" aria-label="YouTube"></a>
+            <a href="https://gamejolt.com/@By-ROlil-CO" class="link-icon gamejolt" aria-label="GameJolt"></a>
+            <a href="https://www.kogama.com/profile/667438867/" class="link-icon kogama" aria-label="Kogama"></a>
+            <a href="https://www.youtube.com/@FNABRC" class="link-icon youtube" aria-label="Youtube"></a>
             <a href="#" class="link-icon telegram" id="telegram-btn" aria-label="Telegram"></a>
-            <a href="https://scratch.mit.edu/users/BY_ROLII_STUDIO/" class="link-icon scratch" aria-label="Scratch"></a>
+            <a href="https://scratch.mit.edu/users/By-ROlil-CO/" class="link-icon scratch" aria-label="Scratch"></a>
             <div class="telegram-links">
-                <a href="https://t.me/BY_ROLII_STUDIO" class="telegram-link">Персонал</a>
-                <a href="https://t.me/FNAS" class="telegram-link">FNAS</a>
+                <a href="https://t.me/By_RORlil" class="button telegram-link by-rolil">By ROlil Studio</a>
+                <a href="https://t.me/CharactersByRORlilCo" class="button telegram-link characters">Персонажи</a>
+                <a href="https://t.me/FNASBF" class="button telegram-link fnas">FNaS</a>
             </div>
         </div>
     </div>
-
-    <div class="docs-container hide" id="docs">
+    <div class="docs-container" id="docs">
         <div class="docs-row">
-            <a href="license.html" class="button license">Лицензия</a>
+            <a href="https://telegra.ph/Usloviya-polzovatelskogo-soglasheniya-ROlil-CO-01-29" class="button license">Лицензионное соглашение</a>
         </div>
     </div>
-
-    <div class="dev-container hide" id="dev">
+    <div class="dev-container" id="dev">
         <div class="dev-info">
-            <h2 id="game-name">Название игры</h2>
-            <p id="game-dev-progress">Прогресс: 0%</p>
-            <p id="game-version">Версия: 0.0</p>
-            <a href="#" class="button" id="game-more-btn" style="display: none;">Больше</a>
+            <h2 id="game-name"></h2>
+            <p id="game-dev-progress"></p>
+            <p id="game-version"></p>
         </div>
     </div>
-
-    <div class="team-container hide" id="team">
-        <div class="team-list" id="team-list"></div>
-        <p class="team-join">Хотите в команду? <a href="https://t.me/BY_ROLII_STUDIO">Пишите нам!</a></p>
+    <div class="team-container" id="team">
+        <div class="team-list" id="team-list">
+        </div>
+        <p class="team-join">Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!</p>
     </div>
-
-    <div class="extensions-container hide" id="extensions">
+    <div class="extensions-container" id="extensions">
         <div class="extensions-list">
-            <a href="https://github.com/BY-ROLII-STUDIO/BRC-Extension" class="extension-link">BRC Extension</a>
-            <a href="https://github.com/BY-ROLII-STUDIO/BRC-Extension-2" class="extension-link">BRC Extension 2</a>
+            <a href="https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition" class="extension-link">Telegram API Pack Edition</a>
+            <p>Scratch API</p>
+            <p>Gemini API</p>
         </div>
     </div>
-
-    <div class="games-container hide" id="games">
+    <div class="games-container" id="games">
         <div class="games-header">
             <button class="category-btn active" id="horror-btn">Хоррор</button>
             <button class="category-btn" id="others-btn">Прочее</button>
-            <input type="text" class="filter-input" id="year-filter" placeholder="Год выпуска">
-            <select class="filter-select" id="engine-filter">
+            <input type="text" id="year-filter" class="filter-input" placeholder="Год выпуска">
+            <select id="engine-filter" class="filter-select">
                 <option value="">Все движки</option>
                 <option value="Kogama">Kogama</option>
                 <option value="Scratch">Scratch</option>
             </select>
-            <select class="filter-select" id="sort-games">
-                <option value="name-asc">По имени (А-Я)</option>
-                <option value="name-desc">По имени (Я-А)</option>
-                <option value="year-desc">По году (новые)</option>
-                <option value="year-asc">По году (старые)</option>
+            <select id="sort-games" class="filter-select">
+                <option value="name-asc">Алфавит (A-Z)</option>
+                <option value="name-desc">Алфавит (Z-A)</option>
+                <option value="year-desc">Дата выпуска (новые)</option>
+                <option value="year-asc">Дата выпуска (старые)</option>
             </select>
+            <div class="pagination">
+                <button id="prev-page" class="page-btn">Назад</button>
+                <span id="page-info" class="page-info"></span>
+                <button id="next-page" class="page-btn">Вперёд</button>
+            </div>
         </div>
-        <div class="games-list" id="games-list">
-            <p>Упс.. По вашему запросу ничего не было найдено.</p>
-        </div>
-        <div class="pagination">
-            <button class="page-btn" id="prev-page">Назад</button>
-            <span class="page-info" id="page-info">Страница 1 из 1</span>
-            <button class="page-btn" id="next-page">Вперёд</button>
-        </div>
+        <div class="games-list" id="games-list"></div>
     </div>
-
-    <div class="utils-container hide" id="utils">
-        <div class="utils-list" id="utils-list">
-            <p>Пока здесь ничего нет.</p>
+    <div class="utils-container" id="utils">
+        <div class="utils-header">
+            <button class="category-btn active" id="our-utils-btn">Наши утилиты</button>
+            <button class="category-btn" id="other-utils-btn">Прочее</button>
         </div>
+        <div class="utils-list" id="utils-list"></div>
     </div>
+    <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
 
-    <footer class="footer">
-        © 2023-2025 BY ROLII STUDIO. Все права защищены.
-    </footer>
+    <div class="scroll-buttons">
+        <button class="scroll-button scroll-up" aria-label="Прокрутить вверх">↑</button>
+        <button class="scroll-button scroll-down" aria-label="Прокрутить вниз">↓</button>
+    </div>
 
     <script src="scripts.js"></script>
 </body>
