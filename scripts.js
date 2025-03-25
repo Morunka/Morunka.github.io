@@ -275,7 +275,8 @@ teamBtn.addEventListener('click', (e) => {
                     members.forEach(member => {
                         const memberDiv = document.createElement('div');
                         memberDiv.classList.add('team-member');
-                        const telegramLink = member.Telegram ? `https://t.me/${member.Telegram.replace('@', '')}` : '#';
+                        const telegramUsername = member.Telegram ? member.Telegram.replace('@', '') : '';
+                        const telegramLink = telegramUsername ? `https://t.me/${telegramUsername}` : '#';
                         memberDiv.innerHTML = `
                             <h3>${member.Username}</h3>
                             <p>${member.Description || 'Описание отсутствует'}</p>
