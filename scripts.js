@@ -18,7 +18,6 @@ fetch('DevelopingGameProc.txt')
                 gameData[key.trim()] = value.trim().replace(/"/g, '');
             }
         });
-
         document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
         document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
         document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
@@ -113,7 +112,6 @@ function displayGames(gamesData) {
         });
     }
 
-    // Обновляем информацию о страницах
     const totalPages = Math.ceil(gamesData.length / gamesPerPage);
     pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
     prevPageBtn.disabled = currentPage === 1;
@@ -127,26 +125,23 @@ function filterAndSortGames() {
     const category = horrorBtn.classList.contains('active') ? 'horror' : 'others';
     const sortValue = sortGames.value;
 
-    // Фильтрация
     let filteredGames = currentGames.filter(game => {
         const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
-        const matchesYear = year ? game.Year === year : true;
+        const matchesYear = year ? game.Year.includes(year) : true;
         const matchesEngine = engine ? game.Engine === engine : true;
         return matchesCategory && matchesYear && matchesEngine;
     });
 
-    // Сортировка
     if (sortValue === 'name-asc') {
         filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
     } else if (sortValue === 'name-desc') {
         filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
     } else if (sortValue === 'year-desc') {
-        filteredGames.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+        filteredGames.sort((a, b) => parseInt(b.Year.split(' ')[2] || 0) - parseInt(a.Year.split(' ')[2] || 0));
     } else if (sortValue === 'year-asc') {
-        filteredGames.sort((a, b) => parseInt(a.Year) - parseInt(a.Year));
+        filteredGames.sort((a, b) => parseInt(a.Year.split(' ')[2] || 0) - parseInt(b.Year.split(' ')[2] || 0));
     }
 
-    // Сбрасываем страницу на первую после фильтрации/сортировки
     currentPage = 1;
     displayGames(filteredGames);
 }
@@ -191,7 +186,6 @@ function loadGames(file) {
             }
 
             currentGames = gamesData;
-            currentPage = 1;
             filterAndSortGames();
         })
         .catch(error => {
@@ -219,7 +213,7 @@ function displayUtils(category) {
     }
 }
 
-// Логика кнопки "О студии"
+// Логика кнопок (без изменений, кроме "Игры")
 aboutBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('links-active')) {
@@ -268,7 +262,6 @@ aboutBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки "Связи"
 linksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -317,7 +310,6 @@ linksBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки "Документы"
 docsBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -366,7 +358,6 @@ docsBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки "Разработка"
 devBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -415,7 +406,6 @@ devBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки "Команда"
 teamBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -466,7 +456,6 @@ teamBtn.addEventListener('click', (e) => {
             .then(data => {
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '';
-
                 const members = [];
                 let currentMember = {};
                 const lines = data.split('\n').filter(line => line.trim() !== '');
@@ -490,7 +479,6 @@ teamBtn.addEventListener('click', (e) => {
                 if (Object.keys(currentMember).length > 0) {
                     members.push(currentMember);
                 }
-
                 if (members.length === 0) {
                     teamList.innerHTML = '<p>Данные о команде отсутствуют.</p>';
                 } else {
@@ -510,13 +498,11 @@ teamBtn.addEventListener('click', (e) => {
             })
             .catch(error => {
                 console.error('Ошибка загрузки данных о команде:', error);
-                const teamList = document.getElementById('team-list');
-                teamList.innerHTML = '<p>Ошибка загрузки данных о команде</p>';
+                document.getElementById('team-list').innerHTML = '<p>Ошибка загрузки данных о команде</p>';
             });
     }
 });
 
-// Логика кнопки "Расширения"
 extensionsBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -565,7 +551,6 @@ extensionsBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки "Игры"
 gamesBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -615,7 +600,6 @@ gamesBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки "Утилиты"
 utilsBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (body.classList.contains('active')) {
@@ -665,14 +649,12 @@ utilsBtn.addEventListener('click', (e) => {
     }
 });
 
-// Логика кнопки Telegram
 telegramBtn.addEventListener('click', (e) => {
     e.preventDefault();
     linksRow.classList.toggle('telegram-active');
     telegramBtn.classList.toggle('back');
 });
 
-// Логика кнопок категорий игр
 horrorBtn.addEventListener('click', () => {
     horrorBtn.classList.add('active');
     othersBtn.classList.remove('active');
@@ -685,12 +667,10 @@ othersBtn.addEventListener('click', () => {
     filterAndSortGames();
 });
 
-// Логика фильтров и сортировки
 yearFilter.addEventListener('input', filterAndSortGames);
 engineFilter.addEventListener('change', filterAndSortGames);
 sortGames.addEventListener('change', filterAndSortGames);
 
-// Логика пагинации
 prevPageBtn.addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage--;
@@ -706,7 +686,6 @@ nextPageBtn.addEventListener('click', () => {
     }
 });
 
-// Логика кнопок категорий утилит
 ourUtilsBtn.addEventListener('click', () => {
     ourUtilsBtn.classList.add('active');
     otherUtilsBtn.classList.remove('active');
