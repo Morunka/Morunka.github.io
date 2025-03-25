@@ -99,16 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
         utilsBtn.classList.remove('active');
     };
 
-    // Автоматическое открытие вкладки "О студии"
+    // Функция для открытия раздела "О студии"
     const openAboutSection = () => {
         closeOtherMenus('active');
         body.classList.add('active');
         aboutBtn.classList.add('active');
         description.classList.remove('hide');
+        description.style.visibility = 'visible';
+        description.style.opacity = '1';
+        description.style.top = '50%';
     };
 
     // Открываем "О студии" сразу после загрузки
-    openAboutSection();
+    setTimeout(openAboutSection, 0);
 
     // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
@@ -129,6 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('links-active');
         linksBtn.classList.add('active');
         links.classList.remove('hide');
+        links.style.visibility = 'visible';
+        links.style.opacity = '1';
+        links.style.top = '50%';
     });
 
     // Исправляем подменю Telegram
@@ -140,7 +146,17 @@ document.addEventListener('DOMContentLoaded', () => {
             telegramBtn.classList.toggle('back');
             const telegramLinks = linksRow.querySelector('.telegram-links');
             if (telegramLinks) {
-                telegramLinks.style.display = isActive ? 'none' : 'flex';
+                if (isActive) {
+                    telegramLinks.style.display = 'none';
+                    links.style.width = '320px';
+                    links.style.height = '70px';
+                } else {
+                    telegramLinks.style.display = 'flex';
+                    links.style.width = '600px';
+                    links.style.height = 'auto';
+                    links.style.minHeight = '200px';
+                    links.style.padding = '20px';
+                }
             } else {
                 console.warn('Элемент .telegram-links не найден');
             }
@@ -159,6 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('docs-active');
         docsBtn.classList.add('active');
         docs.classList.remove('hide');
+        docs.style.visibility = 'visible';
+        docs.style.opacity = '1';
+        docs.style.top = '50%';
     });
 
     // Кнопка "Разработка"
@@ -171,6 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('dev-active');
         devBtn.classList.add('active');
         dev.classList.remove('hide');
+        dev.style.visibility = 'visible';
+        dev.style.opacity = '1';
+        dev.style.top = '50%';
         fetch('./DevelopingGameProc.txt')
             .then(response => {
                 if (!response.ok) throw new Error('Файл DevelopingGameProc.txt не найден');
@@ -213,6 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('team-active');
         teamBtn.classList.add('active');
         team.classList.remove('hide');
+        team.style.visibility = 'visible';
+        team.style.opacity = '1';
+        team.style.top = '50%';
         const teamList = document.querySelector('.team-list');
         if (teamList) {
             teamList.innerHTML = ''; // Очищаем список перед добавлением
@@ -270,6 +295,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('extensions-active');
         extensionsBtn.classList.add('active');
         extensions.classList.remove('hide');
+        extensions.style.visibility = 'visible';
+        extensions.style.opacity = '1';
+        extensions.style.top = '50%';
         const extensionsList = document.querySelector('.extensions-list');
         if (extensionsList) {
             extensionsList.innerHTML = '';
@@ -409,6 +437,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
+        games.style.visibility = 'visible';
+        games.style.opacity = '1';
+        games.style.top = '50%';
         currentPage = 1;
         loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
     });
@@ -501,6 +532,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
         utils.classList.remove('hide');
+        utils.style.visibility = 'visible';
+        utils.style.opacity = '1';
+        utils.style.top = '50%';
         loadUtils();
     });
 
