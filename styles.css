@@ -469,6 +469,22 @@ h1 {
     margin: 0;
 }
 
+.dev-info .more-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dev-info .more-btn:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
 /* Команда */
 .team-container {
     display: block;
@@ -874,7 +890,7 @@ h1 {
 
 .game-play-btn:hover {
     background-color: #555;
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .game-year {
@@ -882,6 +898,22 @@ h1 {
     font-family: 'Russo One', sans-serif;
     font-size: 12px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Анимация для списка игр */
+.games-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Утилиты */
@@ -963,6 +995,31 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+.other-utils-text {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.other-utils-text .telegram-link {
+    color: #0ff;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: color 0.3s ease;
+}
+
+.other-utils-text .telegram-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Анимация для списка утилит */
+.utils-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Активные состояния */
@@ -1172,6 +1229,10 @@ h1 {
     .dev-info p {
         font-size: 12px;
     }
+    .dev-info .more-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
     .team-member h3 {
         font-size: 16px;
     }
@@ -1225,6 +1286,9 @@ h1 {
     .extensions-list .telegram-link {
         width: 120px;
         padding: 8px;
+        font-size: 12px;
+    }
+    .other-utils-text {
         font-size: 12px;
     }
     .footer {
@@ -1300,6 +1364,10 @@ h1 {
     .dev-info p {
         font-size: 10px;
     }
+    .dev-info .more-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
     .team-member h3 {
         font-size: 14px;
     }
@@ -1353,6 +1421,9 @@ h1 {
     .extensions-list .telegram-link {
         width: 100px;
         padding: 6px;
+        font-size: 10px;
+    }
+    .other-utils-text {
         font-size: 10px;
     }
     .footer {
