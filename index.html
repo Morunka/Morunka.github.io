@@ -77,6 +77,17 @@
                 <option value="Kogama">Kogama</option>
                 <option value="Scratch">Scratch</option>
             </select>
+            <select id="sort-games" class="filter-select">
+                <option value="name-asc">Алфавит (A-Z)</option>
+                <option value="name-desc">Алфавит (Z-A)</option>
+                <option value="year-desc">Дата выпуска (новые)</option>
+                <option value="year-asc">Дата выпуска (старые)</option>
+            </select>
+            <div class="pagination">
+                <button id="prev-page" class="page-btn">Назад</button>
+                <span id="page-info" class="page-info"></span>
+                <button id="next-page" class="page-btn">Вперёд</button>
+            </div>
         </div>
         <div class="games-list" id="games-list"></div>
     </div>
