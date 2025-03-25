@@ -94,7 +94,7 @@ linksBtn.addEventListener('click', (e) => {
         aboutBtn.classList.remove('active');
         description.classList.add('hide');
     }
-    if (body.classList.contains('docs-active')) {
+    if (body.classList.contains('docs-active')) {
         body.classList.remove('docs-active');
         docsBtn.classList.remove('active');
         docs.classList.add('hide');
