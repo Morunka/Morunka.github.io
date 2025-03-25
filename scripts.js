@@ -70,49 +70,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // Автоматическое открытие вкладки "О студии"
     aboutBtn.click();
 
+    // Функция для закрытия всех меню, кроме указанного
+    const closeOtherMenus = (activeClass) => {
+        const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
+        menuClasses.forEach(cls => {
+            if (cls !== activeClass) {
+                body.classList.remove(cls);
+            }
+        });
+
+        // Скрываем все контейнеры
+        description.classList.add('hide');
+        links.classList.add('hide');
+        if (linksRow) linksRow.classList.remove('telegram-active');
+        if (telegramBtn) telegramBtn.classList.remove('back');
+        docs.classList.add('hide');
+        dev.classList.add('hide');
+        team.classList.add('hide');
+        extensions.classList.add('hide');
+        games.classList.add('hide');
+        utils.classList.add('hide');
+
+        // Убираем активное состояние у всех кнопок
+        aboutBtn.classList.remove('active');
+        linksBtn.classList.remove('active');
+        docsBtn.classList.remove('active');
+        devBtn.classList.remove('active');
+        teamBtn.classList.remove('active');
+        extensionsBtn.classList.remove('active');
+        gamesBtn.classList.remove('active');
+        utilsBtn.classList.remove('active');
+    };
+
     // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('active');
         body.classList.add('active');
         aboutBtn.classList.add('active');
         description.classList.remove('hide');
@@ -122,43 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('links-active');
         body.classList.add('links-active');
         linksBtn.classList.add('active');
         links.classList.remove('hide');
@@ -178,45 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('docs-active');
         body.classList.add('docs-active');
         docsBtn.classList.add('active');
         docs.classList.remove('hide');
@@ -226,45 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('dev-active');
         body.classList.add('dev-active');
         devBtn.classList.add('active');
         dev.classList.remove('hide');
@@ -302,45 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('team-active');
         body.classList.add('team-active');
         teamBtn.classList.add('active');
         team.classList.remove('hide');
@@ -397,45 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('extensions-active');
         body.classList.add('extensions-active');
         extensionsBtn.classList.add('active');
         extensions.classList.remove('hide');
@@ -567,45 +385,9 @@ document.addEventListener('DOMContentLoaded', () => {
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
+        closeOtherMenus('games-active');
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
@@ -661,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         const otherUtilsData = [
-            { name: 'Пример утилиты', link: '#' } // Здесь можно добавить другие утилиты
+            { name: 'Пример утилиты', link: '#' }
         ];
 
         const utilsData = currentUtilsCategory === 'our' ? ourUtilsData : otherUtilsData;
@@ -684,45 +466,9 @@ document.addEventListener('DOMContentLoaded', () => {
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) {
-            return;
+            return; // Ничего не делаем, если меню уже открыто
         }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            if (linksRow) linksRow.classList.remove('telegram-active');
-            if (telegramBtn) telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
+        closeOtherMenus('utils-active');
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
         utils.classList.remove('hide');
