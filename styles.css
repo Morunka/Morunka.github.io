@@ -1,4 +1,3 @@
-/* Прелоадер */
 #preloader {
     position: fixed;
     top: 0;
@@ -10,13 +9,12 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease, top 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 #preloader.hidden {
     opacity: 0;
     pointer-events: none;
-    top: -100%;
 }
 
 .loader {
@@ -33,44 +31,6 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Логотип */
-#logo {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1002;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-#logo a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2em;
-    font-family: 'Orbitron', sans-serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-/* Пасхалка */
-#easter-egg {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1001;
-}
-
-#easter-egg.active {
-    display: block;
-}
-
-#easter-egg img {
-    max-width: 200px;
-}
-
-/* Общие стили */
 body {
     background-image: url('BRC-Background.jpg');
     background-size: 50%;
@@ -90,7 +50,6 @@ body {
 
 body.loaded {
     opacity: 1;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 body::-webkit-scrollbar {
@@ -113,10 +72,18 @@ body::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(45deg, #0ff, #00f);
 }
 
-/* Кнопки прокрутки */
-.scroll-up, .scroll-down {
+.scroll-buttons {
     position: fixed;
     right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1000;
+}
+
+.scroll-button {
     width: 30px;
     height: 30px;
     background-color: rgba(255, 255, 255, 0.3);
@@ -126,22 +93,13 @@ body::-webkit-scrollbar-thumb:hover {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    z-index: 1000;
 }
 
-.scroll-up {
-    bottom: 70px;
-}
-
-.scroll-down {
-    bottom: 20px;
-}
-
-.scroll-up:hover, .scroll-down:hover {
+.scroll-button:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.scroll-up:active, .scroll-down:active {
+.scroll-button:active {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -151,6 +109,7 @@ h1 {
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin: 20px 0;
+    cursor: pointer;
 }
 
 .header-container {
@@ -165,9 +124,6 @@ h1 {
 }
 
 .button-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 10px;
@@ -175,7 +131,6 @@ h1 {
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
-    z-index: 1000;
 }
 
 .button {
@@ -216,10 +171,9 @@ h1 {
 .description-container {
     display: block;
     visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
+    background color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.3);
     max-width: 600px;
     position: absolute;
     top: 100%;
@@ -255,7 +209,6 @@ h1 {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -293,12 +246,6 @@ h1 {
     flex-wrap: nowrap;
     position: relative;
     width: 100%;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.links-row.telegram-active {
-    transform: translateX(-20px);
-    opacity: 0;
 }
 
 .link-icon {
@@ -363,18 +310,10 @@ h1 {
     box-sizing: border-box;
     max-width: 100%;
     padding: 10px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .links-row.telegram-active .telegram-links {
     display: flex;
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.links-row:not(.telegram-active) .telegram-links {
-    transform: translateX(-20px);
-    opacity: 0;
 }
 
 .links-row.telegram-active .telegram-link {
@@ -404,7 +343,6 @@ h1 {
     background-color: rgba(255, 255, 250, 0.3);
     padding: 10px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -440,7 +378,6 @@ h1 {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -489,7 +426,6 @@ h1 {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -584,7 +520,6 @@ h1 {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -631,14 +566,12 @@ h1 {
     margin: 0;
 }
 
-/* Стили для списка игр */
 .games-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -738,6 +671,7 @@ h1 {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-top: 15px;
 }
 
 .page-btn {
@@ -881,14 +815,12 @@ h1 {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Стили для утилит */
 .utils-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -1044,89 +976,82 @@ h1 {
     width: 100%;
 }
 
+.easter-egg {
+    position: fixed;
+    top: 10px;
+    right: -300px;
+    z-index: 10000;
+    transition: right 0.5s ease-in-out;
+}
+
+.easter-egg.active {
+    right: 10px;
+}
+
+.easter-egg img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
 @media (max-width: 768px) {
-    #logo {
-        font-size: 1em;
-        top: 10px;
-        left: 10px;
+    h1 {
+        font-size: 36px;
     }
-
-    #easter-egg img {
-        max-width: 150px;
-    }
-
     .button-container {
-        top: 60px;
-        right: 10px;
         padding: 10px;
         gap: 10px;
         flex-wrap: wrap;
     }
-
     .button {
         padding: 12px 24px;
         font-size: 16px;
     }
-
     .button.characters {
         font-size: 12px;
     }
-
     .button.license {
         padding: 8px 12px;
         font-size: 12px;
     }
-
-    h1 {
-        font-size: 36px;
-    }
-
     .description-container {
         max-width: 90%;
         padding: 10px;
     }
-
     .links-container, .docs-container, .dev-container, .extensions-container {
         padding: 8px;
         width: 300px;
         height: 60px;
     }
-
     .links-container.telegram-active {
         width: 350px;
         height: auto;
         min-height: 150px;
         padding: 15px;
     }
-
     .team-container {
         width: 300px;
         max-height: 300px;
         padding: 10px;
     }
-
     .games-container, .utils-container {
         width: 300px;
         padding: 10px;
     }
-
     .game-card {
         min-height: 180px;
     }
-
     .description {
         font-size: 14px;
     }
-
     .link-icon {
         width: 40px;
         height: 40px;
     }
-
     .telegram.back {
         transform: translateX(0);
     }
-
     .active .header-container,
     .links-active .header-container,
     .docs-active .header-container,
@@ -1137,67 +1062,62 @@ h1 {
     .utils-active .header-container {
         top: 5%;
     }
-
-    .scroll-up, .scroll-down {
+    .scroll-button {
         width: 25px;
         height: 25px;
         font-size: 14px;
     }
-
     .dev-info h2 {
         font-size: 18px;
     }
-
     .dev-info p {
         font-size: 12px;
     }
-
     .team-member h3 {
         font-size: 16px;
     }
-
     .team-member p {
         font-size: 12px;
     }
-
     .team-member .contact-icon {
         width: 25px;
         height: 25px;
     }
-
     .team-join {
         font-size: 10px;
     }
-
     .game-title {
         font-size: 16px;
     }
-
     .game-version, .game-engine {
         font-size: 10px;
     }
-
     .game-description {
         font-size: 12px;
     }
-
     .game-play-btn {
         font-size: 12px;
         padding: 6px 12px;
     }
-
     .game-year {
         font-size: 10px;
     }
-
     .filter-input, .filter-select {
         font-size: 12px;
         padding: 6px;
         width: 100px;
     }
-
     .utils-item p {
         font-size: 14px;
+    }
+    .easter-egg {
+        right: -150px;
+    }
+    .easter-egg.active {
+        right: 10px;
+    }
+    .easter-egg img {
+        width: 150px;
     }
 }
 
@@ -1205,131 +1125,113 @@ h1 {
     h1 {
         font-size: 28px;
     }
-
     .button-container {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
     }
-
     .button {
         padding: 10px 18px;
         font-size: 14px;
     }
-
     .button.characters {
         font-size: 10px;
     }
-
     .button.license {
         padding: 6px 10px;
         font-size: 10px;
     }
-
     .description {
         font-size: 12px;
     }
-
     .link-icon {
         width: 35px;
         height: 35px;
     }
-
     .telegram.back {
         transform: translateX(0);
     }
-
     .footer {
         font-size: 10px;
         padding: 10px;
     }
-
     .links-container, .docs-container, .dev-container, .extensions-container {
         width: 250px;
         height: 55px;
     }
-
     .links-container.telegram-active {
         width: 300px;
         height: auto;
         min-height: 120px;
         padding: 10px;
     }
-
     .team-container {
         width: 250px;
         max-height: 250px;
         padding: 8px;
     }
-
     .games-container, .utils-container {
         width: 250px;
         padding: 8px;
     }
-
     .game-card {
         min-height: 160px;
     }
-
-    .scroll-up, .scroll-down {
+    .scroll-button {
         width: 20px;
         height: 20px;
         font-size: 12px;
     }
-
     .dev-info h2 {
         font-size: 16px;
     }
-
     .dev-info p {
         font-size: 10px;
     }
-
     .team-member h3 {
         font-size: 14px;
     }
-
     .team-member p {
         font-size: 10px;
     }
-
     .team-member .contact-icon {
         width: 20px;
         height: 20px;
     }
-
     .team-join {
         font-size: 8px;
     }
-
     .game-title {
         font-size: 14px;
     }
-
     .game-version, .game-engine {
         font-size: 8px;
     }
-
     .game-description {
         font-size: 10px;
     }
-
     .game-play-btn {
         font-size: 10px;
         padding: 5px 10px;
     }
-
     .game-year {
         font-size: 8px;
     }
-
     .filter-input, .filter-select {
         font-size: 10px;
         padding: 5px;
         width: 90px;
     }
-
     .utils-item p {
         font-size: 12px;
+    }
+    .easter-egg {
+        right: -120px;
+    }
+    .easter-egg.active {
+        right: 5px;
+    }
+    .easter-egg img {
+        width: 120px;
     }
 }
