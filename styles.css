@@ -230,11 +230,11 @@ h1 {
 }
 
 .links-container.telegram-active {
-    width: 500px;
+    width: 600px;
     height: auto;
     min-height: 200px;
     padding: 20px;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .links-row {
@@ -244,6 +244,7 @@ h1 {
     align-items: center;
     flex-wrap: nowrap;
     position: relative;
+    width: 100%;
 }
 
 .link-icon {
@@ -302,10 +303,12 @@ h1 {
 .telegram-links {
     display: none;
     flex-direction: row;
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     box-sizing: border-box;
+    max-width: 100%;
+    padding: 10px;
 }
 
 .links-row.telegram-active .telegram-links {
@@ -316,8 +319,8 @@ h1 {
     opacity: 1;
     transform: scale(1);
     text-align: center;
-    width: 120px;
-    padding: 8px;
+    width: 150px;
+    padding: 10px;
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
     border: 2px solid transparent;
