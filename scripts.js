@@ -1,773 +1,1352 @@
-// Прелоадер
-window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    const body = document.body;
-    preloader.classList.add('hidden');
-    body.classList.add('loaded');
-});
+/* Прелоадер */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
 
-// Ждём загрузки DOM
-document.addEventListener('DOMContentLoaded', () => {
-    // Элементы
-    const aboutBtn = document.getElementById('about-btn');
-    const description = document.getElementById('description');
-    const linksBtn = document.getElementById('links-btn');
-    const links = document.getElementById('links');
-    const telegramBtn = document.getElementById('telegram-btn');
-    const docsBtn = document.getElementById('docs-btn');
-    const docs = document.getElementById('docs');
-    const devBtn = document.getElementById('dev-btn');
-    const dev = document.getElementById('dev');
-    const teamBtn = document.getElementById('team-btn');
-    const team = document.getElementById('team');
-    const extensionsBtn = document.getElementById('extensions-btn');
-    const extensions = document.getElementById('extensions');
-    const gamesBtn = document.getElementById('games-btn');
-    const games = document.getElementById('games');
-    const horrorBtn = document.getElementById('horror-btn');
-    const othersBtn = document.getElementById('others-btn');
-    const gamesList = document.getElementById('games-list');
-    const yearFilter = document.getElementById('year-filter');
-    const engineFilter = document.getElementById('engine-filter');
-    const sortGames = document.getElementById('sort-games');
-    const prevPageBtn = document.getElementById('prev-page');
-    const nextPageBtn = document.getElementById('next-page');
-    const pageInfo = document.getElementById('page-info');
-    const utilsBtn = document.getElementById('utils-btn');
-    const utils = document.getElementById('utils');
-    const ourUtilsBtn = document.getElementById('our-utils-btn');
-    const otherUtilsBtn = document.getElementById('other-utils-btn');
-    const utilsList = document.getElementById('utils-list');
-    const linksRow = document.querySelector('.links-row');
-    const body = document.body;
-    const logo = document.querySelector('h1');
-    const easterEgg = document.querySelector('.easter-egg');
+#preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
-    // Глобальные переменные для пагинации и списка игр
-    let currentGames = [];
-    let filteredGames = []; // Добавляем для хранения отфильтрованных игр
-    let currentPage = 1;
-    const gamesPerPage = 3;
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #0ff;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
 
-    // Функция для проверки, есть ли открытые страницы
-    function isAnyPageOpen() {
-        return (
-            body.classList.contains('active') ||
-            body.classList.contains('links-active') ||
-            body.classList.contains('docs-active') ||
-            body.classList.contains('dev-active') ||
-            body.classList.contains('team-active') ||
-            body.classList.contains('extensions-active') ||
-            body.classList.contains('games-active') ||
-            body.classList.contains('utils-active')
-        );
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Общие стили */
+body {
+    background-image: url('BRC-Background.jpg');
+    background-size: 50%;
+    background-position: top left;
+    background-repeat: repeat-x; /* Оставляем только первую линию фона */
+    margin: 0;
+    padding: 0;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    min-height: 100vh;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00f, #0ff);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0ff, 0 0 5px #00f;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #0ff, #00f);
+}
+
+/* Кнопки прокрутки */
+.scroll-buttons {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1000;
+}
+
+.scroll-button {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.scroll-button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.scroll-button:active {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Логотип */
+h1 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 10px 0;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transform: translateY(0);
+    transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
+    z-index: 1001;
+}
+
+/* Кнопки навигации */
+.button-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto;
+}
+
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+}
+
+.button.active {
+    border: 2px solid white;
+    background-color: #555;
+}
+
+.button.characters {
+    font-size: 10px;
+}
+
+.button.license {
+    padding: 8px 16px; /* Увеличено */
+    font-size: 14px; /* Увеличено */
+}
+
+/* Описание */
+.description-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.15);
+    max-width: 600px;
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.description-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.description {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.description strong {
+    font-weight: bold;
+}
+
+/* Ссылки */
+.links-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+    width: 320px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.links-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    width: 320px;
+    height: 70px;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+
+.links-container.telegram-active {
+    width: 600px;
+    height: auto;
+    min-height: 200px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.links-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+    width: 100%;
+}
+
+.link-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.link-icon:hover {
+    transform: scale(1.1);
+}
+
+.link-icon:active {
+    transform: scale(1.3);
+}
+
+.gamejolt {
+    background-image: url('https://img.icons8.com/color/50/000000/gamejolt.png');
+}
+
+.kogama {
+    background-image: url('Kogama.png');
+}
+
+.youtube {
+    background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
+}
+
+.telegram {
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.telegram.back {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/back.png');
+    transform: translateX(0);
+}
+
+.scratch {
+    background-image: url('https://img.icons8.com/color/50/000000/scratch.png');
+}
+
+.links-row.telegram-active .gamejolt,
+.links-row.telegram-active .kogama,
+.links-row.telegram-active .youtube,
+.links-row.telegram-active .scratch {
+    display: none;
+}
+
+.telegram-links {
+    display: none;
+    flex-direction: row;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 10px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.links-row.telegram-active .telegram-links {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    animation: fadeInScale 0.5s ease-in-out;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
     }
-
-    // Открываем страницу "О студии" по умолчанию
-    body.classList.add('active');
-    aboutBtn.classList.add('active');
-    description.classList.remove('hide');
-
-    // Загружаем данные о разрабатываемой игре
-    fetch('DevelopingGameProc.txt')
-        .then(response => response.text())
-        .then(data => {
-            const lines = data.split('\n');
-            const gameData = {};
-            lines.forEach(line => {
-                const [key, value] = line.split('=');
-                if (key && value) {
-                    gameData[key.trim()] = value.trim().replace(/"/g, '');
-                }
-            });
-            document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
-            document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
-            document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки данных:', error);
-            document.getElementById('game-name').textContent = 'Ошибка загрузки';
-            document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
-            document.getElementById('game-version').textContent = 'Версия: -';
-        });
-
-    // Функция для отображения игр на текущей странице
-    function displayGames(gamesData) {
-        gamesList.innerHTML = '';
-        const start = (currentPage - 1) * gamesPerPage;
-        const end = start + gamesPerPage;
-        const paginatedGames = gamesData.slice(start, end);
-
-        if (paginatedGames.length === 0) {
-            gamesList.innerHTML = '<p>Упс.. По вашему запросу ничего не было найдено.</p>';
-        } else {
-            paginatedGames.forEach(game => {
-                let backgroundImage = game.Image;
-                if (!backgroundImage) {
-                    if (game.Link.includes('kogama.com')) {
-                        const gameId = game.Link.match(/\/game\/\d+\/(\d+)/)?.[1];
-                        if (gameId) {
-                            backgroundImage = `https://cdn.kogama.com/game-thumbnails/${gameId}.jpg`;
-                        }
-                    }
-                }
-                if (!backgroundImage) {
-                    backgroundImage = 'https://via.placeholder.com/600x200?text=No+Image';
-                }
-
-                const gameCard = document.createElement('div');
-                gameCard.classList.add('game-card');
-                gameCard.style.backgroundImage = `url('${backgroundImage}')`;
-                gameCard.innerHTML = `
-                    <div class="game-header">
-                        <h3 class="game-title">${game.Name}</h3>
-                        <div class="game-meta">
-                            <span class="game-version">v${game.Version || 'N/A'}</span>
-                            <span class="game-engine">${game.Engine || 'N/A'}</span>
-                        </div>
-                    </div>
-                    <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
-                    <div class="game-footer">
-                        <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
-                        <span class="game-year">${game.Year || 'N/A'}</span>
-                    </div>
-                `;
-                gamesList.appendChild(gameCard);
-            });
-        }
-
-        const totalPages = Math.ceil(gamesData.length / gamesPerPage);
-        pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
-        prevPageBtn.disabled = currentPage === 1;
-        nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+    100% {
+        opacity: 1;
+        transform: scale(1);
     }
+}
 
-    // Функция для фильтрации и сортировки игр
-    function filterAndSortGames() {
-        const year = yearFilter.value.trim();
-        const engine = engineFilter.value;
-        const category = horrorBtn.classList.contains('active') ? 'horror' : 'others';
-        const sortValue = sortGames.value;
+.links-row.telegram-active .telegram-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
 
-        filteredGames = currentGames.filter(game => {
-            const matchesCategory = category === 'horror' ? (game.Tags || []).some(tag => tag.toLowerCase() === 'horror') : !(game.Tags || []).some(tag => tag.toLowerCase() === 'horror');
-            const matchesYear = year ? (game.Year || '').toString().includes(year) : true;
-            const matchesEngine = engine ? (game.Engine || '') === engine : true;
-            return matchesCategory && matchesYear && matchesEngine;
-        });
+.links-row.telegram-active .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+}
 
-        if (sortValue === 'name-asc') {
-            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
-        } else if (sortValue === 'name-desc') {
-            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
-        } else if (sortValue === 'year-desc') {
-            filteredGames.sort((a, b) => parseInt(b.Year || 0) - parseInt(a.Year || 0));
-        } else if (sortValue === 'year-asc') {
-            filteredGames.sort((a, b) => parseInt(a.Year || 0) - parseInt(a.Year || 0));
-        }
+/* Документы */
+.docs-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 250, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
 
-        displayGames(filteredGames); // Отображаем отфильтрованные игры
+.docs-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.docs-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+/* Разработка */
+.dev-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    clip-path: inset(0 0 0 0);
+}
+
+.dev-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.dev-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.dev-info h2 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.dev-info p {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+/* Команда */
+.team-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.team-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.team-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.team-member h3 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.team-member .team-role {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px; /* Уменьшено с 14px */
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.team-member .contact-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-member .contact-icon:hover {
+    transform: scale(1.1);
+}
+
+.team-member .contact-icon:active {
+    transform: scale(1.3);
+}
+
+.team-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 10px 0;
+}
+
+.team-join {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+}
+
+.team-join a {
+    color: #0ff;
+    text-decoration: none;
+}
+
+.team-join a:hover {
+    text-decoration: underline;
+}
+
+/* Расширения */
+.extensions-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.extensions-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.extensions-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.extensions-list .telegram-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.extensions-list .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+}
+
+/* Игры */
+.games-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.games-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.games-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.category-btn:hover {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.category-btn.active {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.filter-input {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    width: 120px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.filter-input::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+.filter-input:hover, .filter-input:focus {
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
+    outline: none;
+}
+
+.filter-select {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.filter-select:hover, .filter-select:focus {
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
+    outline: none;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.page-btn:disabled {
+    background-color: #222;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.page-info {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.games-list p {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.game-card {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.game-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.game-title {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.game-meta {
+    display: flex;
+    gap: 10px;
+}
+
+.game-version, .game-engine {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.game-description {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 10px 0;
+}
+
+.game-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-play-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.game-play-btn:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
+.game-year {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Утилиты */
+.utils-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.utils-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.utils-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.utils-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.utils-list p {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.utils-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.utils-item .telegram-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.utils-item .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+}
+
+/* Активные состояния */
+.games-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.games-active .games-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.utils-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.utils-active .utils-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.active .description-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.links-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.links-active .links-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.docs-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.docs-active .docs-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.dev-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.dev-active .dev-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.team-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.team-active .team-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.extensions-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.extensions-active .extensions-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+/* Пасхалка */
+.easter-egg {
+    position: fixed;
+    top: 10px;
+    right: -300px;
+    z-index: 10000;
+    transition: right 0.5s ease-in-out;
+}
+
+.easter-egg.active {
+    right: 10px;
+}
+
+.easter-egg img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Футер */
+.footer {
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+    margin-top: auto;
+    padding: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+/* Медиа-запросы */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
     }
-
-    // Функция для загрузки данных из одного файла
-    function loadGameFile(file) {
-        return fetch(file)
-            .then(response => {
-                if (!response.ok) throw new Error(`Файл ${file} не найден`);
-                return response.text();
-            })
-            .then(data => {
-                console.log(`Сырые данные ${file}:`, data);
-                const gamesData = [];
-                let currentGame = {};
-                const lines = data.split('\n').filter(line => line.trim() !== '');
-                lines.forEach((line, index) => {
-                    console.log(`Строка ${index} (${file}):`, line);
-                    const [key, value] = line.split('=');
-                    if (key && value) {
-                        const trimmedKey = key.trim();
-                        let trimmedValue = value.trim();
-                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
-                            trimmedValue = trimmedValue.slice(1, -1);
-                        }
-                        if (trimmedKey === 'Name') {
-                            if (Object.keys(currentGame).length > 0) {
-                                gamesData.push(currentGame);
-                            }
-                            currentGame = { Name: trimmedValue };
-                        } else if (trimmedKey === 'Tags') {
-                            currentGame.Tags = trimmedValue.split(',').map(tag => tag.trim().replace(/"/g, ''));
-                        } else if (trimmedKey === 'Desc') {
-                            currentGame.Desc = trimmedValue;
-                        } else if (trimmedKey === 'Year') {
-                            currentGame.Year = trimmedValue;
-                        } else if (trimmedKey === 'Link') {
-                            currentGame.Link = trimmedValue;
-                        } else if (trimmedKey === 'Image') {
-                            currentGame.Image = trimmedValue;
-                        } else if (trimmedKey === 'Engine') {
-                            currentGame.Engine = trimmedValue;
-                        } else if (trimmedKey === 'Version') {
-                            currentGame.Version = trimmedValue;
-                        }
-                    }
-                });
-                if (Object.keys(currentGame).length > 0) {
-                    gamesData.push(currentGame);
-                }
-                return gamesData;
-            });
+    .button-container {
+        padding: 6px;
+        gap: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        top: 50px;
     }
-
-    // Функция для загрузки всех игр из двух файлов
-    function loadGames() {
-        Promise.all([
-            loadGameFile('HorrorGames.txt'),
-            loadGameFile('OthersGames.txt')
-        ])
-            .then(([horrorGames, othersGames]) => {
-                currentGames = [...horrorGames, ...othersGames];
-                console.log('Все загруженные игры:', currentGames);
-                filterAndSortGames();
-            })
-            .catch(error => {
-                console.error('Ошибка загрузки данных из файлов:', error);
-                gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
-            });
+    .button {
+        padding: 5px 10px;
+        font-size: 11px;
     }
-
-    // Функция для отображения утилит
-    function displayUtils(category) {
-        utilsList.innerHTML = '';
-        if (category === 'our') {
-            const utilsData = [
-                { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
-                { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
-            ];
-            utilsData.forEach(util => {
-                const utilItem = document.createElement('div');
-                utilItem.classList.add('utils-item');
-                utilItem.innerHTML = `<p><a href="${util.link}" class="extension-link">${util.name}</a></p>`;
-                utilsList.appendChild(utilItem);
-            });
-        } else {
-            utilsList.innerHTML = '<p>Пока здесь ничего нет.</p>';
-        }
+    .button.characters {
+        font-size: 9px;
     }
+    .button.license {
+        padding: 6px 12px; /* Увеличено */
+        font-size: 12px; /* Увеличено */
+    }
+    .description-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        padding: 8px;
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.hide {
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.telegram-active {
+        width: 350px;
+        height: auto;
+        min-height: 150px;
+        padding: 15px;
+    }
+    .team-container {
+        width: 300px;
+        max-height: 300px;
+        padding: 10px;
+    }
+    .games-container, .utils-container {
+        width: 300px;
+        padding: 10px;
+    }
+    .game-card {
+        min-height: 180px;
+    }
+    .description {
+        font-size: 14px;
+    }
+    .link-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .telegram.back {
+        transform: translateX(0);
+    }
+    .active .header-container,
+    .links-active .header-container,
+    .docs-active .header-container,
+    .dev-active .header-container,
+    .team-active .header-container,
+    .extensions-active .header-container,
+    .games-active .header-container,
+    .utils-active .header-container {
+        top: 0;
+    }
+    .scroll-button {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+    .dev-info h2 {
+        font-size: 18px;
+    }
+    .dev-info p {
+        font-size: 12px;
+    }
+    .team-member h3 {
+        font-size: 16px;
+    }
+    .team-member .team-role {
+        font-size: 10px; /* Уменьшено с 12px */
+    }
+    .team-member .contact-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .team-join {
+        font-size: 10px;
+    }
+    .game-title {
+        font-size: 16px;
+    }
+    .game-version, .game-engine {
+        font-size: 10px;
+    }
+    .game-description {
+        font-size: 12px;
+    }
+    .game-play-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .game-year {
+        font-size: 10px;
+    }
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .filter-input, .filter-select {
+        padding: 6px;
+        font-size: 12px;
+        width: 100px;
+    }
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .page-info {
+        font-size: 12px;
+    }
+    .utils-item .telegram-link {
+        width: 120px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    .extensions-list .telegram-link {
+        width: 120px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    .footer {
+        font-size: 10px;
+        padding: 15px;
+    }
+}
 
-    // Пасхалка: клик на логотип
-    logo.addEventListener('click', () => {
-        easterEgg.classList.toggle('active');
-    });
-
-    // Логика кнопок
-    aboutBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('active')) {
-            return;
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('active');
-        aboutBtn.classList.add('active');
-        description.classList.remove('hide');
-    });
-
-    linksBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('links-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('links-active');
-        linksBtn.classList.add('active');
-        links.classList.remove('hide');
-    });
-
-    docsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('docs-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('docs-active');
-        docsBtn.classList.add('active');
-        docs.classList.remove('hide');
-    });
-
-    devBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('dev-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('dev-active');
-        devBtn.classList.add('active');
-        dev.classList.remove('hide');
-    });
-
-    teamBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('team-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('team-active');
-        teamBtn.classList.add('active');
-        team.classList.remove('hide');
-        fetch('./BRC-Team.txt')
-            .then(response => {
-                if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
-                return response.text();
-            })
-            .then(data => {
-                console.log('Сырые данные BRC-Team.txt:', data);
-                const teamList = document.getElementById('team-list');
-                teamList.innerHTML = '';
-                const members = [];
-                let currentMember = {};
-                const lines = data.split('\n').filter(line => line.trim() !== '');
-                lines.forEach((line, index) => {
-                    console.log(`Строка ${index}:`, line);
-                    const [key, value] = line.split('=');
-                    if (key && value) {
-                        const trimmedKey = key.trim();
-                        let trimmedValue = value.trim();
-                        // Удаляем кавычки из значений
-                        trimmedValue = trimmedValue.replace(/^"|"$/g, '');
-                        if (trimmedKey === 'Username') {
-                            if (Object.keys(currentMember).length > 0) {
-                                members.push(currentMember);
-                            }
-                            currentMember = { Name: trimmedValue };
-                        } else if (trimmedKey === 'UserDesc') {
-                            currentMember.Role = trimmedValue;
-                        } else if (trimmedKey === 'UserTelegramContact') {
-                            currentMember.Contact = trimmedValue;
-                        }
-                    }
-                });
-                if (Object.keys(currentMember).length > 0) {
-                    members.push(currentMember);
-                }
-
-                console.log('Загруженные члены команды:', members);
-                if (members.length === 0) {
-                    teamList.innerHTML = '<p>Команда пуста</p>';
-                    return;
-                }
-
-                members.forEach(member => {
-                    const memberDiv = document.createElement('div');
-                    memberDiv.classList.add('team-member');
-                    memberDiv.innerHTML = `
-                        <h3>${member.Name || 'Не указано'}</h3>
-                        <p>${member.Role || 'Роль не указана'}</p>
-                        <a href="${member.Contact || '#'}" class="contact-icon" aria-label="Contact ${member.Name || 'член команды'}"></a>
-                    `;
-                    teamList.appendChild(memberDiv);
-                });
-            })
-            .catch(error => {
-                console.error('Ошибка загрузки данных команды:', error);
-                document.getElementById('team-list').innerHTML = '<p>Ошибка загрузки данных команды</p>';
-            });
-    });
-
-    extensionsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('extensions-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('extensions-active');
-        extensionsBtn.classList.add('active');
-        extensions.classList.remove('hide');
-    });
-
-    gamesBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('games-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('utils-active')) {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-        }
-        body.classList.add('games-active');
-        gamesBtn.classList.add('active');
-        games.classList.remove('hide');
-        currentPage = 1; // Сбрасываем страницу при открытии раздела
-        loadGames();
-    });
-
-    utilsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (body.classList.contains('utils-active')) {
-            return;
-        }
-        if (body.classList.contains('active')) {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-        }
-        if (body.classList.contains('links-active')) {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-        }
-        if (body.classList.contains('docs-active')) {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-        }
-        if (body.classList.contains('dev-active')) {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-        }
-        if (body.classList.contains('team-active')) {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-        }
-        if (body.classList.contains('extensions-active')) {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-        }
-        if (body.classList.contains('games-active')) {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-        }
-        body.classList.add('utils-active');
-        utilsBtn.classList.add('active');
-        utils.classList.remove('hide');
-        displayUtils('our');
-    });
-
-    telegramBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        linksRow.classList.toggle('telegram-active');
-        telegramBtn.classList.toggle('back');
-        if (linksRow.classList.contains('telegram-active')) {
-            links.classList.add('telegram-active');
-        } else {
-            links.classList.remove('telegram-active');
-        }
-    });
-
-    horrorBtn.addEventListener('click', () => {
-        horrorBtn.classList.add('active');
-        othersBtn.classList.remove('active');
-        currentPage = 1; // Сбрасываем страницу при смене категории
-        filterAndSortGames();
-    });
-
-    othersBtn.addEventListener('click', () => {
-        othersBtn.classList.add('active');
-        horrorBtn.classList.remove('active');
-        currentPage = 1; // Сбрасываем страницу при смене категории
-        filterAndSortGames();
-    });
-
-    yearFilter.addEventListener('input', () => {
-        currentPage = 1; // Сбрасываем страницу при фильтрации
-        filterAndSortGames();
-    });
-
-    engineFilter.addEventListener('change', () => {
-        currentPage = 1; // Сбрасываем страницу при фильтрации
-        filterAndSortGames();
-    });
-
-    sortGames.addEventListener('change', () => {
-        currentPage = 1; // Сбрасываем страницу при сортировке
-        filterAndSortGames();
-    });
-
-    prevPageBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayGames(filteredGames); // Используем отфильтрованный список
-        }
-    });
-
-    nextPageBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayGames(filteredGames); // Используем отфильтрованный список
-        }
-    });
-
-    ourUtilsBtn.addEventListener('click', () => {
-        ourUtilsBtn.classList.add('active');
-        otherUtilsBtn.classList.remove('active');
-        displayUtils('our');
-    });
-
-    otherUtilsBtn.addEventListener('click', () => {
-        otherUtilsBtn.classList.add('active');
-        ourUtilsBtn.classList.remove('active');
-        displayUtils('other');
-    });
-
-    // Кнопки прокрутки
-    document.querySelector('.scroll-up').addEventListener('click', () => {
-        window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
-    });
-
-    document.querySelector('.scroll-down').addEventListener('click', () => {
-        window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-    });
-});
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+    .button-container {
+        padding: 4px;
+        gap: 8px;
+        top: 40px;
+    }
+    .button {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    .button.characters {
+        font-size: 8px;
+    }
+    .button.license {
+        padding: 5px 10px; /* Увеличено */
+        font-size: 11px; /* Увеличено */
+    }
+    .description-container {
+        max-width: 95%;
+        padding: 8px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.hide {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.telegram-active {
+        width: 300px;
+        min-height: 120px;
+        padding: 10px;
+    }
+    .team-container {
+        width: 250px;
+        max-height: 250px;
+        padding: 8px;
+    }
+    .games-container, .utils-container {
+        width: 250px;
+        padding: 8px;
+    }
+    .game-card {
+        min-height: 160px;
+    }
+    .description {
+        font-size: 12px;
+    }
+    .link-icon {
+        width: 35px;
+        height: 35px;
+    }
+    .scroll-button {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
+    .dev-info h2 {
+        font-size: 16px;
+    }
+    .dev-info p {
+        font-size: 10px;
+    }
+    .team-member h3 {
+        font-size: 14px;
+    }
+    .team-member .team-role {
+        font-size: 9px; /* Уменьшено с 10px */
+    }
+    .team-member .contact-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .team-join {
+        font-size: 8px;
+    }
+    .game-title {
+        font-size: 14px;
+    }
+    .game-version, .game-engine {
+        font-size: 8px;
+    }
+    .game-description {
+        font-size: 10px;
+    }
+    .game-play-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .game-year {
+        font-size: 8px;
+    }
+    .category-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .filter-input, .filter-select {
+        padding: 5px;
+        font-size: 10px;
+        width: 80px;
+    }
+    .page-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .page-info {
+        font-size: 10px;
+    }
+    .utils-item .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .extensions-list .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .footer {
+        font-size: 8px;
+        padding: 10px;
+    }
+}
