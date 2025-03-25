@@ -149,16 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const sortValue = sortGames.value;
 
         let filteredGames = currentGames.filter(game => {
-            const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
-            const matchesYear = year ? game.Year.includes(year) : true;
-            const matchesEngine = engine ? game.Engine === engine : true;
+            const matchesCategory = category === 'horror' ? (game.Tags || []).some(tag => tag.toLowerCase() === 'horror') : !(game.Tags || []).some(tag => tag.toLowerCase() === 'horror');
+            const matchesYear = year ? (game.Year || '').toString().includes(year) : true;
+            const matchesEngine = engine ? (game.Engine || '') === engine : true;
             return matchesCategory && matchesYear && matchesEngine;
         });
 
         if (sortValue === 'name-asc') {
-            filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
+            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
         } else if (sortValue === 'name-desc') {
-            filteredGames.sort((a, b) => b.Name.localeCompare(b.Name));
+            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
         } else if (sortValue === 'year-desc') {
             filteredGames.sort((a, b) => parseInt(b.Year || 0) - parseInt(a.Year || 0));
         } else if (sortValue === 'year-asc') {
@@ -172,12 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для загрузки игр
     function loadGames(file) {
         fetch(file)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error(`Файл ${file} не найден`);
+                return response.text();
+            })
             .then(data => {
+                console.log('Сырые данные GamesList.txt:', data); // Отладка
                 const gamesData = [];
                 let currentGame = {};
                 const lines = data.split('\n').filter(line => line.trim() !== '');
-                lines.forEach(line => {
+                lines.forEach((line, index) => {
+                    console.log(`Строка ${index}:`, line); // Отладка
                     const [key, value] = line.split('=');
                     if (key && value) {
                         const trimmedKey = key.trim();
@@ -208,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     gamesData.push(currentGame);
                 }
 
+                console.log('Загруженные игры:', gamesData); // Отладка
                 currentGames = gamesData;
                 filterAndSortGames();
             })
@@ -244,11 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Логика кнопок
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
@@ -286,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "О студии"
         body.classList.add('active');
         aboutBtn.classList.add('active');
         description.classList.remove('hide');
@@ -294,11 +297,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('links-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -334,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "Ссылки"
         body.classList.add('links-active');
         linksBtn.classList.add('active');
         links.classList.remove('hide');
@@ -342,11 +342,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('docs-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -384,7 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "Документы"
         body.classList.add('docs-active');
         docsBtn.classList.add('active');
         docs.classList.remove('hide');
@@ -392,11 +389,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('dev-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -434,7 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "Разработка"
         body.classList.add('dev-active');
         devBtn.classList.add('active');
         dev.classList.remove('hide');
@@ -442,11 +436,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('team-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -484,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "Команда"
         body.classList.add('team-active');
         teamBtn.classList.add('active');
         team.classList.remove('hide');
@@ -494,12 +485,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(data => {
+                console.log('Сырые данные BRC-Team.txt:', data); // Отладка
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '';
                 const members = [];
                 let currentMember = {};
                 const lines = data.split('\n').filter(line => line.trim() !== '');
-                lines.forEach(line => {
+                lines.forEach((line, index) => {
+                    console.log(`Строка ${index}:`, line); // Отладка
                     const [key, value] = line.split('=');
                     if (key && value) {
                         const trimmedKey = key.trim();
@@ -520,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     members.push(currentMember);
                 }
 
+                console.log('Загруженные члены команды:', members); // Отладка
                 if (members.length === 0) {
                     teamList.innerHTML = '<p>Команда пуста</p>';
                     return;
@@ -529,9 +523,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const memberDiv = document.createElement('div');
                     memberDiv.classList.add('team-member');
                     memberDiv.innerHTML = `
-                        <h3>${member.Name}</h3>
-                        <p>${member.Role}</p>
-                        <a href="${member.Contact}" class="contact-icon" aria-label="Contact ${member.Name}"></a>
+                        <h3>${member.Name || 'Не указано'}</h3>
+                        <p>${member.Role || 'Роль не указана'}</p>
+                        <a href="${member.Contact || '#'}" class="contact-icon" aria-label="Contact ${member.Name || 'член команды'}"></a>
                     `;
                     teamList.appendChild(memberDiv);
                 });
@@ -544,11 +538,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('extensions-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -586,7 +578,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "Расширения"
         body.classList.add('extensions-active');
         extensionsBtn.classList.add('active');
         extensions.classList.remove('hide');
@@ -594,11 +585,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('games-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -636,7 +625,6 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        // Открываем страницу "Игры"
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
@@ -645,11 +633,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // Если кнопка уже активна, ничего не делаем
         if (body.classList.contains('utils-active')) {
             return;
         }
-        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -687,7 +673,6 @@ document.addEventListener('DOMContentLoaded', () => {
             gamesBtn.classList.remove('active');
             games.classList.add('hide');
         }
-        // Открываем страницу "Утилиты"
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
         utils.classList.remove('hide');
