@@ -375,7 +375,7 @@ h1 {
     padding: 15px;
     border-radius: 10px;
     position: absolute;
-    top: 120%;
+    top: 100%;
     transform: translateY(0);
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
@@ -564,12 +564,16 @@ h1 {
 
 /* Стили для списка игр */
 .games-container {
-    display: none;
+    display: block;
+    visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    position: relative;
-    margin-top: 150px;
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -578,7 +582,10 @@ h1 {
 }
 
 .games-container.hide {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .games-header {
@@ -613,39 +620,47 @@ h1 {
 
 .filter-input {
     padding: 8px;
-    background-color: #333;
-    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
     border: 2px solid transparent;
     border-radius: 5px;
-    font-family: 'Russo One', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-size: 14px;
     width: 120px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .filter-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 255, 255, 0.5);
 }
 
 .filter-input:hover, .filter-input:focus {
-    border: 2px solid white;
-    background-color: #555;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
     outline: none;
 }
 
 .filter-select {
     padding: 8px;
-    background-color: #333;
-    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
     border: 2px solid transparent;
     border-radius: 5px;
-    font-family: 'Russo One', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-size: 14px;
     cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .filter-select:hover, .filter-select:focus {
-    border: 2px solid white;
-    background-color: #555;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
     outline: none;
 }
 
@@ -798,14 +813,17 @@ h1 {
 
 /* Стили для утилит */
 .utils-container {
-    display: none;
+    display: block;
+    visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
-    position: relative;
-    margin-top: 150px;
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 600px;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -813,7 +831,10 @@ h1 {
 }
 
 .utils-container.hide {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .utils-header {
@@ -860,7 +881,9 @@ h1 {
 }
 
 .games-active .games-container {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
 }
 
 .utils-active .header-container {
@@ -869,7 +892,9 @@ h1 {
 }
 
 .utils-active .utils-container {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
 }
 
 .active .header-container {
