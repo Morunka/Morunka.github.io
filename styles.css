@@ -35,13 +35,13 @@
 /* Общие стили */
 body {
     background-image: url('BRC-Background.jpg');
-    background-size: 100%; /* Изменено с 50% на 100% */
+    background-size: 100%;
     background-position: top left;
-    background-repeat: repeat-y; /* Изменено с repeat-x на repeat-y */
+    background-repeat: repeat-y;
     margin: 0;
     padding: 0;
     padding-top: 80px;
-    display: flex;
+六    display: flex;
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
@@ -113,8 +113,8 @@ h1 {
     font-family: 'Orbitron', sans-serif;
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    margin: 5px 0; /* Уменьшено с 10px на 5px */
-    margin-bottom: 15px; /* Уменьшено с 20px на 15px */
+    margin: 5px 0;
+    margin-bottom: 15px;
     cursor: pointer;
 }
 
@@ -140,7 +140,7 @@ h1 {
     flex-wrap: nowrap;
     justify-content: center;
     position: fixed;
-    top: 60px;
+    top: 70px; /* Изменено с 60px на 70px, чтобы избежать пересечения с логотипом */
     width: 100%;
     z-index: 1000;
     overflow-x: auto;
@@ -178,8 +178,8 @@ h1 {
 }
 
 .button.license {
-    padding: 8px 16px; /* Увеличено */
-    font-size: 14px; /* Увеличено */
+    padding: 8px 16px;
+    font-size: 14px;
 }
 
 /* Описание */
@@ -520,7 +520,7 @@ h1 {
 .team-member .team-role {
     color: white;
     font-family: 'Russo One', sans-serif;
-    font-size: 12px; /* Уменьшено с 14px */
+    font-size: 12px;
     text-align: center;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     margin: 0;
@@ -613,7 +613,7 @@ h1 {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
     border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.2); /* Изменено с #333 на полупрозрачный */
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -622,7 +622,7 @@ h1 {
 .extensions-list .telegram-link:hover {
     transform: scale(1.1);
     border: 2px solid white;
-    background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный при наведении */
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Игры */
@@ -944,7 +944,7 @@ h1 {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
     border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.2); /* Изменено с #333 на полупрозрачный */
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -954,7 +954,7 @@ h1 {
 .utils-item .telegram-link:hover {
     transform: scale(1.1);
     border: 2px solid white;
-    background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный при наведении */
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Активные состояния */
@@ -1097,8 +1097,8 @@ h1 {
         font-size: 9px;
     }
     .button.license {
-        padding: 6px 12px; /* Увеличено */
-        font-size: 12px; /* Увеличено */
+        padding: 6px 12px;
+        font-size: 12px;
     }
     .description-container {
         max-width: 90%;
@@ -1166,7 +1166,7 @@ h1 {
         font-size: 16px;
     }
     .team-member .team-role {
-        font-size: 10px; /* Уменьшено с 12px */
+        font-size: 10px;
     }
     .team-member .contact-icon {
         width: 25px;
@@ -1240,8 +1240,8 @@ h1 {
         font-size: 8px;
     }
     .button.license {
-        padding: 5px 10px; /* Увеличено */
-        font-size: 11px; /* Увеличено */
+        padding: 5px 10px;
+        font-size: 11px;
     }
     .description-container {
         max-width: 95%;
@@ -1294,7 +1294,7 @@ h1 {
         font-size: 14px;
     }
     .team-member .team-role {
-        font-size: 9px; /* Уменьшено с 10px */
+        font-size: 9px;
     }
     .team-member .contact-icon {
         width: 20px;
