@@ -143,7 +143,7 @@ function filterAndSortGames() {
     } else if (sortValue === 'year-desc') {
         filteredGames.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
     } else if (sortValue === 'year-asc') {
-        filteredGames.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+        filteredGames.sort((a, b) => parseInt(a.Year) - parseInt(a.Year));
     }
 
     // Сбрасываем страницу на первую после фильтрации/сортировки
