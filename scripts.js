@@ -67,8 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Автоматическое открытие вкладки "О студии"
-    aboutBtn.click();
+    // Автоматическое открытие вкладки "О компании", если ничего не открыто
+    const isAnyMenuOpen = () => {
+        const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
+        return menuClasses.some(cls => body.classList.contains(cls));
+    };
+
+    if (!isAnyMenuOpen()) {
+        aboutBtn.click();
+    }
 
     // Функция для закрытия всех меню, кроме указанного
     const closeOtherMenus = (activeClass) => {
@@ -102,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         utilsBtn.classList.remove('active');
     };
 
-    // Кнопка "О студии"
+    // Кнопка "О компании"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) {
@@ -126,11 +133,21 @@ document.addEventListener('DOMContentLoaded', () => {
         links.classList.remove('hide');
     });
 
+    // Исправляем подменю Telegram
     if (telegramBtn && linksRow) {
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            const isActive = linksRow.classList.contains('telegram接地active');
             linksRow.classList.toggle('telegram-active');
             telegramBtn.classList.toggle('back');
+            const telegramLinks = document.querySelector('.telegram-links');
+            if (telegramLinks) {
+                if (isActive) {
+                    telegramLinks.style.display = 'none';
+                } else {
+                    telegramLinks.style.display = 'flex';
+                }
+            }
         });
     } else {
         console.warn('Элементы telegramBtn или linksRow не найдены');
@@ -224,10 +241,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     members.forEach((member, index) => {
+                        // Убираем лишние кавычки в имени
+                        const cleanUsername = (member.Username || 'Не указано').replace(/["':]/g, '');
                         const memberDiv = document.createElement('div');
                         memberDiv.classList.add('team-member');
                         memberDiv.innerHTML = `
-                            <h3>${member.Username || 'Не указано'}</h3>
+                            <h3>${cleanUsername}</h3>
                             <p class="team-role">${member.UserDesc || 'Не указано'}</p>
                             <a href="${member.UserTelegramContact || '#'}" class="contact-icon"></a>
                         `;
@@ -240,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     const joinDiv = document.createElement('div');
                     joinDiv.classList.add('team-join');
-                    joinDiv.innerHTML = 'Хотите присоединиться? <a href="https://t.me/MEOW_MUR920">Напишите нам!</a>';
+                    joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
                     teamList.appendChild(joinDiv);
                 })
                 .catch(error => {
@@ -511,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Кнопки прокрутки
+    // Кнопки прокрутки (исправляем работу)
     const scrollTopBtn = document.getElementById('scroll-top');
     const scrollBottomBtn = document.getElementById('scroll-bottom');
 
@@ -519,11 +538,15 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+    } else {
+        console.warn('Кнопка scroll-top не найдена');
     }
 
     if (scrollBottomBtn) {
         scrollBottomBtn.addEventListener('click', () => {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
+    } else {
+        console.warn('Кнопка scroll-bottom не найдена');
     }
 });
