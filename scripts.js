@@ -51,6 +51,10 @@ const othersBtn = document.getElementById('others-btn');
 const gamesList = document.getElementById('games-list');
 const yearFilter = document.getElementById('year-filter');
 const engineFilter = document.getElementById('engine-filter');
+const sortGames = document.getElementById('sort-games');
+const prevPageBtn = document.getElementById('prev-page');
+const nextPageBtn = document.getElementById('next-page');
+const pageInfo = document.getElementById('page-info');
 const utilsBtn = document.getElementById('utils-btn');
 const utils = document.getElementById('utils');
 const ourUtilsBtn = document.getElementById('our-utils-btn');
@@ -59,16 +63,22 @@ const utilsList = document.getElementById('utils-list');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
 
-// Глобальная переменная для хранения списка игр
+// Глобальные переменные для пагинации и списка игр
 let currentGames = [];
+let currentPage = 1;
+const gamesPerPage = 3;
 
-// Функция для отображения игр
+// Функция для отображения игр на текущей странице
 function displayGames(gamesData) {
     gamesList.innerHTML = '';
-    if (gamesData.length === 0) {
+    const start = (currentPage - 1) * gamesPerPage;
+    const end = start + gamesPerPage;
+    const paginatedGames = gamesData.slice(start, end);
+
+    if (paginatedGames.length === 0) {
         gamesList.innerHTML = '<p>Упс.. По вашему запросу ничего не было найдено.</p>';
     } else {
-        gamesData.forEach(game => {
+        paginatedGames.forEach(game => {
             let backgroundImage = game.Image;
             if (!backgroundImage) {
                 if (game.Link.includes('kogama.com')) {
@@ -102,14 +112,22 @@ function displayGames(gamesData) {
             gamesList.appendChild(gameCard);
         });
     }
+
+    // Обновляем информацию о страницах
+    const totalPages = Math.ceil(gamesData.length / gamesPerPage);
+    pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+    prevPageBtn.disabled = currentPage === 1;
+    nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
 }
 
-// Функция для фильтрации игр
-function filterGames() {
+// Функция для фильтрации и сортировки игр
+function filterAndSortGames() {
     const year = yearFilter.value.trim();
     const engine = engineFilter.value;
     const category = horrorBtn.classList.contains('active') ? 'horror' : 'others';
+    const sortValue = sortGames.value;
 
+    // Фильтрация
     let filteredGames = currentGames.filter(game => {
         const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
         const matchesYear = year ? game.Year === year : true;
@@ -117,6 +135,19 @@ function filterGames() {
         return matchesCategory && matchesYear && matchesEngine;
     });
 
+    // Сортировка
+    if (sortValue === 'name-asc') {
+        filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
+    } else if (sortValue === 'name-desc') {
+        filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
+    } else if (sortValue === 'year-desc') {
+        filteredGames.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+    } else if (sortValue === 'year-asc') {
+        filteredGames.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+    }
+
+    // Сбрасываем страницу на первую после фильтрации/сортировки
+    currentPage = 1;
     displayGames(filteredGames);
 }
 
@@ -160,7 +191,8 @@ function loadGames(file) {
             }
 
             currentGames = gamesData;
-            filterGames();
+            currentPage = 1;
+            filterAndSortGames();
         })
         .catch(error => {
             console.error(`Ошибка загрузки данных из ${file}:`, error);
@@ -644,18 +676,35 @@ telegramBtn.addEventListener('click', (e) => {
 horrorBtn.addEventListener('click', () => {
     horrorBtn.classList.add('active');
     othersBtn.classList.remove('active');
-    filterGames();
+    filterAndSortGames();
 });
 
 othersBtn.addEventListener('click', () => {
     othersBtn.classList.add('active');
     horrorBtn.classList.remove('active');
-    filterGames();
+    filterAndSortGames();
 });
 
-// Логика фильтров
-yearFilter.addEventListener('input', filterGames);
-engineFilter.addEventListener('change', filterGames);
+// Логика фильтров и сортировки
+yearFilter.addEventListener('input', filterAndSortGames);
+engineFilter.addEventListener('change', filterAndSortGames);
+sortGames.addEventListener('change', filterAndSortGames);
+
+// Логика пагинации
+prevPageBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        filterAndSortGames();
+    }
+});
+
+nextPageBtn.addEventListener('click', () => {
+    const totalPages = Math.ceil(currentGames.length / gamesPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        filterAndSortGames();
+    }
+});
 
 // Логика кнопок категорий утилит
 ourUtilsBtn.addEventListener('click', () => {
