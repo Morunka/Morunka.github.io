@@ -44,8 +44,103 @@ const teamBtn = document.getElementById('team-btn');
 const team = document.getElementById('team');
 const extensionsBtn = document.getElementById('extensions-btn');
 const extensions = document.getElementById('extensions');
+const gamesBtn = document.getElementById('games-btn');
+const games = document.getElementById('games');
+const horrorBtn = document.getElementById('horror-btn');
+const othersBtn = document.getElementById('others-btn');
+const gamesList = document.getElementById('games-list');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
+
+// Функция для загрузки игр
+function loadGames(file) {
+    fetch(file)
+        .then(response => response.text())
+        .then(data => {
+            console.log(`Сырые данные из ${file}:`, data);
+            gamesList.innerHTML = '';
+
+            const gamesData = [];
+            let currentGame = {};
+            const lines = data.split('\n').filter(line => line.trim() !== '');
+            lines.forEach(line => {
+                const [key, value] = line.split('=');
+                if (key && value) {
+                    const trimmedKey = key.trim();
+                    const trimmedValue = value.trim().replace(/"/g, '');
+                    if (trimmedKey === 'Name') {
+                        if (Object.keys(currentGame).length > 0) {
+                            gamesData.push(currentGame);
+                        }
+                        currentGame = { Name: trimmedValue };
+                    } else if (trimmedKey === 'Tags') {
+                        currentGame.Tags = trimmedValue.split(',').map(tag => tag.trim());
+                    } else if (trimmedKey === 'Desc') {
+                        currentGame.Desc = trimmedValue;
+                    } else if (trimmedKey === 'Year') {
+                        currentGame.Year = trimmedValue;
+                    } else if (trimmedKey === 'Link') {
+                        currentGame.Link = trimmedValue;
+                    } else if (trimmedKey === 'Image') {
+                        currentGame.Image = trimmedValue;
+                    } else if (trimmedKey === 'Engine') {
+                        currentGame.Engine = trimmedValue;
+                    } else if (trimmedKey === 'Version') {
+                        currentGame.Version = trimmedValue;
+                    }
+                }
+            });
+            if (Object.keys(currentGame).length > 0) {
+                gamesData.push(currentGame);
+            }
+
+            console.log(`Итоговый массив игр из ${file}:`, gamesData);
+
+            if (gamesData.length === 0) {
+                gamesList.innerHTML = '<p>Игры отсутствуют.</p>';
+            } else {
+                gamesData.forEach(game => {
+                    // Если изображение отсутствует, пытаемся извлечь его из ссылки
+                    let backgroundImage = game.Image;
+                    if (!backgroundImage) {
+                        // Пример извлечения изображения для Kogama
+                        if (game.Link.includes('kogama.com')) {
+                            const gameId = game.Link.match(/\/play\/(\d+)\//)?.[1];
+                            if (gameId) {
+                                backgroundImage = `https://www.kogama.com/static/img/game_thumbnails/${gameId}.jpg`; // Пример URL для Kogama
+                            }
+                        }
+                    }
+                    if (!backgroundImage) {
+                        backgroundImage = 'https://via.placeholder.com/600x200?text=No+Image'; // Запасное изображение
+                    }
+
+                    const gameCard = document.createElement('div');
+                    gameCard.classList.add('game-card');
+                    gameCard.style.backgroundImage = `url('${backgroundImage}')`;
+                    gameCard.innerHTML = `
+                        <div class="game-header">
+                            <h3 class="game-title">${game.Name}</h3>
+                            <div class="game-meta">
+                                <span class="game-version">v${game.Version || 'N/A'}</span>
+                                <span class="game-engine">${game.Engine || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
+                        <div class="game-footer">
+                            <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
+                            <span class="game-year">${game.Year || 'N/A'}</span>
+                        </div>
+                    `;
+                    gamesList.appendChild(gameCard);
+                });
+            }
+        })
+        .catch(error => {
+            console.error(`Ошибка загрузки данных из ${file}:`, error);
+            gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
+        });
+}
 
 // Логика кнопки "О студии"
 aboutBtn.addEventListener('click', (e) => {
@@ -77,6 +172,11 @@ aboutBtn.addEventListener('click', (e) => {
         extensionsBtn.classList.remove('active');
         extensions.classList.add('hide');
     }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
+    }
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
     if (!body.classList.contains('active')) {
@@ -94,7 +194,7 @@ linksBtn.addEventListener('click', (e) => {
         aboutBtn.classList.remove('active');
         description.classList.add('hide');
     }
-    if (body.classList.contains('docs-active')) {
+    if (body.classList.contains('docs-active')) {
         body.classList.remove('docs-active');
         docsBtn.classList.remove('active');
         docs.classList.add('hide');
@@ -113,6 +213,11 @@ linksBtn.addEventListener('click', (e) => {
         body.classList.remove('extensions-active');
         extensionsBtn.classList.remove('active');
         extensions.classList.add('hide');
+    }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
     }
     body.classList.toggle('links-active');
     linksBtn.classList.toggle('active');
@@ -155,6 +260,11 @@ docsBtn.addEventListener('click', (e) => {
         extensionsBtn.classList.remove('active');
         extensions.classList.add('hide');
     }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
+    }
     body.classList.toggle('docs-active');
     docsBtn.classList.toggle('active');
     if (!body.classList.contains('docs-active')) {
@@ -194,6 +304,11 @@ devBtn.addEventListener('click', (e) => {
         extensionsBtn.classList.remove('active');
         extensions.classList.add('hide');
     }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
+    }
     body.classList.toggle('dev-active');
     devBtn.classList.toggle('active');
     if (!body.classList.contains('dev-active')) {
@@ -232,6 +347,11 @@ teamBtn.addEventListener('click', (e) => {
         body.classList.remove('extensions-active');
         extensionsBtn.classList.remove('active');
         extensions.classList.add('hide');
+    }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
     }
     body.classList.toggle('team-active');
     teamBtn.classList.toggle('active');
@@ -328,12 +448,85 @@ extensionsBtn.addEventListener('click', (e) => {
         teamBtn.classList.remove('active');
         team.classList.add('hide');
     }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
+    }
     body.classList.toggle('extensions-active');
     extensionsBtn.classList.toggle('active');
     if (!body.classList.contains('extensions-active')) {
         extensions.classList.add('hide');
     } else {
         extensions.classList.remove('hide');
+    }
+});
+
+// Логика кнопки "Игры"
+gamesBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (body.classList.contains('active')) {
+        body.classList.remove('active');
+        aboutBtn.classList.remove('active');
+        description.classList.add('hide');
+    }
+    if (body.classList.contains('links-active')) {
+        body.classList.remove('links-active');
+        linksBtn.classList.remove('active');
+        linksRow.classList.remove('telegram-active');
+        telegramBtn.classList.remove('back');
+        links.classList.add('hide');
+    }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
+    }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
+    }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
+    }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
+    }
+    body.classList.toggle('games-active');
+    gamesBtn.classList.toggle('active');
+    if (!body.classList.contains('games-active')) {
+        games.classList.add('hide');
+    } else {
+        games.classList.remove('hide');
+        // По умолчанию загружаем хоррор-игры
+        if (horrorBtn.classList.contains('active')) {
+            loadGames('HorrorGames.txt');
+        } else {
+            loadGames('OthersGames.txt');
+        }
+    }
+});
+
+// Логика кнопки "Хоррор"
+horrorBtn.addEventListener('click', () => {
+    if (!horrorBtn.classList.contains('active')) {
+        horrorBtn.classList.add('active');
+        othersBtn.classList.remove('active');
+        loadGames('HorrorGames.txt');
+    }
+});
+
+// Логика кнопки "Прочее"
+othersBtn.addEventListener('click', () => {
+    if (!othersBtn.classList.contains('active')) {
+        othersBtn.classList.add('active');
+        horrorBtn.classList.remove('active');
+        loadGames('OthersGames.txt');
     }
 });
 
