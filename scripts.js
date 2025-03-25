@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         links.style.padding = '10px';
     });
 
-    // Исправляем подменю Telegram
+    // Подменю Telegram
     if (telegramBtn && linksRow) {
         const telegramLinks = linksRow.querySelector('.telegram-links');
         if (telegramLinks) telegramLinks.style.display = 'none'; // Скрываем изначально
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dev.style.top = '50%';
 
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // Тайм-аут 5 секунд
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
         fetch('./DevelopingGameProc.txt', { signal: controller.signal })
             .then(response => {
                 clearTimeout(timeoutId);
@@ -251,9 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const teamList = document.querySelector('.team-list');
         if (teamList) {
-            teamList.innerHTML = ''; // Очищаем список один раз
+            teamList.innerHTML = '';
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000); // Тайм-аут 5 секунд
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
             fetch('./BRC-Team.txt', { signal: controller.signal })
                 .then(response => {
                     clearTimeout(timeoutId);
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
-                    console.log('Данные BRC-Team.txt:', data); // Отладка
+                    console.log('Данные BRC-Team.txt:', data);
                     const members = data.split('\n\n').map(member => {
                         const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         return memberData;
                     });
-                    console.log('Участники команды:', members); // Отладка
+                    console.log('Участники команды:', members);
                     if (members.length === 0 || members[0].Username === undefined) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
@@ -293,7 +293,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         });
                     }
-                    // Всегда добавляем надпись о присоединении
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
                     joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
@@ -302,7 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(error => {
                     console.error('Ошибка загрузки команды:', error);
                     teamList.innerHTML = '<p>Ошибка загрузки команды: ' + error.message + '</p>';
-                    // Добавляем надпись даже при ошибке
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
                     joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
@@ -416,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayGames = () => {
         if (!gamesList) return;
         gamesList.classList.remove('fade-in');
-        void gamesList.offsetWidth; // Перезапускаем анимацию
+        void gamesList.offsetWidth;
         gamesList.classList.add('fade-in');
 
         gamesList.innerHTML = '';
@@ -515,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Загрузка утилит
     const loadUtils = () => {
         utilsList.classList.remove('fade-in');
-        void utilsList.offsetWidth; // Перезапускаем анимацию
+        void utilsList.offsetWidth;
         utilsList.classList.add('fade-in');
 
         utilsList.innerHTML = '';
@@ -584,13 +582,18 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Кнопки прокрутки
+    // Кнопки прокрутки: пролистываем на 300 пикселей
+    const scrollStep = 300; // Размер шага прокрутки
     const scrollTopBtn = document.querySelector('.scroll-up');
     const scrollBottomBtn = document.querySelector('.scroll-down');
 
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const currentScroll = window.scrollY;
+            window.scrollTo({
+                top: Math.max(0, currentScroll - scrollStep),
+                behavior: 'smooth'
+            });
         });
     } else {
         console.warn('Кнопка scroll-up не найдена');
@@ -598,7 +601,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (scrollBottomBtn) {
         scrollBottomBtn.addEventListener('click', () => {
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            const currentScroll = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            window.scrollTo({
+                top: Math.min(maxScroll, currentScroll + scrollStep),
+                behavior: 'smooth'
+            });
         });
     } else {
         console.warn('Кнопка scroll-down не найдена');
