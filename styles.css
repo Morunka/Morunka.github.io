@@ -242,7 +242,7 @@ h1 {
     gap: 15px;
     justify-content: center;
     align-items: center;
-    flex-wrap: nowrap; /* Убираем перенос иконок */
+    flex-wrap: nowrap;
     position: relative;
 }
 
@@ -319,12 +319,24 @@ h1 {
     width: 90px;
     padding: 8px;
     box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Добавляем анимацию */
+    border: 2px solid transparent;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.links-row.telegram-active .telegram-link:hover {
+    transform: scale(1.1); /* Увеличение при наведении */
+    border: 2px solid white;
+    background-color: #555;
 }
 
 .docs-container {
     display: block;
     visibility: hidden;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 250, 0.3);
     padding: 10px;
     border-radius: 10px;
     position: absolute;
@@ -363,7 +375,7 @@ h1 {
     padding: 15px;
     border-radius: 10px;
     position: absolute;
-    top: 120%; /* Начальное положение ниже видимой области */
+    top: 120%;
     transform: translateY(0);
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
@@ -551,6 +563,176 @@ h1 {
     margin: 0;
 }
 
+/* Стили для списка игр */
+.games-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    position: absolute;
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 600px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+
+.games-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.games-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.category-btn:hover {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.category-btn.active {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.game-card {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Затемнение фона для читаемости текста */
+    z-index: 1;
+}
+
+.game-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.game-title {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.game-meta {
+    display: flex;
+    gap: 10px;
+}
+
+.game-version, .game-engine {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.game-description {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 10px 0;
+}
+
+.game-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-play-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.game-play-btn:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
+.game-year {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.games-active .header-container {
+    top: 10%;
+    transform: translateY(0);
+}
+
+.games-active .games-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
 .active .header-container {
     top: 10%;
     transform: translateY(0);
@@ -676,6 +858,16 @@ h1 {
         padding: 10px;
     }
 
+    .games-container {
+        width: 300px;
+        max-height: 300px;
+        padding: 10px;
+    }
+
+    .game-card {
+        min-height: 180px;
+    }
+
     .description {
         font-size: 14px;
     }
@@ -694,7 +886,8 @@ h1 {
     .docs-active .header-container,
     .dev-active .header-container,
     .team-active .header-container,
-    .extensions-active .header-container {
+    .extensions-active .header-container,
+    .games-active .header-container {
         top: 5%;
     }
 
@@ -726,6 +919,27 @@ h1 {
     }
 
     .team-join {
+        font-size: 10px;
+    }
+
+    .game-title {
+        font-size: 16px;
+    }
+
+    .game-version, .game-engine {
+        font-size: 10px;
+    }
+
+    .game-description {
+        font-size: 12px;
+    }
+
+    .game-play-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .game-year {
         font-size: 10px;
     }
 }
@@ -791,6 +1005,16 @@ h1 {
         padding: 8px;
     }
 
+    .games-container {
+        width: 250px;
+        max-height: 250px;
+        padding: 8px;
+    }
+
+    .game-card {
+        min-height: 160px;
+    }
+
     .scroll-button {
         width: 20px;
         height: 20px;
@@ -819,6 +1043,27 @@ h1 {
     }
 
     .team-join {
+        font-size: 8px;
+    }
+
+    .game-title {
+        font-size: 14px;
+    }
+
+    .game-version, .game-engine {
+        font-size: 8px;
+    }
+
+    .game-description {
+        font-size: 10px;
+    }
+
+    .game-play-btn {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+
+    .game-year {
         font-size: 8px;
     }
 }
