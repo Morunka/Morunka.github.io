@@ -114,7 +114,7 @@ h1 {
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin: 10px 0;
-    margin-bottom: 30px; /* Увеличено для большего расстояния */
+    margin-bottom: 20px;
     cursor: pointer;
 }
 
@@ -140,7 +140,7 @@ h1 {
     flex-wrap: nowrap;
     justify-content: center;
     position: fixed;
-    top: 70px; /* Увеличено для соответствия */
+    top: 60px;
     width: 100%;
     z-index: 1000;
     overflow-x: auto;
@@ -178,8 +178,8 @@ h1 {
 }
 
 .button.license {
-    padding: 6px 12px; /* Исправлено для соответствия остальным кнопкам */
-    font-size: 12px; /* Исправлено для соответствия */
+    padding: 6px 12px; /* Увеличено с 6px 10px */
+    font-size: 12px; /* Увеличено с 10px */
 }
 
 /* Описание */
@@ -232,9 +232,9 @@ h1 {
     top: 100%;
     transform: translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, max-height 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
     width: 320px;
-    max-height: 70px; /* Изменено на max-height для анимации вниз */
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -247,12 +247,15 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, max-height 0.5s ease-in-out;
+    width: 320px;
+    height: 70px; /* Добавлено для анимации при закрытии */
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
 .links-container.telegram-active {
     width: 600px;
-    max-height: 200px; /* Анимация вниз через max-height */
+    height: auto;
+    min-height: 200px;
     padding: 20px;
     overflow: hidden;
 }
@@ -659,22 +662,17 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    transform: scale(1.1);
 }
 
 .category-btn.active {
     background-color: #555;
     border: 2px solid white;
-}
-
-.category-btn:active {
-    transform: scale(1.2);
 }
 
 .filter-input {
@@ -739,23 +737,18 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
 .page-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    transform: scale(1.1);
 }
 
 .page-btn:disabled {
     background-color: #222;
     color: #666;
     cursor: not-allowed;
-}
-
-.page-btn:active {
-    transform: scale(1.2);
 }
 
 .page-info {
@@ -861,18 +854,12 @@ h1 {
     border-radius: 5px;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: transform 0.3s ease, background-color 0.3s ease, border 0.3s ease;
-    border: 2px solid transparent;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .game-play-btn:hover {
     background-color: #555;
-    transform: scale(1.1);
-    border: 2px solid white;
-}
-
-.game-play-btn:active {
-    transform: scale(1.2);
+    transform: scale(1.05);
 }
 
 .game-year {
@@ -933,45 +920,19 @@ h1 {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.utils-button {
-    display: block;
+.utils-item {
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 15px;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
     border-radius: 10px;
     text-align: center;
+}
+
+.utils-item p {
+    color: white;
     font-family: 'Russo One', sans-serif;
     font-size: 16px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.utils-button:hover {
-    transform: scale(1.1);
-    border: 2px solid white;
-    background-color: #555;
-}
-
-.utils-button:active {
-    transform: scale(1.2);
-    border: 2px solid white;
-}
-
-.utils-list.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    margin: 0;
 }
 
 /* Активные состояния */
@@ -1104,7 +1065,7 @@ h1 {
         gap: 10px;
         flex-wrap: nowrap;
         overflow-x: auto;
-        top: 60px;
+        top: 50px;
     }
     .button {
         padding: 5px 10px;
@@ -1114,8 +1075,8 @@ h1 {
         font-size: 9px;
     }
     .button.license {
-        padding: 5px 10px;
-        font-size: 11px;
+        padding: 5px 10px; /* Увеличено с 5px 8px */
+        font-size: 11px; /* Увеличено с 9px */
     }
     .description-container {
         max-width: 90%;
@@ -1124,11 +1085,16 @@ h1 {
     .links-container, .docs-container, .dev-container, .extensions-container {
         padding: 8px;
         width: 300px;
-        max-height: 60px;
+        height: 60px;
+    }
+    .links-container.hide {
+        width: 300px;
+        height: 60px; /* Добавлено для анимации */
     }
     .links-container.telegram-active {
         width: 350px;
-        max-height: 150px;
+        height: auto;
+        min-height: 150px;
         padding: 15px;
     }
     .team-container {
@@ -1197,29 +1163,34 @@ h1 {
         font-size: 12px;
     }
     .game-play-btn {
-        font-size: 12px;
         padding: 6px 12px;
+        font-size: 12px;
     }
     .game-year {
         font-size: 10px;
     }
-    .filter-input, .filter-select {
+    .category-btn {
+        padding: 6px 12px;
         font-size: 12px;
+    }
+    .filter-input, .filter-select {
         padding: 6px;
+        font-size: 12px;
         width: 100px;
     }
-    .utils-button {
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .page-info {
+        font-size: 12px;
+    }
+    .utils-item p {
         font-size: 14px;
-        padding: 10px;
     }
-    .easter-egg {
-        right: -150px;
-    }
-    .easter-egg.active {
-        right: 10px;
-    }
-    .easter-egg img {
-        width: 150px;
+    .footer {
+        font-size: 10px;
+        padding: 15px;
     }
 }
 
@@ -1228,11 +1199,9 @@ h1 {
         font-size: 28px;
     }
     .button-container {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        overflow-x: auto;
-        top: 50px;
+        padding: 4px;
+        gap: 8px;
+        top: 40px;
     }
     .button {
         padding: 4px 8px;
@@ -1242,30 +1211,24 @@ h1 {
         font-size: 8px;
     }
     .button.license {
-        padding: 4px 8px;
-        font-size: 10px;
+        padding: 4px 8px; /* Увеличено с 4px 6px */
+        font-size: 10px; /* Увеличено с 8px */
     }
-    .description {
-        font-size: 12px;
-    }
-    .link-icon {
-        width: 35px;
-        height: 35px;
-    }
-    .telegram.back {
-        transform: translateX(0);
-    }
-    .footer {
-        font-size: 10px;
-        padding: 10px;
+    .description-container {
+        max-width: 95%;
+        padding: 8px;
     }
     .links-container, .docs-container, .dev-container, .extensions-container {
         width: 250px;
-        max-height: 55px;
+        height: 50px;
+    }
+    .links-container.hide {
+        width: 250px;
+        height: 50px; /* Добавлено для анимации */
     }
     .links-container.telegram-active {
         width: 300px;
-        max-height: 120px;
+        min-height: 120px;
         padding: 10px;
     }
     .team-container {
@@ -1279,6 +1242,13 @@ h1 {
     }
     .game-card {
         min-height: 160px;
+    }
+    .description {
+        font-size: 12px;
+    }
+    .link-icon {
+        width: 35px;
+        height: 35px;
     }
     .scroll-button {
         width: 20px;
@@ -1311,31 +1281,36 @@ h1 {
         font-size: 8px;
     }
     .game-description {
-        font-size: 12px;
+        font-size: 10px;
     }
     .game-play-btn {
-        font-size: 10px;
         padding: 5px 10px;
+        font-size: 10px;
     }
     .game-year {
         font-size: 8px;
     }
-    .filter-input, .filter-select {
+    .category-btn {
+        padding: 5px 10px;
         font-size: 10px;
+    }
+    .filter-input, .filter-select {
         padding: 5px;
-        width: 90px;
+        font-size: 10px;
+        width: 80px;
     }
-    .utils-button {
+    .page-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .page-info {
+        font-size: 10px;
+    }
+    .utils-item p {
         font-size: 12px;
-        padding: 8px;
     }
-    .easter-egg {
-        right: -120px;
-    }
-    .easter-egg.active {
-        right: 5px;
-    }
-    .easter-egg img {
-        width: 120px;
+    .footer {
+        font-size: 8px;
+        padding: 10px;
     }
 }
