@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const otherUtilsBtn = document.getElementById('other-utils-btn');
     const utilsList = document.getElementById('utils-list');
     const body = document.body;
-    const linksRow = document.getElementById('links-row');
+    const linksRow = document.querySelector('.links-row');
     const logo = document.querySelector('h1');
     const easterEgg = document.querySelector('.easter-egg');
 
@@ -66,16 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             easterEgg.classList.add('active');
         }
     });
-
-    // Автоматическое открытие вкладки "О компании", если ничего не открыто
-    const isAnyMenuOpen = () => {
-        const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
-        return menuClasses.some(cls => body.classList.contains(cls));
-    };
-
-    if (!isAnyMenuOpen()) {
-        aboutBtn.click();
-    }
 
     // Функция для закрытия всех меню, кроме указанного
     const closeOtherMenus = (activeClass) => {
@@ -109,16 +99,24 @@ document.addEventListener('DOMContentLoaded', () => {
         utilsBtn.classList.remove('active');
     };
 
-    // Кнопка "О компании"
+    // Автоматическое открытие вкладки "О студии"
+    const openAboutSection = () => {
+        closeOtherMenus('active');
+        body.classList.add('active');
+        aboutBtn.classList.add('active');
+        description.classList.remove('hide');
+    };
+
+    // Открываем "О студии" сразу после загрузки
+    openAboutSection();
+
+    // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) {
             return;
         }
-        closeOtherMenus('active');
-        body.classList.add('active');
-        aboutBtn.classList.add('active');
-        description.classList.remove('hide');
+        openAboutSection();
     });
 
     // Кнопка "Связи"
@@ -137,22 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (telegramBtn && linksRow) {
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            const isActive = linksRow.classList.contains('telegram-active');
             linksRow.classList.toggle('telegram-active');
             telegramBtn.classList.toggle('back');
-            const telegramLinks = document.querySelector('.telegram-links');
+            const telegramLinks = linksRow.querySelector('.telegram-links');
             if (telegramLinks) {
-                telegramLinks.style.display = linksRow.classList.contains('telegram-active') ? 'flex' : 'none';
+                telegramLinks.style.display = isActive ? 'none' : 'flex';
             } else {
-                console.warn('Элемент .telegram-links не найден, создаём его');
-                const telegramLinksDiv = document.createElement('div');
-                telegramLinksDiv.classList.add('telegram-links');
-                telegramLinksDiv.innerHTML = `
-                    <a href="https://t.me/By_RORlil" class="telegram-link">Канал студии</a>
-                    <a href="https://t.me/MorunkaBot" class="telegram-link">Бот студии</a>
-                    <a href="https://t.me/MEOW_MUR920" class="telegram-link">Создатель</a>
-                `;
-                linksRow.appendChild(telegramLinksDiv);
-                telegramLinksDiv.style.display = 'flex';
+                console.warn('Элемент .telegram-links не найден');
             }
         });
     } else {
@@ -262,11 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             teamList.appendChild(divider);
                         }
                     });
-                    // Добавляем надпись только один раз
-                    const joinDiv = document.createElement('div');
-                    joinDiv.classList.add('team-join');
-                    joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
-                    teamList.appendChild(joinDiv);
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки команды:', error);
@@ -537,15 +522,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Кнопки прокрутки
-    const scrollTopBtn = document.getElementById('scroll-top');
-    const scrollBottomBtn = document.getElementById('scroll-bottom');
+    const scrollTopBtn = document.querySelector('.scroll-up');
+    const scrollBottomBtn = document.querySelector('.scroll-down');
 
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     } else {
-        console.warn('Кнопка scroll-top не найдена');
+        console.warn('Кнопка scroll-up не найдена');
     }
 
     if (scrollBottomBtn) {
@@ -553,6 +538,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
     } else {
-        console.warn('Кнопка scroll-bottom не найдена');
+        console.warn('Кнопка scroll-down не найдена');
     }
 });
