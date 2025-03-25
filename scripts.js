@@ -38,232 +38,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const ourUtilsBtn = document.getElementById('our-utils-btn');
     const otherUtilsBtn = document.getElementById('other-utils-btn');
     const utilsList = document.getElementById('utils-list');
-    const linksRow = document.querySelector('.links-row');
     const body = document.body;
+    const linksRow = document.getElementById('links-row');
     const logo = document.querySelector('h1');
     const easterEgg = document.querySelector('.easter-egg');
 
-    // Глобальные переменные для пагинации и списка игр
-    let currentGames = [];
+    let currentCategory = 'horror';
+    let gamesData = [];
     let filteredGames = [];
     let currentPage = 1;
-    const gamesPerPage = 3;
+    const gamesPerPage = 5;
 
-    // Функция для проверки, есть ли открытые страницы
-    function isAnyPageOpen() {
-        return (
-            body.classList.contains('active') ||
-            body.classList.contains('links-active') ||
-            body.classList.contains('docs-active') ||
-            body.classList.contains('dev-active') ||
-            body.classList.contains('team-active') ||
-            body.classList.contains('extensions-active') ||
-            body.classList.contains('games-active') ||
-            body.classList.contains('utils-active')
-        );
-    }
-
-    // Открываем страницу "О студии" по умолчанию
-    body.classList.add('active');
-    aboutBtn.classList.add('active');
-    description.classList.remove('hide');
-
-    // Загружаем данные о разрабатываемой игре
-    fetch('DevelopingGameProc.txt')
-        .then(response => response.text())
-        .then(data => {
-            const lines = data.split('\n');
-            const gameData = {};
-            lines.forEach(line => {
-                const [key, value] = line.split('=');
-                if (key && value) {
-                    gameData[key.trim()] = value.trim().replace(/"/g, '');
-                }
-            });
-            document.getElementById('game-name').textContent = gameData.GameName || 'Не указано';
-            document.getElementById('game-dev-progress').textContent = `Прогресс: ${gameData['Game%Dev'] || '0%'}`;
-            document.getElementById('game-version').textContent = `Версия: ${gameData.GameVersion || 'Не указана'}`;
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки данных:', error);
-            document.getElementById('game-name').textContent = 'Ошибка загрузки';
-            document.getElementById('game-dev-progress').textContent = 'Прогресс: -';
-            document.getElementById('game-version').textContent = 'Версия: -';
-        });
-
-    // Функция для отображения игр на текущей странице
-    function displayGames(gamesData) {
-        // Добавляем класс для анимации
-        gamesList.classList.remove('slide-left', 'slide-right');
-        void gamesList.offsetWidth; // Сбрасываем анимацию
-        gamesList.classList.add(currentPage > gamesList.dataset.lastPage ? 'slide-left' : 'slide-right');
-        gamesList.dataset.lastPage = currentPage;
-
-        gamesList.innerHTML = '';
-        const start = (currentPage - 1) * gamesPerPage;
-        const end = start + gamesPerPage;
-        const paginatedGames = gamesData.slice(start, end);
-
-        if (paginatedGames.length === 0) {
-            gamesList.innerHTML = '<p>Упс.. По вашему запросу ничего не было найдено.</p>';
-        } else {
-            paginatedGames.forEach(game => {
-                let backgroundImage = game.Image;
-                if (!backgroundImage) {
-                    if (game.Link.includes('kogama.com')) {
-                        const gameId = game.Link.match(/\/game\/\d+\/(\d+)/)?.[1];
-                        if (gameId) {
-                            backgroundImage = `https://cdn.kogama.com/game-thumbnails/${gameId}.jpg`;
-                        }
-                    }
-                }
-                if (!backgroundImage) {
-                    backgroundImage = 'https://via.placeholder.com/600x200?text=No+Image';
-                }
-
-                const gameCard = document.createElement('div');
-                gameCard.classList.add('game-card');
-                gameCard.style.backgroundImage = `url('${backgroundImage}')`;
-                gameCard.innerHTML = `
-                    <div class="game-header">
-                        <h3 class="game-title">${game.Name}</h3>
-                        <div class="game-meta">
-                            <span class="game-version">v${game.Version || 'N/A'}</span>
-                            <span class="game-engine">${game.Engine || 'N/A'}</span>
-                        </div>
-                    </div>
-                    <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
-                    <div class="game-footer">
-                        <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
-                        <span class="game-year">${game.Year || 'N/A'}</span>
-                    </div>
-                `;
-                gamesList.appendChild(gameCard);
-            });
-        }
-
-        const totalPages = Math.ceil(gamesData.length / gamesPerPage);
-        pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
-        prevPageBtn.disabled = currentPage === 1;
-        nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
-    }
-
-    // Функция для фильтрации и сортировки игр
-    function filterAndSortGames() {
-        const year = yearFilter.value.trim();
-        const engine = engineFilter.value;
-        const category = horrorBtn.classList.contains('active') ? 'horror' : 'others';
-        const sortValue = sortGames.value;
-
-        filteredGames = currentGames.filter(game => {
-            const matchesCategory = category === 'horror' ? (game.Tags || []).some(tag => tag.toLowerCase() === 'horror') : !(game.Tags || []).some(tag => tag.toLowerCase() === 'horror');
-            const matchesYear = year ? (game.Year || '').toString().includes(year) : true;
-            const matchesEngine = engine ? (game.Engine || '') === engine : true;
-            return matchesCategory && matchesYear && matchesEngine;
-        });
-
-        if (sortValue === 'name-asc') {
-            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
-        } else if (sortValue === 'name-desc') {
-            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
-        } else if (sortValue === 'year-desc') {
-            filteredGames.sort((a, b) => parseInt(b.Year || 0) - parseInt(a.Year || 0));
-        } else if (sortValue === 'year-asc') {
-            filteredGames.sort((a, b) => parseInt(a.Year || 0) - parseInt(a.Year || 0));
-        }
-
-        displayGames(filteredGames);
-    }
-
-    // Функция для загрузки игр
-    function loadGames(file) {
-        fetch(file)
-            .then(response => {
-                if (!response.ok) throw new Error(`Файл ${file} не найден`);
-                return response.text();
-            })
-            .then(data => {
-                console.log('Сырые данные GamesList.txt:', data);
-                const gamesData = [];
-                let currentGame = {};
-                const lines = data.split('\n').filter(line => line.trim() !== '');
-                lines.forEach((line, index) => {
-                    console.log(`Строка ${index}:`, line);
-                    const [key, value] = line.split(':');
-                    if (key && value) {
-                        const trimmedKey = key.trim();
-                        let trimmedValue = value.trim();
-                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
-                            trimmedValue = trimmedValue.slice(1, -1);
-                        }
-                        if (trimmedKey === 'Name') {
-                            if (Object.keys(currentGame).length > 0) {
-                                gamesData.push(currentGame);
-                            }
-                            currentGame = { Name: trimmedValue };
-                        } else if (trimmedKey === 'Tags') {
-                            currentGame.Tags = trimmedValue.split(',').map(tag => tag.trim().replace(/"/g, ''));
-                        } else if (trimmedKey === 'Desc') {
-                            currentGame.Desc = trimmedValue;
-                        } else if (trimmedKey === 'Year') {
-                            currentGame.Year = trimmedValue;
-                        } else if (trimmedKey === 'Link') {
-                            currentGame.Link = trimmedValue;
-                        } else if (trimmedKey === 'Image') {
-                            currentGame.Image = trimmedValue;
-                        } else if (trimmedKey === 'Engine') {
-                            currentGame.Engine = trimmedValue;
-                        } else if (trimmedKey === 'Version') {
-                            currentGame.Version = trimmedValue;
-                        }
-                    }
-                });
-                if (Object.keys(currentGame).length > 0) {
-                    gamesData.push(currentGame);
-                }
-
-                console.log('Загруженные игры:', gamesData);
-                currentGames = gamesData;
-                filterAndSortGames();
-            })
-            .catch(error => {
-                console.error(`Ошибка загрузки данных из ${file}:`, error);
-                gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
-            });
-    }
-
-    // Функция для отображения утилит
-    function displayUtils(category) {
-        // Добавляем класс для анимации
-        utilsList.classList.remove('fade-in');
-        void utilsList.offsetWidth; // Сбрасываем анимацию
-        utilsList.classList.add('fade-in');
-
-        utilsList.innerHTML = '';
-        if (category === 'our') {
-            const utilsData = [
-                { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
-                { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
-            ];
-            utilsData.forEach(util => {
-                const utilItem = document.createElement('div');
-                utilItem.classList.add('utils-item');
-                utilItem.innerHTML = `
-                    <a href="${util.link}" class="telegram-link">${util.name}</a>
-                `;
-                utilsList.appendChild(utilItem);
-            });
-        } else {
-            utilsList.innerHTML = '<p>Пока здесь ничего нет.</p>';
-        }
-    }
-
-    // Пасхалка: клик на логотип
+    // Пасхалка
+    let clickCount = 0;
     logo.addEventListener('click', () => {
-        easterEgg.classList.toggle('active');
+        clickCount++;
+        if (clickCount === 5) {
+            easterEgg.classList.add('active');
+        }
     });
 
-    // Логика кнопок
+    // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) {
@@ -311,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         description.classList.remove('hide');
     });
 
+    // Кнопка "Связи"
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) {
@@ -356,6 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
         links.classList.remove('hide');
     });
 
+    telegramBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        linksRow.classList.toggle('telegram-active');
+        telegramBtn.classList.toggle('back');
+    });
+
+    // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) {
@@ -403,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         docs.classList.remove('hide');
     });
 
+    // Кнопка "Разработка"
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) {
@@ -448,8 +252,30 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('dev-active');
         devBtn.classList.add('active');
         dev.classList.remove('hide');
+        fetch('./DevelopingGameProc.txt')
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n').map(line => line.trim()).filter(line => line);
+                const gameData = {};
+                lines.forEach(line => {
+                    const [key, value] = line.split(': ').map(item => item.trim());
+                    gameData[key] = value;
+                });
+                const devInfo = document.querySelector('.dev-info');
+                devInfo.innerHTML = `
+                    <h2>${gameData.Name}</h2>
+                    <p>Прогресс: ${gameData.Progress}</p>
+                    <p>Дата: ${gameData.Date}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных разработки:', error);
+                const devInfo = document.querySelector('.dev-info');
+                devInfo.innerHTML = '<p>Ошибка загрузки данных разработки</p>';
+            });
     });
 
+    // Кнопка "Команда"
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) {
@@ -495,54 +321,31 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('team-active');
         teamBtn.classList.add('active');
         team.classList.remove('hide');
+        const teamList = document.querySelector('.team-list');
+        teamList.innerHTML = '';
         fetch('./BRC-Team.txt')
-            .then(response => {
-                if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
-                console.log('Сырые данные BRC-Team.txt:', data);
-                const teamList = document.getElementById('team-list');
-                teamList.innerHTML = '';
-                const members = [];
-                let currentMember = {};
-                const lines = data.split('\n').filter(line => line.trim() !== '');
-                lines.forEach((line, index) => {
-                    console.log(`Строка ${index}:`, line);
-                    const [key, value] = line.split(':');
-                    if (key && value) {
-                        const trimmedKey = key.trim();
-                        let trimmedValue = value.trim();
-                        trimmedValue = trimmedValue.replace(/^"|"$/g, '').replace(/\[|\]/g, '');
-                        if (trimmedKey === 'Username') {
-                            if (Object.keys(currentMember).length > 0) {
-                                members.push(currentMember);
-                            }
-                            currentMember = { Name: trimmedValue };
-                        } else if (trimmedKey === 'UserDesc') {
-                            currentMember.Role = trimmedValue;
-                        } else if (trimmedKey === 'UserTelegramContact') {
-                            currentMember.Contact = trimmedValue;
-                        }
-                    }
+                const members = data.split('\n\n').map(member => {
+                    const lines = member.split('\n').map(line => line.trim()).filter(line => line);
+                    const memberData = {};
+                    lines.forEach(line => {
+                        const [key, value] = line.split(': ').map(item => item.trim());
+                        memberData[key] = value;
+                    });
+                    return memberData;
                 });
-                if (Object.keys(currentMember).length > 0) {
-                    members.push(currentMember);
-                }
-
-                console.log('Загруженные члены команды:', members);
                 if (members.length === 0) {
-                    teamList.innerHTML = '<p>Команда пуста</p>';
+                    teamList.innerHTML = '<p>Команда отсутствует</p>';
                     return;
                 }
-
                 members.forEach((member, index) => {
                     const memberDiv = document.createElement('div');
                     memberDiv.classList.add('team-member');
                     memberDiv.innerHTML = `
-                        <h3>${member.Name || 'Не указано'}</h3>
-                        <p class="team-role">${member.Role || 'Роль не указана'}</p>
-                        <a href="${member.Contact || '#'}" class="contact-icon" aria-label="Contact ${member.Name || 'член команды'}"></a>
+                        <h3>${member.Username}</h3>
+                        <p class="team-role">${member.UserDesc}</p>
+                        <a href="${member.UserTelegramContact}" class="contact-icon"></a>
                     `;
                     teamList.appendChild(memberDiv);
                     if (index < members.length - 1) {
@@ -551,13 +354,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         teamList.appendChild(divider);
                     }
                 });
+                const joinDiv = document.createElement('div');
+                joinDiv.classList.add('team-join');
+                joinDiv.innerHTML = 'Хотите присоединиться? <a href="https://t.me/MEOW_MUR920">Напишите нам!</a>';
+                teamList.appendChild(joinDiv);
             })
             .catch(error => {
-                console.error('Ошибка загрузки данных команды:', error);
-                document.getElementById('team-list').innerHTML = '<p>Ошибка загрузки данных команды</p>';
+                console.error('Ошибка загрузки команды:', error);
+                teamList.innerHTML = '<p>Ошибка загрузки команды</p>';
             });
     });
 
+    // Кнопка "Расширения"
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) {
@@ -605,9 +413,23 @@ document.addEventListener('DOMContentLoaded', () => {
         extensions.classList.remove('hide');
         const extensionsList = document.querySelector('.extensions-list');
         extensionsList.innerHTML = '';
+
+        // Добавляем надпись
+        const header = document.createElement('p');
+        header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
+        header.style.color = 'white';
+        header.style.fontFamily = "'Russo One', sans-serif";
+        header.style.fontSize = '14px';
+        header.style.textAlign = 'center';
+        header.style.textShadow = '1px 1px 3px rgba(0, 0, 0, 0.5)';
+        header.style.marginBottom = '15px';
+        extensionsList.appendChild(header);
+
+        // Добавляем кнопки
         const extensionsData = [
-            { name: 'TurboWarp', link: 'https://turbowarp.org/' },
-            { name: 'PenguinMod', link: 'https://penguinmod.com/' }
+            { name: 'Telegram API Pack Edition', link: 'https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition' },
+            { name: 'Scratch API', link: 'https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js' },
+            { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js' }
         ];
         extensionsData.forEach(ext => {
             const extLink = document.createElement('a');
@@ -618,6 +440,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Загрузка игр
+    const loadGames = (file) => {
+        fetch(file)
+            .then(response => response.text())
+            .then(data => {
+                const games = data.split('\n\n').map(game => {
+                    const lines = game.split('\n').map(line => line.trim()).filter(line => line);
+                    const gameData = {};
+                    lines.forEach(line => {
+                        const [key, value] = line.split(': ').map(item => item.trim());
+                        gameData[key] = value;
+                    });
+                    return gameData;
+                });
+                gamesData = games;
+                applyFilters();
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки игр:', error);
+                gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
+            });
+    };
+
+    // Применение фильтров и сортировки
+    const applyFilters = () => {
+        filteredGames = gamesData;
+
+        const year = yearFilter.value;
+        if (year) {
+            filteredGames = filteredGames.filter(game => game.Year.includes(year));
+        }
+
+        const engine = engineFilter.value;
+        if (engine) {
+            filteredGames = filteredGames.filter(game => game.Engine === engine);
+        }
+
+        if (sortGames.value === 'name-asc') {
+            filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
+        } else if (sortGames.value === 'name-desc') {
+            filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
+        } else if (sortGames.value === 'year-asc') {
+            filteredGames.sort((a, b) => a.Year.localeCompare(b.Year));
+        } else if (sortGames.value === 'year-desc') {
+            filteredGames.sort((a, b) => b.Year.localeCompare(a.Year));
+        }
+
+        currentPage = 1;
+        displayGames();
+    };
+
+    // Отображение игр
+    const displayGames = () => {
+        gamesList.innerHTML = '';
+        const start = (currentPage - 1) * gamesPerPage;
+        const end = start + gamesPerPage;
+        const paginatedGames = filteredGames.slice(start, end);
+
+        if (paginatedGames.length === 0) {
+            gamesList.innerHTML = '<p>Игры не найдены</p>';
+        } else {
+            paginatedGames.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.classList.add('game-card');
+                gameCard.style.backgroundImage = `url(${game.Image})`;
+                gameCard.innerHTML = `
+                    <div class="game-header">
+                        <h3 class="game-title">${game.Name}</h3>
+                        <div class="game-meta">
+                            <span class="game-version">v${game.Version}</span>
+                            <span class="game-engine">${game.Engine}</span>
+                        </div>
+                    </div>
+                    <p class="game-description">${game.Desc}</p>
+                    <div class="game-footer">
+                        <a href="${game.Link}" class="game-play-btn">Играть</a>
+                        <span class="game-year">${game.Year}</span>
+                    </div>
+                `;
+                gamesList.appendChild(gameCard);
+            });
+        }
+
+        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+        pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = currentPage === totalPages;
+    };
+
+    // Кнопка "Игры"
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) {
@@ -664,9 +576,48 @@ document.addEventListener('DOMContentLoaded', () => {
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
         currentPage = 1;
-        loadGames('GamesList.txt');
+        loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
     });
 
+    // Переключение категорий
+    horrorBtn.addEventListener('click', () => {
+        if (currentCategory === 'horror') return;
+        currentCategory = 'horror';
+        horrorBtn.classList.add('active');
+        othersBtn.classList.remove('active');
+        loadGames('./HorrorGames.txt');
+    });
+
+    othersBtn.addEventListener('click', () => {
+        if (currentCategory === 'others') return;
+        currentCategory = 'others';
+        othersBtn.classList.add('active');
+        horrorBtn.classList.remove('active');
+        loadGames('./OthersGames.txt');
+    });
+
+    // Фильтры и сортировка
+    yearFilter.addEventListener('input', applyFilters);
+    engineFilter.addEventListener('change', applyFilters);
+    sortGames.addEventListener('change', applyFilters);
+
+    // Пагинация
+    prevPageBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayGames();
+        }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayGames();
+        }
+    });
+
+    // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) {
@@ -712,82 +663,32 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
         utils.classList.remove('hide');
-        displayUtils('our');
-    });
+        const utilsList = document.querySelector('.utils-list');
+        utilsList.innerHTML = '';
 
-    telegramBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        linksRow.classList.toggle('telegram-active');
-        telegramBtn.classList.toggle('back');
-        if (linksRow.classList.contains('telegram-active')) {
-            links.classList.add('telegram-active');
-        } else {
-            links.classList.remove('telegram-active');
-        }
-    });
-
-    horrorBtn.addEventListener('click', () => {
-        horrorBtn.classList.add('active');
-        othersBtn.classList.remove('active');
-        currentPage = 1;
-        filterAndSortGames();
-    });
-
-    othersBtn.addEventListener('click', () => {
-        othersBtn.classList.add('active');
-        horrorBtn.classList.remove('active');
-        currentPage = 1;
-        filterAndSortGames();
-    });
-
-    yearFilter.addEventListener('input', () => {
-        currentPage = 1;
-        filterAndSortGames();
-    });
-
-    engineFilter.addEventListener('change', () => {
-        currentPage = 1;
-        filterAndSortGames();
-    });
-
-    sortGames.addEventListener('change', () => {
-        currentPage = 1;
-        filterAndSortGames();
-    });
-
-    prevPageBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayGames(filteredGames);
-        }
-    });
-
-    nextPageBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayGames(filteredGames);
-        }
-    });
-
-    ourUtilsBtn.addEventListener('click', () => {
-        ourUtilsBtn.classList.add('active');
-        otherUtilsBtn.classList.remove('active');
-        displayUtils('our');
-    });
-
-    otherUtilsBtn.addEventListener('click', () => {
-        otherUtilsBtn.classList.add('active');
-        ourUtilsBtn.classList.remove('active');
-        displayUtils('other');
+        const utilsData = [
+            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
+            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
+        ];
+        utilsData.forEach(utility => {
+            const utilItem = document.createElement('div');
+            utilItem.classList.add('utils-item');
+            utilItem.innerHTML = `
+                <a href="${utility.link}" class="telegram-link">${utility.name}</a>
+            `;
+            utilsList.appendChild(utilItem);
+        });
     });
 
     // Кнопки прокрутки
-    document.querySelector('.scroll-up').addEventListener('click', () => {
-        window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+    const scrollTopBtn = document.getElementById('scroll-top');
+    const scrollBottomBtn = document.getElementById('scroll-bottom');
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    document.querySelector('.scroll-down').addEventListener('click', () => {
-        window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    scrollBottomBtn.addEventListener('click', () => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     });
 });
