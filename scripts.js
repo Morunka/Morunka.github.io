@@ -49,17 +49,82 @@ const games = document.getElementById('games');
 const horrorBtn = document.getElementById('horror-btn');
 const othersBtn = document.getElementById('others-btn');
 const gamesList = document.getElementById('games-list');
+const yearFilter = document.getElementById('year-filter');
+const engineFilter = document.getElementById('engine-filter');
+const utilsBtn = document.getElementById('utils-btn');
+const utils = document.getElementById('utils');
+const ourUtilsBtn = document.getElementById('our-utils-btn');
+const otherUtilsBtn = document.getElementById('other-utils-btn');
+const utilsList = document.getElementById('utils-list');
 const linksRow = document.querySelector('.links-row');
 const body = document.body;
+
+// Глобальная переменная для хранения списка игр
+let currentGames = [];
+
+// Функция для отображения игр
+function displayGames(gamesData) {
+    gamesList.innerHTML = '';
+    if (gamesData.length === 0) {
+        gamesList.innerHTML = '<p>Упс.. По вашему запросу ничего не было найдено.</p>';
+    } else {
+        gamesData.forEach(game => {
+            let backgroundImage = game.Image;
+            if (!backgroundImage) {
+                if (game.Link.includes('kogama.com')) {
+                    const gameId = game.Link.match(/\/play\/(\d+)\//)?.[1];
+                    if (gameId) {
+                        backgroundImage = `https://www.kogama.com/static/img/game_thumbnails/${gameId}.jpg`;
+                    }
+                }
+            }
+            if (!backgroundImage) {
+                backgroundImage = 'https://via.placeholder.com/600x200?text=No+Image';
+            }
+
+            const gameCard = document.createElement('div');
+            gameCard.classList.add('game-card');
+            gameCard.style.backgroundImage = `url('${backgroundImage}')`;
+            gameCard.innerHTML = `
+                <div class="game-header">
+                    <h3 class="game-title">${game.Name}</h3>
+                    <div class="game-meta">
+                        <span class="game-version">v${game.Version || 'N/A'}</span>
+                        <span class="game-engine">${game.Engine || 'N/A'}</span>
+                    </div>
+                </div>
+                <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
+                <div class="game-footer">
+                    <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
+                    <span class="game-year">${game.Year || 'N/A'}</span>
+                </div>
+            `;
+            gamesList.appendChild(gameCard);
+        });
+    }
+}
+
+// Функция для фильтрации игр
+function filterGames() {
+    const year = yearFilter.value.trim();
+    const engine = engineFilter.value;
+    const category = horrorBtn.classList.contains('active') ? 'horror' : 'others';
+
+    let filteredGames = currentGames.filter(game => {
+        const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
+        const matchesYear = year ? game.Year === year : true;
+        const matchesEngine = engine ? game.Engine === engine : true;
+        return matchesCategory && matchesYear && matchesEngine;
+    });
+
+    displayGames(filteredGames);
+}
 
 // Функция для загрузки игр
 function loadGames(file) {
     fetch(file)
         .then(response => response.text())
         .then(data => {
-            console.log(`Сырые данные из ${file}:`, data);
-            gamesList.innerHTML = '';
-
             const gamesData = [];
             let currentGame = {};
             const lines = data.split('\n').filter(line => line.trim() !== '');
@@ -94,52 +159,32 @@ function loadGames(file) {
                 gamesData.push(currentGame);
             }
 
-            console.log(`Итоговый массив игр из ${file}:`, gamesData);
-
-            if (gamesData.length === 0) {
-                gamesList.innerHTML = '<p>Игры отсутствуют.</p>';
-            } else {
-                gamesData.forEach(game => {
-                    // Если изображение отсутствует, пытаемся извлечь его из ссылки
-                    let backgroundImage = game.Image;
-                    if (!backgroundImage) {
-                        // Пример извлечения изображения для Kogama
-                        if (game.Link.includes('kogama.com')) {
-                            const gameId = game.Link.match(/\/play\/(\d+)\//)?.[1];
-                            if (gameId) {
-                                backgroundImage = `https://www.kogama.com/static/img/game_thumbnails/${gameId}.jpg`; // Пример URL для Kogama
-                            }
-                        }
-                    }
-                    if (!backgroundImage) {
-                        backgroundImage = 'https://via.placeholder.com/600x200?text=No+Image'; // Запасное изображение
-                    }
-
-                    const gameCard = document.createElement('div');
-                    gameCard.classList.add('game-card');
-                    gameCard.style.backgroundImage = `url('${backgroundImage}')`;
-                    gameCard.innerHTML = `
-                        <div class="game-header">
-                            <h3 class="game-title">${game.Name}</h3>
-                            <div class="game-meta">
-                                <span class="game-version">v${game.Version || 'N/A'}</span>
-                                <span class="game-engine">${game.Engine || 'N/A'}</span>
-                            </div>
-                        </div>
-                        <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
-                        <div class="game-footer">
-                            <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
-                            <span class="game-year">${game.Year || 'N/A'}</span>
-                        </div>
-                    `;
-                    gamesList.appendChild(gameCard);
-                });
-            }
+            currentGames = gamesData;
+            filterGames();
         })
         .catch(error => {
             console.error(`Ошибка загрузки данных из ${file}:`, error);
             gamesList.innerHTML = '<p>Ошибка загрузки игр</p>';
         });
+}
+
+// Функция для отображения утилит
+function displayUtils(category) {
+    utilsList.innerHTML = '';
+    if (category === 'our') {
+        const utilsData = [
+            { name: 'UNMiner Tool' },
+            { name: 'TS3-Music-Downloader' }
+        ];
+        utilsData.forEach(util => {
+            const utilItem = document.createElement('div');
+            utilItem.classList.add('utils-item');
+            utilItem.innerHTML = `<p>${util.name}</p>`;
+            utilsList.appendChild(utilItem);
+        });
+    } else {
+        utilsList.innerHTML = '<p>Пока здесь ничего нет.</p>';
+    }
 }
 
 // Логика кнопки "О студии"
@@ -176,6 +221,11 @@ aboutBtn.addEventListener('click', (e) => {
         body.classList.remove('games-active');
         gamesBtn.classList.remove('active');
         games.classList.add('hide');
+    }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
     }
     body.classList.toggle('active');
     aboutBtn.classList.toggle('active');
@@ -218,6 +268,11 @@ linksBtn.addEventListener('click', (e) => {
         body.classList.remove('games-active');
         gamesBtn.classList.remove('active');
         games.classList.add('hide');
+    }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
     }
     body.classList.toggle('links-active');
     linksBtn.classList.toggle('active');
@@ -265,6 +320,11 @@ docsBtn.addEventListener('click', (e) => {
         gamesBtn.classList.remove('active');
         games.classList.add('hide');
     }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
+    }
     body.classList.toggle('docs-active');
     docsBtn.classList.toggle('active');
     if (!body.classList.contains('docs-active')) {
@@ -308,6 +368,11 @@ devBtn.addEventListener('click', (e) => {
         body.classList.remove('games-active');
         gamesBtn.classList.remove('active');
         games.classList.add('hide');
+    }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
     }
     body.classList.toggle('dev-active');
     devBtn.classList.toggle('active');
@@ -353,6 +418,11 @@ teamBtn.addEventListener('click', (e) => {
         gamesBtn.classList.remove('active');
         games.classList.add('hide');
     }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
+    }
     body.classList.toggle('team-active');
     teamBtn.classList.toggle('active');
     if (!body.classList.contains('team-active')) {
@@ -362,7 +432,6 @@ teamBtn.addEventListener('click', (e) => {
         fetch('BRC-Team.txt')
             .then(response => response.text())
             .then(data => {
-                console.log('Сырые данные из BRC-Team.txt:', data);
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '';
 
@@ -374,7 +443,6 @@ teamBtn.addEventListener('click', (e) => {
                     if (key && value) {
                         const trimmedKey = key.trim();
                         const trimmedValue = value.trim().replace(/"/g, '');
-                        console.log(`Ключ: ${trimmedKey}, Значение: ${trimmedValue}`);
                         if (trimmedKey === 'Username') {
                             if (Object.keys(currentMember).length > 0) {
                                 members.push(currentMember);
@@ -390,8 +458,6 @@ teamBtn.addEventListener('click', (e) => {
                 if (Object.keys(currentMember).length > 0) {
                     members.push(currentMember);
                 }
-
-                console.log('Итоговый массив members:', members);
 
                 if (members.length === 0) {
                     teamList.innerHTML = '<p>Данные о команде отсутствуют.</p>';
@@ -453,6 +519,11 @@ extensionsBtn.addEventListener('click', (e) => {
         gamesBtn.classList.remove('active');
         games.classList.add('hide');
     }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
+    }
     body.classList.toggle('extensions-active');
     extensionsBtn.classList.toggle('active');
     if (!body.classList.contains('extensions-active')) {
@@ -497,36 +568,68 @@ gamesBtn.addEventListener('click', (e) => {
         extensionsBtn.classList.remove('active');
         extensions.classList.add('hide');
     }
+    if (body.classList.contains('utils-active')) {
+        body.classList.remove('utils-active');
+        utilsBtn.classList.remove('active');
+        utils.classList.add('hide');
+    }
     body.classList.toggle('games-active');
     gamesBtn.classList.toggle('active');
     if (!body.classList.contains('games-active')) {
         games.classList.add('hide');
     } else {
         games.classList.remove('hide');
-        // По умолчанию загружаем хоррор-игры
-        if (horrorBtn.classList.contains('active')) {
-            loadGames('HorrorGames.txt');
-        } else {
-            loadGames('OthersGames.txt');
-        }
+        loadGames('GamesList.txt');
     }
 });
 
-// Логика кнопки "Хоррор"
-horrorBtn.addEventListener('click', () => {
-    if (!horrorBtn.classList.contains('active')) {
-        horrorBtn.classList.add('active');
-        othersBtn.classList.remove('active');
-        loadGames('HorrorGames.txt');
+// Логика кнопки "Утилиты"
+utilsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (body.classList.contains('active')) {
+        body.classList.remove('active');
+        aboutBtn.classList.remove('active');
+        description.classList.add('hide');
     }
-});
-
-// Логика кнопки "Прочее"
-othersBtn.addEventListener('click', () => {
-    if (!othersBtn.classList.contains('active')) {
-        othersBtn.classList.add('active');
-        horrorBtn.classList.remove('active');
-        loadGames('OthersGames.txt');
+    if (body.classList.contains('links-active')) {
+        body.classList.remove('links-active');
+        linksBtn.classList.remove('active');
+        linksRow.classList.remove('telegram-active');
+        telegramBtn.classList.remove('back');
+        links.classList.add('hide');
+    }
+    if (body.classList.contains('docs-active')) {
+        body.classList.remove('docs-active');
+        docsBtn.classList.remove('active');
+        docs.classList.add('hide');
+    }
+    if (body.classList.contains('dev-active')) {
+        body.classList.remove('dev-active');
+        devBtn.classList.remove('active');
+        dev.classList.add('hide');
+    }
+    if (body.classList.contains('team-active')) {
+        body.classList.remove('team-active');
+        teamBtn.classList.remove('active');
+        team.classList.add('hide');
+    }
+    if (body.classList.contains('extensions-active')) {
+        body.classList.remove('extensions-active');
+        extensionsBtn.classList.remove('active');
+        extensions.classList.add('hide');
+    }
+    if (body.classList.contains('games-active')) {
+        body.classList.remove('games-active');
+        gamesBtn.classList.remove('active');
+        games.classList.add('hide');
+    }
+    body.classList.toggle('utils-active');
+    utilsBtn.classList.toggle('active');
+    if (!body.classList.contains('utils-active')) {
+        utils.classList.add('hide');
+    } else {
+        utils.classList.remove('hide');
+        displayUtils('our');
     }
 });
 
@@ -537,46 +640,32 @@ telegramBtn.addEventListener('click', (e) => {
     telegramBtn.classList.toggle('back');
 });
 
-// Обработчики для иконок
-const gamejoltBtn = document.querySelector('.gamejolt');
-const youtubeBtn = document.querySelector('.youtube');
-const kogamaBtn = document.querySelector('.kogama');
-
-gamejoltBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!linksRow.classList.contains('telegram-active')) {
-        window.location.href = gamejoltBtn.getAttribute('href');
-    }
+// Логика кнопок категорий игр
+horrorBtn.addEventListener('click', () => {
+    horrorBtn.classList.add('active');
+    othersBtn.classList.remove('active');
+    filterGames();
 });
 
-youtubeBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!linksRow.classList.contains('telegram-active')) {
-        window.location.href = youtubeBtn.getAttribute('href');
-    }
+othersBtn.addEventListener('click', () => {
+    othersBtn.classList.add('active');
+    horrorBtn.classList.remove('active');
+    filterGames();
 });
 
-kogamaBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!linksRow.classList.contains('telegram-active')) {
-        window.location.href = kogamaBtn.getAttribute('href');
-    }
+// Логика фильтров
+yearFilter.addEventListener('input', filterGames);
+engineFilter.addEventListener('change', filterGames);
+
+// Логика кнопок категорий утилит
+ourUtilsBtn.addEventListener('click', () => {
+    ourUtilsBtn.classList.add('active');
+    otherUtilsBtn.classList.remove('active');
+    displayUtils('our');
 });
 
-// Логика кнопок скроллбара
-const scrollUpBtn = document.querySelector('.scroll-up');
-const scrollDownBtn = document.querySelector('.scroll-down');
-
-scrollUpBtn.addEventListener('click', () => {
-    window.scrollBy({
-        top: -100,
-        behavior: 'smooth'
-    });
-});
-
-scrollDownBtn.addEventListener('click', () => {
-    window.scrollBy({
-        top: 100,
-        behavior: 'smooth'
-    });
+otherUtilsBtn.addEventListener('click', () => {
+    otherUtilsBtn.classList.add('active');
+    ourUtilsBtn.classList.remove('active');
+    displayUtils('other');
 });
