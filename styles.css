@@ -387,7 +387,6 @@ h1 {
 }
 
 .dev-container.hide {
-    display: none;
     opacity: 0;
     visibility: hidden;
     top: 120%;
@@ -572,7 +571,6 @@ h1 {
     position: relative;
     margin-top: 150px;
     width: 600px;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -649,6 +647,42 @@ h1 {
     border: 2px solid white;
     background-color: #555;
     outline: none;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.page-btn:disabled {
+    background-color: #222;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.page-info {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .games-list {
@@ -960,7 +994,7 @@ h1 {
     .team-container {
         width: 300px;
         max-height: 300px;
-        padding: 10'spx;
+        padding: 10px;
     }
 
     .games-container, .utils-container {
