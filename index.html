@@ -23,7 +23,7 @@
             <a href="#" class="button" id="team-btn">Команда</a>
             <a href="#" class="button" id="extensions-btn">Расширения</a>
             <a href="#" class="button" id="games-btn">Игры</a>
-            <a href="utils.html" class="button">Утилиты</a>
+            <a href="#" class="button" id="utils-btn">Утилиты</a>
         </div>
     </div>
     <div class="description-container" id="description">
@@ -71,8 +71,21 @@
         <div class="games-header">
             <button class="category-btn active" id="horror-btn">Хоррор</button>
             <button class="category-btn" id="others-btn">Прочее</button>
+            <input type="text" id="year-filter" class="filter-input" placeholder="Год выпуска">
+            <select id="engine-filter" class="filter-select">
+                <option value="">Все движки</option>
+                <option value="Kogama">Kogama</option>
+                <option value="Scratch">Scratch</option>
+            </select>
         </div>
         <div class="games-list" id="games-list"></div>
+    </div>
+    <div class="utils-container" id="utils">
+        <div class="utils-header">
+            <button class="category-btn active" id="our-utils-btn">Наши утилиты</button>
+            <button class="category-btn" id="other-utils-btn">Прочее</button>
+        </div>
+        <div class="utils-list" id="utils-list"></div>
     </div>
     <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
 
