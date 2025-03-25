@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для отображения утилит
     function displayUtils(category) {
         utilsList.innerHTML = '';
-        utilsList.classList.remove('active-utils');
+        utilsList.classList.remove('fade-in');
         setTimeout(() => {
             if (category === 'our') {
                 const utilsData = [
@@ -240,20 +240,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
                 ];
                 utilsData.forEach(util => {
-                    const utilItem = document.createElement('div');
-                    utilItem.classList.add('utils-item');
-                    utilItem.innerHTML = `
-                        <a href="${util.link}" class="util-btn">${util.name}</a>
-                    `;
+                    const utilItem = document.createElement('a');
+                    utilItem.classList.add('utils-button');
+                    utilItem.href = util.link;
+                    utilItem.textContent = util.name;
                     utilsList.appendChild(utilItem);
                 });
             } else {
-                const utilItem = document.createElement('div');
-                utilItem.classList.add('utils-item');
-                utilItem.innerHTML = '<p>Пока здесь ничего нет.</p>';
-                utilsList.appendChild(utilItem);
+                const noUtils = document.createElement('p');
+                noUtils.textContent = 'Пока здесь ничего нет.';
+                utilsList.appendChild(noUtils);
             }
-            utilsList.classList.add('active-utils');
+            utilsList.classList.add('fade-in');
         }, 50);
     }
 
