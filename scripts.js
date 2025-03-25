@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Глобальные переменные для пагинации и списка игр
     let currentGames = [];
+    let filteredGames = []; // Добавляем для хранения отфильтрованных игр
     let currentPage = 1;
     const gamesPerPage = 3;
 
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const category = horrorBtn.classList.contains('active') ? 'horror' : 'others';
         const sortValue = sortGames.value;
 
-        let filteredGames = currentGames.filter(game => {
+        filteredGames = currentGames.filter(game => {
             const matchesCategory = category === 'horror' ? (game.Tags || []).some(tag => tag.toLowerCase() === 'horror') : !(game.Tags || []).some(tag => tag.toLowerCase() === 'horror');
             const matchesYear = year ? (game.Year || '').toString().includes(year) : true;
             const matchesEngine = engine ? (game.Engine || '') === engine : true;
@@ -165,8 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             filteredGames.sort((a, b) => parseInt(a.Year || 0) - parseInt(a.Year || 0));
         }
 
-        currentPage = 1;
-        displayGames(filteredGames);
+        displayGames(filteredGames); // Отображаем отфильтрованные игры
     }
 
     // Функция для загрузки данных из одного файла
@@ -510,9 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (key && value) {
                         const trimmedKey = key.trim();
                         let trimmedValue = value.trim();
-                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
-                            trimmedValue = trimmedValue.slice(1, -1);
-                        }
+                        // Удаляем кавычки из значений
+                        trimmedValue = trimmedValue.replace(/^"|"$/g, '');
                         if (trimmedKey === 'Username') {
                             if (Object.keys(currentMember).length > 0) {
                                 members.push(currentMember);
@@ -644,6 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
+        currentPage = 1; // Сбрасываем страницу при открытии раздела
         loadGames();
     });
 
@@ -709,31 +709,44 @@ document.addEventListener('DOMContentLoaded', () => {
     horrorBtn.addEventListener('click', () => {
         horrorBtn.classList.add('active');
         othersBtn.classList.remove('active');
+        currentPage = 1; // Сбрасываем страницу при смене категории
         filterAndSortGames();
     });
 
     othersBtn.addEventListener('click', () => {
         othersBtn.classList.add('active');
         horrorBtn.classList.remove('active');
+        currentPage = 1; // Сбрасываем страницу при смене категории
         filterAndSortGames();
     });
 
-    yearFilter.addEventListener('input', filterAndSortGames);
-    engineFilter.addEventListener('change', filterAndSortGames);
-    sortGames.addEventListener('change', filterAndSortGames);
+    yearFilter.addEventListener('input', () => {
+        currentPage = 1; // Сбрасываем страницу при фильтрации
+        filterAndSortGames();
+    });
+
+    engineFilter.addEventListener('change', () => {
+        currentPage = 1; // Сбрасываем страницу при фильтрации
+        filterAndSortGames();
+    });
+
+    sortGames.addEventListener('change', () => {
+        currentPage = 1; // Сбрасываем страницу при сортировке
+        filterAndSortGames();
+    });
 
     prevPageBtn.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            filterAndSortGames();
+            displayGames(filteredGames); // Используем отфильтрованный список
         }
     });
 
     nextPageBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(currentGames.length / gamesPerPage);
+        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
         if (currentPage < totalPages) {
             currentPage++;
-            filterAndSortGames();
+            displayGames(filteredGames); // Используем отфильтрованный список
         }
     });
 
