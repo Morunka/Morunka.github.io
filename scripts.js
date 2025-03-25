@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else if (trimmedKey === 'Desc') {
                             currentGame.Desc = trimmedValue;
                         } else if (trimmedKey === 'Year') {
-                            currentGame.Year = trimmedValue;
+                            currentGame.Year = trimmedValue.match(/\d{4}/)?.[0] || trimmedValue;
                         } else if (trimmedKey === 'Link') {
                             currentGame.Link = trimmedValue;
                         } else if (trimmedKey === 'Image') {
@@ -473,15 +473,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (key && value) {
                             const trimmedKey = key.trim();
                             const trimmedValue = value.trim().replace(/"/g, '');
-                            if (trimmedKey === 'Name') {
+                            if (trimmedKey === 'Username') {
                                 if (Object.keys(currentMember).length > 0) {
                                     members.push(currentMember);
                                 }
-                                currentMember = { Name: trimmedValue };
-                            } else if (trimmedKey === 'Role') {
-                                currentMember.Role = trimmedValue;
-                            } else if (trimmedKey === 'Contact') {
-                                currentMember.Contact = trimmedValue;
+                                currentMember = { Username: trimmedValue.replace(':', '') };
+                            } else if (trimmedKey === 'UserDesc') {
+                                currentMember.UserDesc = trimmedValue;
+                            } else if (trimmedKey === 'UserTelegramContact') {
+                                currentMember.UserTelegramContact = trimmedValue;
                             }
                         }
                     });
@@ -493,9 +493,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         const memberDiv = document.createElement('div');
                         memberDiv.classList.add('team-member');
                         memberDiv.innerHTML = `
-                            <h3>${member.Name}</h3>
-                            <p>${member.Role}</p>
-                            <a href="${member.Contact}" class="contact-icon" aria-label="Contact ${member.Name}"></a>
+                            <h3>${member.Username}</h3>
+                            <p>${member.UserDesc}</p>
+                            <a href="${member.UserTelegramContact}" class="contact-icon" aria-label="Contact ${member.Username}"></a>
                         `;
                         teamList.appendChild(memberDiv);
                     });
