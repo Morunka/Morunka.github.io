@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('active');
         body.classList.add('active');
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('links-active');
         body.classList.add('links-active');
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('docs-active');
         body.classList.add('docs-active');
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('dev-active');
         body.classList.add('dev-active');
@@ -167,15 +167,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const lines = data.split('\n').map(line => line.trim()).filter(line => line);
                 const gameData = {};
                 lines.forEach(line => {
-                    const [key, value] = line.split(': ').map(item => item.trim());
-                    gameData[key] = value || 'Не указано';
+                    const [key, ...valueParts] = line.split('=');
+                    const value = valueParts.join('=').trim();
+                    gameData[key.trim()] = value || 'Не указано';
                 });
                 const devInfo = document.querySelector('.dev-info');
                 if (devInfo) {
                     devInfo.innerHTML = `
-                        <h2>${gameData.Name || 'Не указано'}</h2>
-                        <p>Прогресс: ${gameData.Progress || 'Не указано'}</p>
-                        <p>Дата: ${gameData.Date || 'Не указано'}</p>
+                        <h2>${gameData.GameName || 'Не указано'}</h2>
+                        <p>Прогресс: ${gameData['Game%Dev'] || 'Не указано'}</p>
+                        <p>Версия: ${gameData.GameVersion || 'Не указано'}</p>
+                        ${gameData.GameMoreLink ? `<p><a href="${gameData.GameMoreLink}" class="telegram-link">Подробнее</a></p>` : ''}
                     `;
                 }
             })
@@ -192,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('team-active');
         body.classList.add('team-active');
@@ -211,8 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
                         lines.forEach(line => {
-                            const [key, value] = line.split(': ').map(item => item.trim());
-                            memberData[key] = value || 'Не указано';
+                            const [key, ...valueParts] = line.split('=');
+                            const value = valueParts.join('=').trim();
+                            memberData[key.trim()] = value || 'Не указано';
                         });
                         return memberData;
                     });
@@ -251,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('extensions-active');
         body.classList.add('extensions-active');
@@ -298,8 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const lines = game.split('\n').map(line => line.trim()).filter(line => line);
                     const gameData = {};
                     lines.forEach(line => {
-                        const [key, value] = line.split(': ').map(item => item.trim());
-                        gameData[key] = value || 'Не указано';
+                        const [key, ...valueParts] = line.split('=');
+                        const value = valueParts.join('=').trim();
+                        gameData[key.trim()] = value || 'Не указано';
                     });
                     return gameData;
                 });
@@ -320,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const year = yearFilter.value;
         if (year) {
-            filteredGames = filteredGames.filter(game => game.Year.includes(year));
+            filteredGames = filteredGames.filter(game => game.Year && game.Year.includes(year));
         }
 
         const engine = engineFilter.value;
@@ -329,13 +333,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (sortGames.value === 'name-asc') {
-            filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
+            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
         } else if (sortGames.value === 'name-desc') {
-            filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
+            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
         } else if (sortGames.value === 'year-asc') {
-            filteredGames.sort((a, b) => a.Year.localeCompare(b.Year));
+            filteredGames.sort((a, b) => (a.Year || '').localeCompare(b.Year || ''));
         } else if (sortGames.value === 'year-desc') {
-            filteredGames.sort((a, b) => b.Year.localeCompare(a.Year));
+            filteredGames.sort((a, b) => (b.Year || '').localeCompare(a.Year || ''));
         }
 
         currentPage = 1;
@@ -385,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('games-active');
         body.classList.add('games-active');
@@ -466,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) {
-            return; // Ничего не делаем, если меню уже открыто
+            return;
         }
         closeOtherMenus('utils-active');
         body.classList.add('utils-active');
