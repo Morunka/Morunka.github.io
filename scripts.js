@@ -76,27 +76,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Скрываем все контейнеры
-        description.classList.add('hide');
-        links.classList.add('hide');
+        // Скрываем все контейнеры и сбрасываем стили
+        const containers = [description, links, docs, dev, team, extensions, games, utils];
+        containers.forEach(container => {
+            container.classList.add('hide');
+            container.style.display = 'none';
+            container.style.visibility = 'hidden';
+            container.style.opacity = '0';
+            container.style.top = '60%';
+            container.style.width = '';
+            container.style.height = '';
+            container.style.minHeight = '';
+            container.style.padding = '';
+        });
+
+        // Сбрасываем состояние подменю Telegram
         if (linksRow) linksRow.classList.remove('telegram-active');
         if (telegramBtn) telegramBtn.classList.remove('back');
-        docs.classList.add('hide');
-        dev.classList.add('hide');
-        team.classList.add('hide');
-        extensions.classList.add('hide');
-        games.classList.add('hide');
-        utils.classList.add('hide');
+        const telegramLinks = linksRow?.querySelector('.telegram-links');
+        if (telegramLinks) telegramLinks.style.display = 'none';
 
         // Убираем активное состояние у всех кнопок
-        aboutBtn.classList.remove('active');
-        linksBtn.classList.remove('active');
-        docsBtn.classList.remove('active');
-        devBtn.classList.remove('active');
-        teamBtn.classList.remove('active');
-        extensionsBtn.classList.remove('active');
-        gamesBtn.classList.remove('active');
-        utilsBtn.classList.remove('active');
+        const buttons = [aboutBtn, linksBtn, docsBtn, devBtn, teamBtn, extensionsBtn, gamesBtn, utilsBtn];
+        buttons.forEach(btn => btn.classList.remove('active'));
     };
 
     // Функция для открытия раздела "О студии"
@@ -105,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('active');
         aboutBtn.classList.add('active');
         description.classList.remove('hide');
-        description.style.display = 'block'; // Явно устанавливаем стиль
+        description.style.display = 'block';
         description.style.visibility = 'visible';
         description.style.opacity = '1';
         description.style.top = '50%';
@@ -117,18 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('active')) {
-            return;
-        }
+        if (body.classList.contains('active')) return;
         openAboutSection();
     });
 
     // Кнопка "Связи"
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('links-active')) {
-            return;
-        }
+        if (body.classList.contains('links-active')) return;
         closeOtherMenus('links-active');
         body.classList.add('links-active');
         linksBtn.classList.add('active');
@@ -137,15 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
         links.style.visibility = 'visible';
         links.style.opacity = '1';
         links.style.top = '50%';
+        links.style.width = '320px';
+        links.style.height = '70px';
+        links.style.padding = '10px';
     });
 
     // Исправляем подменю Telegram
     if (telegramBtn && linksRow) {
-        // Убедимся, что подменю изначально скрыто
         const telegramLinks = linksRow.querySelector('.telegram-links');
-        if (telegramLinks) {
-            telegramLinks.style.display = 'none'; // Скрываем изначально
-        }
+        if (telegramLinks) telegramLinks.style.display = 'none'; // Скрываем изначально
 
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -157,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     telegramLinks.style.display = 'none';
                     links.style.width = '320px';
                     links.style.height = '70px';
+                    links.style.minHeight = '70px';
                     links.style.padding = '10px';
                 } else {
                     telegramLinks.style.display = 'flex';
@@ -178,9 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('docs-active')) {
-            return;
-        }
+        if (body.classList.contains('docs-active')) return;
         closeOtherMenus('docs-active');
         body.classList.add('docs-active');
         docsBtn.classList.add('active');
@@ -194,9 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Кнопка "Разработка"
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('dev-active')) {
-            return;
-        }
+        if (body.classList.contains('dev-active')) return;
         closeOtherMenus('dev-active');
         body.classList.add('dev-active');
         devBtn.classList.add('active');
@@ -205,8 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
         dev.style.visibility = 'visible';
         dev.style.opacity = '1';
         dev.style.top = '50%';
-        fetch('./DevelopingGameProc.txt')
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // Тайм-аут 5 секунд
+        fetch('./DevelopingGameProc.txt', { signal: controller.signal })
             .then(response => {
+                clearTimeout(timeoutId);
                 if (!response.ok) throw new Error('Файл DevelopingGameProc.txt не найден');
                 return response.text();
             })
@@ -232,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Ошибка загрузки данных разработки:', error);
                 const devInfo = document.querySelector('.dev-info');
                 if (devInfo) {
-                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки</p>';
+                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
                 }
             });
     });
@@ -240,9 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Кнопка "Команда"
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('team-active')) {
-            return;
-        }
+        if (body.classList.contains('team-active')) return;
         closeOtherMenus('team-active');
         body.classList.add('team-active');
         teamBtn.classList.add('active');
@@ -251,15 +248,20 @@ document.addEventListener('DOMContentLoaded', () => {
         team.style.visibility = 'visible';
         team.style.opacity = '1';
         team.style.top = '50%';
+
         const teamList = document.querySelector('.team-list');
         if (teamList) {
-            teamList.innerHTML = ''; // Очищаем список один раз перед добавлением
-            fetch('./BRC-Team.txt')
+            teamList.innerHTML = ''; // Очищаем список один раз
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // Тайм-аут 5 секунд
+            fetch('./BRC-Team.txt', { signal: controller.signal })
                 .then(response => {
+                    clearTimeout(timeoutId);
                     if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
                     return response.text();
                 })
                 .then(data => {
+                    console.log('Данные BRC-Team.txt:', data); // Отладка
                     const members = data.split('\n\n').map(member => {
                         const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
@@ -270,7 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         return memberData;
                     });
-                    if (members.length === 0) {
+                    console.log('Участники команды:', members); // Отладка
+                    if (members.length === 0 || members[0].Username === undefined) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
                         members.forEach((member, index) => {
@@ -289,16 +292,21 @@ document.addEventListener('DOMContentLoaded', () => {
                                 teamList.appendChild(divider);
                             }
                         });
-                        // Добавляем надпись о присоединении
-                        const joinDiv = document.createElement('p');
-                        joinDiv.classList.add('team-join');
-                        joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
-                        teamList.appendChild(joinDiv);
                     }
+                    // Всегда добавляем надпись о присоединении
+                    const joinDiv = document.createElement('p');
+                    joinDiv.classList.add('team-join');
+                    joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
+                    teamList.appendChild(joinDiv);
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки команды:', error);
-                    teamList.innerHTML = '<p>Ошибка загрузки команды: файл не найден или повреждён</p>';
+                    teamList.innerHTML = '<p>Ошибка загрузки команды: ' + error.message + '</p>';
+                    // Добавляем надпись даже при ошибке
+                    const joinDiv = document.createElement('p');
+                    joinDiv.classList.add('team-join');
+                    joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
+                    teamList.appendChild(joinDiv);
                 });
         }
     });
@@ -306,9 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Кнопка "Расширения"
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('extensions-active')) {
-            return;
-        }
+        if (body.classList.contains('extensions-active')) return;
         closeOtherMenus('extensions-active');
         body.classList.add('extensions-active');
         extensionsBtn.classList.add('active');
@@ -317,10 +323,10 @@ document.addEventListener('DOMContentLoaded', () => {
         extensions.style.visibility = 'visible';
         extensions.style.opacity = '1';
         extensions.style.top = '50%';
+
         const extensionsList = document.querySelector('.extensions-list');
         if (extensionsList) {
             extensionsList.innerHTML = '';
-
             const header = document.createElement('p');
             header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
             header.style.color = 'white';
@@ -348,8 +354,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Загрузка игр
     const loadGames = (file) => {
-        fetch(file)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        fetch(file, { signal: controller.signal })
             .then(response => {
+                clearTimeout(timeoutId);
                 if (!response.ok) throw new Error(`Файл ${file} не найден`);
                 return response.text();
             })
@@ -417,6 +426,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (paginatedGames.length === 0) {
             gamesList.innerHTML = '<p>Игры не найдены</p>';
+            prevPageBtn.disabled = true;
+            nextPageBtn.disabled = true;
+            pageInfo.textContent = 'Страница 0 из 0';
         } else {
             paginatedGames.forEach(game => {
                 const gameCard = document.createElement('div');
@@ -438,20 +450,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 gamesList.appendChild(gameCard);
             });
-        }
 
-        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-        pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
-        prevPageBtn.disabled = currentPage === 1;
-        nextPageBtn.disabled = currentPage === totalPages;
+            const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+            pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
     };
 
     // Кнопка "Игры"
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('games-active')) {
-            return;
-        }
+        if (body.classList.contains('games-active')) return;
         closeOtherMenus('games-active');
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
@@ -545,9 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (body.classList.contains('utils-active')) {
-            return;
-        }
+        if (body.classList.contains('utils-active')) return;
         closeOtherMenus('utils-active');
         body.classList.add('utils-active');
         utilsBtn.classList.add('active');
