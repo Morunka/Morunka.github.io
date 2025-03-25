@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const utilsList = document.getElementById('utils-list');
     const linksRow = document.querySelector('.links-row');
     const body = document.body;
-    const logo = document.getElementById('logo');
-    const easterEgg = document.getElementById('easter-egg');
+    const logo = document.querySelector('h1'); // Логотип теперь h1
+    const easterEgg = document.querySelector('.easter-egg'); // Пасхалка через класс
 
     // Глобальные переменные для пагинации и списка игр
     let currentGames = [];
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let filteredGames = currentGames.filter(game => {
             const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
-            const matchesYear = year ? game.Year.includes(year) : true;
+            const matchesYear = year ? game.Year.includes(year) : true; // Исправлено: пустой год не фильтрует
             const matchesEngine = engine ? game.Engine === engine : true;
             return matchesCategory && matchesYear && matchesEngine;
         });
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sortValue === 'name-asc') {
             filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
         } else if (sortValue === 'name-desc') {
-            filteredGames.sort((a, b) => b.Name.localeCompare(a.Name));
+            filteredGames.sort((a, b) => b.Name.localeCompare(b.Name));
         } else if (sortValue === 'year-desc') {
             filteredGames.sort((a, b) => parseInt(b.Year || 0) - parseInt(a.Year || 0));
         } else if (sortValue === 'year-asc') {
@@ -460,8 +460,11 @@ document.addEventListener('DOMContentLoaded', () => {
             team.classList.add('hide');
         } else {
             team.classList.remove('hide');
-            fetch('BRC-Team.txt')
-                .then(response => response.text())
+            fetch('./BRC-Team.txt') // Исправлен путь
+                .then(response => {
+                    if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
+                    return response.text();
+                })
                 .then(data => {
                     const teamList = document.getElementById('team-list');
                     teamList.innerHTML = '';
@@ -487,6 +490,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     if (Object.keys(currentMember).length > 0) {
                         members.push(currentMember);
+                    }
+
+                    if (members.length === 0) {
+                        teamList.innerHTML = '<p>Команда пуста</p>';
+                        return;
                     }
 
                     members.forEach(member => {
