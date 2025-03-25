@@ -242,6 +242,7 @@ teamBtn.addEventListener('click', (e) => {
         fetch('BRC-Team.txt')
             .then(response => response.text())
             .then(data => {
+                console.log('Сырые данные из BRC-Team.txt:', data); // Логирование для отладки
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '';
 
@@ -253,6 +254,7 @@ teamBtn.addEventListener('click', (e) => {
                     if (key && value) {
                         const trimmedKey = key.trim();
                         const trimmedValue = value.trim().replace(/"/g, '');
+                        console.log(`Ключ: ${trimmedKey}, Значение: ${trimmedValue}`); // Логирование для отладки
                         if (trimmedKey === 'Username') {
                             if (Object.keys(currentMember).length > 0) {
                                 members.push(currentMember);
@@ -268,6 +270,8 @@ teamBtn.addEventListener('click', (e) => {
                 if (Object.keys(currentMember).length > 0) {
                     members.push(currentMember);
                 }
+
+                console.log('Итоговый массив members:', members); // Логирование для отладки
 
                 if (members.length === 0) {
                     teamList.innerHTML = '<p>Данные о команде отсутствуют.</p>';
