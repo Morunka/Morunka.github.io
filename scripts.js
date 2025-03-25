@@ -242,7 +242,7 @@ teamBtn.addEventListener('click', (e) => {
         fetch('BRC-Team.txt')
             .then(response => response.text())
             .then(data => {
-                console.log('Сырые данные из BRC-Team.txt:', data); // Логирование для отладки
+                console.log('Сырые данные из BRC-Team.txt:', data);
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '';
 
@@ -254,15 +254,15 @@ teamBtn.addEventListener('click', (e) => {
                     if (key && value) {
                         const trimmedKey = key.trim();
                         const trimmedValue = value.trim().replace(/"/g, '');
-                        console.log(`Ключ: ${trimmedKey}, Значение: ${trimmedValue}`); // Логирование для отладки
+                        console.log(`Ключ: ${trimmedKey}, Значение: ${trimmedValue}`);
                         if (trimmedKey === 'Username') {
                             if (Object.keys(currentMember).length > 0) {
                                 members.push(currentMember);
                             }
                             currentMember = { Username: trimmedValue };
-                        } else if (trimmedKey === 'UserDesc') { // Изменено на UserDesc
+                        } else if (trimmedKey === 'UserDesc') {
                             currentMember.Description = trimmedValue || 'Описание отсутствует';
-                        } else if (trimmedKey === 'UserTelegramContact') { // Изменено на UserTelegramContact
+                        } else if (trimmedKey === 'UserTelegramContact') {
                             currentMember.Telegram = trimmedValue;
                         }
                     }
@@ -271,7 +271,7 @@ teamBtn.addEventListener('click', (e) => {
                     members.push(currentMember);
                 }
 
-                console.log('Итоговый массив members:', members); // Логирование для отладки
+                console.log('Итоговый массив members:', members);
 
                 if (members.length === 0) {
                     teamList.innerHTML = '<p>Данные о команде отсутствуют.</p>';
