@@ -1,10 +1,4 @@
 /* Общие стили */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
     background: url('BRC-Background.jpg') no-repeat center center fixed;
@@ -36,16 +30,12 @@ body.loaded {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, top 0.5s ease;
 }
 
 #preloader.hidden {
     opacity: 0;
-    visibility: hidden;
-}
-
-#preloader img {
-    width: 100px;
+    top: -100%;
 }
 
 /* Логотип */
@@ -56,7 +46,6 @@ body.loaded {
     z-index: 1000;
     background: rgba(0, 0, 0, 0.8);
     padding: 5px 10px;
-    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -92,7 +81,6 @@ body.loaded {
     z-index: 1000;
     background: rgba(0, 0, 0, 0.8);
     padding: 10px;
-    border-radius: 5px;
     display: flex;
     gap: 10px;
 }
@@ -101,7 +89,6 @@ body.loaded {
     color: #fff;
     text-decoration: none;
     padding: 5px 10px;
-    border-radius: 5px;
     transition: background 0.3s ease;
 }
 
@@ -114,16 +101,14 @@ body.loaded {
 #description {
     background: rgba(0, 0, 0, 0.7);
     padding: 20px;
-    border-radius: 5px;
     border-right: 2px solid rgba(255, 255, 255, 0.3);
     margin-top: 20px;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    top: -100%;
+    transition: top 0.5s ease, opacity 0.5s ease;
 }
 
 #description:not(.hide) {
-    visibility: visible;
+    top: 0;
     opacity: 1;
 }
 
@@ -131,16 +116,14 @@ body.loaded {
 #links {
     background: rgba(0, 0, 0, 0.7);
     padding: 20px;
-    border-radius: 5px;
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     margin-top: 20px;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.3s ease;
+    top: -100%;
+    transition: top 0.5s ease, opacity 0.5s ease, transform 0.3s ease;
 }
 
 #links:not(.hide) {
-    visibility: visible;
+    top: 0;
     opacity: 1;
 }
 
@@ -183,16 +166,14 @@ body.loaded {
 #docs, #dev, #team, #extensions, #games, #utils {
     background: rgba(0, 0, 0, 0.7);
     padding: 20px;
-    border-radius: 5px;
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     margin-top: 20px;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    top: -100%;
+    transition: top 0.5s ease, opacity 0.5s ease;
 }
 
 #docs:not(.hide), #dev:not(.hide), #team:not(.hide), #extensions:not(.hide), #games:not(.hide), #utils:not(.hide) {
-    visibility: visible;
+    top: 0;
     opacity: 1;
 }
 
@@ -201,7 +182,6 @@ body.loaded {
     background: rgba(255, 255, 255, 0.1);
     padding: 15px;
     margin: 10px 0;
-    border-radius: 5px;
 }
 
 .contact-icon {
@@ -237,18 +217,16 @@ body.loaded {
 
 .games-filter select, .games-filter input {
     padding: 5px;
-    border-radius: 5px;
-    border: none;
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
+    border: none;
 }
 
 .games-filter button {
     padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
     background: rgba(255, 255, 255, 0.2);
     color: #fff;
+    border: none;
     cursor: pointer;
     transition: background 0.3s ease;
 }
@@ -261,7 +239,6 @@ body.loaded {
     background: rgba(0, 0, 0, 0.7) center center / cover no-repeat;
     padding: 15px;
     margin: 10px 0;
-    border-radius: 5px;
     border-right: 2px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -288,7 +265,6 @@ body.loaded {
     background: #1e90ff;
     color: #fff;
     text-decoration: none;
-    border-radius: 5px;
 }
 
 .game-play-btn:hover {
@@ -304,10 +280,9 @@ body.loaded {
 
 .pagination button {
     padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
     background: rgba(255, 255, 255, 0.2);
     color: #fff;
+    border: none;
     cursor: pointer;
 }
 
@@ -326,10 +301,9 @@ body.loaded {
 
 .utils-filter button {
     padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
     background: rgba(255, 255, 255, 0.2);
     color: #fff;
+    border: none;
     cursor: pointer;
     transition: background 0.3s ease;
 }
@@ -342,7 +316,6 @@ body.loaded {
     background: rgba(255, 255, 255, 0.1);
     padding: 10px;
     margin: 5px 0;
-    border-radius: 5px;
 }
 
 /* Кнопки прокрутки */
@@ -354,7 +327,6 @@ body.loaded {
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
     border: none;
-    border-radius: 50%;
     cursor: pointer;
     z-index: 999;
 }
@@ -397,5 +369,9 @@ body.loaded {
 
     .game-card {
         padding: 10px;
+    }
+
+    #easter-egg img {
+        max-width: 150px;
     }
 }
