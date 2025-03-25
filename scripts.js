@@ -149,6 +149,15 @@ function filterAndSortGames() {
         return matchesCategory && matchesYear && matchesEngine;
     });
 
+    // Если поле года пустое, показываем все игры в зависимости от категории
+    if (!year) {
+        filteredGames = currentGames.filter(game => {
+            const matchesCategory = category === 'horror' ? game.Tags.includes('Horror') : !game.Tags.includes('Horror');
+            const matchesEngine = engine ? game.Engine === engine : true;
+            return matchesCategory && matchesEngine;
+        });
+    }
+
     // Сортировка
     if (sortValue === 'name-asc') {
         filteredGames.sort((a, b) => a.Name.localeCompare(b.Name));
