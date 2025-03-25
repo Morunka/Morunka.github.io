@@ -114,7 +114,7 @@ h1 {
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin: 10px 0;
-    margin-bottom: 20px; /* Добавлено для увеличения расстояния */
+    margin-bottom: 30px; /* Увеличено с 20px для большего расстояния */
     cursor: pointer;
 }
 
@@ -133,14 +133,14 @@ h1 {
 /* Кнопки навигации */
 .button-container {
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 8px; /* Уменьшено с 10px */
+    padding: 8px;
     border-radius: 10px;
     display: flex;
-    gap: 12px; /* Уменьшено с 15px */
+    gap: 12px;
     flex-wrap: nowrap;
     justify-content: center;
     position: fixed;
-    top: 60px; /* Увеличено с 50px для большего расстояния от логотипа */
+    top: 60px;
     width: 100%;
     z-index: 1000;
     overflow-x: auto;
@@ -148,7 +148,7 @@ h1 {
 
 .button {
     display: inline-block;
-    padding: 6px 12px; /* Уменьшено с 8px 16px */
+    padding: 6px 12px;
     background-color: #333;
     color: white;
     text-decoration: none;
@@ -157,7 +157,7 @@ h1 {
     border: 2px solid transparent;
     cursor: pointer;
     font-family: Arial, sans-serif;
-    font-size: 12px; /* Уменьшено с 14px */
+    font-size: 12px;
     text-align: center;
     white-space: nowrap;
 }
@@ -174,12 +174,12 @@ h1 {
 }
 
 .button.characters {
-    font-size: 10px; /* Уменьшено с 12px */
+    font-size: 10px;
 }
 
 .button.license {
-    padding: 6px 10px; /* Уменьшено с 8px 12px */
-    font-size: 10px; /* Уменьшено с 12px */
+    padding: 6px 12px; /* Исправлено с 6px 10px для соответствия остальным кнопкам */
+    font-size: 12px; /* Исправлено с 10px для соответствия остальным кнопкам */
 }
 
 /* Описание */
@@ -660,12 +660,17 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
 }
 
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
+    transform: scale(1.1);
+}
+
+.category-btn:active {
+    transform: scale(1.2);
 }
 
 .category-btn.active {
@@ -735,12 +740,17 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
 }
 
 .page-btn:hover {
     background-color: #555;
     border: 2px solid white;
+    transform: scale(1.1);
+}
+
+.page-btn:active {
+    transform: scale(1.2);
 }
 
 .page-btn:disabled {
@@ -857,7 +867,11 @@ h1 {
 
 .game-play-btn:hover {
     background-color: #555;
-    transform: scale(1.05);
+    transform: scale(1.1);
+}
+
+.game-play-btn:active {
+    transform: scale(1.2);
 }
 
 .game-year {
@@ -908,6 +922,14 @@ h1 {
     flex-direction: column;
     gap: 15px;
     width: 100%;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.utils-list.active-utils {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .utils-list p {
@@ -931,6 +953,31 @@ h1 {
     font-size: 16px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     margin: 0;
+}
+
+.util-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    border: 2px solid transparent;
+    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease;
+}
+
+.util-btn:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.util-btn:active {
+    transform: scale(1.2);
+    border: 2px solid white;
 }
 
 /* Активные состояния */
@@ -1059,22 +1106,22 @@ h1 {
         font-size: 36px;
     }
     .button-container {
-        padding: 6px; /* Уменьшено с 8px */
+        padding: 6px;
         gap: 10px;
         flex-wrap: nowrap;
         overflow-x: auto;
-        top: 50px; /* Увеличено для соответствия */
+        top: 50px;
     }
     .button {
-        padding: 5px 10px; /* Уменьшено с 6px 12px */
-        font-size: 11px; /* Уменьшено с 12px */
+        padding: 5px 10px;
+        font-size: 11px;
     }
     .button.characters {
-        font-size: 9px; /* Уменьшено с 10px */
+        font-size: 9px;
     }
     .button.license {
-        padding: 5px 8px; /* Уменьшено с 6px 10px */
-        font-size: 9px; /* Уменьшено с 10px */
+        padding: 5px 10px; /* Исправлено с 5px 8px */
+        font-size: 11px; /* Исправлено с 9px */
     }
     .description-container {
         max-width: 90%;
@@ -1171,6 +1218,10 @@ h1 {
     .utils-item p {
         font-size: 14px;
     }
+    .util-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
     .easter-egg {
         right: -150px;
     }
@@ -1191,18 +1242,18 @@ h1 {
         flex-wrap: nowrap;
         align-items: center;
         overflow-x: auto;
-        top: 40px; /* Увеличено для соответствия */
+        top: 40px;
     }
     .button {
-        padding: 4px 8px; /* Уменьшено с 5px 10px */
-        font-size: 10px; /* Уменьшено с 11px */
+        padding: 4px 8px;
+        font-size: 10px;
     }
     .button.characters {
-        font-size: 8px; /* Уменьшено с 9px */
+        font-size: 8px;
     }
     .button.license {
-        padding: 4px 6px; /* Уменьшено с 5px 8px */
-        font-size: 8px; /* Уменьшено с 9px */
+        padding: 4px 8px; /* Исправлено с 4px 6px */
+        font-size: 10px; /* Исправлено с 8px */
     }
     .description {
         font-size: 12px;
@@ -1287,6 +1338,10 @@ h1 {
     }
     .utils-item p {
         font-size: 12px;
+    }
+    .util-btn {
+        font-size: 12px;
+        padding: 6px 12px;
     }
     .easter-egg {
         right: -120px;
