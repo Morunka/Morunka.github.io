@@ -119,6 +119,7 @@ h1 {
     top: 50%;
     transform: translateY(-50%);
     transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
+    z-index: 1001; /* Устанавливаем выше, чем у .dev-container */
 }
 
 .button-container {
@@ -228,8 +229,8 @@ h1 {
 .links-container.telegram-active {
     width: 450px;
     height: auto;
-    min-height: 100px;
-    padding: 20px;
+    min-height: 120px;
+    padding: 25px;
 }
 
 .links-row {
@@ -354,10 +355,16 @@ h1 {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    position: relative; /* Изменено на relative, чтобы не перекрывать другие элементы */
+    top: 100%;
+    transform: translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000; /* Меньше, чем у .header-container */
 }
 
 .dev-container.hide {
@@ -649,8 +656,8 @@ h1 {
     .links-container.telegram-active {
         width: 350px;
         height: auto;
-        min-height: 90px;
-        padding: 10px;
+        min-height: 100px;
+        padding: 15px;
     }
 
     .team-container {
@@ -764,8 +771,8 @@ h1 {
     .links-container.telegram-active {
         width: 300px;
         height: auto;
-        min-height: 80px;
-        padding: 8px;
+        min-height: 90px;
+        padding: 10px;
     }
 
     .team-container {
