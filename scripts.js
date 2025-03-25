@@ -177,23 +177,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(data => {
-                console.log('Сырые данные GamesList.txt:', data); // Отладка
+                console.log('Сырые данные GamesList.txt:', data);
                 const gamesData = [];
                 let currentGame = {};
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach((line, index) => {
-                    console.log(`Строка ${index}:`, line); // Отладка
-                    const [key, value] = line.split('=');
+                    console.log(`Строка ${index}:`, line);
+                    // Учитываем двоеточия вместо равно
+                    const [key, value] = line.split(':');
                     if (key && value) {
                         const trimmedKey = key.trim();
-                        const trimmedValue = value.trim().replace(/"/g, '');
+                        let trimmedValue = value.trim();
+                        // Убираем кавычки, если они есть
+                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
+                            trimmedValue = trimmedValue.slice(1, -1);
+                        }
                         if (trimmedKey === 'Name') {
                             if (Object.keys(currentGame).length > 0) {
                                 gamesData.push(currentGame);
                             }
                             currentGame = { Name: trimmedValue };
                         } else if (trimmedKey === 'Tags') {
-                            currentGame.Tags = trimmedValue.split(',').map(tag => tag.trim());
+                            // Обрабатываем теги, разделенные запятыми внутри кавычек
+                            currentGame.Tags = trimmedValue.split(',').map(tag => tag.trim().replace(/"/g, ''));
                         } else if (trimmedKey === 'Desc') {
                             currentGame.Desc = trimmedValue;
                         } else if (trimmedKey === 'Year') {
@@ -213,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     gamesData.push(currentGame);
                 }
 
-                console.log('Загруженные игры:', gamesData); // Отладка
+                console.log('Загруженные игры:', gamesData);
                 currentGames = gamesData;
                 filterAndSortGames();
             })
@@ -226,20 +232,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для отображения утилит
     function displayUtils(category) {
         utilsList.innerHTML = '';
-        if (category === 'our') {
-            const utilsData = [
-                { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
-                { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
-            ];
-            utilsData.forEach(util => {
+        utilsList.classList.remove('active-utils');
+        setTimeout(() => {
+            if (category === 'our') {
+                const utilsData = [
+                    { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
+                    { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
+                ];
+                utilsData.forEach(util => {
+                    const utilItem = document.createElement('div');
+                    utilItem.classList.add('utils-item');
+                    utilItem.innerHTML = `
+                        <a href="${util.link}" class="util-btn">${util.name}</a>
+                    `;
+                    utilsList.appendChild(utilItem);
+                });
+            } else {
                 const utilItem = document.createElement('div');
                 utilItem.classList.add('utils-item');
-                utilItem.innerHTML = `<p><a href="${util.link}" class="extension-link">${util.name}</a></p>`;
+                utilItem.innerHTML = '<p>Пока здесь ничего нет.</p>';
                 utilsList.appendChild(utilItem);
-            });
-        } else {
-            utilsList.innerHTML = '<p>Пока здесь ничего нет.</p>';
-        }
+            }
+            utilsList.classList.add('active-utils');
+        }, 50);
     }
 
     // Пасхалка: клик на логотип
@@ -485,26 +500,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(data => {
-                console.log('Сырые данные BRC-Team.txt:', data); // Отладка
+                console.log('Сырые данные BRC-Team.txt:', data);
                 const teamList = document.getElementById('team-list');
                 teamList.innerHTML = '';
                 const members = [];
                 let currentMember = {};
                 const lines = data.split('\n').filter(line => line.trim() !== '');
                 lines.forEach((line, index) => {
-                    console.log(`Строка ${index}:`, line); // Отладка
-                    const [key, value] = line.split('=');
+                    console.log(`Строка ${index}:`, line);
+                    // Учитываем двоеточия вместо равно
+                    const [key, value] = line.split(':');
                     if (key && value) {
                         const trimmedKey = key.trim();
-                        const trimmedValue = value.trim().replace(/"/g, '');
-                        if (trimmedKey === 'Name') {
+                        let trimmedValue = value.trim();
+                        // Убираем кавычки, если они есть
+                        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
+                            trimmedValue = trimmedValue.slice(1, -1);
+                        }
+                        // Адаптируем ключи под ожидаемые в коде
+                        if (trimmedKey === 'Username') {
                             if (Object.keys(currentMember).length > 0) {
                                 members.push(currentMember);
                             }
                             currentMember = { Name: trimmedValue };
-                        } else if (trimmedKey === 'Role') {
+                        } else if (trimmedKey === 'UserDesc') {
                             currentMember.Role = trimmedValue;
-                        } else if (trimmedKey === 'Contact') {
+                        } else if (trimmedKey === 'UserTelegramContact') {
                             currentMember.Contact = trimmedValue;
                         }
                     }
@@ -513,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     members.push(currentMember);
                 }
 
-                console.log('Загруженные члены команды:', members); // Отладка
+                console.log('Загруженные члены команды:', members);
                 if (members.length === 0) {
                     teamList.innerHTML = '<p>Команда пуста</p>';
                     return;
@@ -628,7 +649,8 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.add('games-active');
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
-        loadGames('GamesList.txt');
+        // Исправляем путь к файлу
+        loadGames('./GamesList.txt');
     });
 
     utilsBtn.addEventListener('click', (e) => {
