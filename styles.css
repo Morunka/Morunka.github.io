@@ -1,3 +1,4 @@
+/* Прелоадер */
 #preloader {
     position: fixed;
     top: 0;
@@ -31,6 +32,7 @@
     100% { transform: rotate(360deg); }
 }
 
+/* Общие стили */
 body {
     background-image: url('BRC-Background.jpg');
     background-size: 50%;
@@ -38,6 +40,7 @@ body {
     background-repeat: repeat;
     margin: 0;
     padding: 0;
+    padding-top: 120px; /* Добавлено для отступа под фиксированное меню */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,6 +75,7 @@ body::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(45deg, #0ff, #00f);
 }
 
+/* Кнопки прокрутки */
 .scroll-buttons {
     position: fixed;
     right: 10px;
@@ -103,6 +107,7 @@ body::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
+/* Логотип */
 h1 {
     color: white;
     font-family: 'Orbitron', sans-serif;
@@ -116,21 +121,28 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    position: fixed; /* Фиксируем логотип */
+    top: 0;
+    width: 100%;
+    transform: translateY(0);
     transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
     z-index: 1001;
 }
 
+/* Кнопки навигации */
 .button-container {
     background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 10px;
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Изменено для горизонтальной прокрутки */
     justify-content: center;
+    position: fixed; /* Фиксируем кнопки */
+    top: 60px;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto; /* Добавлено для прокрутки */
 }
 
 .button {
@@ -146,6 +158,7 @@ h1 {
     font-family: Arial, sans-serif;
     font-size: 14px;
     text-align: center;
+    white-space: nowrap; /* Предотвращаем перенос текста */
 }
 
 .button:hover {
@@ -168,12 +181,14 @@ h1 {
     font-size: 12px;
 }
 
+/* Описание */
 .description-container {
     display: block;
     visibility: hidden;
-    background color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.15); /* Возвращена обводка */
     max-width: 600px;
     position: absolute;
     top: 100%;
@@ -181,6 +196,7 @@ h1 {
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .description-container.hide {
@@ -203,12 +219,14 @@ h1 {
     font-weight: bold;
 }
 
+/* Ссылки */
 .links-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -221,6 +239,7 @@ h1 {
     align-items: center;
     box-sizing: border-box;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .links-container.hide {
@@ -310,10 +329,15 @@ h1 {
     box-sizing: border-box;
     max-width: 100%;
     padding: 10px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Добавлена анимация */
 }
 
 .links-row.telegram-active .telegram-links {
     display: flex;
+    opacity: 1;
+    transform: scale(1);
 }
 
 .links-row.telegram-active .telegram-link {
@@ -337,12 +361,14 @@ h1 {
     background-color: #555;
 }
 
+/* Документы */
 .docs-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 250, 0.3);
     padding: 10px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -354,6 +380,7 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .docs-container.hide {
@@ -372,12 +399,14 @@ h1 {
     position: relative;
 }
 
+/* Разработка */
 .dev-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -388,6 +417,7 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 999;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .dev-container.hide {
@@ -420,12 +450,14 @@ h1 {
     margin: 0;
 }
 
+/* Команда */
 .team-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -438,6 +470,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .team-container.hide {
@@ -514,12 +547,14 @@ h1 {
     text-decoration: underline;
 }
 
+/* Расширения */
 .extensions-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -530,6 +565,7 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .extensions-container.hide {
@@ -566,12 +602,14 @@ h1 {
     margin: 0;
 }
 
+/* Игры */
 .games-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -582,6 +620,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .games-container.hide {
@@ -815,12 +854,14 @@ h1 {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+/* Утилиты */
 .utils-container {
     display: block;
     visibility: hidden;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 15px;
     border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 100%;
     transform: translateY(0);
@@ -831,6 +872,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
+    clip-path: inset(0 0 0 0); /* Добавлено для скрытия контента под меню */
 }
 
 .utils-container.hide {
@@ -878,8 +920,9 @@ h1 {
     margin: 0;
 }
 
+/* Активные состояния */
 .games-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -890,7 +933,7 @@ h1 {
 }
 
 .utils-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -901,7 +944,7 @@ h1 {
 }
 
 .active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -912,7 +955,7 @@ h1 {
 }
 
 .links-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -923,7 +966,7 @@ h1 {
 }
 
 .docs-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -934,7 +977,7 @@ h1 {
 }
 
 .dev-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -945,7 +988,7 @@ h1 {
 }
 
 .team-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -956,7 +999,7 @@ h1 {
 }
 
 .extensions-active .header-container {
-    top: 10%;
+    top: 0;
     transform: translateY(0);
 }
 
@@ -966,16 +1009,7 @@ h1 {
     top: 50%;
 }
 
-.footer {
-    color: #aaa;
-    font-size: 12px;
-    text-align: center;
-    margin-top: auto;
-    padding: 20px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    width: 100%;
-}
-
+/* Пасхалка */
 .easter-egg {
     position: fixed;
     top: 10px;
@@ -995,6 +1029,18 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
+/* Футер */
+.footer {
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+    margin-top: auto;
+    padding: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+/* Медиа-запросы */
 @media (max-width: 768px) {
     h1 {
         font-size: 36px;
@@ -1002,7 +1048,8 @@ h1 {
     .button-container {
         padding: 10px;
         gap: 10px;
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Оставляем прокрутку */
+        overflow-x: auto;
     }
     .button {
         padding: 12px 24px;
@@ -1060,7 +1107,7 @@ h1 {
     .extensions-active .header-container,
     .games-active .header-container,
     .utils-active .header-container {
-        top: 5%;
+        top: 0;
     }
     .scroll-button {
         width: 25px;
@@ -1127,8 +1174,9 @@ h1 {
     }
     .button-container {
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Оставляем прокрутку */
         align-items: center;
+        overflow-x: auto;
     }
     .button {
         padding: 10px 18px;
@@ -1208,7 +1256,7 @@ h1 {
         font-size: 8px;
     }
     .game-description {
-        font-size: 10px;
+        font-size: 12px; /* Увеличено до 12px */
     }
     .game-play-btn {
         font-size: 10px;
