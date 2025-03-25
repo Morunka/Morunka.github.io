@@ -37,7 +37,7 @@ body {
     background-image: url('BRC-Background.jpg');
     background-size: 50%;
     background-position: top left;
-    background-repeat: repeat-x;
+    background-repeat: repeat-x; /* Оставляем только первую линию фона */
     margin: 0;
     padding: 0;
     padding-top: 80px;
@@ -178,8 +178,8 @@ h1 {
 }
 
 .button.license {
-    padding: 8px 16px;
-    font-size: 14px;
+    padding: 8px 16px; /* Увеличено */
+    font-size: 14px; /* Увеличено */
 }
 
 /* Описание */
@@ -520,7 +520,7 @@ h1 {
 .team-member .team-role {
     color: white;
     font-family: 'Russo One', sans-serif;
-    font-size: 12px;
+    font-size: 12px; /* Уменьшено с 14px */
     text-align: center;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     margin: 0;
@@ -771,8 +771,6 @@ h1 {
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    position: relative;
-    overflow: hidden;
 }
 
 .games-list p {
@@ -781,36 +779,6 @@ h1 {
     font-size: 14px;
     text-align: center;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.games-list.slide-left {
-    animation: slideLeft 0.5s ease-in-out;
-}
-
-.games-list.slide-right {
-    animation: slideRight 0.5s ease-in-out;
-}
-
-@keyframes slideLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideRight {
-    0% {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
 }
 
 .game-card {
@@ -899,7 +867,7 @@ h1 {
 
 .game-play-btn:hover {
     background-color: #555;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .game-year {
@@ -958,21 +926,6 @@ h1 {
     font-size: 14px;
     text-align: center;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.utils-list.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
 .utils-item {
@@ -1144,8 +1097,8 @@ h1 {
         font-size: 9px;
     }
     .button.license {
-        padding: 6px 12px;
-        font-size: 12px;
+        padding: 6px 12px; /* Увеличено */
+        font-size: 12px; /* Увеличено */
     }
     .description-container {
         max-width: 90%;
@@ -1213,7 +1166,7 @@ h1 {
         font-size: 16px;
     }
     .team-member .team-role {
-        font-size: 10px;
+        font-size: 10px; /* Уменьшено с 12px */
     }
     .team-member .contact-icon {
         width: 25px;
@@ -1287,8 +1240,8 @@ h1 {
         font-size: 8px;
     }
     .button.license {
-        padding: 5px 10px;
-        font-size: 11px;
+        padding: 5px 10px; /* Увеличено */
+        font-size: 11px; /* Увеличено */
     }
     .description-container {
         max-width: 95%;
@@ -1341,7 +1294,7 @@ h1 {
         font-size: 14px;
     }
     .team-member .team-role {
-        font-size: 9px;
+        font-size: 9px; /* Уменьшено с 10px */
     }
     .team-member .contact-icon {
         width: 20px;
