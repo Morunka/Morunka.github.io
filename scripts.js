@@ -244,6 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Логика кнопок
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('links-active')) {
             body.classList.remove('links-active');
             linksBtn.classList.remove('active');
@@ -281,25 +286,19 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('active')) {
-            body.classList.add('active');
-            aboutBtn.classList.add('active');
-            description.classList.remove('hide');
-        } else {
-            body.classList.remove('active');
-            aboutBtn.classList.remove('active');
-            description.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "О студии"
+        body.classList.add('active');
+        aboutBtn.classList.add('active');
+        description.classList.remove('hide');
     });
 
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('links-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -335,27 +334,19 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('links-active')) {
-            body.classList.add('links-active');
-            linksBtn.classList.add('active');
-            links.classList.remove('hide');
-        } else {
-            body.classList.remove('links-active');
-            linksBtn.classList.remove('active');
-            linksRow.classList.remove('telegram-active');
-            telegramBtn.classList.remove('back');
-            links.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "Ссылки"
+        body.classList.add('links-active');
+        linksBtn.classList.add('active');
+        links.classList.remove('hide');
     });
 
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('docs-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -393,25 +384,19 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('docs-active')) {
-            body.classList.add('docs-active');
-            docsBtn.classList.add('active');
-            docs.classList.remove('hide');
-        } else {
-            body.classList.remove('docs-active');
-            docsBtn.classList.remove('active');
-            docs.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "Документы"
+        body.classList.add('docs-active');
+        docsBtn.classList.add('active');
+        docs.classList.remove('hide');
     });
 
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('dev-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -449,25 +434,19 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('dev-active')) {
-            body.classList.add('dev-active');
-            devBtn.classList.add('active');
-            dev.classList.remove('hide');
-        } else {
-            body.classList.remove('dev-active');
-            devBtn.classList.remove('active');
-            dev.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "Разработка"
+        body.classList.add('dev-active');
+        devBtn.classList.add('active');
+        dev.classList.remove('hide');
     });
 
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('team-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -505,77 +484,71 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('team-active')) {
-            body.classList.add('team-active');
-            teamBtn.classList.add('active');
-            team.classList.remove('hide');
-            fetch('./BRC-Team.txt')
-                .then(response => {
-                    if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
-                    return response.text();
-                })
-                .then(data => {
-                    const teamList = document.getElementById('team-list');
-                    teamList.innerHTML = '';
-                    const members = [];
-                    let currentMember = {};
-                    const lines = data.split('\n').filter(line => line.trim() !== '');
-                    lines.forEach(line => {
-                        const [key, value] = line.split('=');
-                        if (key && value) {
-                            const trimmedKey = key.trim();
-                            const trimmedValue = value.trim().replace(/"/g, '');
-                            if (trimmedKey === 'Name') {
-                                if (Object.keys(currentMember).length > 0) {
-                                    members.push(currentMember);
-                                }
-                                currentMember = { Name: trimmedValue };
-                            } else if (trimmedKey === 'Role') {
-                                currentMember.Role = trimmedValue;
-                            } else if (trimmedKey === 'Contact') {
-                                currentMember.Contact = trimmedValue;
+        // Открываем страницу "Команда"
+        body.classList.add('team-active');
+        teamBtn.classList.add('active');
+        team.classList.remove('hide');
+        fetch('./BRC-Team.txt')
+            .then(response => {
+                if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
+                return response.text();
+            })
+            .then(data => {
+                const teamList = document.getElementById('team-list');
+                teamList.innerHTML = '';
+                const members = [];
+                let currentMember = {};
+                const lines = data.split('\n').filter(line => line.trim() !== '');
+                lines.forEach(line => {
+                    const [key, value] = line.split('=');
+                    if (key && value) {
+                        const trimmedKey = key.trim();
+                        const trimmedValue = value.trim().replace(/"/g, '');
+                        if (trimmedKey === 'Name') {
+                            if (Object.keys(currentMember).length > 0) {
+                                members.push(currentMember);
                             }
+                            currentMember = { Name: trimmedValue };
+                        } else if (trimmedKey === 'Role') {
+                            currentMember.Role = trimmedValue;
+                        } else if (trimmedKey === 'Contact') {
+                            currentMember.Contact = trimmedValue;
                         }
-                    });
-                    if (Object.keys(currentMember).length > 0) {
-                        members.push(currentMember);
                     }
-
-                    if (members.length === 0) {
-                        teamList.innerHTML = '<p>Команда пуста</p>';
-                        return;
-                    }
-
-                    members.forEach(member => {
-                        const memberDiv = document.createElement('div');
-                        memberDiv.classList.add('team-member');
-                        memberDiv.innerHTML = `
-                            <h3>${member.Name}</h3>
-                            <p>${member.Role}</p>
-                            <a href="${member.Contact}" class="contact-icon" aria-label="Contact ${member.Name}"></a>
-                        `;
-                        teamList.appendChild(memberDiv);
-                    });
-                })
-                .catch(error => {
-                    console.error('Ошибка загрузки данных команды:', error);
-                    document.getElementById('team-list').innerHTML = '<p>Ошибка загрузки данных команды</p>';
                 });
-        } else {
-            body.classList.remove('team-active');
-            teamBtn.classList.remove('active');
-            team.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+                if (Object.keys(currentMember).length > 0) {
+                    members.push(currentMember);
+                }
+
+                if (members.length === 0) {
+                    teamList.innerHTML = '<p>Команда пуста</p>';
+                    return;
+                }
+
+                members.forEach(member => {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.classList.add('team-member');
+                    memberDiv.innerHTML = `
+                        <h3>${member.Name}</h3>
+                        <p>${member.Role}</p>
+                        <a href="${member.Contact}" class="contact-icon" aria-label="Contact ${member.Name}"></a>
+                    `;
+                    teamList.appendChild(memberDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных команды:', error);
+                document.getElementById('team-list').innerHTML = '<p>Ошибка загрузки данных команды</p>';
+            });
     });
 
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('extensions-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -613,25 +586,19 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('extensions-active')) {
-            body.classList.add('extensions-active');
-            extensionsBtn.classList.add('active');
-            extensions.classList.remove('hide');
-        } else {
-            body.classList.remove('extensions-active');
-            extensionsBtn.classList.remove('active');
-            extensions.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "Расширения"
+        body.classList.add('extensions-active');
+        extensionsBtn.classList.add('active');
+        extensions.classList.remove('hide');
     });
 
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('games-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -669,26 +636,20 @@ document.addEventListener('DOMContentLoaded', () => {
             utilsBtn.classList.remove('active');
             utils.classList.add('hide');
         }
-        if (!body.classList.contains('games-active')) {
-            body.classList.add('games-active');
-            gamesBtn.classList.add('active');
-            games.classList.remove('hide');
-            loadGames('GamesList.txt');
-        } else {
-            body.classList.remove('games-active');
-            gamesBtn.classList.remove('active');
-            games.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "Игры"
+        body.classList.add('games-active');
+        gamesBtn.classList.add('active');
+        games.classList.remove('hide');
+        loadGames('GamesList.txt');
     });
 
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Если кнопка уже активна, ничего не делаем
+        if (body.classList.contains('utils-active')) {
+            return;
+        }
+        // Закрываем другие страницы
         if (body.classList.contains('active')) {
             body.classList.remove('active');
             aboutBtn.classList.remove('active');
@@ -726,22 +687,11 @@ document.addEventListener('DOMContentLoaded', () => {
             gamesBtn.classList.remove('active');
             games.classList.add('hide');
         }
-        if (!body.classList.contains('utils-active')) {
-            body.classList.add('utils-active');
-            utilsBtn.classList.add('active');
-            utils.classList.remove('hide');
-            displayUtils('our');
-        } else {
-            body.classList.remove('utils-active');
-            utilsBtn.classList.remove('active');
-            utils.classList.add('hide');
-            // Если закрыли последнюю страницу, открываем "О студии"
-            if (!isAnyPageOpen()) {
-                body.classList.add('active');
-                aboutBtn.classList.add('active');
-                description.classList.remove('hide');
-            }
-        }
+        // Открываем страницу "Утилиты"
+        body.classList.add('utils-active');
+        utilsBtn.classList.add('active');
+        utils.classList.remove('hide');
+        displayUtils('our');
     });
 
     telegramBtn.addEventListener('click', (e) => {
