@@ -137,16 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (telegramBtn && linksRow) {
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const isActive = linksRow.classList.contains('telegram接地active');
             linksRow.classList.toggle('telegram-active');
             telegramBtn.classList.toggle('back');
             const telegramLinks = document.querySelector('.telegram-links');
             if (telegramLinks) {
-                if (isActive) {
-                    telegramLinks.style.display = 'none';
-                } else {
-                    telegramLinks.style.display = 'flex';
-                }
+                telegramLinks.style.display = linksRow.classList.contains('telegram-active') ? 'flex' : 'none';
+            } else {
+                console.warn('Элемент .telegram-links не найден, создаём его');
+                const telegramLinksDiv = document.createElement('div');
+                telegramLinksDiv.classList.add('telegram-links');
+                telegramLinksDiv.innerHTML = `
+                    <a href="https://t.me/By_RORlil" class="telegram-link">Канал студии</a>
+                    <a href="https://t.me/MorunkaBot" class="telegram-link">Бот студии</a>
+                    <a href="https://t.me/MEOW_MUR920" class="telegram-link">Создатель</a>
+                `;
+                linksRow.appendChild(telegramLinksDiv);
+                telegramLinksDiv.style.display = 'flex';
             }
         });
     } else {
@@ -219,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         team.classList.remove('hide');
         const teamList = document.querySelector('.team-list');
         if (teamList) {
-            teamList.innerHTML = '';
+            teamList.innerHTML = ''; // Очищаем список перед добавлением
             fetch('./BRC-Team.txt')
                 .then(response => {
                     if (!response.ok) throw new Error('Файл BRC-Team.txt не найден');
@@ -241,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     members.forEach((member, index) => {
-                        // Убираем лишние кавычки в имени
                         const cleanUsername = (member.Username || 'Не указано').replace(/["':]/g, '');
                         const memberDiv = document.createElement('div');
                         memberDiv.classList.add('team-member');
@@ -257,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             teamList.appendChild(divider);
                         }
                     });
+                    // Добавляем надпись только один раз
                     const joinDiv = document.createElement('div');
                     joinDiv.classList.add('team-join');
                     joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
@@ -530,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Кнопки прокрутки (исправляем работу)
+    // Кнопки прокрутки
     const scrollTopBtn = document.getElementById('scroll-top');
     const scrollBottomBtn = document.getElementById('scroll-bottom');
 
