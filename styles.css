@@ -35,9 +35,9 @@
 /* Общие стили */
 body {
     background-image: url('BRC-Background.jpg');
-    background-size: 50%;
+    background-size: 100%; /* Изменено с 50% на 100% */
     background-position: top left;
-    background-repeat: repeat-x; /* Оставляем только первую линию фона */
+    background-repeat: repeat-y; /* Изменено с repeat-x на repeat-y */
     margin: 0;
     padding: 0;
     padding-top: 80px;
@@ -113,8 +113,8 @@ h1 {
     font-family: 'Orbitron', sans-serif;
     font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    margin: 10px 0;
-    margin-bottom: 20px;
+    margin: 5px 0; /* Уменьшено с 10px на 5px */
+    margin-bottom: 15px; /* Уменьшено с 20px на 15px */
     cursor: pointer;
 }
 
@@ -613,7 +613,7 @@ h1 {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
     border: 2px solid transparent;
-    background-color: #333;
+    background-color: rgba(255, 255, 255, 0.2); /* Изменено с #333 на полупрозрачный */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -622,7 +622,7 @@ h1 {
 .extensions-list .telegram-link:hover {
     transform: scale(1.1);
     border: 2px solid white;
-    background-color: #555;
+    background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный при наведении */
 }
 
 /* Игры */
@@ -944,7 +944,7 @@ h1 {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
     border: 2px solid transparent;
-    background-color: #333;
+    background-color: rgba(255, 255, 255, 0.2); /* Изменено с #333 на полупрозрачный */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -954,7 +954,7 @@ h1 {
 .utils-item .telegram-link:hover {
     transform: scale(1.1);
     border: 2px solid white;
-    background-color: #555;
+    background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный при наведении */
 }
 
 /* Активные состояния */
