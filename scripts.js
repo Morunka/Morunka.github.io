@@ -260,9 +260,9 @@ teamBtn.addEventListener('click', (e) => {
                                 members.push(currentMember);
                             }
                             currentMember = { Username: trimmedValue };
-                        } else if (trimmedKey === 'Description') {
+                        } else if (trimmedKey === 'UserDesc') { // Изменено на UserDesc
                             currentMember.Description = trimmedValue || 'Описание отсутствует';
-                        } else if (trimmedKey === 'Telegram') {
+                        } else if (trimmedKey === 'UserTelegramContact') { // Изменено на UserTelegramContact
                             currentMember.Telegram = trimmedValue;
                         }
                     }
@@ -279,7 +279,7 @@ teamBtn.addEventListener('click', (e) => {
                     members.forEach(member => {
                         const memberDiv = document.createElement('div');
                         memberDiv.classList.add('team-member');
-                        const telegramUsername = member.Telegram ? member.Telegram.replace('@', '') : '';
+                        const telegramUsername = member.Telegram ? member.Telegram.replace('https://t.me/', '').replace('@', '') : '';
                         const telegramLink = telegramUsername ? `https://t.me/${telegramUsername}` : '#';
                         memberDiv.innerHTML = `
                             <h3>${member.Username}</h3>
