@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const gameData = {};
                 lines.forEach(line => {
                     const [key, ...valueParts] = line.split('=');
-                    const value = valueParts.join('=').trim();
+                    const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                     gameData[key.trim()] = value || 'Не указано';
                 });
                 const devInfo = document.querySelector('.dev-info');
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h2>${gameData.GameName || 'Не указано'}</h2>
                         <p>Прогресс: ${gameData['Game%Dev'] || 'Не указано'}</p>
                         <p>Версия: ${gameData.GameVersion || 'Не указано'}</p>
-                        ${gameData.GameMoreLink ? `<p><a href="${gameData.GameMoreLink}" class="telegram-link">Подробнее</a></p>` : ''}
+                        ${gameData.GameMoreLink ? `<a href="${gameData.GameMoreLink}" class="more-btn">Подробнее</a>` : ''}
                     `;
                 }
             })
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const memberData = {};
                         lines.forEach(line => {
                             const [key, ...valueParts] = line.split('=');
-                            const value = valueParts.join('=').trim();
+                            const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                             memberData[key.trim()] = value || 'Не указано';
                         });
                         return memberData;
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const gameData = {};
                     lines.forEach(line => {
                         const [key, ...valueParts] = line.split('=');
-                        const value = valueParts.join('=').trim();
+                        const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                         gameData[key.trim()] = value || 'Не указано';
                     });
                     return gameData;
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const engine = engineFilter.value;
-        if (engine) {
+        if (engine && engine !== 'all') {
             filteredGames = filteredGames.filter(game => game.Engine === engine);
         }
 
@@ -349,6 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Отображение игр
     const displayGames = () => {
         if (!gamesList) return;
+        gamesList.classList.remove('fade-in');
+        void gamesList.offsetWidth; // Перезапускаем анимацию
+        gamesList.classList.add('fade-in');
+
         gamesList.innerHTML = '';
         const start = (currentPage - 1) * gamesPerPage;
         const end = start + gamesPerPage;
@@ -439,6 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Загрузка утилит
     const loadUtils = () => {
+        utilsList.classList.remove('fade-in');
+        void utilsList.offsetWidth; // Перезапускаем анимацию
+        utilsList.classList.add('fade-in');
+
         utilsList.innerHTML = '';
 
         const ourUtilsData = [
@@ -447,22 +455,29 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         const otherUtilsData = [
-            { name: 'Пример утилиты', link: '#' }
+            { name: 'Utility1', link: 'https://example.com/utility1' },
+            { name: 'Utility2', link: 'https://example.com/utility2' },
+            { name: 'Utility3', link: 'https://example.com/utility3' }
         ];
 
-        const utilsData = currentUtilsCategory === 'our' ? ourUtilsData : otherUtilsData;
-
-        if (utilsData.length === 0) {
-            utilsList.innerHTML = '<p>Утилиты не найдены</p>';
+        if (currentUtilsCategory === 'our') {
+            if (ourUtilsData.length === 0) {
+                utilsList.innerHTML = '<p>Утилиты не найдены</p>';
+            } else {
+                ourUtilsData.forEach(utility => {
+                    const utilItem = document.createElement('div');
+                    utilItem.classList.add('utils-item');
+                    utilItem.innerHTML = `
+                        <a href="${utility.link}" class="telegram-link">${utility.name}</a>
+                    `;
+                    utilsList.appendChild(utilItem);
+                });
+            }
         } else {
-            utilsData.forEach(utility => {
-                const utilItem = document.createElement('div');
-                utilItem.classList.add('utils-item');
-                utilItem.innerHTML = `
-                    <a href="${utility.link}" class="telegram-link">${utility.name}</a>
-                `;
-                utilsList.appendChild(utilItem);
-            });
+            const otherUtilsText = document.createElement('p');
+            otherUtilsText.classList.add('other-utils-text');
+            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' ');
+            utilsList.appendChild(otherUtilsText);
         }
     };
 
