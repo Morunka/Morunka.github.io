@@ -5,24 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>By ROlil Studio</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="preload" href="BRC-Background.jpg" as="image">
 </head>
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
-
-    <div class="scroll-buttons">
-        <button class="scroll-button scroll-up">↑</button>
-        <button class="scroll-button scroll-down">↓</button>
-    </div>
-
     <div class="header-container">
-        <h1>By ROlil Studio</h1>
+        <h1 id="logo">By ROlil Studio</h1>
         <div class="button-container">
-            <a href="#" class="button active" id="about-btn">О студии</a>
+            <a href="#" class="button" id="about-btn">О студии</a>
             <a href="#" class="button" id="links-btn">Связи</a>
-            <a href="#" class="button license" id="docs-btn">Документы</a>
+            <a href="#" class="button" id="docs-btn">Документы</a>
             <a href="#" class="button" id="dev-btn">Разработка</a>
             <a href="#" class="button" id="team-btn">Команда</a>
             <a href="#" class="button" id="extensions-btn">Расширения</a>
@@ -30,90 +26,84 @@
             <a href="#" class="button" id="utils-btn">Утилиты</a>
         </div>
     </div>
-
-    <div class="description-container hide" id="description">
-        <p class="description">
-            <strong>By ROlil Studio</strong> — это вымышленная студия разработки, основанная 1 мая 2021 года. Мы занимаемся созданием инди-игр, в основном в жанре хоррор, таких как пародии на FNaF, а также разработкой приложений, музыки, видео и других творческих проектов.
-        </p>
+    <div class="description-container" id="description">
+        <p class="description"><strong>By ROlil Studio</strong> — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на <strong>FNaF</strong>. Название <strong>By ROlil</strong> отражает мою личную роль как создателя (ник <strong>ROlil</strong> был моим старым игровым именем), а символ ="= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат.</p>
     </div>
-
-    <div class="links-container hide" id="links">
+    <div class="links-container" id="links">
         <div class="links-row">
-            <a href="https://gamejolt.com/@By_ROlil_Studio" class="link-icon gamejolt"></a>
-            <a href="https://www.kogama.com/profile/150135929/" class="link-icon kogama"></a>
-            <a href="https://friends.kogama.com/profile/150135929/games/" class="link-icon kogama-friends"></a>
-            <a href="https://www.youtube.com/@By_ROlil_Studio" class="link-icon youtube"></a>
-            <a href="#" class="link-icon telegram" id="telegram-btn"></a>
-            <a href="https://scratch.mit.edu/users/By_ROlil_Studio/" class="link-icon scratch"></a>
+            <a href="https://gamejolt.com/@By-ROlil-CO" class="link-icon gamejolt" aria-label="GameJolt"></a>
+            <a href="https://www.kogama.com/profile/667438867/" class="link-icon kogama" aria-label="Kogama"></a>
+            <a href="https://www.youtube.com/@FNABRC" class="link-icon youtube" aria-label="Youtube"></a>
+            <a href="#" class="link-icon telegram" id="telegram-btn" aria-label="Telegram"></a>
+            <a href="https://scratch.mit.edu/users/By-ROlil-CO/" class="link-icon scratch" aria-label="Scratch"></a>
             <div class="telegram-links">
-                <a href="https://t.me/By_ROlil_Studio" class="telegram-link">Канал студии</a>
-                <a href="https://t.me/By_ROlil_Studio_Chat" class="telegram-link">Чат студии</a>
-                <a href="https://t.me/MEOW_MUR920" class="telegram-link">Основатель</a>
+                <a href="https://t.me/By_RORlil" class="telegram-link">By ROlil Studio</a>
+                <a href="https://t.me/CharactersByRORlilCo" class="telegram-link">Персонажи</a>
+                <a href="https://t.me/FNASBF" class="telegram-link">FNaS</a>
             </div>
         </div>
     </div>
-
-    <div class="docs-container hide" id="docs">
+    <div class="docs-container" id="docs">
         <div class="docs-row">
-            <a href="license.html" class="button license">Лицензия</a>
+            <a href="https://telegra.ph/Usloviya-polzovatelskogo-soglasheniya-ROlil-CO-01-29" class="button license">Лицензионное соглашение</a>
         </div>
     </div>
-
-    <div class="dev-container hide" id="dev">
-        <div class="dev-info"></div>
+    <div class="dev-container" id="dev">
+        <div class="dev-info">
+            <h2 id="game-name"></h2>
+            <p id="game-dev-progress"></p>
+            <p id="game-version"></p>
+        </div>
     </div>
-
-    <div class="team-container hide" id="team">
-        <div class="team-list"></div>
+    <div class="team-container" id="team">
+        <div class="team-list" id="team-list"></div>
     </div>
-
-    <div class="extensions-container hide" id="extensions">
+    <div class="extensions-container" id="extensions">
         <div class="extensions-list">
-            <p>Все расширения ниже подходят для использования в TurboWarp и PenguinMode</p>
+            <a href="https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition" class="extension-link">Telegram API Pack Edition</a>
+            <a href="https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js" class="extension-link">Scratch API</a>
+            <a href="https://github.com/Morunka/Files/blob/main/GeMini%20API%20TW.js" class="extension-link">Gemini API</a>
         </div>
     </div>
-
-    <div class="games-container hide" id="games">
+    <div class="games-container" id="games">
         <div class="games-header">
             <button class="category-btn active" id="horror-btn">Хоррор</button>
             <button class="category-btn" id="others-btn">Прочее</button>
-            <input type="text" id="year-filter" class="filter-input" placeholder="Год">
+            <input type="text" id="year-filter" class="filter-input" placeholder="Год выпуска">
             <select id="engine-filter" class="filter-select">
-                <option value="all">Все движки</option>
+                <option value="">Все движки</option>
                 <option value="Kogama">Kogama</option>
                 <option value="Scratch">Scratch</option>
             </select>
             <select id="sort-games" class="filter-select">
-                <option value="name-asc">По имени (А-Я)</option>
-                <option value="name-desc">По имени (Я-А)</option>
-                <option value="year-asc">По году (возр.)</option>
-                <option value="year-desc">По году (убыв.)</option>
+                <option value="name-asc">Алфавит (A-Z)</option>
+                <option value="name-desc">Алфавит (Z-A)</option>
+                <option value="year-desc">Дата выпуска (новые)</option>
+                <option value="year-asc">Дата выпуска (старые)</option>
             </select>
         </div>
         <div class="games-list" id="games-list"></div>
         <div class="pagination">
-            <button class="page-btn" id="prev-page">Назад</button>
-            <span class="page-info" id="page-info">Страница 1 из 1</span>
-            <button class="page-btn" id="next-page">Вперёд</button>
+            <button id="prev-page" class="page-btn">Назад</button>
+            <span id="page-info" class="page-info"></span>
+            <button id="next-page" class="page-btn">Вперёд</button>
         </div>
     </div>
-
-    <div class="utils-container hide" id="utils">
+    <div class="utils-container" id="utils">
         <div class="utils-header">
             <button class="category-btn active" id="our-utils-btn">Наши утилиты</button>
-            <button class="category-btn" id="other-utils-btn">Другие утилиты</button>
+            <button class="category-btn" id="other-utils-btn">Прочее</button>
         </div>
         <div class="utils-list" id="utils-list"></div>
     </div>
-
-    <div class="easter-egg">
-        <img src="DDRH.png" alt="Пасхалка">
+    <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
+    <div class="scroll-buttons">
+        <button class="scroll-button scroll-up" aria-label="Прокрутить вверх">↑</button>
+        <button class="scroll-button scroll-down" aria-label="Прокрутить вниз">↓</button>
     </div>
-
-    <footer class="footer">
-        На данный момент мы вымышленная компания, и все наши права не защищены.
-    </footer>
-
+    <div class="easter-egg" id="easter-egg">
+        <img src="DDRH.png" alt="Easter Egg" onerror="console.error('Не удалось загрузить DDRH.png. Проверьте путь к файлу.')">
+    </div>
     <script src="scripts.js"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92617b164aba457b',t:'MTc0MjkzNzkyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
