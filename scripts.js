@@ -1,4 +1,3 @@
-// Прелоадер
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     const body = document.body;
@@ -8,9 +7,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// Ждём загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
-    // Элементы
     const aboutBtn = document.getElementById('about-btn');
     const description = document.getElementById('description');
     const linksBtn = document.getElementById('links-btn');
@@ -52,13 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const gamesPerPage = 5;
     let currentUtilsCategory = 'our';
 
-    // Проверка на существование элементов
     if (!aboutBtn || !description || !linksBtn || !links || !telegramBtn || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo || !easterEgg) {
         console.error('Один или несколько элементов не найдены в HTML');
         return;
     }
 
-    // Пасхалка
     let clickCount = 0;
     logo.addEventListener('click', () => {
         clickCount++;
@@ -68,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Функция для закрытия всех меню
     const closeOtherMenus = (activeClass) => {
         const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
         menuClasses.forEach(cls => {
@@ -92,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buttons.forEach(btn => btn.classList.remove('active'));
     };
 
-    // Функция для открытия раздела "О студии"
     const openAboutSection = () => {
         closeOtherMenus('active');
         body.classList.add('active');
@@ -101,17 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
         description.classList.add('show');
     };
 
-    // Открываем "О студии" сразу после загрузки
     openAboutSection();
 
-    // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) return;
         openAboutSection();
     });
 
-    // Кнопка "Связи"
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) return;
@@ -125,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         links.style.padding = '10px';
     });
 
-    // Подменю Telegram
     const telegramLinks = linksRow.querySelector('.telegram-links');
     telegramLinks.style.display = 'none';
     telegramBtn.addEventListener('click', (e) => {
@@ -148,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) return;
@@ -159,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         docs.classList.add('show');
     });
 
-    // Кнопка "Разработка"
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) return;
@@ -200,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // Кнопка "Команда"
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) return;
@@ -266,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // Кнопка "Расширения"
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) return;
@@ -279,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const extensionsList = document.querySelector('.extensions-list');
         extensionsList.innerHTML = '';
         const header = document.createElement('p');
-        header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMod';
+        header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
         header.style.color = 'white';
         header.style.fontFamily = "'Russo One', sans-serif";
         header.style.fontSize = '14px';
@@ -302,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Загрузка игр
     const loadGames = (file) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -332,17 +316,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Применение фильтров и сортировки
     const applyFilters = () => {
-        filteredGames = gamesData;
+        filteredGames = gamesData.filter(game => {
+            if (currentCategory === 'horror' && game.Category !== 'Horror') return false;
+            if (currentCategory === 'others' && game.Category === 'Horror') return false;
+            return true;
+        });
 
-        const year = yearFilter.value;
+        const year = yearFilter.value.trim();
         if (year) {
             filteredGames = filteredGames.filter(game => game.Year && game.Year.includes(year));
         }
 
         const engine = engineFilter.value;
-        if (engine && engine !== 'all') {
+        if (engine) {
             filteredGames = filteredGames.filter(game => game.Engine === engine);
         }
 
@@ -360,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
         displayGames();
     };
 
-    // Отображение игр
     const displayGames = () => {
         gamesList.classList.remove('fade-in');
         void gamesList.offsetWidth;
@@ -405,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Кнопка "Игры"
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) return;
@@ -418,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
     });
 
-    // Переключение категорий игр
     horrorBtn.addEventListener('click', () => {
         if (currentCategory === 'horror') return;
         currentCategory = 'horror';
@@ -437,12 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadGames('./OthersGames.txt');
     });
 
-    // Фильтры и сортировка
     yearFilter.addEventListener('input', applyFilters);
     engineFilter.addEventListener('change', applyFilters);
     sortGames.addEventListener('change', applyFilters);
 
-    // Пагинация
     prevPageBtn.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
@@ -458,7 +440,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Загрузка утилит
     const loadUtils = () => {
         utilsList.classList.remove('fade-in');
         void utilsList.offsetWidth;
@@ -467,49 +448,23 @@ document.addEventListener('DOMContentLoaded', () => {
         utilsList.innerHTML = '';
         if (currentUtilsCategory === 'our') {
             const ourUtils = [
-                { name: 'BRC-Utils', link: 'https://github.com/Morunka/BRC-Utils' },
-                { name: 'BRC-Utils 2', link: 'https://github.com/Morunka/BRC-Utils-2' }
+                { name: 'BRC-Installer', link: 'https://github.com/Morunka/BRC-Installer/releases' },
+                { name: 'BRC-Extension-Pack', link: 'https://github.com/Morunka/BRC-Extension-Pack' }
             ];
-            if (ourUtils.length === 0) {
-                utilsList.innerHTML = '<p>Утилиты отсутствуют</p>';
-            } else {
-                ourUtils.forEach(util => {
-                    const utilItem = document.createElement('div');
-                    utilItem.classList.add('utils-item');
-                    utilItem.innerHTML = `<a href="${
-// Загрузка утилит
-    const loadUtils = () => {
-        utilsList.classList.remove('fade-in');
-        void utilsList.offsetWidth;
-        utilsList.classList.add('fade-in');
-
-        utilsList.innerHTML = '';
-        if (currentUtilsCategory === 'our') {
-            const ourUtils = [
-                { name: 'BRC-Utils', link: 'https://github.com/Morunka/BRC-Utils' },
-                { name: 'BRC-Utils 2', link: 'https://github.com/Morunka/BRC-Utils-2' }
-            ];
-            if (ourUtils.length === 0) {
-                utilsList.innerHTML = '<p>Утилиты отсутствуют</p>';
-            } else {
-                ourUtils.forEach(util => {
-                    const utilItem = document.createElement('div');
-                    utilItem.classList.add('utils-item');
-                    utilItem.innerHTML = `<a href="${util.link}" class="telegram-link">${util.name}</a>`;
-                    utilsList.appendChild(utilItem);
-                });
-            }
+            ourUtils.forEach(util => {
+                const utilItem = document.createElement('div');
+                utilItem.classList.add('utils-item');
+                utilItem.innerHTML = `<a href="${util.link}" class="telegram-link">${util.name}</a>`;
+                utilsList.appendChild(utilItem);
+            });
         } else {
-            utilsList.innerHTML = `
-                <p class="other-utils-text">
-                    Мы рекомендуем утилиты от <a href="https://t.me/Scratch_Tools_Bot" class="telegram-link">ScratchTools</a> и 
-                    <a href="https://t.me/TurboWarpBot" class="telegram-link">TurboWarp</a>.
-                </p>
-            `;
+            const otherUtilsText = document.createElement('p');
+            otherUtilsText.classList.add('other-utils-text');
+            otherUtilsText.innerHTML = 'На данный момент мы используем утилиты от <a href="https://turbowarp.org/" class="telegram-link">TurboWarp</a> и <a href="https://studio.penguinmod.com/" class="telegram-link">PenguinMod</a>.';
+            utilsList.appendChild(otherUtilsText);
         }
     };
 
-    // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) return;
@@ -521,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Переключение категорий утилит
     ourUtilsBtn.addEventListener('click', () => {
         if (currentUtilsCategory === 'our') return;
         currentUtilsCategory = 'our';
@@ -537,10 +491,4 @@ document.addEventListener('DOMContentLoaded', () => {
         ourUtilsBtn.classList.remove('active');
         loadUtils();
     });
-
-    // Кнопки прокрутки
-    const scrollUpBtn = document.querySelector('.scroll-up');
-    const scrollDownBtn = document.querySelector('.scroll-down');
-    scrollUpBtn.addEventListener('click', () => window.scrollBy({ top: -100, behavior: 'smooth' }));
-    scrollDownBtn.addEventListener('click', () => window.scrollBy({ top: 100, behavior: 'smooth' }));
 });
