@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Permissions-Policy" content="accelerometer=(), autoplay=(), camera=(), clipboard-read=(), clipboard-write=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=()">
-    <title>By ROlil Studio</title>
+    <title>Black Rose Code</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <link rel="preload" href="BRC-Background.jpg" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
+
     <div class="header-container">
-        <h1 id="logo">By ROlil Studio</h1>
+        <h1>Black Rose Code</h1>
         <div class="button-container">
             <a href="#" class="button" id="about-btn">О студии</a>
             <a href="#" class="button" id="links-btn">Связи</a>
@@ -26,82 +24,72 @@
             <a href="#" class="button" id="games-btn">Игры</a>
             <a href="#" class="button" id="utils-btn">Утилиты</a>
         </div>
-        <div class="search-container">
-            <div class="search-engines">
-                <img src="https://img.icons8.com/color/48/000000/brave.png" alt="Brave" class="search-engine active" data-engine="brave">
-                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" class="search-engine" data-engine="google">
-                <img src="https://img.icons8.com/color/48/000000/yandex-international.png" alt="Yandex" class="search-engine" data-engine="yandex">
-            </div>
-            <input type="text" id="search-input" class="search-input" placeholder="Поиск...">
-            <button id="search-btn" class="search-btn" aria-label="Поиск">
-                <img src="https://img.icons8.com/ios-filled/24/ffffff/search.png" alt="Search">
-            </button>
-        </div>
     </div>
+
     <div class="description-container" id="description">
-        <p class="description"><strong>By ROlil Studio</strong> — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на <strong>FNaF</strong>. Название <strong>By ROlil</strong> отражает мою личную роль как создателя (ник <strong>ROlil</strong> был моим старым игровым именем), а символ ="= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат.</p>
+        <p class="description">Мы — <strong>Black Rose Code</strong>, студия разработки игр и утилит. Создаём проекты с душой с 2023 года.</p>
     </div>
+
     <div class="links-container" id="links">
         <div class="links-row">
-            <a href="https://gamejolt.com/@By-ROlil-CO" class="link-icon gamejolt" aria-label="GameJolt"></a>
-            <a href="https://www.kogama.com/profile/667438867/" class="link-icon kogama" aria-label="Kogama"></a>
-            <a href="https://friends.kogama.com/profile/150135929/games" class="link-icon kogamafriends" aria-label="KogamaFriends"></a>
-            <a href="https://www.youtube.com/@FNABRC" class="link-icon youtube" aria-label="Youtube"></a>
-            <a href="#" class="link-icon telegram" id="telegram-btn" aria-label="Telegram"></a>
-            <a href="https://scratch.mit.edu/users/By-ROlil-CO/" class="link-icon scratch" aria-label="Scratch"></a>
+            <a href="https://gamejolt.com/@BlackRoseCode" class="link-icon gamejolt"></a>
+            <a href="https://www.kogama.com/profile/6641591" class="link-icon kogama"></a>
+            <a href="https://www.youtube.com/@BlackRoseCode" class="link-icon youtube"></a>
+            <a href="#" class="link-icon telegram" id="telegram-btn"></a>
+            <a href="https://scratch.mit.edu/users/BlackRoseCode" class="link-icon scratch"></a>
             <div class="telegram-links">
-                <a href="https://t.me/By_RORlil" class="telegram-link">By ROlil Studio</a>
-                <a href="https://t.me/CharactersByRORlilCo" class="telegram-link">Персонажи</a>
-                <a href="https://t.me/FNASBF" class="telegram-link">FNaS</a>
+                <a href="https://t.me/BlackRoseCode" class="telegram-link">Канал</a>
+                <a href="https://t.me/BlackRoseCodeChat" class="telegram-link">Чат</a>
+                <a href="https://t.me/MEOW_MUR920" class="telegram-link">Админ</a>
             </div>
         </div>
     </div>
+
     <div class="docs-container" id="docs">
         <div class="docs-row">
-            <a href="https://telegra.ph/Usloviya-polzovatelskogo-soglasheniya-ROlil-CO-01-29" class="button license">Лицензионное соглашение</a>
+            <a href="license.txt" class="link-icon license"></a>
+            <a href="characters.txt" class="link-icon characters"></a>
         </div>
     </div>
+
     <div class="dev-container" id="dev">
-        <div class="dev-info">
-            <h2 id="game-name"></h2>
-            <p id="game-dev-progress"></p>
-            <p id="game-version"></p>
-        </div>
+        <div class="dev-info"></div>
     </div>
+
     <div class="team-container" id="team">
-        <div class="team-list" id="team-list"></div>
+        <div class="team-list"></div>
     </div>
+
     <div class="extensions-container" id="extensions">
-        <div class="extensions-list">
-            <a href="https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition" class="extension-link">Telegram API Pack Edition</a>
-            <a href="https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js" class="extension-link">Scratch API</a>
-            <a href="https://github.com/Morunka/Files/blob/main/GeMini%20API%20TW.js" class="extension-link">Gemini API</a>
-        </div>
+        <div class="extensions-list"></div>
     </div>
+
     <div class="games-container" id="games">
         <div class="games-header">
             <button class="category-btn active" id="horror-btn">Хоррор</button>
             <button class="category-btn" id="others-btn">Прочее</button>
-            <input type="text" id="year-filter" class="filter-input" placeholder="Год выпуска">
+            <input type="text" id="year-filter" class="filter-input" placeholder="Год">
             <select id="engine-filter" class="filter-select">
-                <option value="">Все движки</option>
-                <option value="Kogama">Kogama</option>
+                <option value="all">Все движки</option>
+                <option value="Unity">Unity</option>
+                <option value="Unreal">Unreal</option>
                 <option value="Scratch">Scratch</option>
             </select>
             <select id="sort-games" class="filter-select">
-                <option value="name-asc">Алфавит (A-Z)</option>
-                <option value="name-desc">Алфавит (Z-A)</option>
-                <option value="year-desc">Дата выпуска (новые)</option>
-                <option value="year-asc">Дата выпуска (старые)</option>
+                <option value="name-asc">Название (А-Я)</option>
+                <option value="name-desc">Название (Я-А)</option>
+                <option value="year-asc">Год (возр.)</option>
+                <option value="year-desc">Год (убыв.)</option>
             </select>
         </div>
         <div class="games-list" id="games-list"></div>
         <div class="pagination">
-            <button id="prev-page" class="page-btn">Назад</button>
-            <span id="page-info" class="page-info"></span>
-            <button id="next-page" class="page-btn">Вперёд</button>
+            <button class="page-btn" id="prev-page">Назад</button>
+            <span class="page-info" id="page-info">Страница 1 из 1</span>
+            <button class="page-btn" id="next-page">Вперёд</button>
         </div>
     </div>
+
     <div class="utils-container" id="utils">
         <div class="utils-header">
             <button class="category-btn active" id="our-utils-btn">Наши утилиты</button>
@@ -109,14 +97,32 @@
         </div>
         <div class="utils-list" id="utils-list"></div>
     </div>
-    <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
+
+    <div class="search-container">
+        <div class="search-buttons">
+            <button class="search-btn yandex-btn active" data-engine="yandex"></button>
+            <button class="search-btn brave-btn" data-engine="brave"></button>
+            <button class="search-btn google-btn" data-engine="google"></button>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" class="search-input" placeholder="Поиск...">
+            <button id="search-submit" class="search-submit"></button>
+        </div>
+    </div>
+
     <div class="scroll-buttons">
-        <button class="scroll-button scroll-up" aria-label="Прокрутить вверх">↑</button>
-        <button class="scroll-button scroll-down" aria-label="Прокрутить вниз">↓</button>
+        <button class="scroll-button scroll-up">↑</button>
+        <button class="scroll-button scroll-down">↓</button>
     </div>
-    <div class="easter-egg" id="easter-egg">
-        <img src="DDRH.png" alt="Easter Egg" onerror="console.error('Не удалось загрузить DDRH.png. Проверьте путь к файлу.')">
+
+    <div class="easter-egg">
+        <img src="DDRH.png" alt="Easter Egg">
     </div>
+
+    <footer class="footer">
+        <p>© 2023-2025 Black Rose Code. Все права защищены.</p>
+    </footer>
+
     <script src="scripts.js"></script>
 </body>
 </html>
