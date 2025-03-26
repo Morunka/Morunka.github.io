@@ -123,7 +123,7 @@ h1 {
 
 @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.02); }
     100% { transform: scale(1); }
 }
 
@@ -191,6 +191,93 @@ h1 {
 .button.license {
     padding: 8px 16px;
     font-size: 14px;
+}
+
+/* Поисковая строка */
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 10px;
+    margin-top: 120px;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 600px;
+    max-width: 90%;
+}
+
+.search-engines {
+    display: flex;
+    gap: 8px;
+    margin-right: 10px;
+}
+
+.search-engine {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.search-engine.active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.search-engine:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+.search-input:hover, .search-input:focus {
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
+    outline: none;
+}
+
+.search-btn {
+    background-color: #333;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.search-btn:hover {
+    background-color: #555;
+    transform: scale(1.1);
+}
+
+.search-btn:active {
+    transform: scale(0.9);
 }
 
 /* Описание */
@@ -262,8 +349,8 @@ h1 {
     transform: translateX(-50%) translateY(0);
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, transform 0.5s ease-in-out;
-    width: 320px;
-    height: 70px;
+    width: 400px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -294,7 +381,7 @@ h1 {
 
 .links-row {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
@@ -304,9 +391,10 @@ h1 {
 
 .link-icon {
     display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-size: cover;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
@@ -516,20 +604,22 @@ h1 {
 
 .dev-info .more-btn {
     padding: 8px 16px;
+    font-size: 14px;
     background-color: #333;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease;
+    font-family: Arial, sans-serif;
+    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     border: 2px solid transparent;
+    cursor: pointer;
 }
 
 .dev-info .more-btn:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
     background-color: #555;
-    transform: scale(1.05);
-    border: 2px solid #0ff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 /* Команда */
@@ -943,18 +1033,22 @@ h1 {
 
 .game-play-btn {
     padding: 8px 16px;
+    font-size: 14px;
     background-color: #333;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    font-family: 'Russo One', sans-serif;
-    font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: Arial, sans-serif;
+    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
 }
 
 .game-play-btn:hover {
-    background-color: #555;
     transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .game-year {
@@ -1235,14 +1329,29 @@ h1 {
         padding: 6px 12px;
         font-size: 12px;
     }
+    .search-container {
+        margin-top: 100px;
+        width: 90%;
+    }
+    .search-engine {
+        width: 28px;
+        height: 28px;
+    }
+    .search-input {
+        font-size: 12px;
+    }
+    .search-btn img {
+        width: 20px;
+        height: 20px;
+    }
     .description-container {
         max-width: 90%;
         padding: 10px;
     }
     .links-container, .docs-container, .dev-container, .extensions-container {
         padding: 8px;
-        width: 300px;
-        height: 60px;
+        width: 350px;
+        height: 70px;
     }
     .links-container.telegram-active {
         width: 350px;
@@ -1266,8 +1375,8 @@ h1 {
         font-size: 14px;
     }
     .link-icon {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
     .telegram.back {
         transform: translateX(0);
@@ -1381,13 +1490,28 @@ h1 {
         padding: 5px 10px;
         font-size: 11px;
     }
+    .search-container {
+        margin-top: 80px;
+        width: 95%;
+    }
+    .search-engine {
+        width: 24px;
+        height: 24px;
+    }
+    .search-input {
+        font-size: 10px;
+    }
+    .search-btn img {
+        width: 18px;
+        height: 18px;
+    }
     .description-container {
         max-width: 95%;
         padding: 8px;
     }
     .links-container, .docs-container, .dev-container, .extensions-container {
-        width: 250px;
-        height: 50px;
+        width: 300px;
+        height: 60px;
     }
     .links-container.telegram-active {
         width: 300px;
@@ -1410,8 +1534,8 @@ h1 {
         font-size: 12px;
     }
     .link-icon {
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
     }
     .scroll-button {
         width: 20px;
