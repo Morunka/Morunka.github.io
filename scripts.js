@@ -65,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
             console.log('Пасхалка активирована');
+            setTimeout(() => {
+                easterEgg.classList.remove('active');
+                clickCount = 0; // Сбрасываем счётчик
+            }, 2500);
         }
     });
 
@@ -83,10 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
             container.classList.remove('show');
         });
 
-        if (linksRow) linksRow.classList.remove('telegram-active');
+        if (linksRow) {
+            linksRow.classList.remove('telegram-active');
+            const telegramLinks = linksRow.querySelector('.telegram-links');
+            if (telegramLinks) {
+                telegramLinks.style.display = 'none';
+                telegramLinks.style.opacity = '0';
+                telegramLinks.style.transform = 'scale(0.9)';
+            }
+        }
         if (telegramBtn) telegramBtn.classList.remove('back');
-        const telegramLinks = linksRow?.querySelector('.telegram-links');
-        if (telegramLinks) telegramLinks.style.display = 'none';
 
         const buttons = [aboutBtn, linksBtn, docsBtn, devBtn, teamBtn, extensionsBtn, gamesBtn, utilsBtn];
         buttons.forEach(btn => btn.classList.remove('active'));
@@ -128,31 +138,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // Подменю Telegram
     if (telegramBtn && linksRow) {
         const telegramLinks = linksRow.querySelector('.telegram-links');
-        if (telegramLinks) telegramLinks.style.display = 'none';
+        if (telegramLinks) {
+            telegramLinks.style.display = 'none';
+            telegramLinks.style.opacity = '0';
+            telegramLinks.style.transform = 'scale(0.9)';
 
-        telegramBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isActive = linksRow.classList.contains('telegram-active');
-            linksRow.classList.toggle('telegram-active');
-            telegramBtn.classList.toggle('back');
-            if (telegramLinks) {
+            telegramBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isActive = linksRow.classList.contains('telegram-active');
+                linksRow.classList.toggle('telegram-active');
+                telegramBtn.classList.toggle('back');
                 if (isActive) {
                     telegramLinks.style.display = 'none';
+                    telegramLinks.style.opacity = '0';
+                    telegramLinks.style.transform = 'scale(0.9)';
                     links.style.width = '320px';
                     links.style.height = '70px';
                     links.style.minHeight = '70px';
                     links.style.padding = '10px';
                 } else {
                     telegramLinks.style.display = 'flex';
+                    telegramLinks.style.opacity = '1';
+                    telegramLinks.style.transform = 'scale(1)';
                     links.style.width = '600px';
                     links.style.height = 'auto';
                     links.style.minHeight = '200px';
                     links.style.padding = '20px';
                 }
-            } else {
-                console.warn('Элемент .telegram-links не найден');
-            }
-        });
+            });
+        } else {
+            console.warn('Элемент .telegram-links не найден');
+        }
     } else {
         console.warn('Элементы telegramBtn или linksRow не найдены');
     }
@@ -235,19 +251,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
-                    console.log('Содержимое BRC-Team.txt:', data);
-                    const members = data.split('\n\n').map(member => {
-                        const lines = member.split('\n').map(line => line.trim()).filter(line => line);
+                    const members = [];
+                    const memberBlocks = data.split('\n\n').filter(block => block.trim());
+                    memberBlocks.forEach(block => {
+                        const lines = block.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
                         lines.forEach(line => {
                             const [key, ...valueParts] = line.split('=');
                             const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                             memberData[key.trim()] = value || 'Не указано';
                         });
-                        return memberData;
+                        if (memberData.Username) members.push(memberData);
                     });
-                    console.log('Обработанные участники:', members);
-                    if (members.length === 0 || !members[0].Username) {
+
+                    if (members.length === 0) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
                         members.forEach((member, index) => {
@@ -271,6 +288,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     joinDiv.classList.add('team-join');
                     joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
                     teamList.appendChild(joinDiv);
+
+                    // Проверяем, нужна ли прокрутка
+                    setTimeout(() => {
+                        if (teamList.scrollHeight > teamList.clientHeight) {
+                            teamList.style.overflowY = 'auto';
+                        } else {
+                            teamList.style.overflowY = 'hidden';
+                        }
+                    }, 100);
                 })
                 .catch(error => {
                     console.error('Ошибка загрузки команды:', error);
@@ -323,6 +349,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Загрузка игр
     const loadGames = (file) => {
+        gamesData = [];
+        filteredGames = [];
+        currentPage = 1;
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
         fetch(file, { signal: controller.signal })
@@ -349,6 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Ошибка загрузки игр:', error);
                 if (gamesList) {
                     gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
+                    prevPageBtn.disabled = true;
+                    nextPageBtn.disabled = true;
+                    pageInfo.textContent = 'Страница 0 из 0';
                 }
             });
     };
@@ -546,6 +578,51 @@ document.addEventListener('DOMContentLoaded', () => {
         ourUtilsBtn.classList.remove('active');
         loadUtils();
     });
+
+    // Поисковая строка
+    const searchInput = document.getElementById('search-input');
+    const searchSubmit = document.getElementById('search-submit');
+    const searchButtons = document.querySelectorAll('.search-btn');
+    let currentSearchEngine = 'yandex';
+
+    if (searchInput && searchSubmit && searchButtons) {
+        searchButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                searchButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSearchEngine = btn.getAttribute('data-engine');
+            });
+        });
+
+        searchSubmit.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                let searchUrl;
+                switch (currentSearchEngine) {
+                    case 'yandex':
+                        searchUrl = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+                        break;
+                    case 'brave':
+                        searchUrl = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+                        break;
+                    case 'google':
+                        searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                        break;
+                    default:
+                        searchUrl = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+                }
+                window.open(searchUrl, '_blank');
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchSubmit.click();
+            }
+        });
+    } else {
+        console.warn('Элементы поисковой строки не найдены');
+    }
 
     // Кнопки прокрутки
     const scrollStep = 300;
