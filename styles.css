@@ -96,15 +96,17 @@ body::-webkit-scrollbar-thumb:hover {
     color: white;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .scroll-button:hover {
     background-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
 }
 
 .scroll-button:active {
     background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(0.9);
 }
 
 /* Логотип */
@@ -116,6 +118,13 @@ h1 {
     margin: 5px 0;
     margin-bottom: 15px;
     cursor: pointer;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 .header-container {
@@ -153,7 +162,7 @@ h1 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: transform 0.3s, border 0.3s, background-color 0.3s;
+    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     border: 2px solid transparent;
     cursor: pointer;
     font-family: Arial, sans-serif;
@@ -166,11 +175,13 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button.active {
     border: 2px solid white;
     background-color: #555;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button.characters {
@@ -196,7 +207,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     z-index: 1000;
     clip-path: inset(0 0 0 0);
 }
@@ -205,7 +216,23 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.description-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 .description {
@@ -234,7 +261,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 320px;
     height: 70px;
     display: flex;
@@ -251,7 +278,12 @@ h1 {
     top: 120%;
     width: 320px;
     height: 70px;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.links-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .links-container.telegram-active {
@@ -260,6 +292,7 @@ h1 {
     min-height: 200px;
     padding: 20px;
     overflow: hidden;
+    transition: width 0.5s ease-in-out, height 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 
 .links-row {
@@ -300,6 +333,10 @@ h1 {
     background-image: url('Kogama.png');
 }
 
+.kogamafriends {
+    background-image: url('KogamaFriends.jpg');
+}
+
 .youtube {
     background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
 }
@@ -320,6 +357,7 @@ h1 {
 
 .links-row.telegram-active .gamejolt,
 .links-row.telegram-active .kogama,
+.links-row.telegram-active .kogamafriends,
 .links-row.telegram-active .youtube,
 .links-row.telegram-active .scratch {
     display: none;
@@ -391,7 +429,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 300px;
     height: 70px;
     display: flex;
@@ -405,7 +443,12 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.docs-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .docs-row {
@@ -430,7 +473,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 300px;
     display: flex;
     justify-content: center;
@@ -443,7 +486,12 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.dev-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .dev-info {
@@ -484,7 +532,7 @@ h1 {
 .dev-info .more-btn:hover {
     background-color: #555;
     transform: scale(1.05);
-    border: 2px solid #0ff; /* Добавляем выделение при наведении */
+    border: 2px solid #0ff;
 }
 
 /* Команда */
@@ -500,7 +548,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 400px;
     max-height: 400px;
     overflow-y: auto;
@@ -515,7 +563,12 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.team-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .team-list {
@@ -605,7 +658,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 300px;
     display: flex;
     justify-content: center;
@@ -618,7 +671,12 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.extensions-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .extensions-list {
@@ -662,7 +720,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -675,7 +733,12 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.games-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .games-header {
@@ -695,12 +758,13 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
 }
 
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
+    transform: scale(1.05);
 }
 
 .category-btn.active {
@@ -770,12 +834,13 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
 }
 
 .page-btn:hover {
     background-color: #555;
     border: 2px solid white;
+    transform: scale(1.05);
 }
 
 .page-btn:disabled {
@@ -931,7 +996,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -944,7 +1009,12 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transform: translateX(-50%) translateY(20px);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.utils-container.show {
+    animation: slideIn 0.5s ease-in-out forwards;
 }
 
 .utils-header {
@@ -1130,7 +1200,6 @@ h1 {
     width: 200px;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 /* Футер */
