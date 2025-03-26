@@ -80,7 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
         linksRow.classList.remove('telegram-active');
         telegramBtn.classList.remove('back');
         const telegramLinks = linksRow.querySelector('.telegram-links');
-        telegramLinks.style.display = 'none';
+        if (telegramLinks) {
+            telegramLinks.style.display = 'none';
+        }
 
         const buttons = [aboutBtn, linksBtn, docsBtn, devBtn, teamBtn, extensionsBtn, gamesBtn, utilsBtn];
         buttons.forEach(btn => btn.classList.remove('active'));
@@ -116,7 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const telegramLinks = linksRow.querySelector('.telegram-links');
-    telegramLinks.style.display = 'none';
+    if (telegramLinks) {
+        telegramLinks.style.display = 'none';
+    }
     telegramBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const isActive = linksRow.classList.contains('telegram-active');
@@ -264,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const extensionsList = document.querySelector('.extensions-list');
         extensionsList.innerHTML = '';
         const header = document.createElement('p');
-        header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
+        header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMod';
         header.style.color = 'white';
         header.style.fontFamily = "'Russo One', sans-serif";
         header.style.fontSize = '14px';
@@ -287,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const loadGames = (file) => {
+    const loadGames = (file, category) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
         fetch(file, { signal: controller.signal })
@@ -305,9 +309,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                         gameData[key.trim()] = value || 'Не указано';
                     });
+                    gameData.Category = category;
                     return gameData;
                 });
                 gamesData = games;
+                if (gamesData.length === 0) {
+                    gamesList.innerHTML = '<p>Игры отсутствуют в выбранной категории</p>';
+                    return;
+                }
                 applyFilters();
             })
             .catch(error => {
@@ -317,11 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const applyFilters = () => {
-        filteredGames = gamesData.filter(game => {
-            if (currentCategory === 'horror' && game.Category !== 'Horror') return false;
-            if (currentCategory === 'others' && game.Category === 'Horror') return false;
-            return true;
-        });
+        filteredGames = gamesData;
 
         const year = yearFilter.value.trim();
         if (year) {
@@ -400,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         games.classList.remove('hide');
         games.classList.add('show');
         currentPage = 1;
-        loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
+        loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt', currentCategory === 'horror' ? 'Horror' : 'Others');
     });
 
     horrorBtn.addEventListener('click', () => {
@@ -409,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
         horrorBtn.classList.add('active');
         othersBtn.classList.remove('active');
         currentPage = 1;
-        loadGames('./HorrorGames.txt');
+        loadGames('./HorrorGames.txt', 'Horror');
     });
 
     othersBtn.addEventListener('click', () => {
@@ -418,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
         othersBtn.classList.add('active');
         horrorBtn.classList.remove('active');
         currentPage = 1;
-        loadGames('./OthersGames.txt');
+        loadGames('./OthersGames.txt', 'Others');
     });
 
     yearFilter.addEventListener('input', applyFilters);
