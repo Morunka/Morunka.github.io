@@ -1,3 +1,4 @@
+// Прелоадер
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     const body = document.body;
@@ -7,7 +8,9 @@ window.addEventListener('load', () => {
     }
 });
 
+// Ждём загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
+    // Элементы
     const aboutBtn = document.getElementById('about-btn');
     const description = document.getElementById('description');
     const linksBtn = document.getElementById('links-btn');
@@ -49,24 +52,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const gamesPerPage = 5;
     let currentUtilsCategory = 'our';
 
+    // Проверка на существование элементов
     if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo) {
         console.error('Один или несколько элементов не найдены в HTML');
         return;
     }
 
+    // Пасхалка
     let clickCount = 0;
     logo.addEventListener('click', () => {
         clickCount++;
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
             console.log('Пасхалка активирована');
-            setTimeout(() => {
-                easterEgg.classList.remove('active');
-                console.log('Пасхалка скрыта');
-            }, 2500);
         }
     });
 
+    // Функция для закрытия всех меню
     const closeOtherMenus = (activeClass) => {
         const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
         menuClasses.forEach(cls => {
@@ -81,23 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
             container.classList.remove('show');
         });
 
-        if (linksRow) {
-            linksRow.classList.remove('telegram-active');
-            const telegramLinks = linksRow.querySelector('.telegram-links');
-            if (telegramLinks) {
-                telegramLinks.style.display = 'none';
-                links.style.width = '320px';
-                links.style.height = '70px';
-                links.style.minHeight = '70px';
-                links.style.padding = '15px';
-            }
-        }
+        if (linksRow) linksRow.classList.remove('telegram-active');
         if (telegramBtn) telegramBtn.classList.remove('back');
+        const telegramLinks = linksRow?.querySelector('.telegram-links');
+        if (telegramLinks) telegramLinks.style.display = 'none';
 
         const buttons = [aboutBtn, linksBtn, docsBtn, devBtn, teamBtn, extensionsBtn, gamesBtn, utilsBtn];
         buttons.forEach(btn => btn.classList.remove('active'));
     };
 
+    // Функция для открытия раздела "О студии"
     const openAboutSection = () => {
         closeOtherMenus('active');
         body.classList.add('active');
@@ -106,14 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
         description.classList.add('show');
     };
 
+    // Открываем "О студии" сразу после загрузки
     openAboutSection();
 
+    // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) return;
         openAboutSection();
     });
 
+    // Кнопка "Связи"
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) return;
@@ -122,20 +120,44 @@ document.addEventListener('DOMContentLoaded', () => {
         linksBtn.classList.add('active');
         links.classList.remove('hide');
         links.classList.add('show');
+        links.style.width = '320px';
+        links.style.height = '70px';
+        links.style.padding = '10px';
     });
 
+    // Подменю Telegram
     if (telegramBtn && linksRow) {
+        const telegramLinks = linksRow.querySelector('.telegram-links');
+        if (telegramLinks) telegramLinks.style.display = 'none';
+
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            const isActive = linksRow.classList.contains('telegram-active');
             linksRow.classList.toggle('telegram-active');
             telegramBtn.classList.toggle('back');
-            const telegramLinks = linksRow.querySelector('.telegram-links');
             if (telegramLinks) {
-                telegramLinks.style.display = linksRow.classList.contains('telegram-active') ? 'flex' : 'none';
+                if (isActive) {
+                    telegramLinks.style.display = 'none';
+                    links.style.width = '320px';
+                    links.style.height = '70px';
+                    links.style.minHeight = '70px';
+                    links.style.padding = '10px';
+                } else {
+                    telegramLinks.style.display = 'flex';
+                    links.style.width = '600px';
+                    links.style.height = 'auto';
+                    links.style.minHeight = '200px';
+                    links.style.padding = '20px';
+                }
+            } else {
+                console.warn('Элемент .telegram-links не найден');
             }
         });
+    } else {
+        console.warn('Элементы telegramBtn или linksRow не найдены');
     }
 
+    // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) return;
@@ -146,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         docs.classList.add('show');
     });
 
+    // Кнопка "Разработка"
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) return;
@@ -155,16 +178,42 @@ document.addEventListener('DOMContentLoaded', () => {
         dev.classList.remove('hide');
         dev.classList.add('show');
 
-        const devInfo = document.querySelector('.dev-info');
-        if (devInfo) {
-            devInfo.innerHTML = `
-                <h2>Разработка</h2>
-                <p>Мы занимаемся разработкой игр, приложений и утилит.</p>
-                <a href="#" class="more-btn">Подробнее</a>
-            `;
-        }
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        fetch('./DevelopingGameProc.txt', { signal: controller.signal })
+            .then(response => {
+                clearTimeout(timeoutId);
+                if (!response.ok) throw new Error('Файл DevelopingGameProc.txt не найден');
+                return response.text();
+            })
+            .then(data => {
+                const lines = data.split('\n').map(line => line.trim()).filter(line => line);
+                const gameData = {};
+                lines.forEach(line => {
+                    const [key, ...valueParts] = line.split('=');
+                    const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
+                    gameData[key.trim()] = value || 'Не указано';
+                });
+                const devInfo = document.querySelector('.dev-info');
+                if (devInfo) {
+                    devInfo.innerHTML = `
+                        <h2>${gameData.GameName || 'Не указано'}</h2>
+                        <p>Прогресс: ${gameData['Game%Dev'] || 'Не указано'}</p>
+                        <p>Версия: ${gameData.GameVersion || 'Не указано'}</p>
+                        ${gameData.GameMoreLink ? `<a href="${gameData.GameMoreLink}" class="more-btn">Подробнее</a>` : ''}
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных разработки:', error);
+                const devInfo = document.querySelector('.dev-info');
+                if (devInfo) {
+                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
+                }
+            });
     });
 
+    // Кнопка "Команда"
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) return;
@@ -196,10 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             memberData[key.trim()] = value || 'Не указано';
                         });
                         return memberData;
-                    }).filter(member => member.Username);
+                    });
                     console.log('Обработанные участники:', members);
-
-                    if (members.length === 0) {
+                    if (members.length === 0 || !members[0].Username) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
                         members.forEach((member, index) => {
@@ -212,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <a href="${member.UserTelegramContact || '#'}" class="contact-icon"></a>
                             `;
                             teamList.appendChild(memberDiv);
-
                             if (index < members.length - 1) {
                                 const divider = document.createElement('hr');
                                 divider.classList.add('team-divider');
@@ -220,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         });
                     }
-
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
                     joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
@@ -237,6 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Кнопка "Расширения"
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) return;
@@ -248,25 +295,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const extensionsList = document.querySelector('.extensions-list');
         if (extensionsList) {
-            extensionsList.innerHTML = `
-                <p>Все расширения ниже подходят для использования в TurboWarp и PenguinMod</p>
-                <a href="https://t.me/By_ROlil_Studio/5" class="telegram-link">BRC-Extension</a>
-                <a href="https://t.me/By_ROlil_Studio/6" class="telegram-link">BRC-Extension 2</a>
-            `;
+            extensionsList.innerHTML = '';
+            const header = document.createElement('p');
+            header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
+            header.style.color = 'white';
+            header.style.fontFamily = "'Russo One', sans-serif";
+            header.style.fontSize = '14px';
+            header.style.textAlign = 'center';
+            header.style.textShadow = '1px 1px 3px rgba(0, 0, 0, 0.5)';
+            header.style.marginBottom = '15px';
+            extensionsList.appendChild(header);
+
+            const extensionsData = [
+                { name: 'Telegram API Pack Edition', link: 'https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition' },
+                { name: 'Scratch API', link: 'https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js' },
+                { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js' }
+            ];
+            extensionsData.forEach(ext => {
+                const extLink = document.createElement('a');
+                extLink.href = ext.link;
+                extLink.classList.add('telegram-link');
+                extLink.textContent = ext.name;
+                extensionsList.appendChild(extLink);
+            });
         }
     });
 
-    const loadGames = () => {
+    // Загрузка игр
+    const loadGames = (file) => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
-        fetch('./BRC-Games.txt', { signal: controller.signal })
+        fetch(file, { signal: controller.signal })
             .then(response => {
                 clearTimeout(timeoutId);
-                if (!response.ok) throw new Error('Файл BRC-Games.txt не найден');
+                if (!response.ok) throw new Error(`Файл ${file} не найден`);
                 return response.text();
             })
             .then(data => {
-                gamesData = data.split('\n\n').map(game => {
+                const games = data.split('\n\n').map(game => {
                     const lines = game.split('\n').map(line => line.trim()).filter(line => line);
                     const gameData = {};
                     lines.forEach(line => {
@@ -275,75 +341,93 @@ document.addEventListener('DOMContentLoaded', () => {
                         gameData[key.trim()] = value || 'Не указано';
                     });
                     return gameData;
-                }).filter(game => game.GameName);
-                filterAndSortGames();
+                });
+                gamesData = games;
+                applyFilters();
             })
             .catch(error => {
                 console.error('Ошибка загрузки игр:', error);
-                gamesList.innerHTML = '<p>Ошибка загрузки игр: ' + error.message + '</p>';
+                if (gamesList) {
+                    gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
+                }
             });
     };
 
-    const filterAndSortGames = () => {
-        filteredGames = gamesData.filter(game => {
-            const matchesCategory = currentCategory === 'horror' ? game.GameCategory === 'Horror' : game.GameCategory !== 'Horror';
-            const matchesYear = yearFilter.value ? game.GameYear === yearFilter.value : true;
-            const matchesEngine = engineFilter.value !== 'all' ? game.GameEngine === engineFilter.value : true;
-            return matchesCategory && matchesYear && matchesEngine;
-        });
+    // Применение фильтров и сортировки
+    const applyFilters = () => {
+        filteredGames = gamesData;
 
-        const sortValue = sortGames.value;
-        filteredGames.sort((a, b) => {
-            if (sortValue === 'name-asc') return a.GameName.localeCompare(b.GameName);
-            if (sortValue === 'name-desc') return b.GameName.localeCompare(a.GameName);
-            if (sortValue === 'year-asc') return a.GameYear - b.GameYear;
-            if (sortValue === 'year-desc') return b.GameYear - a.GameYear;
-            return 0;
-        });
+        const year = yearFilter.value;
+        if (year) {
+            filteredGames = filteredGames.filter(game => game.Year && game.Year.includes(year));
+        }
+
+        const engine = engineFilter.value;
+        if (engine && engine !== 'all') {
+            filteredGames = filteredGames.filter(game => game.Engine === engine);
+        }
+
+        if (sortGames.value === 'name-asc') {
+            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
+        } else if (sortGames.value === 'name-desc') {
+            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
+        } else if (sortGames.value === 'year-asc') {
+            filteredGames.sort((a, b) => (a.Year || '').localeCompare(b.Year || ''));
+        } else if (sortGames.value === 'year-desc') {
+            filteredGames.sort((a, b) => (b.Year || '').localeCompare(a.Year || ''));
+        }
 
         currentPage = 1;
         displayGames();
     };
 
+    // Отображение игр
     const displayGames = () => {
+        if (!gamesList) return;
+        gamesList.classList.remove('fade-in');
+        void gamesList.offsetWidth;
+        gamesList.classList.add('fade-in');
+
+        gamesList.innerHTML = '';
         const start = (currentPage - 1) * gamesPerPage;
         const end = start + gamesPerPage;
         const paginatedGames = filteredGames.slice(start, end);
 
-        gamesList.innerHTML = '';
         if (paginatedGames.length === 0) {
-            gamesList.innerHTML = '<p>Игры отсутствуют</p>';
+            gamesList.innerHTML = '<p>Игры не найдены</p>';
+            prevPageBtn.disabled = true;
+            nextPageBtn.disabled = true;
+            pageInfo.textContent = 'Страница 0 из 0';
         } else {
             paginatedGames.forEach(game => {
-                const cleanGameName = (game.GameName || 'Не указано').replace(/["':]/g, '');
                 const gameCard = document.createElement('div');
                 gameCard.classList.add('game-card');
-                gameCard.style.backgroundImage = `url('${game.GameImage || ''}')`;
+                gameCard.style.backgroundImage = `url(${game.Image})`;
                 gameCard.innerHTML = `
                     <div class="game-header">
-                        <h3 class="game-title">${cleanGameName}</h3>
+                        <h3 class="game-title">${game.Name}</h3>
                         <div class="game-meta">
-                            <span class="game-version">${game.GameVersion || 'Не указано'}</span>
-                            <span class="game-engine">${game.GameEngine || 'Не указано'}</span>
+                            <span class="game-version">v${game.Version}</span>
+                            <span class="game-engine">${game.Engine}</span>
                         </div>
                     </div>
-                    <p class="game-description">${game.GameDesc || 'Описание отсутствует'}</p>
+                    <p class="game-description">${game.Desc}</p>
                     <div class="game-footer">
-                        <a href="${game.GameLink || '#'}" class="game-play-btn">Играть</a>
-                        <span class="game-year">${game.GameYear || 'Не указано'}</span>
+                        <a href="${game.Link}" class="game-play-btn">Играть</a>
+                        <span class="game-year">${game.Year}</span>
                     </div>
                 `;
                 gamesList.appendChild(gameCard);
             });
-        }
 
-        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-        pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
-        prevPageBtn.disabled = currentPage === 1;
-        nextPageBtn.disabled = currentPage === totalPages;
-        gamesList.classList.add('fade-in');
+            const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+            pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
     };
 
+    // Кнопка "Игры"
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) return;
@@ -352,15 +436,17 @@ document.addEventListener('DOMContentLoaded', () => {
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
         games.classList.add('show');
-        loadGames();
+        currentPage = 1;
+        loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
     });
 
+    // Переключение категорий игр
     horrorBtn.addEventListener('click', () => {
         if (currentCategory === 'horror') return;
         currentCategory = 'horror';
         horrorBtn.classList.add('active');
         othersBtn.classList.remove('active');
-        filterAndSortGames();
+        loadGames('./HorrorGames.txt');
     });
 
     othersBtn.addEventListener('click', () => {
@@ -368,13 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = 'others';
         othersBtn.classList.add('active');
         horrorBtn.classList.remove('active');
-        filterAndSortGames();
+        loadGames('./OthersGames.txt');
     });
 
-    yearFilter.addEventListener('input', filterAndSortGames);
-    engineFilter.addEventListener('change', filterAndSortGames);
-    sortGames.addEventListener('change', filterAndSortGames);
+    // Фильтры и сортировка
+    yearFilter.addEventListener('input', applyFilters);
+    engineFilter.addEventListener('change', applyFilters);
+    sortGames.addEventListener('change', applyFilters);
 
+    // Пагинация
     prevPageBtn.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
@@ -390,65 +478,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Загрузка утилит
     const loadUtils = () => {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-        fetch('./BRC-Utils.txt', { signal: controller.signal })
-            .then(response => {
-                clearTimeout(timeoutId);
-                if (!response.ok) throw new Error('Файл BRC-Utils.txt не найден');
-                return response.text();
-            })
-            .then(data => {
-                const utilsData = data.split('\n\n').map(item => {
-                    const lines = item.split('\n').map(line => line.trim()).filter(line => line);
-                    const utilData = {};
-                    lines.forEach(line => {
-                        const [key, ...valueParts] = line.split('=');
-                        const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
-                        utilData[key.trim()] = value || 'Не указано';
-                    });
-                    return utilData;
-                }).filter(item => item.UtilName);
-                displayUtils(utilsData);
-            })
-            .catch(error => {
-                console.error('Ошибка загрузки утилит:', error);
-                utilsList.innerHTML = '<p>Ошибка загрузки утилит: ' + error.message + '</p>';
-            });
-    };
+        utilsList.classList.remove('fade-in');
+        void utilsList.offsetWidth;
+        utilsList.classList.add('fade-in');
 
-    const displayUtils = (utilsData) => {
         utilsList.innerHTML = '';
+
+        const ourUtilsData = [
+            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
+            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
+        ];
+
+        const otherUtilsData = [
+            { name: 'Utility1', link: 'https://example.com/utility1' },
+            { name: 'Utility2', link: 'https://example.com/utility2' },
+            { name: 'Utility3', link: 'https://example.com/utility3' }
+        ];
+
         if (currentUtilsCategory === 'our') {
-            const ourUtils = utilsData.filter(item => item.UtilType === 'Our');
-            if (ourUtils.length === 0) {
-                utilsList.innerHTML = '<p>Утилиты отсутствуют</p>';
+            if (ourUtilsData.length === 0) {
+                utilsList.innerHTML = '<p>Утилиты не найдены</p>';
             } else {
-                ourUtils.forEach(item => {
-                    const cleanUtilName = (item.UtilName || 'Не указано').replace(/["':]/g, '');
+                ourUtilsData.forEach(utility => {
                     const utilItem = document.createElement('div');
                     utilItem.classList.add('utils-item');
                     utilItem.innerHTML = `
-                        <p>${cleanUtilName}</p>
-                        <a href="${item.UtilLink || '#'}" class="telegram-link">Скачать</a>
+                        <a href="${utility.link}" class="telegram-link">${utility.name}</a>
                     `;
                     utilsList.appendChild(utilItem);
                 });
             }
         } else {
-            utilsList.innerHTML = `
-                <p class="other-utils-text">
-                    Мы рекомендуем вам следующие утилиты: 
-                    <a href="https://example.com/notepad" class="telegram-link">Notepad++</a>
-                    <a href="https://example.com/vscode" class="telegram-link">VS Code</a>
-                    <a href="https://example.com/audacity" class="telegram-link">Audacity</a>
-                </p>
-            `;
+            const otherUtilsText = document.createElement('p');
+            otherUtilsText.classList.add('other-utils-text');
+            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' ');
+            utilsList.appendChild(otherUtilsText);
         }
-        utilsList.classList.add('fade-in');
     };
 
+    // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) return;
@@ -460,6 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
+    // Переключение категорий утилит
     ourUtilsBtn.addEventListener('click', () => {
         if (currentUtilsCategory === 'our') return;
         currentUtilsCategory = 'our';
@@ -476,16 +547,33 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    const scrollUpBtn = document.querySelector('.scroll-up');
-    const scrollDownBtn = document.querySelector('.scroll-down');
+    // Кнопки прокрутки
+    const scrollStep = 300;
+    const scrollTopBtn = document.querySelector('.scroll-up');
+    const scrollBottomBtn = document.querySelector('.scroll-down');
 
-    if (scrollUpBtn && scrollDownBtn) {
-        scrollUpBtn.addEventListener('click', () => {
-            window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            const currentScroll = window.scrollY;
+            window.scrollTo({
+                top: Math.max(0, currentScroll - scrollStep),
+                behavior: 'smooth'
+            });
         });
+    } else {
+        console.warn('Кнопка scroll-up не найдена');
+    }
 
-        scrollDownBtn.addEventListener('click', () => {
-            window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    if (scrollBottomBtn) {
+        scrollBottomBtn.addEventListener('click', () => {
+            const currentScroll = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            window.scrollTo({
+                top: Math.min(maxScroll, currentScroll + scrollStep),
+                behavior: 'smooth'
+            });
         });
+    } else {
+        console.warn('Кнопка scroll-down не найдена');
     }
 });
