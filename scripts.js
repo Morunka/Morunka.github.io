@@ -64,10 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         clickCount++;
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
+            console.log('Пасхалка активирована');
         }
     });
 
-    // Функция для закрытия всех меню, кроме указанного
+    // Функция для закрытия всех меню
     const closeOtherMenus = (activeClass) => {
         const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
         menuClasses.forEach(cls => {
@@ -76,20 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Скрываем все контейнеры с анимацией
         const containers = [description, links, docs, dev, team, extensions, games, utils];
         containers.forEach(container => {
             container.classList.add('hide');
             container.classList.remove('show');
         });
 
-        // Сбрасываем состояние подменю Telegram
         if (linksRow) linksRow.classList.remove('telegram-active');
         if (telegramBtn) telegramBtn.classList.remove('back');
         const telegramLinks = linksRow?.querySelector('.telegram-links');
         if (telegramLinks) telegramLinks.style.display = 'none';
 
-        // Убираем активное состояние у всех кнопок
         const buttons = [aboutBtn, linksBtn, docsBtn, devBtn, teamBtn, extensionsBtn, gamesBtn, utilsBtn];
         buttons.forEach(btn => btn.classList.remove('active'));
     };
@@ -130,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Подменю Telegram
     if (telegramBtn && linksRow) {
         const telegramLinks = linksRow.querySelector('.telegram-links');
-        if (telegramLinks) telegramLinks.style.display = 'none'; // Скрываем изначально
+        if (telegramLinks) telegramLinks.style.display = 'none';
 
         telegramBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -146,8 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     links.style.padding = '10px';
                 } else {
                     telegramLinks.style.display = 'flex';
-                    telegramLinks.style.flexDirection = 'column';
-                    telegramLinks.style.gap = '10px';
                     links.style.width = '600px';
                     links.style.height = 'auto';
                     links.style.minHeight = '200px';
@@ -239,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
-                    console.log('Данные BRC-Team.txt:', data);
+                    console.log('Содержимое BRC-Team.txt:', data);
                     const members = data.split('\n\n').map(member => {
                         const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
@@ -250,8 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         return memberData;
                     });
-                    console.log('Участники команды:', members);
-                    if (members.length === 0 || members[0].Username === undefined) {
+                    console.log('Обработанные участники:', members);
+                    if (members.length === 0 || !members[0].Username) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
                         members.forEach((member, index) => {
