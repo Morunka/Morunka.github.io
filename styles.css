@@ -1,52 +1,3 @@
-/* Общие стили */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Russo One', sans-serif;
-    background: url('background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
-}
-
-/* Анимации */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
 /* Прелоадер */
 #preloader {
     position: fixed;
@@ -59,155 +10,248 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    transition: opacity 0.5s ease;
 }
 
 #preloader.hidden {
     opacity: 0;
-    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #0ff;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Общие стили */
+body {
+    background-image: url('BRC-Background.jpg');
+    background-size: 100%;
+    background-position: top left;
+    background-repeat: repeat-y;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    opacity: 0;
     transition: opacity 0.5s ease;
+    min-height: 100vh;
 }
 
 body.loaded {
-    overflow-y: auto;
-}
-
-/* Логотип */
-h1 {
-    text-align: center;
-    font-size: 3rem;
-    margin: 20px 0;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-}
-
-/* Пасхалка */
-.easter-egg {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.easter-egg.active {
-    display: block;
     opacity: 1;
-    animation: slideIn 0.5s ease;
 }
 
-/* Меню */
-nav {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px;
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00f, #0ff);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0ff, 0 0 5px #00f;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #0ff, #00f);
+}
+
+/* Кнопки прокрутки */
+.scroll-buttons {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1000;
+}
+
+.scroll-button {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
     border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.scroll-button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
-nav a.active {
-    background-color: rgba(255, 255, 255, 0.3);
+.scroll-button:active {
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* Выделение кнопок */
-nav a::selection,
-button::selection,
-a::selection,
-p::selection {
-    background: white;
-    color: black;
+/* Логотип */
+h1 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 5px 0;
+    margin-bottom: 15px;
+    cursor: pointer;
 }
 
-/* Контейнеры */
-.description-container,
-.links-container,
-.docs-container,
-.dev-container,
-.team-container,
-.extensions-container,
-.games-container,
-.utils-container {
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: fixed;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background: rgba(0, 0, 0, 0.8);
+    top: 0;
+    width: 100%;
+    transform: translateY(0);
+    transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
+    z-index: 1001;
+}
+
+/* Кнопки навигации */
+.button-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px;
     border-radius: 10px;
-    padding: 20px;
-    width: 80%;
-    max-width: 600px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, top 0.3s ease, visibility 0.3s ease;
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto;
 }
 
-.description-container.show,
-.links-container.show,
-.docs-container.show,
-.dev-container.show,
-.team-container.show,
-.extensions-container.show,
-.games-container.show,
-.utils-container.show {
-    opacity: 1;
-    top: 50%;
-    visibility: visible;
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.description-container.hide,
-.links-container.hide,
-.docs-container.hide,
-.dev-container.hide,
-.team-container.hide,
-.extensions-container.hide,
-.games-container.hide,
-.utils-container.hide {
-    opacity: 0;
-    top: 60%;
-    visibility: hidden;
+.button:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+}
+
+.button.active {
+    border: 2px solid white;
+    background-color: #555;
+}
+
+.button.characters {
+    font-size: 10px;
+}
+
+.button.license {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+/* Описание */
+.description-container {
     display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.15);
+    max-width: 600px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.description-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.description {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.description strong {
+    font-weight: bold;
 }
 
 /* Ссылки */
-.links-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.links-row .telegram-links {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.links-row.telegram-active .telegram-links {
-    display: flex;
-    opacity: 1;
-    animation: slideIn 0.3s ease;
-}
-
 .links-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
     width: 320px;
     height: 70px;
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.links-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    width: 320px;
+    height: 70px;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
 .links-container.telegram-active {
@@ -215,120 +259,312 @@ p::selection {
     height: auto;
     min-height: 200px;
     padding: 20px;
+    overflow: hidden;
 }
 
-#telegram-btn.back::after {
-    content: 'Назад';
+.links-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+    width: 100%;
 }
 
-#telegram-btn::after {
-    content: 'Чаты';
+.link-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    z-index: 2;
 }
 
-.telegram-link {
-    color: #00c4ff;
-    text-decoration: none;
+.link-icon:hover {
+    transform: scale(1.1);
 }
 
-.telegram-link:hover {
+.link-icon:active {
+    transform: scale(1.3);
+}
+
+.gamejolt {
+    background-image: url('https://img.icons8.com/color/50/000000/gamejolt.png');
+}
+
+.kogama {
+    background-image: url('Kogama.png');
+}
+
+.youtube {
+    background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
+}
+
+.telegram {
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.telegram.back {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/back.png');
+    transform: translateX(0);
+}
+
+.scratch {
+    background-image: url('https://img.icons8.com/color/50/000000/scratch.png');
+}
+
+.links-row.telegram-active .gamejolt,
+.links-row.telegram-active .kogama,
+.links-row.telegram-active .youtube,
+.links-row.telegram-active .scratch {
+    display: none;
+}
+
+.telegram-links {
+    display: none;
+    flex-direction: row;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 10px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.links-row.telegram-active .telegram-links {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    animation: fadeInScale 0.5s ease-in-out;
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.links-row.telegram-active .telegram-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: #333;
     color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.links-row.telegram-active .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
 }
 
 /* Документы */
 .docs-container {
-    height: auto;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.docs-container p {
-    text-align: center;
-}
-
-.docs-container a {
     display: block;
-    margin: 20px auto;
-    text-align: center;
-    color: #00c4ff;
-    text-decoration: none;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    width: fit-content;
+    visibility: hidden;
+    background-color: rgba(255, 255, 250, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
 }
 
-.docs-container a:hover {
-    background: rgba(255, 255, 255, 0.3);
+.docs-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.docs-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
 }
 
 /* Разработка */
 .dev-container {
-    height: auto;
-    max-height: 400px;
-    overflow-y: auto;
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    clip-path: inset(0 0 0 0);
+}
+
+.dev-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .dev-info {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 
 .dev-info h2 {
-    margin-bottom: 10px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
 
 .dev-info p {
-    margin: 5px 0;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
 
 .dev-info .more-btn {
-    display: inline-block;
-    margin-top: 10px;
-    color: #00c4ff;
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
     text-decoration: none;
-    padding: 5px 10px;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease;
+    border: 2px solid transparent;
 }
 
 .dev-info .more-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background-color: #555;
+    transform: scale(1.05);
+    border: 2px solid #0ff; /* Добавляем выделение при наведении */
 }
 
 /* Команда */
 .team-container {
-    height: auto;
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 400px;
     max-height: 400px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.team-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .team-list {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.team-container.show .team-list {
-    opacity: 1;
-    animation: slideUp 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
 }
 
 .team-member {
-    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 
 .team-member h3 {
-    margin-bottom: 5px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
 
-.team-role {
-    color: #ccc;
+.team-member .team-role {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
 
-.contact-icon {
+.team-member .contact-icon {
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    background: url('telegram-icon.png') no-repeat center;
-    background-size: contain;
+    width: 30px;
+    height: 30px;
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-member .contact-icon:hover {
+    transform: scale(1.1);
+}
+
+.team-member .contact-icon:active {
+    transform: scale(1.3);
 }
 
 .team-divider {
@@ -339,12 +575,16 @@ p::selection {
 }
 
 .team-join {
-    margin-top: 20px;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
     text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
 }
 
 .team-join a {
-    color: #00c4ff;
+    color: #0ff;
     text-decoration: none;
 }
 
@@ -354,90 +594,259 @@ p::selection {
 
 /* Расширения */
 .extensions-container {
-    height: auto;
-    max-height: 400px;
-    overflow-y: auto;
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.extensions-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .extensions-list {
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
-.extensions-container.show .extensions-list {
+.extensions-list .telegram-link {
     opacity: 1;
-    animation: slideUp 0.5s ease;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.extensions-list p {
+.extensions-list .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Игры */
+.games-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.games-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.games-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.category-btn:hover {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.category-btn.active {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.filter-input {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    width: 120px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.filter-input::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+.filter-input:hover, .filter-input:focus {
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
+    outline: none;
+}
+
+.filter-select {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.filter-select:hover, .filter-select:focus {
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    transform: scale(1.02);
+    outline: none;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.page-btn:disabled {
+    background-color: #222;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.page-info {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.games-list p {
     color: white;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
     text-align: center;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    margin-bottom: 15px;
-}
-
-/* Игры */
-.games-container {
-    height: auto;
-    max-height: 600px;
-    overflow-y: auto;
-}
-
-.games-filter {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.games-filter button {
-    padding: 5px 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-}
-
-.games-filter button.active {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.games-filter button:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.games-filter select,
-.games-filter input {
-    padding: 5px;
-    border-radius: 5px;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-.games-filter select option {
-    background: #333;
 }
 
 .game-card {
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px 0;
+    position: relative;
     background-size: cover;
     background-position: center;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 .game-header {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .game-title {
-    font-size: 1.2rem;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
 
 .game-meta {
@@ -445,194 +854,582 @@ p::selection {
     gap: 10px;
 }
 
-.game-version,
-.game-engine {
-    font-size: 0.8rem;
-    color: #ccc;
+.game-version, .game-engine {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .game-description {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     margin: 10px 0;
 }
 
 .game-footer {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .game-play-btn {
-    color: #00c4ff;
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
     text-decoration: none;
-    padding: 5px 10px;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .game-play-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background-color: #555;
+    transform: scale(1.1);
 }
 
 .game-year {
-    font-size: 0.8rem;
-    color: #ccc;
-}
-
-.games-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.games-pagination button {
-    padding: 5px 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 5px;
     color: white;
-    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.games-pagination button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+/* Анимация для списка игр */
+.games-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-.games-pagination button:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.3);
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Утилиты */
 .utils-container {
-    height: auto;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.utils-filter {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 600px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    clip-path: inset(0 0 0 0);
+}
+
+.utils-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.utils-header {
+    display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.utils-filter button {
-    padding: 5px 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 5px;
+.utils-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.utils-list p {
     color: white;
-    cursor: pointer;
-}
-
-.utils-filter button.active {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.utils-filter button:hover {
-    background: rgba(255, 255, 255, 0.3);
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .utils-item {
-    margin: 10px 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.other-utils-text a {
-    margin-right: 10px;
-}
-
-/* Скрытие элементов */
-.hide {
-    display: none;
-}
-
-/* Анимация для списка игр и утилит */
-.fade-in {
-    animation: fadeIn 0.5s ease;
-}
-
-/* Кнопки прокрутки */
-.scroll-up,
-.scroll-down {
-    position: fixed;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.scroll-up {
-    bottom: 70px;
-}
-
-.scroll-down {
-    bottom: 20px;
-}
-
-body.loaded .scroll-up,
-body.loaded .scroll-down {
+.utils-item .telegram-link {
     opacity: 1;
-    animation: slideIn 0.5s ease;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
 }
 
-.scroll-up:hover,
-.scroll-down:hover {
-    background: rgba(255, 255, 255, 0.3);
+.utils-item .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Адаптивность */
+.other-utils-text {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.other-utils-text .telegram-link {
+    color: #0ff;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: color 0.3s ease;
+}
+
+.other-utils-text .telegram-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Анимация для списка утилит */
+.utils-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Активные состояния */
+.games-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.games-active .games-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.utils-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.utils-active .utils-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.active .description-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.links-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.links-active .links-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.docs-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.docs-active .docs-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.dev-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.dev-active .dev-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.team-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.team-active .team-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.extensions-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.extensions-active .extensions-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+/* Пасхалка */
+.easter-egg {
+    position: fixed;
+    top: 10px;
+    right: -300px;
+    z-index: 10000;
+    transition: right 0.5s ease-in-out;
+}
+
+.easter-egg.active {
+    right: 10px;
+}
+
+.easter-egg img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Футер */
+.footer {
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+    margin-top: auto;
+    padding: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+/* Медиа-запросы */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2rem;
+        font-size: 36px;
     }
-
-    nav {
-        flex-wrap: wrap;
-        gap: 5px;
-        margin: 0 5px;
+    .button-container {
+        padding: 6px;
+        gap: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        top: 50px;
     }
-
-    nav a {
-        padding: 8px 15px;
-        font-size: 0.9rem;
+    .button {
+        padding: 5px 10px;
+        font-size: 11px;
     }
-
-    .description-container,
-    .links-container,
-    .docs-container,
-    .dev-container,
-    .team-container,
-    .extensions-container,
-    .games-container,
-    .utils-container {
-        width: 90%;
-        max-width: none;
+    .button.characters {
+        font-size: 9px;
+    }
+    .button.license {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .description-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        padding: 8px;
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.hide {
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.telegram-active {
+        width: 350px;
+        height: auto;
+        min-height: 150px;
+        padding: 15px;
+    }
+    .team-container {
+        width: 300px;
+        max-height: 300px;
+        padding: 10px;
+    }
+    .games-container, .utils-container {
+        width: 300px;
+        padding: 10px;
+    }
+    .game-card {
+        min-height: 180px;
+    }
+    .description {
+        font-size: 14px;
+    }
+    .link-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .telegram.back {
+        transform: translateX(0);
+    }
+    .active .header-container,
+    .links-active .header-container,
+    .docs-active .header-container,
+    .dev-active .header-container,
+    .team-active .header-container,
+    .extensions-active .header-container,
+    .games-active .header-container,
+    .utils-active .header-container {
+        top: 0;
+    }
+    .scroll-button {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+    .dev-info h2 {
+        font-size: 18px;
+    }
+    .dev-info p {
+        font-size: 12px;
+    }
+    .dev-info .more-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .team-member h3 {
+        font-size: 16px;
+    }
+    .team-member .team-role {
+        font-size: 10px;
+    }
+    .team-member .contact-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .team-join {
+        font-size: 10px;
+    }
+    .game-title {
+        font-size: 16px;
+    }
+    .game-version, .game-engine {
+        font-size: 10px;
+    }
+    .game-description {
+        font-size: 12px;
+    }
+    .game-play-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .game-year {
+        font-size: 10px;
+    }
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .filter-input, .filter-select {
+        padding: 6px;
+        font-size: 12px;
+        width: 100px;
+    }
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .page-info {
+        font-size: 12px;
+    }
+    .utils-item .telegram-link {
+        width: 120px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    .extensions-list .telegram-link {
+        width: 120px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    .other-utils-text {
+        font-size: 12px;
+    }
+    .footer {
+        font-size: 10px;
         padding: 15px;
     }
 }
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 1.5rem;
+        font-size: 28px;
     }
-
-    nav a {
+    .button-container {
+        padding: 4px;
+        gap: 8px;
+        top: 40px;
+    }
+    .button {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    .button.characters {
+        font-size: 8px;
+    }
+    .button.license {
         padding: 5px 10px;
-        font-size: 0.8rem;
+        font-size: 11px;
     }
-
-    .scroll-up,
-    .scroll-down {
-        width: 30px;
-        height: 30px;
+    .description-container {
+        max-width: 95%;
+        padding: 8px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.hide {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.telegram-active {
+        width: 300px;
+        min-height: 120px;
+        padding: 10px;
+    }
+    .team-container {
+        width: 250px;
+        max-height: 250px;
+        padding: 8px;
+    }
+    .games-container, .utils-container {
+        width: 250px;
+        padding: 8px;
+    }
+    .game-card {
+        min-height: 160px;
+    }
+    .description {
+        font-size: 12px;
+    }
+    .link-icon {
+        width: 35px;
+        height: 35px;
+    }
+    .scroll-button {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
+    .dev-info h2 {
+        font-size: 16px;
+    }
+    .dev-info p {
+        font-size: 10px;
+    }
+    .dev-info .more-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .team-member h3 {
+        font-size: 14px;
+    }
+    .team-member .team-role {
+        font-size: 9px;
+    }
+    .team-member .contact-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .team-join {
+        font-size: 8px;
+    }
+    .game-title {
+        font-size: 14px;
+    }
+    .game-version, .game-engine {
+        font-size: 8px;
+    }
+    .game-description {
+        font-size: 10px;
+    }
+    .game-play-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .game-year {
+        font-size: 8px;
+    }
+    .category-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .filter-input, .filter-select {
+        padding: 5px;
+        font-size: 10px;
+        width: 80px;
+    }
+    .page-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .page-info {
+        font-size: 10px;
+    }
+    .utils-item .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .extensions-list .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .other-utils-text {
+        font-size: 10px;
+    }
+    .footer {
+        font-size: 8px;
+        padding: 10px;
     }
 }
