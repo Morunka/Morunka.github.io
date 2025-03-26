@@ -185,7 +185,9 @@ h1 {
 }
 
 .button {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 6px 12px;
     background-color: #333;
     color: white;
@@ -198,6 +200,8 @@ h1 {
     font-size: 12px;
     text-align: center;
     white-space: nowrap;
+    height: 30px;
+    box-sizing: border-box;
 }
 
 .button:hover {
@@ -298,6 +302,7 @@ h1 {
     box-sizing: border-box;
     z-index: 1000;
     clip-path: inset(0 0 0 0);
+    will-change: transform, opacity, width, height, min-height, padding;
 }
 
 .links-container.hide {
@@ -314,7 +319,6 @@ h1 {
     height: auto;
     min-height: 200px;
     padding: 20px;
-    overflow: hidden;
 }
 
 .links-row {
@@ -1317,9 +1321,8 @@ h1 {
     padding: 20px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     width: 100%;
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
+    position: relative;
+    z-index: 10;
     opacity: 0;
     animation: fadeInText 0.5s ease-in-out forwards;
     animation-delay: 0.5s;
@@ -1339,6 +1342,7 @@ h1 {
     .button {
         padding: 5px 10px;
         font-size: 11px;
+        height: 28px;
     }
     .button.characters {
         font-size: 9px;
@@ -1489,6 +1493,7 @@ h1 {
     .button {
         padding: 4px 8px;
         font-size: 10px;
+        height: 26px;
     }
     .button.characters {
         font-size: 8px;
