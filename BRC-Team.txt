@@ -4,3 +4,6 @@ Username="@MEOW_MUR920":
 Username="@DFG":
   UserDesc="Разработчик The is coffe! первой и второй части"
   UserTelegramContact="https://t.me/DFG"
+Username="Strange User":
+  UserDesc="Test"
+  UserTelegramContact="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
