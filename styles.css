@@ -96,17 +96,15 @@ body::-webkit-scrollbar-thumb:hover {
     color: white;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .scroll-button:hover {
     background-color: rgba(255, 255, 255, 0.5);
-    transform: scale(1.1);
 }
 
 .scroll-button:active {
     background-color: rgba(255, 255, 255, 0.7);
-    transform: scale(0.9);
 }
 
 /* Логотип */
@@ -118,13 +116,6 @@ h1 {
     margin: 5px 0;
     margin-bottom: 15px;
     cursor: pointer;
-    animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
 }
 
 .header-container {
@@ -162,7 +153,7 @@ h1 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s;
     border: 2px solid transparent;
     cursor: pointer;
     font-family: Arial, sans-serif;
@@ -175,13 +166,11 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button.active {
     border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button.characters {
@@ -191,93 +180,6 @@ h1 {
 .button.license {
     padding: 8px 16px;
     font-size: 14px;
-}
-
-/* Поисковая строка */
-.search-container {
-    display: flex;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 8px;
-    border-radius: 10px;
-    margin-top: 120px;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    width: 600px;
-    max-width: 90%;
-}
-
-.search-engines {
-    display: flex;
-    gap: 8px;
-    margin-right: 10px;
-}
-
-.search-engine {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.search-engine.active {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.search-engine:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
-}
-
-.search-input {
-    flex: 1;
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #0ff;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.search-input::placeholder {
-    color: rgba(0, 255, 255, 0.5);
-}
-
-.search-input:hover, .search-input:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.02);
-    outline: none;
-}
-
-.search-btn {
-    background-color: #333;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.search-btn img {
-    width: 24px;
-    height: 24px;
-}
-
-.search-btn:hover {
-    background-color: #555;
-    transform: scale(1.1);
-}
-
-.search-btn:active {
-    transform: scale(0.9);
 }
 
 /* Описание */
@@ -294,7 +196,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     z-index: 1000;
     clip-path: inset(0 0 0 0);
 }
@@ -303,23 +205,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.description-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
-}
-
-@keyframes slideIn {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .description {
@@ -348,9 +234,9 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, transform 0.5s ease-in-out;
-    width: 400px;
-    height: 80px;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+    width: 320px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -363,11 +249,9 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-}
-
-.links-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    width: 320px;
+    height: 70px;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
 .links-container.telegram-active {
@@ -376,12 +260,11 @@ h1 {
     min-height: 200px;
     padding: 20px;
     overflow: hidden;
-    transition: width 0.5s ease-in-out, height 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 
 .links-row {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
@@ -391,10 +274,9 @@ h1 {
 
 .link-icon {
     display: inline-block;
-    width: 60px;
-    height: 60px;
-    background-size: contain;
-    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
     background-position: center;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
@@ -418,10 +300,6 @@ h1 {
     background-image: url('Kogama.png');
 }
 
-.kogamafriends {
-    background-image: url('KogamaFriends.jpg');
-}
-
 .youtube {
     background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
 }
@@ -442,7 +320,6 @@ h1 {
 
 .links-row.telegram-active .gamejolt,
 .links-row.telegram-active .kogama,
-.links-row.telegram-active .kogamafriends,
 .links-row.telegram-active .youtube,
 .links-row.telegram-active .scratch {
     display: none;
@@ -514,7 +391,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
     height: 70px;
     display: flex;
@@ -528,12 +405,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.docs-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .docs-row {
@@ -558,7 +430,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
     display: flex;
     justify-content: center;
@@ -571,12 +443,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.dev-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .dev-info {
@@ -604,22 +471,20 @@ h1 {
 
 .dev-info .more-btn {
     padding: 8px 16px;
-    font-size: 14px;
     background-color: #333;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    font-family: Arial, sans-serif;
-    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease;
     border: 2px solid transparent;
-    cursor: pointer;
 }
 
 .dev-info .more-btn:hover {
-    transform: scale(1.1);
-    border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transform: scale(1.05);
+    border: 2px solid #0ff;
 }
 
 /* Команда */
@@ -635,7 +500,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 400px;
     max-height: 400px;
     overflow-y: auto;
@@ -650,12 +515,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.team-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .team-list {
@@ -745,7 +605,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 300px;
     display: flex;
     justify-content: center;
@@ -758,12 +618,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.extensions-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .extensions-list {
@@ -807,7 +662,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -820,12 +675,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.games-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .games-header {
@@ -845,13 +695,12 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    transform: scale(1.05);
 }
 
 .category-btn.active {
@@ -921,13 +770,12 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
 .page-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    transform: scale(1.05);
 }
 
 .page-btn:disabled {
@@ -1033,22 +881,18 @@ h1 {
 
 .game-play-btn {
     padding: 8px 16px;
-    font-size: 14px;
     background-color: #333;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    font-family: Arial, sans-serif;
-    transition: transform 0.3s ease, border 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid transparent;
-    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .game-play-btn:hover {
-    transform: scale(1.1);
-    border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    transform: scale(1.1);
 }
 
 .game-year {
@@ -1087,7 +931,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -1100,12 +944,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    transform: translateX(-50%) translateY(20px);
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.utils-container.show {
-    animation: slideIn 0.5s ease-in-out forwards;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .utils-header {
@@ -1291,6 +1130,7 @@ h1 {
     width: 200px;
     height: auto;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 /* Футер */
@@ -1329,29 +1169,18 @@ h1 {
         padding: 6px 12px;
         font-size: 12px;
     }
-    .search-container {
-        margin-top: 100px;
-        width: 90%;
-    }
-    .search-engine {
-        width: 28px;
-        height: 28px;
-    }
-    .search-input {
-        font-size: 12px;
-    }
-    .search-btn img {
-        width: 20px;
-        height: 20px;
-    }
     .description-container {
         max-width: 90%;
         padding: 10px;
     }
     .links-container, .docs-container, .dev-container, .extensions-container {
         padding: 8px;
-        width: 350px;
-        height: 70px;
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.hide {
+        width: 300px;
+        height: 60px;
     }
     .links-container.telegram-active {
         width: 350px;
@@ -1364,7 +1193,11 @@ h1 {
         max-height: 300px;
         padding: 10px;
     }
-    .games-container, .utils-container {
+    .games-container {
+        width: 300px;
+        padding: 10px;
+    }
+    .utils-container {
         width: 300px;
         padding: 10px;
     }
@@ -1375,8 +1208,8 @@ h1 {
         font-size: 14px;
     }
     .link-icon {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     }
     .telegram.back {
         transform: translateX(0);
@@ -1490,28 +1323,17 @@ h1 {
         padding: 5px 10px;
         font-size: 11px;
     }
-    .search-container {
-        margin-top: 80px;
-        width: 95%;
-    }
-    .search-engine {
-        width: 24px;
-        height: 24px;
-    }
-    .search-input {
-        font-size: 10px;
-    }
-    .search-btn img {
-        width: 18px;
-        height: 18px;
-    }
     .description-container {
         max-width: 95%;
         padding: 8px;
     }
     .links-container, .docs-container, .dev-container, .extensions-container {
-        width: 300px;
-        height: 60px;
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.hide {
+        width: 250px;
+        height: 50px;
     }
     .links-container.telegram-active {
         width: 300px;
@@ -1523,7 +1345,11 @@ h1 {
         max-height: 250px;
         padding: 8px;
     }
-    .games-container, .utils-container {
+    .games-container {
+        width: 250px;
+        padding: 8px;
+    }
+    .utils-container {
         width: 250px;
         padding: 8px;
     }
@@ -1534,8 +1360,8 @@ h1 {
         font-size: 12px;
     }
     .link-icon {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
     .scroll-button {
         width: 20px;
