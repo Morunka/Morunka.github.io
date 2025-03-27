@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksRow = document.querySelector('.links-row');
     const logo = document.querySelector('h1');
     const easterEgg = document.querySelector('.easter-egg');
+    const searchEngines = document.querySelectorAll('.search-engine');
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
-    const searchEngines = document.querySelectorAll('.search-engine');
 
     let currentCategory = 'horror';
     let gamesData = [];
@@ -68,10 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         clickCount++;
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
+            console.log('Пасхалка активирована');
             setTimeout(() => {
                 easterEgg.classList.remove('active');
             }, 2500);
-            console.log('Пасхалка активирована');
         }
     });
 
@@ -242,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
+                    console.log('Содержимое BRC-Team.txt:', data);
                     const members = data.split('\n\n').map(member => {
                         const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
@@ -252,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         return memberData;
                     });
+                    console.log('Обработанные участники:', members);
                     if (members.length === 0 || !members[0].Username) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
@@ -591,24 +593,25 @@ document.addEventListener('DOMContentLoaded', () => {
         engine.addEventListener('click', () => {
             searchEngines.forEach(e => e.classList.remove('active'));
             engine.classList.add('active');
-            selectedEngine = engine.getAttribute('data-engine');
+            selectedEngine = engine.dataset.engine;
         });
     });
 
     searchBtn.addEventListener('click', () => {
         const query = searchInput.value.trim();
-        if (query) {
-            let url;
-            if (selectedEngine === 'brave') {
-                url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
-            } else if (selectedEngine === 'google') {
-                url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-            } else if (selectedEngine === 'yandex') {
-                url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
-            }
-            if (url) {
-                window.open(url, '_blank');
-            }
+        if (!query) return;
+
+        let url;
+        if (selectedEngine === 'brave') {
+            url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+        } else if (selectedEngine === 'google') {
+            url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        } else if (selectedEngine === 'yandex') {
+            url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+        }
+
+        if (url) {
+            window.open(url, '_blank');
         }
     });
 });
