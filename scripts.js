@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksRow = document.querySelector('.links-row');
     const logo = document.querySelector('h1');
     const easterEgg = document.querySelector('.easter-egg');
-    const searchEngines = document.querySelectorAll('.search-engine');
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
+    const searchEngines = document.querySelectorAll('.search-engine');
 
     let currentCategory = 'horror';
     let gamesData = [];
@@ -62,16 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Анимация логотипа (голограмма)
+    let logoMove = 0;
+    setInterval(() => {
+        logoMove = (logoMove + 0.05) % 10;
+        logo.style.transform = `translateY(${Math.sin(logoMove) * 2}px)`;
+    }, 50);
+
     // Пасхалка
     let clickCount = 0;
     logo.addEventListener('click', () => {
         clickCount++;
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
-            setTimeout(() => {
-                easterEgg.classList.remove('active');
-            }, 2500);
             console.log('Пасхалка активирована');
+            setTimeout(() => easterEgg.classList.remove('active'), 2500);
         }
     });
 
@@ -79,9 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeOtherMenus = (activeClass) => {
         const menuClasses = ['active', 'links-active', 'docs-active', 'dev-active', 'team-active', 'extensions-active', 'games-active', 'utils-active'];
         menuClasses.forEach(cls => {
-            if (cls !== activeClass) {
-                body.classList.remove(cls);
-            }
+            if (cls !== activeClass) body.classList.remove(cls);
         });
 
         const containers = [description, links, docs, dev, team, extensions, games, utils];
@@ -127,9 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
         linksBtn.classList.add('active');
         links.classList.remove('hide');
         links.classList.add('show');
-        links.style.width = '450px';
+        links.style.width = '450px'; // Увеличенная ширина
         links.style.height = '70px';
-        links.style.padding = '15px';
+        links.style.padding = '10px';
     });
 
     // Подменю Telegram
@@ -148,20 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     links.style.width = '450px';
                     links.style.height = '70px';
                     links.style.minHeight = '70px';
-                    links.style.padding = '15px';
+                    links.style.padding = '10px';
                 } else {
                     telegramLinks.style.display = 'flex';
-                    links.style.width = '600px';
+                    links.style.width = '650px';
                     links.style.height = 'auto';
                     links.style.minHeight = '200px';
                     links.style.padding = '20px';
                 }
-            } else {
-                console.warn('Элемент .telegram-links не найден');
             }
         });
-    } else {
-        console.warn('Элементы telegramBtn или linksRow не найдены');
     }
 
     // Кнопка "Документы"
@@ -212,11 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('Ошибка загрузки данных разработки:', error);
                 const devInfo = document.querySelector('.dev-info');
-                if (devInfo) {
-                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
-                }
+                if (devInfo) devInfo.innerHTML = `<p>Ошибка загрузки данных: ${error.message}</p>`;
             });
     });
 
@@ -242,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
-                    console.log('Содержимое BRC-Team.txt:', data);
                     const members = data.split('\n\n').map(member => {
                         const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
@@ -253,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         return memberData;
                     });
-                    console.log('Обработанные участники:', members);
                     if (members.length === 0 || !members[0].Username) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
@@ -276,15 +270,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
-                    joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
+                    joinDiv.innerHTML = 'Хотите присоединиться? Пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в Telegram!';
                     teamList.appendChild(joinDiv);
                 })
                 .catch(error => {
-                    console.error('Ошибка загрузки команды:', error);
-                    teamList.innerHTML = '<p>Ошибка загрузки команды: ' + error.message + '</p>';
+                    teamList.innerHTML = `<p>Ошибка загрузки команды: ${error.message}</p>`;
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
-                    joinDiv.innerHTML = 'Если хотите присоединиться к нам, пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в телеграм для уточнения деталей!';
+                    joinDiv.innerHTML = 'Хотите присоединиться? Пишите <a href="https://t.me/MEOW_MUR920">@MEOW_MUR920</a> в Telegram!';
                     teamList.appendChild(joinDiv);
                 });
         }
@@ -302,20 +295,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const extensionsList = document.querySelector('.extensions-list');
         if (extensionsList) {
-            extensionsList.innerHTML = '';
-            const header = document.createElement('p');
-            header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMod';
-            extensionsList.appendChild(header);
-
+            extensionsList.innerHTML = '<p style="color: white; font-family: \'Russo One\', sans-serif; font-size: 14px; text-align: center; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); margin-bottom: 15px;">Все расширения подходят для TurboWarp и PenguinMod</p>';
             const extensionsData = [
                 { name: 'Telegram API Pack Edition', link: 'https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition' },
                 { name: 'Scratch API', link: 'https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js' },
-                { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMini%20API%20TW.js' }
+                { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js' }
             ];
             extensionsData.forEach(ext => {
                 const extLink = document.createElement('a');
                 extLink.href = ext.link;
-                extLink.classList.add('extension-link');
+                extLink.classList.add('telegram-link');
                 extLink.textContent = ext.name;
                 extensionsList.appendChild(extLink);
             });
@@ -333,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(data => {
-                const games = data.split('\n\n').map(game => {
+                gamesData = data.split('\n\n').map(game => {
                     const lines = game.split('\n').map(line => line.trim()).filter(line => line);
                     const gameData = {};
                     lines.forEach(line => {
@@ -343,14 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     return gameData;
                 });
-                gamesData = games;
                 applyFilters();
             })
             .catch(error => {
-                console.error('Ошибка загрузки игр:', error);
-                if (gamesList) {
-                    gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
-                }
+                if (gamesList) gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
             });
     };
 
@@ -359,14 +344,10 @@ document.addEventListener('DOMContentLoaded', () => {
         filteredGames = gamesData;
 
         const year = yearFilter.value;
-        if (year) {
-            filteredGames = filteredGames.filter(game => game.Year && game.Year.includes(year));
-        }
+        if (year) filteredGames = filteredGames.filter(game => game.Year && game.Year.includes(year));
 
         const engine = engineFilter.value;
-        if (engine && engine !== 'all') {
-            filteredGames = filteredGames.filter(game => game.Engine === engine);
-        }
+        if (engine && engine !== 'all') filteredGames = filteredGames.filter(game => game.Engine === engine);
 
         if (sortGames.value === 'name-asc') {
             filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
@@ -406,16 +387,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameCard.style.backgroundImage = `url(${game.Image})`;
                 gameCard.innerHTML = `
                     <div class="game-header">
-                        <h3 class="game-title">${game.Name || 'Не указано'}</h3>
+                        <h3 class="game-title">${game.Name}</h3>
                         <div class="game-meta">
-                            <span class="game-version">v${game.Version || 'Не указано'}</span>
-                            <span class="game-engine">${game.Engine || 'Не указано'}</span>
+                            <span class="game-version">v${game.Version}</span>
+                            <span class="game-engine">${game.Engine}</span>
                         </div>
                     </div>
-                    <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
+                    <p class="game-description">${game.Desc}</p>
                     <div class="game-footer">
-                        <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
-                        <span class="game-year">${game.Year || 'Не указано'}</span>
+                        <a href="${game.Link}" class="game-play-btn">Играть</a>
+                        <span class="game-year">${game.Year}</span>
                     </div>
                 `;
                 gamesList.appendChild(gameCard);
@@ -488,8 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
         utilsList.innerHTML = '';
 
         const ourUtilsData = [
-            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
-            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
+            { name: 'UNMiner Tool', link: 'https://telegra.ph/How-to-user-UNMiner-Tool-03-25' },
+            { name: 'TS3-Music-Downloader', link: 'https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25' }
         ];
 
         const otherUtilsData = [
@@ -515,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { name: 'PenguinModeDesktop', link: 'https://github.com/PenguinMod/penguinmod.github.io' },
             { name: 'Node.js', link: 'https://nodejs.org/uk' },
             { name: 'GeminiGoogleAI', link: 'https://ai.google.dev/gemini-api' },
-            { name: 'VPNFreePro', link: 'https://chromewebstore.google.com/detail/vpn-freepro-%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9-vp/bibjcjfmgapbfoljiojpipaooddpkpai' },
+            { name: 'VPNFreePro', link: 'https://chromewebstore.google.com/detail/vpn-freepro-бесплатный-vp/bibjcjfmgapbfoljiojpipaooddpkpai' },
             { name: 'Stylish', link: 'https://chromewebstore.google.com/detail/stylish-custom-themes-for/fjnbnpbmkenffdnngjfgmeleoegfcffe' },
             { name: 'GeminiAPIKeys', link: 'https://aistudio.google.com/apikey' },
             { name: 'Scratch', link: 'https://scratch.mit.edu/projects/editor/' },
@@ -523,22 +504,17 @@ document.addEventListener('DOMContentLoaded', () => {
             { name: 'PenguinMode', link: 'https://studio.penguinmod.com/editor.html' },
             { name: 'DinoMode', link: 'https://dinosaurmod.github.io/' },
             { name: 'XAIStatus', link: 'https://status.x.ai/' },
-            { name: 'PublichVectors', link: 'https://publicdomainvectors.org' }
+            { name: 'PublichVectors', link: 'https://publicdomainvectors.org' },
+            { name: 'HowToInstallLinuxArch', link: 'https://www.youtube.com/watch?v=n2oLwVWxPp4' }
         ];
 
         if (currentUtilsCategory === 'our') {
-            if (ourUtilsData.length === 0) {
-                utilsList.innerHTML = '<p>Утилиты не найдены</p>';
-            } else {
-                ourUtilsData.forEach(utility => {
-                    const utilItem = document.createElement('div');
-                    utilItem.classList.add('utils-item');
-                    utilItem.innerHTML = `
-                        <a href="${utility.link}" class="telegram-link">${utility.name}</a>
-                    `;
-                    utilsList.appendChild(utilItem);
-                });
-            }
+            ourUtilsData.forEach(utility => {
+                const utilItem = document.createElement('div');
+                utilItem.classList.add('utils-item');
+                utilItem.innerHTML = `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`;
+                utilsList.appendChild(utilItem);
+            });
         } else {
             const otherUtilsText = document.createElement('p');
             otherUtilsText.classList.add('other-utils-text');
@@ -591,8 +567,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-    } else {
-        console.warn('Кнопка scroll-up не найдена');
     }
 
     if (scrollBottomBtn) {
@@ -606,8 +580,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-    } else {
-        console.warn('Кнопка scroll-down не найдена');
     }
 
     // Поиск
@@ -615,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         engine.addEventListener('click', () => {
             searchEngines.forEach(e => e.classList.remove('active'));
             engine.classList.add('active');
-            selectedEngine = engine.getAttribute('data-engine');
+            selectedEngine = engine.dataset.engine;
         });
     });
 
@@ -624,25 +596,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (query) {
             let url;
             switch (selectedEngine) {
-                case 'brave':
-                    url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
-                    break;
-                case 'google':
-                    url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-                    break;
-                case 'yandex':
-                    url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
-                    break;
-                default:
-                    url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+                case 'brave': url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`; break;
+                case 'google': url = `https://www.google.com/search?q=${encodeURIComponent(query)}`; break;
+                case 'yandex': url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`; break;
             }
             window.open(url, '_blank');
-        }
-    });
-
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            searchBtn.click();
         }
     });
 });
