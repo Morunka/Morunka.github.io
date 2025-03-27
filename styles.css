@@ -112,7 +112,7 @@ h1 {
     color: white;
     font-family: 'Orbitron', sans-serif;
     font-size: 48px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 255, 255, 0.5);
     margin: 5px 0;
     margin-bottom: 15px;
     cursor: pointer;
@@ -122,11 +122,11 @@ h1 {
 @keyframes hologram {
     0%, 100% {
         transform: translateY(0);
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 255, 255, 0.5);
     }
     50% {
         transform: translateY(-5px);
-        text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 255, 255, 0.8);
     }
 }
 
@@ -140,6 +140,88 @@ h1 {
     transform: translateY(0);
     transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
     z-index: 1001;
+}
+
+/* Поиск */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.search-engines {
+    display: flex;
+    gap: 10px;
+}
+
+.search-engine {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.search-engine:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.search-engine.active {
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+#search-input {
+    width: 500px;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5), inset 0 0 5px rgba(0, 255, 255, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+#search-input::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+#search-input:hover, #search-input:focus {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), inset 0 0 10px rgba(0, 255, 255, 0.5);
+    outline: none;
+}
+
+.search-btn {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.search-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.search-btn:active {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
 /* Кнопки навигации */
@@ -165,7 +247,7 @@ h1 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: transform 0.3s, border 0.3s, background-color 0.3s;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s, box-shadow 0.3s;
     border: 2px solid transparent;
     cursor: pointer;
     font-family: Arial, sans-serif;
@@ -178,13 +260,13 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .button.active {
     border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .button.characters {
@@ -199,95 +281,7 @@ h1 {
 .button.license:hover {
     transform: scale(1.1);
     border: 2px solid white;
-    box-shadow: 0 0 10px white;
-}
-
-/* Поиск */
-.search-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: fixed;
-    top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-}
-
-.search-engines {
-    display: flex;
-    gap: 5px;
-}
-
-.search-engine {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: border 0.3s ease;
-}
-
-.search-engine.active {
-    border: 2px solid white;
-    box-shadow: 0 0 10px white;
-}
-
-.search-engine[data-engine="brave"] {
-    background-image: url('Brave.png');
-    background-size: cover;
-}
-
-.search-engine[data-engine="google"] {
-    background-image: url('Google.jpg');
-    background-size: cover;
-}
-
-.search-engine[data-engine="yandex"] {
-    background-image: url('Yandex.png');
-    background-size: cover;
-}
-
-.search-input {
-    width: 750px;
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #0ff;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-input::placeholder {
-    color: rgba(0, 255, 255, 0.5);
-}
-
-.search-input:hover, .search-input:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    outline: none;
-}
-
-.search-btn {
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border: 2px solid transparent;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-btn:hover {
-    border: 2px solid white;
-    box-shadow: 0 0 10px white;
-}
-
-.search-btn img {
-    width: 24px;
-    height: 24px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 /* Описание */
@@ -477,7 +471,7 @@ h1 {
     width: 150px;
     padding: 10px;
     box-sizing: border-box;
-    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     border: 2px solid transparent;
     background-color: #333;
     color: white;
@@ -489,7 +483,7 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 /* Документы */
@@ -591,7 +585,7 @@ h1 {
     border-radius: 5px;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
     border: 2px solid transparent;
 }
 
@@ -599,7 +593,7 @@ h1 {
     background-color: #555;
     transform: scale(1.05);
     border: 2px solid white;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 /* Команда */
@@ -759,7 +753,7 @@ h1 {
     width: 150px;
     padding: 10px;
     box-sizing: border-box;
-    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     border: 2px solid transparent;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
@@ -771,7 +765,7 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 /* Игры */
@@ -820,24 +814,24 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    box-shadow: 0 0 10px white;
     transform: scale(1.1);
-}
-
-.category-btn:active {
-    transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .category-btn.active {
     background-color: #555;
     border: 2px solid white;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.category-btn:active {
+    transform: scale(1.2);
 }
 
 .filter-input {
@@ -858,10 +852,9 @@ h1 {
 }
 
 .filter-input:hover, .filter-input:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.02);
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
     outline: none;
 }
 
@@ -879,10 +872,9 @@ h1 {
 }
 
 .filter-select:hover, .filter-select:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.02);
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
     outline: none;
 }
 
@@ -902,13 +894,13 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
 }
 
 .page-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .page-btn:disabled {
@@ -1020,15 +1012,12 @@ h1 {
     border-radius: 5px;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease;
-    border: 2px solid transparent;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .game-play-btn:hover {
     background-color: #555;
     transform: scale(1.1);
-    border: 2px solid white;
-    box-shadow: 0 0 10px white;
 }
 
 .game-year {
@@ -1120,7 +1109,7 @@ h1 {
     width: 150px;
     padding: 10px;
     box-sizing: border-box;
-    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     border: 2px solid transparent;
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
@@ -1133,7 +1122,7 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .other-utils-text {
@@ -1280,6 +1269,7 @@ h1 {
     width: 100%;
     position: relative;
     bottom: 0;
+    z-index: 1;
 }
 
 /* Медиа-запросы */
@@ -1304,24 +1294,6 @@ h1 {
     .button.license {
         padding: 6px 12px;
         font-size: 12px;
-    }
-    .search-container {
-        top: 100px;
-    }
-    .search-input {
-        width: 400px;
-        font-size: 12px;
-    }
-    .search-engine {
-        width: 25px;
-        height: 25px;
-    }
-    .search-btn {
-        padding: 6px;
-    }
-    .search-btn img {
-        width: 20px;
-        height: 20px;
     }
     .description-container {
         max-width: 90%;
@@ -1455,6 +1427,25 @@ h1 {
         font-size: 10px;
         padding: 15px;
     }
+    .search-container {
+        top: 100px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #search-input {
+        width: 300px;
+    }
+    .search-engine {
+        width: 35px;
+        height: 35px;
+    }
+    .search-btn {
+        padding: 6px;
+    }
+    .search-btn img {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1476,24 +1467,6 @@ h1 {
     .button.license {
         padding: 5px 10px;
         font-size: 11px;
-    }
-    .search-container {
-        top: 90px;
-    }
-    .search-input {
-        width: 300px;
-        font-size: 10px;
-    }
-    .search-engine {
-        width: 20px;
-        height: 20px;
-    }
-    .search-btn {
-        padding: 5px;
-    }
-    .search-btn img {
-        width: 18px;
-        height: 18px;
     }
     .description-container {
         max-width: 95%;
@@ -1611,5 +1584,22 @@ h1 {
     .footer {
         font-size: 8px;
         padding: 10px;
+    }
+    .search-container {
+        top: 90px;
+    }
+    #search-input {
+        width: 200px;
+    }
+    .search-engine {
+        width: 30px;
+        height: 30px;
+    }
+    .search-btn {
+        padding: 5px;
+    }
+    .search-btn img {
+        width: 18px;
+        height: 18px;
     }
 }
