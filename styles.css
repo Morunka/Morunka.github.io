@@ -116,18 +116,13 @@ h1 {
     margin: 5px 0;
     margin-bottom: 15px;
     cursor: pointer;
+    animation: pulse 2s infinite;
 }
 
-.header-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    transform: translateY(0);
-    transition: top 0.8s ease-in-out, transform 0.8s ease-in-out;
-    z-index: 1001;
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 /* Кнопки навигации */
@@ -153,7 +148,7 @@ h1 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: transform 0.3s, border 0.3s, background-color 0.3s;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s, box-shadow 0.3s;
     border: 2px solid transparent;
     cursor: pointer;
     font-family: Arial, sans-serif;
@@ -166,6 +161,7 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button.active {
@@ -180,6 +176,13 @@ h1 {
 .button.license {
     padding: 8px 16px;
     font-size: 14px;
+}
+
+.button.license:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 /* Описание */
@@ -297,6 +300,10 @@ h1 {
 }
 
 .kogama {
+    background-image: url('Kogama.png');
+}
+
+.kogama-friends {
     background-image: url('KogamaFriends.jpg');
 }
 
@@ -320,6 +327,7 @@ h1 {
 
 .links-row.telegram-active .gamejolt,
 .links-row.telegram-active .kogama,
+.links-row.telegram-active .kogama-friends,
 .links-row.telegram-active .youtube,
 .links-row.telegram-active .scratch {
     display: none;
@@ -648,7 +656,7 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Добавляем свечение */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 /* Игры */
@@ -697,17 +705,18 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    transform: scale(1.05); /* Увеличение при наведении */
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .category-btn:active {
-    transform: scale(1.1); /* Увеличение при нажатии */
+    transform: scale(1.1);
 }
 
 .category-btn.active {
@@ -735,13 +744,13 @@ h1 {
 .filter-input:hover, .filter-input:focus {
     border: 2px solid transparent;
     border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.05); /* Увеличение при наведении */
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     outline: none;
 }
 
 .filter-input:active {
-    transform: scale(1.1); /* Увеличение при нажатии */
+    transform: scale(1.1);
 }
 
 .filter-select {
@@ -760,13 +769,13 @@ h1 {
 .filter-select:hover, .filter-select:focus {
     border: 2px solid transparent;
     border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    transform: scale(1.05); /* Увеличение при наведении */
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     outline: none;
 }
 
 .filter-select:active {
-    transform: scale(1.1); /* Увеличение при нажатии */
+    transform: scale(1.1);
 }
 
 .pagination {
@@ -917,7 +926,6 @@ h1 {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Анимация для списка игр */
 .games-list.fade-in {
     animation: fadeIn 0.5s ease-in-out;
 }
@@ -979,17 +987,18 @@ h1 {
     cursor: pointer;
     font-family: 'Russo One', sans-serif;
     font-size: 14px;
-    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .utils-header .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
-    transform: scale(1.05); /* Увеличение при наведении */
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .utils-header .category-btn:active {
-    transform: scale(1.1); /* Увеличение при нажатии */
+    transform: scale(1.1);
 }
 
 .utils-header .category-btn.active {
@@ -1039,7 +1048,7 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Добавляем свечение */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .other-utils-text {
@@ -1054,22 +1063,14 @@ h1 {
     color: #0ff;
     text-decoration: none;
     margin: 0 5px;
-    transition: color 0.3s ease, transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 5px 10px;
-    border-radius: 5px;
+    transition: color 0.3s ease;
 }
 
 .other-utils-text .telegram-link:hover {
     color: #fff;
-    transform: scale(1.1);
-    border: 2px solid white;
-    background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Добавляем свечение */
+    text-decoration: underline;
 }
 
-/* Анимация для списка утилит */
 .utils-list.fade-in {
     animation: fadeIn 0.5s ease-in-out;
 }
@@ -1077,13 +1078,13 @@ h1 {
 /* Поиск */
 .search-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
     margin: 20px 0;
-    margin-top: 150px;
+    margin-top: 120px;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     z-index: 1000;
 }
 
@@ -1117,11 +1118,11 @@ h1 {
 
 .search-engine:hover {
     transform: scale(1.1);
-    border: 2px solid #0ff;
+    border: 2px solid white;
 }
 
 .search-engine.active {
-    border: 2px solid #0ff;
+    border: 2px solid white;
     opacity: 1;
 }
 
@@ -1144,9 +1145,9 @@ h1 {
     border-radius: 10px;
     font-family: 'Orbitron', sans-serif;
     font-size: 14px;
-    width: 200px;
+    width: 700px;
     box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    transition: border 0.3s ease, transform 0.3s ease;
 }
 
 .search-input::placeholder {
@@ -1156,7 +1157,7 @@ h1 {
 .search-input:hover, .search-input:focus {
     border: 2px solid transparent;
     border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    border-radius: 10px; /* Добавлено: закругление для выделения */
     transform: scale(1.02);
     outline: none;
 }
@@ -1285,7 +1286,6 @@ h1 {
     width: 200px;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 /* Футер */
@@ -1453,7 +1453,7 @@ h1 {
         height: 35px;
     }
     .search-input {
-        width: 180px;
+        width: 500px; /* Уменьшено для адаптации */
         font-size: 12px;
     }
     .search-btn {
@@ -1600,7 +1600,7 @@ h1 {
         height: 30px;
     }
     .search-input {
-        width: 150px;
+        width: 300px; /* Уменьшено для адаптации */
         font-size: 10px;
     }
     .search-btn {
