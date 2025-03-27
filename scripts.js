@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         games.classList.remove('hide');
         games.classList.add('show');
 
-        const file = currentCategory === 'horror' ? './HorrorGames.txt' : './OtherGames.txt';
+        const file = currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt'; // Исправлено на OthersGames.txt
         loadGames(file);
     });
 
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = 'others';
         othersBtn.classList.add('active');
         horrorBtn.classList.remove('active');
-        loadGames('./OtherGames.txt');
+        loadGames('./OthersGames.txt'); // Исправлено на OthersGames.txt
     });
 
     // Фильтры и сортировка
@@ -504,35 +504,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Загрузка утилит
+    // Загрузка утилит (старая версия)
     const loadUtils = () => {
-        if (!utilsList) return;
+        utilsList.classList.remove('fade-in');
+        void utilsList.offsetWidth;
+        utilsList.classList.add('fade-in');
+
         utilsList.innerHTML = '';
 
+        const ourUtilsData = [
+            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
+            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
+        ];
+
+        const otherUtilsData = [
+            { name: 'Utility1', link: 'https://example.com/utility1' },
+            { name: 'Utility2', link: 'https://example.com/utility2' },
+            { name: 'Utility3', link: 'https://example.com/utility3' }
+        ];
+
         if (currentUtilsCategory === 'our') {
-            const utilsData = [
-                { name: 'ROlil CO Helper', link: 'https://github.com/Morunka/ROlil-CO-Helper' }
-            ];
-            if (utilsData.length === 0) {
-                utilsList.innerHTML = '<p>Утилиты отсутствуют</p>';
+            if (ourUtilsData.length === 0) {
+                utilsList.innerHTML = '<p>Утилиты не найдены</p>';
             } else {
-                utilsData.forEach(util => {
+                ourUtilsData.forEach(utility => {
                     const utilItem = document.createElement('div');
                     utilItem.classList.add('utils-item');
-                    utilItem.innerHTML = `<a href="${util.link}" class="telegram-link">${util.name}</a>`;
+                    utilItem.innerHTML = `
+                        <a href="${utility.link}" class="telegram-link">${utility.name}</a>
+                    `;
                     utilsList.appendChild(utilItem);
                 });
             }
         } else {
-            const otherUtils = `
-                <p class="other-utils-text">
-                    Мы рекомендуем использовать утилиты от <a href="https://turbowarp.org" class="telegram-link">TurboWarp</a> и <a href="https://penguinmod.com" class="telegram-link">PenguinMod</a>.
-                </p>
-            `;
-            utilsList.innerHTML = otherUtils;
+            const otherUtilsText = document.createElement('p');
+            otherUtilsText.classList.add('other-utils-text');
+            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' ');
+            utilsList.appendChild(otherUtilsText);
         }
-
-        utilsList.classList.add('fade-in');
     };
 
     // Кнопка "Утилиты"
