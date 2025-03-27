@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linksBtn.classList.add('active');
         links.classList.remove('hide');
         links.classList.add('show');
-        links.style.width = '400px';
+        links.style.width = '450px';
         links.style.height = '70px';
         links.style.padding = '15px';
     });
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (telegramLinks) {
                 if (isActive) {
                     telegramLinks.style.display = 'none';
-                    links.style.width = '400px';
+                    links.style.width = '450px';
                     links.style.height = '70px';
                     links.style.minHeight = '70px';
                     links.style.padding = '15px';
@@ -310,12 +310,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const extensionsData = [
                 { name: 'Telegram API Pack Edition', link: 'https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition' },
                 { name: 'Scratch API', link: 'https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js' },
-                { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js' }
+                { name: 'Gemini API', link: 'https://github.com/Morunka/Files/blob/main/GeMini%20API%20TW.js' }
             ];
             extensionsData.forEach(ext => {
                 const extLink = document.createElement('a');
                 extLink.href = ext.link;
-                extLink.classList.add('telegram-link');
+                extLink.classList.add('extension-link');
                 extLink.textContent = ext.name;
                 extensionsList.appendChild(extLink);
             });
@@ -493,9 +493,37 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         const otherUtilsData = [
-            { name: 'Utility1', link: 'https://example.com/utility1' },
-            { name: 'Utility2', link: 'https://example.com/utility2' },
-            { name: 'Utility3', link: 'https://example.com/utility3' }
+            { name: 'WorldVector', link: 'https://worldvectorlogo.com/' },
+            { name: 'ApihostVoice', link: 'https://apihost.ru/voice' },
+            { name: 'Apihost', link: 'https://apihost.ru/' },
+            { name: 'Onedrive', link: 'https://onedrive.live.com/' },
+            { name: 'DeepL', link: 'https://www.deepl.com' },
+            { name: 'Convertio', link: 'https://convertio.co' },
+            { name: 'TGStatBRC', link: 'https://tgstat.com/ru/channel/@By_RORlil#' },
+            { name: 'TGStat', link: 'https://tgstat.com' },
+            { name: 'LinuxArchDownload', link: 'https://archlinux.org/download/' },
+            { name: 'Pixabay', link: 'https://pixabay.com/illustrations' },
+            { name: 'MSKLC', link: 'https://www.microsoft.com/en-us/download/details.aspx?id=102134' },
+            { name: 'HTMLIQTest', link: 'https://www.w3schools.com/html' },
+            { name: 'InfinityFree', link: 'https://dash.infinityfree.com' },
+            { name: 'PCMan', link: 'https://www.thepcmanwebsite.com' },
+            { name: 'Github', link: 'https://github.com' },
+            { name: 'WindowsThemesDownload', link: 'https://windd.info' },
+            { name: 'WindowsThemes', link: 'https://windd.info/themes/free.html' },
+            { name: 'SoftPortal', link: 'https://www.softportal.com' },
+            { name: 'GameJolt', link: 'https://gamejolt.com' },
+            { name: 'PenguinModeDesktop', link: 'https://github.com/PenguinMod/penguinmod.github.io' },
+            { name: 'Node.js', link: 'https://nodejs.org/uk' },
+            { name: 'GeminiGoogleAI', link: 'https://ai.google.dev/gemini-api' },
+            { name: 'VPNFreePro', link: 'https://chromewebstore.google.com/detail/vpn-freepro-%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9-vp/bibjcjfmgapbfoljiojpipaooddpkpai' },
+            { name: 'Stylish', link: 'https://chromewebstore.google.com/detail/stylish-custom-themes-for/fjnbnpbmkenffdnngjfgmeleoegfcffe' },
+            { name: 'GeminiAPIKeys', link: 'https://aistudio.google.com/apikey' },
+            { name: 'Scratch', link: 'https://scratch.mit.edu/projects/editor/' },
+            { name: 'TurboWarp', link: 'https://turbowarp.org/editor' },
+            { name: 'PenguinMode', link: 'https://studio.penguinmod.com/editor.html' },
+            { name: 'DinoMode', link: 'https://dinosaurmod.github.io/' },
+            { name: 'XAIStatus', link: 'https://status.x.ai/' },
+            { name: 'PublichVectors', link: 'https://publicdomainvectors.org' }
         ];
 
         if (currentUtilsCategory === 'our') {
