@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedEngine = 'brave';
 
     // Проверка на существование элементов
-    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo || !searchInput || !searchBtn || !searchEngines) {
+    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo || !searchInput || !searchBtn) {
         console.error('Один или несколько элементов не найдены в HTML');
         return;
     }
@@ -68,10 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         clickCount++;
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
-            console.log('Пасхалка активирована');
             setTimeout(() => {
                 easterEgg.classList.remove('active');
             }, 2500);
+            console.log('Пасхалка активирована');
         }
     });
 
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         links.classList.add('show');
         links.style.width = '400px';
         links.style.height = '70px';
-        links.style.padding = '10px';
+        links.style.padding = '15px';
     });
 
     // Подменю Telegram
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     links.style.width = '400px';
                     links.style.height = '70px';
                     links.style.minHeight = '70px';
-                    links.style.padding = '10px';
+                    links.style.padding = '15px';
                 } else {
                     telegramLinks.style.display = 'flex';
                     links.style.width = '600px';
@@ -304,13 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (extensionsList) {
             extensionsList.innerHTML = '';
             const header = document.createElement('p');
-            header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMode';
-            header.style.color = 'white';
-            header.style.fontFamily = "'Russo One', sans-serif";
-            header.style.fontSize = '14px';
-            header.style.textAlign = 'center';
-            header.style.textShadow = '1px 1px 3px rgba(0, 0, 0, 0.5)';
-            header.style.marginBottom = '15px';
+            header.textContent = 'Все расширения ниже подходят для использования в TurboWarp и PenguinMod';
             extensionsList.appendChild(header);
 
             const extensionsData = [
@@ -588,30 +582,39 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Кнопка scroll-down не найдена');
     }
 
-    // Поисковая система
+    // Поиск
     searchEngines.forEach(engine => {
         engine.addEventListener('click', () => {
             searchEngines.forEach(e => e.classList.remove('active'));
             engine.classList.add('active');
-            selectedEngine = engine.dataset.engine;
+            selectedEngine = engine.getAttribute('data-engine');
         });
     });
 
     searchBtn.addEventListener('click', () => {
         const query = searchInput.value.trim();
-        if (!query) return;
-
-        let url;
-        if (selectedEngine === 'brave') {
-            url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
-        } else if (selectedEngine === 'google') {
-            url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-        } else if (selectedEngine === 'yandex') {
-            url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
-        }
-
-        if (url) {
+        if (query) {
+            let url;
+            switch (selectedEngine) {
+                case 'brave':
+                    url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+                    break;
+                case 'google':
+                    url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                    break;
+                case 'yandex':
+                    url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+                    break;
+                default:
+                    url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+            }
             window.open(url, '_blank');
+        }
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchBtn.click();
         }
     });
 });
