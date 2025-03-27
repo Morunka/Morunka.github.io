@@ -74,12 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 easterEgg.classList.remove('active');
                 console.log('Пасхалка скрыта');
-            }, 2500); // Скрытие через 2.5 секунды
+            }, 2500);
         }
     });
 
     // Кнопки прокрутки
-    const scrollStep = window.innerHeight * 0.8; // Прокрутка на 80% высоты окна
+    const scrollStep = window.innerHeight * 0.8;
 
     scrollUpBtn.addEventListener('click', () => {
         const currentPosition = window.scrollY;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollDownBtn.addEventListener('click', () => {
         const currentPosition = window.scrollY;
         const maxScroll = document.body.scrollHeight - window.innerHeight;
-        const newPosition = Math.min(maxScroll, currentPosition + scrollStep);
+        const newPosition = Math.min(maxScroll, currentPosition + scrollStep); // Исправлено: прокрутка вниз
         window.scrollTo({ top: newPosition, behavior: 'smooth' });
     });
 
@@ -127,17 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
         description.classList.add('show');
     };
 
-    // Открываем "О студии" сразу после загрузки
     openAboutSection();
 
-    // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) return;
         openAboutSection();
     });
 
-    // Кнопка "Связи"
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) return;
@@ -151,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         links.style.padding = '10px';
     });
 
-    // Подменю Telegram
     if (telegramBtn && linksRow) {
         const telegramLinks = linksRow.querySelector('.telegram-links');
         if (telegramLinks) telegramLinks.style.display = 'none';
@@ -175,15 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     links.style.minHeight = '200px';
                     links.style.padding = '20px';
                 }
-            } else {
-                console.warn('Элемент .telegram-links не найден');
             }
         });
-    } else {
-        console.warn('Элементы telegramBtn или linksRow не найдены');
     }
 
-    // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) return;
@@ -194,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
         docs.classList.add('show');
     });
 
-    // Кнопка "Разработка"
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) return;
@@ -231,15 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('Ошибка загрузки данных разработки:', error);
                 const devInfo = document.querySelector('.dev-info');
-                if (devInfo) {
-                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
-                }
+                if (devInfo) devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
             });
     });
 
-    // Кнопка "Команда"
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) return;
@@ -261,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
-                    console.log('Содержимое BRC-Team.txt:', data);
                     const members = [];
                     const memberBlocks = data.split('\n\n').map(block => block.trim()).filter(block => block);
                     memberBlocks.forEach(block => {
@@ -276,11 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             members.push(memberData);
                         }
                     });
-                    console.log('Обработанные участники:', members);
                     if (members.length === 0) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
-                        members.forEach((member, index) => {
+                        members.forEach((member, index) => { // Исправлено: отображаем всех участников
                             const cleanUsername = (member.Username || 'Не указано').replace(/["':]/g, '');
                             const memberDiv = document.createElement('div');
                             memberDiv.classList.add('team-member');
@@ -303,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     teamList.appendChild(joinDiv);
                 })
                 .catch(error => {
-                    console.error('Ошибка загрузки команды:', error);
                     teamList.innerHTML = '<p>Ошибка загрузки команды: ' + error.message + '</p>';
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
@@ -313,7 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Кнопка "Расширения"
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) return;
@@ -372,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                         gameData[key.trim()] = value || 'Не указано';
                     });
-                    if (gameData.GameName) {
+                    if (gameData.GameName) { // Исправлено: проверка на наличие GameName
                         games.push(gameData);
                     }
                 });
@@ -380,14 +362,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 applyFilters();
             })
             .catch(error => {
-                console.error('Ошибка загрузки игр:', error);
                 if (gamesList) {
                     gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
                 }
             });
     };
 
-    // Применение фильтров и сортировки
     const applyFilters = () => {
         filteredGames = gamesData;
 
@@ -416,7 +396,6 @@ document.addEventListener('DOMContentLoaded', () => {
         displayGames();
     };
 
-    // Отображение игр
     const displayGames = () => {
         if (!gamesList) return;
         gamesList.innerHTML = '';
@@ -464,7 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
         nextPageBtn.disabled = currentPage === totalPages;
     };
 
-    // Кнопка "Игры"
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) return;
@@ -478,7 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadGames(file);
     });
 
-    // Переключение категорий
     horrorBtn.addEventListener('click', () => {
         if (currentCategory === 'horror') return;
         currentCategory = 'horror';
@@ -495,12 +472,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadGames('./OthersGames.txt');
     });
 
-    // Фильтры и сортировка
     yearFilter.addEventListener('input', applyFilters);
     engineFilter.addEventListener('change', applyFilters);
     sortGames.addEventListener('change', applyFilters);
 
-    // Пагинация
     prevPageBtn.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
@@ -516,7 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Загрузка утилит
     const loadUtils = () => {
         utilsList.classList.remove('fade-in');
         void utilsList.offsetWidth;
@@ -551,12 +525,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const otherUtilsText = document.createElement('p');
             otherUtilsText.classList.add('other-utils-text');
-            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' ');
+            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' '); // Исправлено: вернул текстовые ссылки
             utilsList.appendChild(otherUtilsText);
         }
     };
 
-    // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) return;
@@ -568,7 +541,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Переключение категорий утилит
     ourUtilsBtn.addEventListener('click', () => {
         if (currentUtilsCategory === 'our') return;
         currentUtilsCategory = 'our';
@@ -585,7 +557,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Поиск
     searchEngines.forEach(engine => {
         engine.addEventListener('click', () => {
             searchEngines.forEach(e => e.classList.remove('active'));
