@@ -116,13 +116,6 @@ h1 {
     margin: 5px 0;
     margin-bottom: 15px;
     cursor: pointer;
-    animation: glow 2s ease-in-out infinite;
-}
-
-@keyframes glow {
-    0% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 255, 255, 0.5); }
-    50% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 255, 255, 1); }
-    100% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 255, 255, 0.5); }
 }
 
 .header-container {
@@ -151,7 +144,6 @@ h1 {
     width: 100%;
     z-index: 1000;
     overflow-x: auto;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button {
@@ -168,14 +160,12 @@ h1 {
     font-size: 12px;
     text-align: center;
     white-space: nowrap;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .button:hover {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
 }
 
 .button.active {
@@ -208,13 +198,14 @@ h1 {
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .description-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .description {
@@ -243,7 +234,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 0;
-    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, min-height 0.5s ease-in-out;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
     width: 320px;
     height: 70px;
     display: flex;
@@ -251,7 +242,7 @@ h1 {
     align-items: center;
     box-sizing: border-box;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .links-container.hide {
@@ -260,6 +251,7 @@ h1 {
     top: 120%;
     width: 320px;
     height: 70px;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
 .links-container.telegram-active {
@@ -284,9 +276,8 @@ h1 {
     display: inline-block;
     width: 50px;
     height: 50px;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
@@ -306,7 +297,7 @@ h1 {
 }
 
 .kogama {
-    background-image: url('https://img.icons8.com/color/50/000000/kogama.png');
+    background-image: url('Kogama.png');
 }
 
 .youtube {
@@ -407,13 +398,14 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .docs-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .docs-row {
@@ -444,13 +436,14 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 999;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .dev-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .dev-info {
@@ -477,25 +470,21 @@ h1 {
 }
 
 .dev-info .more-btn {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-image: url('https://img.icons8.com/color/50/000000/info.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: transform 0.3s ease-in-out;
-    cursor: pointer;
-    text-indent: -9999px;
-    border: none;
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease;
+    border: 2px solid transparent;
 }
 
 .dev-info .more-btn:hover {
-    transform: scale(1.1);
-}
-
-.dev-info .more-btn:active {
-    transform: scale(1.3);
+    background-color: #555;
+    transform: scale(1.05);
+    border: 2px solid #0ff;
 }
 
 /* Команда */
@@ -514,18 +503,19 @@ h1 {
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     width: 400px;
     max-height: 400px;
-    overflow-y: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .team-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .team-list {
@@ -621,13 +611,14 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .extensions-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .extensions-list {
@@ -677,13 +668,14 @@ h1 {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .games-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .games-header {
@@ -804,7 +796,6 @@ h1 {
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    opacity: 0;
 }
 
 .games-list p {
@@ -911,6 +902,22 @@ h1 {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+/* Анимация для списка игр */
+.games-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Утилиты */
 .utils-container {
     display: block;
@@ -930,13 +937,14 @@ h1 {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
 }
 
 .utils-container.hide {
     opacity: 0;
     visibility: hidden;
     top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
 }
 
 .utils-header {
@@ -952,7 +960,6 @@ h1 {
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    opacity: 0;
 }
 
 .utils-list p {
@@ -1012,118 +1019,9 @@ h1 {
     text-decoration: underline;
 }
 
-/* Анимация для списков */
-.games-list.fade-in, .utils-list.fade-in {
-    animation: fadeIn 0.5s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Поисковая строка */
-.search-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px 0;
-    position: relative;
-    z-index: 1000;
-}
-
-.search-buttons {
-    display: flex;
-    gap: 5px;
-}
-
-.search-btn {
-    width: 30px;
-    height: 30px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.search-btn:hover {
-    border: 2px solid #0ff;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transform: scale(1.1);
-}
-
-.search-btn.active {
-    border: 2px solid #0ff;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-}
-
-.yandex-btn {
-    background-image: url('https://img.icons8.com/color/30/000000/yandex-international.png');
-}
-
-.brave-btn {
-    background-image: url('https://img.icons8.com/color/30/000000/brave.png');
-}
-
-.google-btn {
-    background-image: url('https://img.icons8.com/color/30/000000/google-logo.png');
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    border: 2px solid transparent;
-    border-radius: 25px;
-    padding: 5px 10px;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-bar:hover {
-    border: 2px solid #0ff;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-}
-
-.search-input {
-    width: 300px;
-    padding: 8px;
-    background: transparent;
-    border: none;
-    color: #0ff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    outline: none;
-}
-
-.search-input::placeholder {
-    color: rgba(0, 255, 255, 0.5);
-}
-
-.search-submit {
-    width: 30px;
-    height: 30px;
-    background-image: url('https://img.icons8.com/color/30/000000/search--v1.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.search-submit:hover {
-    transform: scale(1.1);
+/* Анимация для списка утилит */
+.utils-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Активные состояния */
@@ -1233,8 +1131,6 @@ h1 {
     height: auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    border: none;
-    outline: none;
 }
 
 /* Футер */
@@ -1255,158 +1151,155 @@ h1 {
     h1 {
         font-size: 36px;
     }
-
     .button-container {
-        top: 60px;
-        gap: 8px;
         padding: 6px;
+        gap: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        top: 50px;
     }
-
     .button {
         padding: 5px 10px;
-        font-size: 10px;
+        font-size: 11px;
     }
-
+    .button.characters {
+        font-size: 9px;
+    }
+    .button.license {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
     .description-container {
         max-width: 90%;
         padding: 10px;
     }
-
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        padding: 8px;
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.hide {
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.telegram-active {
+        width: 350px;
+        height: auto;
+        min-height: 150px;
+        padding: 15px;
+    }
+    .team-container {
+        width: 300px;
+        max-height: 300px;
+        padding: 10px;
+    }
+    .games-container {
+        width: 300px;
+        padding: 10px;
+    }
+    .utils-container {
+        width: 300px;
+        padding: 10px;
+    }
+    .game-card {
+        min-height: 180px;
+    }
     .description {
         font-size: 14px;
     }
-
-    .links-container {
-        width: 280px;
-        height: 60px;
-    }
-
-    .links-container.telegram-active {
-        width: 90%;
-        min-height: 180px;
-    }
-
     .link-icon {
         width: 40px;
         height: 40px;
     }
-
-    .links-row.telegram-active .telegram-link {
-        width: 120px;
-        font-size: 12px;
+    .telegram.back {
+        transform: translateX(0);
     }
-
-    .docs-container {
-        width: 260px;
-        height: 60px;
+    .active .header-container,
+    .links-active .header-container,
+    .docs-active .header-container,
+    .dev-active .header-container,
+    .team-active .header-container,
+    .extensions-active .header-container,
+    .games-active .header-container,
+    .utils-active .header-container {
+        top: 0;
     }
-
-    .dev-container {
-        width: 260px;
+    .scroll-button {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
     }
-
     .dev-info h2 {
         font-size: 18px;
     }
-
     .dev-info p {
         font-size: 12px;
     }
-
-    .team-container {
-        width: 90%;
-        max-height: 350px;
-    }
-
-    .team-member h3 {
-        font-size: 16px;
-    }
-
-    .team-member .team-role {
-        font-size: 10px;
-    }
-
-    .team-join {
-        font-size: 10px;
-    }
-
-    .extensions-container {
-        width: 260px;
-    }
-
-    .extensions-list .telegram-link {
-        width: 120px;
-        font-size: 12px;
-    }
-
-    .games-container {
-        width: 90%;
-    }
-
-    .games-header {
-        gap: 8px;
-    }
-
-    .category-btn {
+    .dev-info .more-btn {
         padding: 6px 12px;
         font-size: 12px;
     }
-
-    .filter-input {
-        width: 100px;
-        font-size: 12px;
+    .team-member h3 {
+        font-size: 16px;
     }
-
-    .filter-select {
-        font-size: 12px;
+    .team-member .team-role {
+        font-size: 10px;
     }
-
-    .game-card {
-        min-height: 180px;
+    .team-member .contact-icon {
+        width: 25px;
+        height: 25px;
     }
-
+    .team-join {
+        font-size: 10px;
+    }
     .game-title {
         font-size: 16px;
     }
-
     .game-version, .game-engine {
         font-size: 10px;
     }
-
     .game-description {
         font-size: 12px;
     }
-
     .game-play-btn {
         padding: 6px 12px;
         font-size: 12px;
     }
-
     .game-year {
         font-size: 10px;
     }
-
-    .utils-container {
-        width: 90%;
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 12px;
     }
-
+    .filter-input, .filter-select {
+        padding: 6px;
+        font-size: 12px;
+        width: 100px;
+    }
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .page-info {
+        font-size: 12px;
+    }
     .utils-item .telegram-link {
         width: 120px;
+        padding: 8px;
         font-size: 12px;
     }
-
-    .search-input {
-        width: 200px;
+    .extensions-list .telegram-link {
+        width: 120px;
+        padding: 8px;
         font-size: 12px;
     }
-
-    .search-btn, .search-submit {
-        width: 25px;
-        height: 25px;
+    .other-utils-text {
+        font-size: 12px;
     }
-
-    .easter-egg img {
-        width: 150px;
+    .footer {
+        font-size: 10px;
+        padding: 15px;
     }
 }
 
@@ -1414,152 +1307,137 @@ h1 {
     h1 {
         font-size: 28px;
     }
-
     .button-container {
-        top: 50px;
-        gap: 6px;
         padding: 4px;
+        gap: 8px;
+        top: 40px;
     }
-
     .button {
         padding: 4px 8px;
+        font-size: 10px;
+    }
+    .button.characters {
         font-size: 8px;
     }
-
+    .button.license {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+    .description-container {
+        max-width: 95%;
+        padding: 8px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.hide {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.telegram-active {
+        width: 300px;
+        min-height: 120px;
+        padding: 10px;
+    }
+    .team-container {
+        width: 250px;
+        max-height: 250px;
+        padding: 8px;
+    }
+    .games-container {
+        width: 250px;
+        padding: 8px;
+    }
+    .utils-container {
+        width: 250px;
+        padding: 8px;
+    }
+    .game-card {
+        min-height: 160px;
+    }
     .description {
         font-size: 12px;
     }
-
-    .links-container {
-        width: 240px;
-        height: 50px;
-    }
-
-    .links-container.telegram-active {
-        width: 90%;
-        min-height: 150px;
-    }
-
     .link-icon {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
     }
-
-    .links-row.telegram-active .telegram-link {
-        width: 100px;
-        font-size: 10px;
+    .scroll-button {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
     }
-
-    .docs-container {
-        width: 220px;
-        height: 50px;
-    }
-
-    .dev-container {
-        width: 220px;
-    }
-
     .dev-info h2 {
         font-size: 16px;
     }
-
     .dev-info p {
         font-size: 10px;
     }
-
-    .team-container {
-        width: 90%;
-        max-height: 300px;
+    .dev-info .more-btn {
+        padding: 5px 10px;
+        font-size: 10px;
     }
-
     .team-member h3 {
         font-size: 14px;
     }
-
     .team-member .team-role {
-        font-size: 8px;
+        font-size: 9px;
     }
-
-    .team-join {
-        font-size: 8px;
-    }
-
-    .extensions-container {
-        width: 220px;
-    }
-
-    .extensions-list .telegram-link {
-        width: 100px;
-        font-size: 10px;
-    }
-
-    .games-container {
-        width: 90%;
-    }
-
-    .category-btn {
-        padding: 4px 8px;
-        font-size: 10px;
-    }
-
-    .filter-input {
-        width: 80px;
-        font-size: 10px;
-    }
-
-    .filter-select {
-        font-size: 10px;
-    }
-
-    .game-card {
-        min-height: 150px;
-    }
-
-    .game-title {
-        font-size: 14px;
-    }
-
-    .game-version, .game-engine {
-        font-size: 8px;
-    }
-
-    .game-description {
-        font-size: 10px;
-    }
-
-    .game-play-btn {
-        padding: 4px 8px;
-        font-size: 10px;
-    }
-
-    .game-year {
-        font-size: 8px;
-    }
-
-    .utils-container {
-        width: 90%;
-    }
-
-    .utils-item .telegram-link {
-        width: 100px;
-        font-size: 10px;
-    }
-
-    .search-input {
-        width: 150px;
-        font-size: 10px;
-    }
-
-    .search-btn, .search-submit {
+    .team-member .contact-icon {
         width: 20px;
         height: 20px;
     }
-
-    .easter-egg img {
-        width: 120px;
+    .team-join {
+        font-size: 8px;
     }
-
-    .footer {
+    .game-title {
+        font-size: 14px;
+    }
+    .game-version, .game-engine {
+        font-size: 8px;
+    }
+    .game-description {
         font-size: 10px;
+    }
+    .game-play-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .game-year {
+        font-size: 8px;
+    }
+    .category-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .filter-input, .filter-select {
+        padding: 5px;
+        font-size: 10px;
+        width: 80px;
+    }
+    .page-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .page-info {
+        font-size: 10px;
+    }
+    .utils-item .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .extensions-list .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .other-utils-text {
+        font-size: 10px;
+    }
+    .footer {
+        font-size: 8px;
+        padding: 10px;
     }
 }
