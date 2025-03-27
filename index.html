@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Permissions-Policy" content="accelerometer=(), autoplay=(), camera=(), clipboard-read=(), clipboard-write=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), usb=()">
-    <title>By ROlil Studio</title>
+    <title>Black Rabbit Company</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <link rel="preload" href="BRC-Background.jpg" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="preloader">
         <div class="loader"></div>
     </div>
+
+    <div class="scroll-buttons">
+        <button class="scroll-button scroll-up">↑</button>
+        <button class="scroll-button scroll-down">↓</button>
+    </div>
+
     <div class="header-container">
-        <h1 id="logo">By ROlil Studio</h1>
+        <h1>Black Rabbit Company</h1>
         <div class="button-container">
             <a href="#" class="button" id="about-btn">О студии</a>
             <a href="#" class="button" id="links-btn">Связи</a>
@@ -25,98 +28,102 @@
             <a href="#" class="button" id="extensions-btn">Расширения</a>
             <a href="#" class="button" id="games-btn">Игры</a>
             <a href="#" class="button" id="utils-btn">Утилиты</a>
-        </div>
-        <div class="search-container">
-            <div class="search-engines">
-                <img src="https://img.icons8.com/color/48/000000/brave.png" alt="Brave" class="search-engine active" data-engine="brave">
-                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" class="search-engine" data-engine="google">
-                <img src="https://img.icons8.com/color/48/000000/yandex-international.png" alt="Yandex" class="search-engine" data-engine="yandex">
-            </div>
-            <input type="text" id="search-input" class="search-input" placeholder="Поиск...">
-            <button id="search-btn" class="search-btn" aria-label="Поиск">
-                <img src="https://img.icons8.com/ios-filled/24/ffffff/search.png" alt="Search">
-            </button>
+            <a href="https://github.com/Morunka/BlackRabbitCompany/blob/main/LICENSE" class="button license">Лицензия</a>
         </div>
     </div>
+
     <div class="description-container" id="description">
-        <p class="description"><strong>By ROlil Studio</strong> — вымышленная компания, основанная 1 мая 2021 года. Мы создаём всё: игры, приложения, программы, музыку, видео, анимации, фото и сюжеты. Наша специализация — инди-игры, особенно страшные, включая пародии на <strong>FNaF</strong>. Название <strong>By ROlil</strong> отражает мою личную роль как создателя (ник <strong>ROlil</strong> был моим старым игровым именем), а символ ="= означает наш фирменный знак. Мы русские разработчики, работающие на любых движках и языках программирования, с фишкой: чем больше времени тратишь в одиночестве на большой проект, тем лучше результат.</p>
+        <p class="description">
+            Мы — <strong>Black Rabbit Company</strong>, небольшая студия разработки игр, основанная в 2023 году. Наша команда создаёт уникальные проекты, включая хоррор-игры и утилиты для разработчиков. Мы гордимся такими играми, как <strong>ONaM</strong>, <strong>TiC!</strong> и <strong>TNTaP</strong>, а также нашими расширениями для TurboWarp и PenguinMod. Присоединяйтесь к нашему сообществу, чтобы следить за новыми релизами и участвовать в разработке!
+        </p>
     </div>
+
     <div class="links-container" id="links">
         <div class="links-row">
-            <a href="https://gamejolt.com/@By-ROlil-CO" class="link-icon gamejolt" aria-label="GameJolt"></a>
-            <a href="https://www.kogama.com/profile/667438867/" class="link-icon kogama" aria-label="Kogama"></a>
-            <a href="https://friends.kogama.com/profile/150135929/games" class="link-icon kogamafriends" aria-label="KogamaFriends"></a>
-            <a href="https://www.youtube.com/@FNABRC" class="link-icon youtube" aria-label="Youtube"></a>
-            <a href="#" class="link-icon telegram" id="telegram-btn" aria-label="Telegram"></a>
-            <a href="https://scratch.mit.edu/users/By-ROlil-CO/" class="link-icon scratch" aria-label="Scratch"></a>
+            <a href="https://gamejolt.com/@BlackRabbitCompany" class="link-icon gamejolt"></a>
+            <a href="https://www.kogama.com/profile/6646145/" class="link-icon kogama"></a>
+            <a href="https://www.kogama.com/profile/6646145/friends/" class="link-icon kogama-friends"></a>
+            <a href="https://www.youtube.com/@BlackRabbitCompany" class="link-icon youtube"></a>
+            <a href="#" class="link-icon telegram" id="telegram-btn"></a>
+            <a href="https://scratch.mit.edu/users/BlackRabbitCompany/" class="link-icon scratch"></a>
             <div class="telegram-links">
-                <a href="https://t.me/By_RORlil" class="telegram-link">By ROlil Studio</a>
-                <a href="https://t.me/CharactersByRORlilCo" class="telegram-link">Персонажи</a>
-                <a href="https://t.me/FNASBF" class="telegram-link">FNaS</a>
+                <a href="https://t.me/MEOW_MUR920" class="telegram-link">@MEOW_MUR920</a>
+                <a href="https://t.me/DFG" class="telegram-link">@DFG</a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="telegram-link">Strange User</a>
             </div>
         </div>
     </div>
+
     <div class="docs-container" id="docs">
-        <div class="docs-row">
-            <a href="https://telegra.ph/Usloviya-polzovatelskogo-soglasheniya-ROlil-CO-01-29" class="button license">Лицензионное соглашение</a>
-        </div>
+        <div class="docs-row"></div>
     </div>
+
     <div class="dev-container" id="dev">
-        <div class="dev-info">
-            <h2 id="game-name"></h2>
-            <p id="game-dev-progress"></p>
-            <p id="game-version"></p>
-        </div>
+        <div class="dev-info"></div>
     </div>
+
     <div class="team-container" id="team">
-        <div class="team-list" id="team-list"></div>
+        <div class="team-list"></div>
     </div>
+
     <div class="extensions-container" id="extensions">
-        <div class="extensions-list">
-            <a href="https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition" class="extension-link">Telegram API Pack Edition</a>
-            <a href="https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js" class="extension-link">Scratch API</a>
-            <a href="https://github.com/Morunka/Files/blob/main/GeMini%20API%20TW.js" class="extension-link">Gemini API</a>
-        </div>
+        <div class="extensions-list"></div>
     </div>
+
     <div class="games-container" id="games">
         <div class="games-header">
             <button class="category-btn active" id="horror-btn">Хоррор</button>
             <button class="category-btn" id="others-btn">Прочее</button>
-            <input type="text" id="year-filter" class="filter-input" placeholder="Год выпуска">
-            <select id="engine-filter" class="filter-select">
+            <input type="text" class="filter-input" id="year-filter" placeholder="Год">
+            <select class="filter-select" id="engine-filter">
                 <option value="">Все движки</option>
-                <option value="Kogama">Kogama</option>
                 <option value="Scratch">Scratch</option>
+                <option value="Unity">Unity</option>
+                <option value="Unreal Engine">Unreal Engine</option>
             </select>
-            <select id="sort-games" class="filter-select">
-                <option value="name-asc">Алфавит (A-Z)</option>
-                <option value="name-desc">Алфавит (Z-A)</option>
-                <option value="year-desc">Дата выпуска (новые)</option>
-                <option value="year-asc">Дата выпуска (старые)</option>
+            <select class="filter-select" id="sort-games">
+                <option value="name-asc">По имени (А-Я)</option>
+                <option value="name-desc">По имени (Я-А)</option>
+                <option value="year-desc">По году (новые)</option>
+                <option value="year-asc">По году (старые)</option>
             </select>
         </div>
         <div class="games-list" id="games-list"></div>
         <div class="pagination">
-            <button id="prev-page" class="page-btn">Назад</button>
-            <span id="page-info" class="page-info"></span>
-            <button id="next-page" class="page-btn">Вперёд</button>
+            <button class="page-btn" id="prev-page">Назад</button>
+            <span class="page-info" id="page-info">1 / 1</span>
+            <button class="page-btn" id="next-page">Вперёд</button>
         </div>
     </div>
+
     <div class="utils-container" id="utils">
         <div class="utils-header">
-            <button class="category-btn active" id="our-utils-btn">Наши утилиты</button>
+            <button class="category-btn active" id="our-utils-btn">Наши</button>
             <button class="category-btn" id="other-utils-btn">Прочее</button>
         </div>
         <div class="utils-list" id="utils-list"></div>
     </div>
-    <div class="footer">На данный момент мы вымышленная компания, и все наши права не защищены.</div>
-    <div class="scroll-buttons">
-        <button class="scroll-button scroll-up" aria-label="Прокрутить вверх">↑</button>
-        <button class="scroll-button scroll-down" aria-label="Прокрутить вниз">↓</button>
+
+    <div class="search-container">
+        <div class="search-engines">
+            <div class="search-engine active" data-engine="brave"></div>
+            <div class="search-engine" data-engine="google"></div>
+            <div class="search-engine" data-engine="yandex"></div>
+        </div>
+        <div class="search-bar">
+            <input type="text" class="search-input" id="search-input" placeholder="Поиск...">
+            <button class="search-btn" id="search-btn">Искать</button>
+        </div>
     </div>
-    <div class="easter-egg" id="easter-egg">
-        <img src="DDRH.png" alt="Easter Egg" onerror="console.error('Не удалось загрузить DDRH.png. Проверьте путь к файлу.')">
+
+    <div class="easter-egg">
+        <img src="easter-egg.png" alt="Easter Egg">
     </div>
+
+    <footer class="footer">
+        © 2023-2025 Black Rabbit Company. Все права защищены.
+    </footer>
+
     <script src="scripts.js"></script>
 </body>
 </html>
