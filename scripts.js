@@ -71,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
             console.log('Пасхалка активирована');
+            setTimeout(() => {
+                easterEgg.classList.remove('active');
+                console.log('Пасхалка скрыта');
+            }, 2500); // Скрытие через 2.5 секунды
         }
     });
 
@@ -258,18 +262,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .then(data => {
                     console.log('Содержимое BRC-Team.txt:', data);
-                    const members = data.split('\n\n').map(member => {
-                        const lines = member.split('\n').map(line => line.trim()).filter(line => line);
+                    const members = [];
+                    const memberBlocks = data.split('\n\n').map(block => block.trim()).filter(block => block);
+                    memberBlocks.forEach(block => {
+                        const lines = block.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
                         lines.forEach(line => {
                             const [key, ...valueParts] = line.split('=');
                             const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                             memberData[key.trim()] = value || 'Не указано';
                         });
-                        return memberData;
+                        if (memberData.Username) {
+                            members.push(memberData);
+                        }
                     });
                     console.log('Обработанные участники:', members);
-                    if (members.length === 0 || !members[0].Username) {
+                    if (members.length === 0) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
                         members.forEach((member, index) => {
@@ -354,15 +362,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(data => {
-                const games = data.split('\n\n').map(game => {
-                    const lines = game.split('\n').map(line => line.trim()).filter(line => line);
+                const games = [];
+                const gameBlocks = data.split('\n\n').map(block => block.trim()).filter(block => block);
+                gameBlocks.forEach(block => {
+                    const lines = block.split('\n').map(line => line.trim()).filter(line => line);
                     const gameData = {};
                     lines.forEach(line => {
                         const [key, ...valueParts] = line.split('=');
                         const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                         gameData[key.trim()] = value || 'Не указано';
                     });
-                    return gameData;
+                    if (gameData.GameName) {
+                        games.push(gameData);
+                    }
                 });
                 gamesData = games;
                 applyFilters();
@@ -462,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
         games.classList.remove('hide');
         games.classList.add('show');
 
-        const file = currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt'; // Исправлено на OthersGames.txt
+        const file = currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt';
         loadGames(file);
     });
 
@@ -480,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = 'others';
         othersBtn.classList.add('active');
         horrorBtn.classList.remove('active');
-        loadGames('./OthersGames.txt'); // Исправлено на OthersGames.txt
+        loadGames('./OthersGames.txt');
     });
 
     // Фильтры и сортировка
@@ -504,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Загрузка утилит (старая версия)
+    // Загрузка утилит
     const loadUtils = () => {
         utilsList.classList.remove('fade-in');
         void utilsList.offsetWidth;
