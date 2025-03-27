@@ -44,11 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksRow = document.querySelector('.links-row');
     const logo = document.querySelector('h1');
     const easterEgg = document.querySelector('.easter-egg');
-    const searchEngines = document.querySelectorAll('.search-engine');
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
-    const scrollUpBtn = document.querySelector('.scroll-up');
-    const scrollDownBtn = document.querySelector('.scroll-down');
+    const searchEngines = document.querySelectorAll('.search-engine');
 
     let currentCategory = 'horror';
     let gamesData = [];
@@ -56,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const gamesPerPage = 5;
     let currentUtilsCategory = 'our';
-    let currentEngine = 'brave';
+    let selectedEngine = 'brave';
 
     // Проверка на существование элементов
-    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo || !scrollUpBtn || !scrollDownBtn) {
+    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo || !searchInput || !searchBtn || !searchEngines) {
         console.error('Один или несколько элементов не найдены в HTML');
         return;
     }
@@ -70,28 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
         clickCount++;
         if (clickCount === 5 && easterEgg) {
             easterEgg.classList.add('active');
-            console.log('Пасхалка активирована');
             setTimeout(() => {
                 easterEgg.classList.remove('active');
-                console.log('Пасхалка скрыта');
             }, 2500);
+            console.log('Пасхалка активирована');
         }
-    });
-
-    // Кнопки прокрутки
-    const scrollStep = window.innerHeight * 0.8;
-
-    scrollUpBtn.addEventListener('click', () => {
-        const currentPosition = window.scrollY;
-        const newPosition = Math.max(0, currentPosition - scrollStep);
-        window.scrollTo({ top: newPosition, behavior: 'smooth' });
-    });
-
-    scrollDownBtn.addEventListener('click', () => {
-        const currentPosition = window.scrollY;
-        const maxScroll = document.body.scrollHeight - window.innerHeight;
-        const newPosition = Math.min(maxScroll, currentPosition + scrollStep); // Исправлено: прокрутка вниз
-        window.scrollTo({ top: newPosition, behavior: 'smooth' });
     });
 
     // Функция для закрытия всех меню
@@ -127,14 +108,17 @@ document.addEventListener('DOMContentLoaded', () => {
         description.classList.add('show');
     };
 
+    // Открываем "О студии" сразу после загрузки
     openAboutSection();
 
+    // Кнопка "О студии"
     aboutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('active')) return;
         openAboutSection();
     });
 
+    // Кнопка "Связи"
     linksBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('links-active')) return;
@@ -148,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         links.style.padding = '10px';
     });
 
+    // Подменю Telegram
     if (telegramBtn && linksRow) {
         const telegramLinks = linksRow.querySelector('.telegram-links');
         if (telegramLinks) telegramLinks.style.display = 'none';
@@ -171,10 +156,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     links.style.minHeight = '200px';
                     links.style.padding = '20px';
                 }
+            } else {
+                console.warn('Элемент .telegram-links не найден');
             }
         });
+    } else {
+        console.warn('Элементы telegramBtn или linksRow не найдены');
     }
 
+    // Кнопка "Документы"
     docsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('docs-active')) return;
@@ -185,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         docs.classList.add('show');
     });
 
+    // Кнопка "Разработка"
     devBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('dev-active')) return;
@@ -221,11 +212,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
+                console.error('Ошибка загрузки данных разработки:', error);
                 const devInfo = document.querySelector('.dev-info');
-                if (devInfo) devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
+                if (devInfo) {
+                    devInfo.innerHTML = '<p>Ошибка загрузки данных разработки: ' + error.message + '</p>';
+                }
             });
     });
 
+    // Кнопка "Команда"
     teamBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('team-active')) return;
@@ -247,24 +242,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     return response.text();
                 })
                 .then(data => {
-                    const members = [];
-                    const memberBlocks = data.split('\n\n').map(block => block.trim()).filter(block => block);
-                    memberBlocks.forEach(block => {
-                        const lines = block.split('\n').map(line => line.trim()).filter(line => line);
+                    const members = data.split('\n\n').map(member => {
+                        const lines = member.split('\n').map(line => line.trim()).filter(line => line);
                         const memberData = {};
                         lines.forEach(line => {
                             const [key, ...valueParts] = line.split('=');
                             const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                             memberData[key.trim()] = value || 'Не указано';
                         });
-                        if (memberData.Username) {
-                            members.push(memberData);
-                        }
+                        return memberData;
                     });
-                    if (members.length === 0) {
+                    if (members.length === 0 || !members[0].Username) {
                         teamList.innerHTML = '<p>Команда отсутствует</p>';
                     } else {
-                        members.forEach((member, index) => { // Исправлено: отображаем всех участников
+                        members.forEach((member, index) => {
                             const cleanUsername = (member.Username || 'Не указано').replace(/["':]/g, '');
                             const memberDiv = document.createElement('div');
                             memberDiv.classList.add('team-member');
@@ -287,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     teamList.appendChild(joinDiv);
                 })
                 .catch(error => {
+                    console.error('Ошибка загрузки команды:', error);
                     teamList.innerHTML = '<p>Ошибка загрузки команды: ' + error.message + '</p>';
                     const joinDiv = document.createElement('p');
                     joinDiv.classList.add('team-join');
@@ -296,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Кнопка "Расширения"
     extensionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('extensions-active')) return;
@@ -344,30 +337,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(data => {
-                const games = [];
-                const gameBlocks = data.split('\n\n').map(block => block.trim()).filter(block => block);
-                gameBlocks.forEach(block => {
-                    const lines = block.split('\n').map(line => line.trim()).filter(line => line);
+                const games = data.split('\n\n').map(game => {
+                    const lines = game.split('\n').map(line => line.trim()).filter(line => line);
                     const gameData = {};
                     lines.forEach(line => {
                         const [key, ...valueParts] = line.split('=');
                         const value = valueParts.join('=').trim().replace(/^"|"$/g, '');
                         gameData[key.trim()] = value || 'Не указано';
                     });
-                    if (gameData.GameName) { // Исправлено: проверка на наличие GameName
-                        games.push(gameData);
-                    }
+                    return gameData;
                 });
                 gamesData = games;
                 applyFilters();
             })
             .catch(error => {
+                console.error('Ошибка загрузки игр:', error);
                 if (gamesList) {
                     gamesList.innerHTML = `<p>Ошибка загрузки игр: ${error.message}</p>`;
                 }
             });
     };
 
+    // Применение фильтров и сортировки
     const applyFilters = () => {
         filteredGames = gamesData;
 
@@ -377,72 +368,71 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const engine = engineFilter.value;
-        if (engine) {
-            filteredGames = filteredGames.filter(game => game.Engine && game.Engine === engine);
+        if (engine && engine !== 'all') {
+            filteredGames = filteredGames.filter(game => game.Engine === engine);
         }
 
-        const sortValue = sortGames.value;
-        if (sortValue === 'name-asc') {
-            filteredGames.sort((a, b) => (a.GameName || '').localeCompare(b.GameName || ''));
-        } else if (sortValue === 'name-desc') {
-            filteredGames.sort((a, b) => (b.GameName || '').localeCompare(a.GameName || ''));
-        } else if (sortValue === 'year-desc') {
-            filteredGames.sort((a, b) => (b.Year || '0') - (a.Year || '0'));
-        } else if (sortValue === 'year-asc') {
-            filteredGames.sort((a, b) => (a.Year || '0') - (b.Year || '0'));
+        if (sortGames.value === 'name-asc') {
+            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
+        } else if (sortGames.value === 'name-desc') {
+            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
+        } else if (sortGames.value === 'year-asc') {
+            filteredGames.sort((a, b) => (a.Year || '').localeCompare(b.Year || ''));
+        } else if (sortGames.value === 'year-desc') {
+            filteredGames.sort((a, b) => (b.Year || '').localeCompare(a.Year || ''));
         }
 
         currentPage = 1;
         displayGames();
     };
 
+    // Отображение игр
     const displayGames = () => {
         if (!gamesList) return;
+        gamesList.classList.remove('fade-in');
+        void gamesList.offsetWidth;
+        gamesList.classList.add('fade-in');
+
         gamesList.innerHTML = '';
-
-        if (filteredGames.length === 0) {
-            gamesList.innerHTML = '<p>Игры отсутствуют</p>';
-            pageInfo.textContent = '0 / 0';
-            prevPageBtn.disabled = true;
-            nextPageBtn.disabled = true;
-            return;
-        }
-
         const start = (currentPage - 1) * gamesPerPage;
         const end = start + gamesPerPage;
         const paginatedGames = filteredGames.slice(start, end);
 
-        paginatedGames.forEach(game => {
-            const gameCard = document.createElement('div');
-            gameCard.classList.add('game-card');
-            if (game.Background) {
-                gameCard.style.backgroundImage = `url('${game.Background}')`;
-            }
-            gameCard.innerHTML = `
-                <div class="game-header">
-                    <h3 class="game-title">${game.GameName || 'Не указано'}</h3>
-                    <div class="game-meta">
-                        <span class="game-version">${game.Version || 'Не указано'}</span>
-                        <span class="game-engine">${game.Engine || 'Не указано'}</span>
+        if (paginatedGames.length === 0) {
+            gamesList.innerHTML = '<p>Игры не найдены</p>';
+            prevPageBtn.disabled = true;
+            nextPageBtn.disabled = true;
+            pageInfo.textContent = 'Страница 0 из 0';
+        } else {
+            paginatedGames.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.classList.add('game-card');
+                gameCard.style.backgroundImage = `url(${game.Image})`;
+                gameCard.innerHTML = `
+                    <div class="game-header">
+                        <h3 class="game-title">${game.Name || 'Не указано'}</h3>
+                        <div class="game-meta">
+                            <span class="game-version">v${game.Version || 'Не указано'}</span>
+                            <span class="game-engine">${game.Engine || 'Не указано'}</span>
+                        </div>
                     </div>
-                </div>
-                <p class="game-description">${game.Description || 'Описание отсутствует'}</p>
-                <div class="game-footer">
-                    ${game.Link ? `<a href="${game.Link}" class="game-play-btn">Играть</a>` : '<span class="game-play-btn" style="opacity: 0.5; cursor: not-allowed;">Играть</span>'}
-                    <span class="game-year">${game.Year || 'Не указано'}</span>
-                </div>
-            `;
-            gamesList.appendChild(gameCard);
-        });
+                    <p class="game-description">${game.Desc || 'Описание отсутствует'}</p>
+                    <div class="game-footer">
+                        <a href="${game.Link || '#'}" class="game-play-btn">Играть</a>
+                        <span class="game-year">${game.Year || 'Не указано'}</span>
+                    </div>
+                `;
+                gamesList.appendChild(gameCard);
+            });
 
-        gamesList.classList.add('fade-in');
-
-        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-        pageInfo.textContent = `${currentPage} / ${totalPages}`;
-        prevPageBtn.disabled = currentPage === 1;
-        nextPageBtn.disabled = currentPage === totalPages;
+            const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+            pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
     };
 
+    // Кнопка "Игры"
     gamesBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('games-active')) return;
@@ -451,11 +441,11 @@ document.addEventListener('DOMContentLoaded', () => {
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
         games.classList.add('show');
-
-        const file = currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt';
-        loadGames(file);
+        currentPage = 1;
+        loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
     });
 
+    // Переключение категорий игр
     horrorBtn.addEventListener('click', () => {
         if (currentCategory === 'horror') return;
         currentCategory = 'horror';
@@ -472,10 +462,12 @@ document.addEventListener('DOMContentLoaded', () => {
         loadGames('./OthersGames.txt');
     });
 
+    // Фильтры и сортировка
     yearFilter.addEventListener('input', applyFilters);
     engineFilter.addEventListener('change', applyFilters);
     sortGames.addEventListener('change', applyFilters);
 
+    // Пагинация
     prevPageBtn.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
@@ -491,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Загрузка утилит
     const loadUtils = () => {
         utilsList.classList.remove('fade-in');
         void utilsList.offsetWidth;
@@ -525,11 +518,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const otherUtilsText = document.createElement('p');
             otherUtilsText.classList.add('other-utils-text');
-            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' '); // Исправлено: вернул текстовые ссылки
+            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' ');
             utilsList.appendChild(otherUtilsText);
         }
     };
 
+    // Кнопка "Утилиты"
     utilsBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (body.classList.contains('utils-active')) return;
@@ -541,6 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
+    // Переключение категорий утилит
     ourUtilsBtn.addEventListener('click', () => {
         if (currentUtilsCategory === 'our') return;
         currentUtilsCategory = 'our';
@@ -557,29 +552,63 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
+    // Кнопки прокрутки
+    const scrollStep = 300;
+    const scrollTopBtn = document.querySelector('.scroll-up');
+    const scrollBottomBtn = document.querySelector('.scroll-down');
+
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 0) {
+                window.scrollTo({
+                    top: Math.max(0, currentScroll - scrollStep),
+                    behavior: 'smooth'
+                });
+            }
+        });
+    } else {
+        console.warn('Кнопка scroll-up не найдена');
+    }
+
+    if (scrollBottomBtn) {
+        scrollBottomBtn.addEventListener('click', () => {
+            const currentScroll = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            if (currentScroll < maxScroll) {
+                window.scrollTo({
+                    top: Math.min(maxScroll, currentScroll + scrollStep),
+                    behavior: 'smooth'
+                });
+            }
+        });
+    } else {
+        console.warn('Кнопка scroll-down не найдена');
+    }
+
+    // Поисковая система
     searchEngines.forEach(engine => {
         engine.addEventListener('click', () => {
             searchEngines.forEach(e => e.classList.remove('active'));
             engine.classList.add('active');
-            currentEngine = engine.getAttribute('data-engine');
+            selectedEngine = engine.getAttribute('data-engine');
         });
     });
 
     searchBtn.addEventListener('click', () => {
         const query = searchInput.value.trim();
-        if (!query) return;
-
-        let url;
-        if (currentEngine === 'brave') {
-            url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
-        } else if (currentEngine === 'google') {
-            url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-        } else if (currentEngine === 'yandex') {
-            url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
-        }
-
-        if (url) {
-            window.open(url, '_blank');
+        if (query) {
+            let url;
+            if (selectedEngine === 'brave') {
+                url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+            } else if (selectedEngine === 'google') {
+                url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            } else if (selectedEngine === 'yandex') {
+                url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+            }
+            if (url) {
+                window.open(url, '_blank');
+            }
         }
     });
 });
