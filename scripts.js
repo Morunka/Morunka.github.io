@@ -44,6 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const linksRow = document.querySelector('.links-row');
     const logo = document.querySelector('h1');
     const easterEgg = document.querySelector('.easter-egg');
+    const searchEngines = document.querySelectorAll('.search-engine');
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const scrollUpBtn = document.querySelector('.scroll-up');
+    const scrollDownBtn = document.querySelector('.scroll-down');
 
     let currentCategory = 'horror';
     let gamesData = [];
@@ -51,9 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const gamesPerPage = 5;
     let currentUtilsCategory = 'our';
+    let currentEngine = 'brave';
 
     // Проверка на существование элементов
-    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo) {
+    if (!aboutBtn || !description || !linksBtn || !links || !docsBtn || !docs || !devBtn || !dev || !teamBtn || !team || !extensionsBtn || !extensions || !gamesBtn || !games || !horrorBtn || !othersBtn || !gamesList || !yearFilter || !engineFilter || !sortGames || !prevPageBtn || !nextPageBtn || !pageInfo || !utilsBtn || !utils || !ourUtilsBtn || !otherUtilsBtn || !utilsList || !body || !logo || !scrollUpBtn || !scrollDownBtn) {
         console.error('Один или несколько элементов не найдены в HTML');
         return;
     }
@@ -66,6 +72,22 @@ document.addEventListener('DOMContentLoaded', () => {
             easterEgg.classList.add('active');
             console.log('Пасхалка активирована');
         }
+    });
+
+    // Кнопки прокрутки
+    const scrollStep = window.innerHeight * 0.8; // Прокрутка на 80% высоты окна
+
+    scrollUpBtn.addEventListener('click', () => {
+        const currentPosition = window.scrollY;
+        const newPosition = Math.max(0, currentPosition - scrollStep);
+        window.scrollTo({ top: newPosition, behavior: 'smooth' });
+    });
+
+    scrollDownBtn.addEventListener('click', () => {
+        const currentPosition = window.scrollY;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const newPosition = Math.min(maxScroll, currentPosition + scrollStep);
+        window.scrollTo({ top: newPosition, behavior: 'smooth' });
     });
 
     // Функция для закрытия всех меню
@@ -120,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linksBtn.classList.add('active');
         links.classList.remove('hide');
         links.classList.add('show');
-        links.style.width = '320px';
+        links.style.width = '400px';
         links.style.height = '70px';
         links.style.padding = '10px';
     });
@@ -138,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (telegramLinks) {
                 if (isActive) {
                     telegramLinks.style.display = 'none';
-                    links.style.width = '320px';
+                    links.style.width = '400px';
                     links.style.height = '70px';
                     links.style.minHeight = '70px';
                     links.style.padding = '10px';
@@ -363,18 +385,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const engine = engineFilter.value;
-        if (engine && engine !== 'all') {
-            filteredGames = filteredGames.filter(game => game.Engine === engine);
+        if (engine) {
+            filteredGames = filteredGames.filter(game => game.Engine && game.Engine === engine);
         }
 
-        if (sortGames.value === 'name-asc') {
-            filteredGames.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
-        } else if (sortGames.value === 'name-desc') {
-            filteredGames.sort((a, b) => (b.Name || '').localeCompare(a.Name || ''));
-        } else if (sortGames.value === 'year-asc') {
-            filteredGames.sort((a, b) => (a.Year || '').localeCompare(b.Year || ''));
-        } else if (sortGames.value === 'year-desc') {
-            filteredGames.sort((a, b) => (b.Year || '').localeCompare(a.Year || ''));
+        const sortValue = sortGames.value;
+        if (sortValue === 'name-asc') {
+            filteredGames.sort((a, b) => (a.GameName || '').localeCompare(b.GameName || ''));
+        } else if (sortValue === 'name-desc') {
+            filteredGames.sort((a, b) => (b.GameName || '').localeCompare(a.GameName || ''));
+        } else if (sortValue === 'year-desc') {
+            filteredGames.sort((a, b) => (b.Year || '0') - (a.Year || '0'));
+        } else if (sortValue === 'year-asc') {
+            filteredGames.sort((a, b) => (a.Year || '0') - (b.Year || '0'));
         }
 
         currentPage = 1;
@@ -384,47 +407,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Отображение игр
     const displayGames = () => {
         if (!gamesList) return;
-        gamesList.classList.remove('fade-in');
-        void gamesList.offsetWidth;
-        gamesList.classList.add('fade-in');
-
         gamesList.innerHTML = '';
+
+        if (filteredGames.length === 0) {
+            gamesList.innerHTML = '<p>Игры отсутствуют</p>';
+            pageInfo.textContent = '0 / 0';
+            prevPageBtn.disabled = true;
+            nextPageBtn.disabled = true;
+            return;
+        }
+
         const start = (currentPage - 1) * gamesPerPage;
         const end = start + gamesPerPage;
         const paginatedGames = filteredGames.slice(start, end);
 
-        if (paginatedGames.length === 0) {
-            gamesList.innerHTML = '<p>Игры не найдены</p>';
-            prevPageBtn.disabled = true;
-            nextPageBtn.disabled = true;
-            pageInfo.textContent = 'Страница 0 из 0';
-        } else {
-            paginatedGames.forEach(game => {
-                const gameCard = document.createElement('div');
-                gameCard.classList.add('game-card');
-                gameCard.style.backgroundImage = `url(${game.Image})`;
-                gameCard.innerHTML = `
-                    <div class="game-header">
-                        <h3 class="game-title">${game.Name}</h3>
-                        <div class="game-meta">
-                            <span class="game-version">v${game.Version}</span>
-                            <span class="game-engine">${game.Engine}</span>
-                        </div>
+        paginatedGames.forEach(game => {
+            const gameCard = document.createElement('div');
+            gameCard.classList.add('game-card');
+            if (game.Background) {
+                gameCard.style.backgroundImage = `url('${game.Background}')`;
+            }
+            gameCard.innerHTML = `
+                <div class="game-header">
+                    <h3 class="game-title">${game.GameName || 'Не указано'}</h3>
+                    <div class="game-meta">
+                        <span class="game-version">${game.Version || 'Не указано'}</span>
+                        <span class="game-engine">${game.Engine || 'Не указано'}</span>
                     </div>
-                    <p class="game-description">${game.Desc}</p>
-                    <div class="game-footer">
-                        <a href="${game.Link}" class="game-play-btn">Играть</a>
-                        <span class="game-year">${game.Year}</span>
-                    </div>
-                `;
-                gamesList.appendChild(gameCard);
-            });
+                </div>
+                <p class="game-description">${game.Description || 'Описание отсутствует'}</p>
+                <div class="game-footer">
+                    ${game.Link ? `<a href="${game.Link}" class="game-play-btn">Играть</a>` : '<span class="game-play-btn" style="opacity: 0.5; cursor: not-allowed;">Играть</span>'}
+                    <span class="game-year">${game.Year || 'Не указано'}</span>
+                </div>
+            `;
+            gamesList.appendChild(gameCard);
+        });
 
-            const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-            pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
-            prevPageBtn.disabled = currentPage === 1;
-            nextPageBtn.disabled = currentPage === totalPages;
-        }
+        gamesList.classList.add('fade-in');
+
+        const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+        pageInfo.textContent = `${currentPage} / ${totalPages}`;
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = currentPage === totalPages;
     };
 
     // Кнопка "Игры"
@@ -436,11 +461,12 @@ document.addEventListener('DOMContentLoaded', () => {
         gamesBtn.classList.add('active');
         games.classList.remove('hide');
         games.classList.add('show');
-        currentPage = 1;
-        loadGames(currentCategory === 'horror' ? './HorrorGames.txt' : './OthersGames.txt');
+
+        const file = currentCategory === 'horror' ? './HorrorGames.txt' : './OtherGames.txt';
+        loadGames(file);
     });
 
-    // Переключение категорий игр
+    // Переключение категорий
     horrorBtn.addEventListener('click', () => {
         if (currentCategory === 'horror') return;
         currentCategory = 'horror';
@@ -454,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = 'others';
         othersBtn.classList.add('active');
         horrorBtn.classList.remove('active');
-        loadGames('./OthersGames.txt');
+        loadGames('./OtherGames.txt');
     });
 
     // Фильтры и сортировка
@@ -480,42 +506,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Загрузка утилит
     const loadUtils = () => {
-        utilsList.classList.remove('fade-in');
-        void utilsList.offsetWidth;
-        utilsList.classList.add('fade-in');
-
+        if (!utilsList) return;
         utilsList.innerHTML = '';
 
-        const ourUtilsData = [
-            { name: 'UNMiner Tool', link: 'https://github.com/Morunka/UNMiner-Tool' },
-            { name: 'TS3-Music-Downloader', link: 'https://github.com/Morunka/TS3-Music-Downloader' }
-        ];
-
-        const otherUtilsData = [
-            { name: 'Utility1', link: 'https://example.com/utility1' },
-            { name: 'Utility2', link: 'https://example.com/utility2' },
-            { name: 'Utility3', link: 'https://example.com/utility3' }
-        ];
-
         if (currentUtilsCategory === 'our') {
-            if (ourUtilsData.length === 0) {
-                utilsList.innerHTML = '<p>Утилиты не найдены</p>';
+            const utilsData = [
+                { name: 'ROlil CO Helper', link: 'https://github.com/Morunka/ROlil-CO-Helper' }
+            ];
+            if (utilsData.length === 0) {
+                utilsList.innerHTML = '<p>Утилиты отсутствуют</p>';
             } else {
-                ourUtilsData.forEach(utility => {
+                utilsData.forEach(util => {
                     const utilItem = document.createElement('div');
                     utilItem.classList.add('utils-item');
-                    utilItem.innerHTML = `
-                        <a href="${utility.link}" class="telegram-link">${utility.name}</a>
-                    `;
+                    utilItem.innerHTML = `<a href="${util.link}" class="telegram-link">${util.name}</a>`;
                     utilsList.appendChild(utilItem);
                 });
             }
         } else {
-            const otherUtilsText = document.createElement('p');
-            otherUtilsText.classList.add('other-utils-text');
-            otherUtilsText.innerHTML = otherUtilsData.map(utility => `<a href="${utility.link}" class="telegram-link">${utility.name}</a>`).join(' ');
-            utilsList.appendChild(otherUtilsText);
+            const otherUtils = `
+                <p class="other-utils-text">
+                    Мы рекомендуем использовать утилиты от <a href="https://turbowarp.org" class="telegram-link">TurboWarp</a> и <a href="https://penguinmod.com" class="telegram-link">PenguinMod</a>.
+                </p>
+            `;
+            utilsList.innerHTML = otherUtils;
         }
+
+        utilsList.classList.add('fade-in');
     };
 
     // Кнопка "Утилиты"
@@ -547,33 +564,30 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUtils();
     });
 
-    // Кнопки прокрутки
-    const scrollStep = 300;
-    const scrollTopBtn = document.querySelector('.scroll-up');
-    const scrollBottomBtn = document.querySelector('.scroll-down');
-
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener('click', () => {
-            const currentScroll = window.scrollY;
-            window.scrollTo({
-                top: Math.max(0, currentScroll - scrollStep),
-                behavior: 'smooth'
-            });
+    // Поиск
+    searchEngines.forEach(engine => {
+        engine.addEventListener('click', () => {
+            searchEngines.forEach(e => e.classList.remove('active'));
+            engine.classList.add('active');
+            currentEngine = engine.getAttribute('data-engine');
         });
-    } else {
-        console.warn('Кнопка scroll-up не найдена');
-    }
+    });
 
-    if (scrollBottomBtn) {
-        scrollBottomBtn.addEventListener('click', () => {
-            const currentScroll = window.scrollY;
-            const maxScroll = document.body.scrollHeight - window.innerHeight;
-            window.scrollTo({
-                top: Math.min(maxScroll, currentScroll + scrollStep),
-                behavior: 'smooth'
-            });
-        });
-    } else {
-        console.warn('Кнопка scroll-down не найдена');
-    }
+    searchBtn.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        let url;
+        if (currentEngine === 'brave') {
+            url = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+        } else if (currentEngine === 'google') {
+            url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        } else if (currentEngine === 'yandex') {
+            url = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+        }
+
+        if (url) {
+            window.open(url, '_blank');
+        }
+    });
 });
