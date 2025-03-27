@@ -116,6 +116,13 @@ h1 {
     margin: 5px 0;
     margin-bottom: 15px;
     cursor: pointer;
+    animation: hologram 3s infinite ease-in-out;
+}
+
+@keyframes hologram {
+    0% { transform: translateY(0px); opacity: 1; }
+    50% { transform: translateY(-5px); opacity: 0.8; }
+    100% { transform: translateY(0px); opacity: 1; }
 }
 
 .header-container {
@@ -166,11 +173,13 @@ h1 {
     transform: scale(1.1);
     border: 2px solid white;
     background-color: #555;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .button.active {
     border: 2px solid white;
     background-color: #555;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .button.characters {
@@ -180,6 +189,66 @@ h1 {
 .button.license {
     padding: 8px 16px;
     font-size: 14px;
+}
+
+/* Поиск */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.search-engines {
+    display: flex;
+    gap: 5px;
+}
+
+.search-engine {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.search-engine:hover {
+    transform: scale(1.1);
+}
+
+.search-engine.active {
+    border: 2px solid white;
+    box-shadow: 0 0 10px white;
+}
+
+.search-input {
+    width: 450px;
+    padding: 8px;
+    background: linear-gradient(45deg, #1a1a1a, #333);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #00f, #0ff) 1;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), inset 0 0 5px rgba(0, 255, 255, 0.3);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+.search-input:hover, .search-input:focus {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), inset 0 0 10px rgba(0, 255, 255, 0.5);
+    transform: scale(1.02);
+    outline: none;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 /* Описание */
@@ -235,7 +304,7 @@ h1 {
     transform: translateX(-50%) translateY(0);
     opacity: 0;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
-    width: 320px;
+    width: 400px;
     height: 70px;
     display: flex;
     justify-content: center;
@@ -249,7 +318,7 @@ h1 {
     opacity: 0;
     visibility: hidden;
     top: 120%;
-    width: 320px;
+    width: 400px;
     height: 70px;
     transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
@@ -484,7 +553,8 @@ h1 {
 .dev-info .more-btn:hover {
     background-color: #555;
     transform: scale(1.05);
-    border: 2px solid #0ff;
+    border: 2px solid white;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 /* Команда */
@@ -701,11 +771,13 @@ h1 {
 .category-btn:hover {
     background-color: #555;
     border: 2px solid white;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .category-btn.active {
     background-color: #555;
     border: 2px solid white;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .filter-input {
@@ -726,9 +798,8 @@ h1 {
 }
 
 .filter-input:hover, .filter-input:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    border: 2px solid white;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
     transform: scale(1.02);
     outline: none;
 }
@@ -747,9 +818,8 @@ h1 {
 }
 
 .filter-select:hover, .filter-select:focus {
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #00f, #0ff) 1;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    border: 2px solid white;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
     transform: scale(1.02);
     outline: none;
 }
@@ -776,6 +846,7 @@ h1 {
 .page-btn:hover {
     background-color: #555;
     border: 2px solid white;
+    box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .page-btn:disabled {
@@ -1124,26 +1195,32 @@ h1 {
 
 .easter-egg.active {
     right: 10px;
+    animation: hideEasterEgg 2.5s forwards;
 }
 
 .easter-egg img {
     width: 200px;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+@keyframes hideEasterEgg {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; right: -300px; }
 }
 
 /* Футер */
 .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     color: #aaa;
     font-size: 12px;
     text-align: center;
-    margin-top: auto;
     padding: 20px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    position: relative;
-    bottom: 0;
 }
 
 /* Медиа-запросы */
