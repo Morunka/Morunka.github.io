@@ -1,0 +1,35 @@
+{
+
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Live Server",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "node",
+            "runtimeArgs": [
+                "--inspect"
+            ],
+            "program": "${workspaceFolder}/node_modules/live-server/live-server.js",
+            "args": [
+                "--port=8085",
+                "--host=127.0.0.1",
+                "--entry-file=index.html",
+                "--no-browser",
+                "--wait=100"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "restart": true
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://127.0.0.1:8082",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "trace": true
+        }
+    ]
+}
