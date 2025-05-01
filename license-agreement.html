@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лицензионное соглашение - By ROlil Studio</title>
+    <link rel="icon" type="image/png" href="Website-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0066FF;
+            --accent-color: #6B46C1;
+            --background-color: #F8F9FA;
+            --text-color: #1A1A1A;
+            --white: #FFFFFF;
+            --transition: all 0.3s ease;
+            --error-color: #FF3B30;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --header-bg: #FFFFFF;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --footer-bg: #1A1A1A;
+            --footer-text: #FFFFFF;
+            --notification-bg: #FFFFFF;
+            --notification-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --notification-text: #666;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #6B9FFF;
+            --accent-color: #B39DFF;
+            --background-color: #1A1A1A;
+            --text-color: #E8E8E8;
+            --white: #2A2A2A;
+            --card-bg: #2A2A2A;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            --header-bg: #2A2A2A;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            --footer-bg: #1A1A1A;
+            --footer-text: #E8E8E8;
+            --notification-bg: #2A2A2A;
+            --notification-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            --notification-text: #CCCCCC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Навигационная панель */
+        .navbar {
+            background-color: var(--background-color);
+            box-shadow: var(--header-shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Основной контент */
+        .main-content {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+
+        .license-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .license-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .license-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .license-section {
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .license-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .license-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .license-section p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .license-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .license-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .license-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--accent-color);
+            color: var(--text-color);
+        }
+
+        .important-note {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Кнопка переключения темы */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Футер */
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Уведомление */
+        #notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--notification-bg);
+            color: var(--notification-text);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--notification-shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 350px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        #notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .notification-close:hover {
+            color: var(--primary-color);
+        }
+
+        #notification.error .notification-icon {
+            color: var(--error-color);
+        }
+
+        #notification.warning .notification-icon {
+            color: var(--warning-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title">Информация</div>
+            <div class="notification-message">Уведомление от By ROlil Studio.</div>
+        </div>
+        <button class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">By ROlil Studio</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Главная</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="license-container">
+                <div class="license-header">
+                    <h1>Лицензионное соглашение By ROlil Studio</h1>
+                    <p>Последнее обновление: 22 апреля 2025</p>
+                </div>
+
+                <div class="important-note">
+                    <strong>Важно!</strong> Используя продукты By ROlil Studio, вы обязаны ознакомиться с данным лицензионным соглашением. 
+                    Незнание условий соглашения не освобождает от ответственности за их нарушение.
+                </div>
+
+                <div class="license-section">
+                    <h2>1. Общие положения</h2>
+                    <p>By ROlil Studio является разработчиком программного обеспечения и игровых продуктов. 
+                    Несмотря на то, что студия является вымышленной, разработка продуктов продолжается в полном объеме.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>2. Распространение и использование</h2>
+                    <p>2.1. Коммерческое распространение продуктов By ROlil Studio или их ремейков без письменного разрешения запрещено.</p>
+                    <p>2.2. Ремейки на продукты By ROlil Studio разрешены только при условии указания автора и ссылки на оригинал.</p>
+                    <p>2.3. Продвижение продуктов By ROlil Studio в сети Интернет разрешено.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>3. Возрастные ограничения</h2>
+                    <p>3.1. Возрастные ограничения указаны в описании каждого продукта.</p>
+                    <p>3.2. Для продуктов без указанного возрастного ограничения автоматически устанавливается ограничение 12+.</p>
+                    <p>3.3. By ROlil Studio специализируется на разработке продуктов жанра хоррор.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>4. Коллаборации и разработка</h2>
+                    <p>4.1. Коллаборации с другими студиями разрешены по обоюдному согласию.</p>
+                    <p>4.2. При отказе партнера от продолжения коллаборации, проект остается активным до его завершения.</p>
+                    <p>4.3. Участники, покинувшие разработку, не могут вернуться до завершения проекта, но остаются в титрах.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>5. Открытые источники и контент</h2>
+                    <p>5.1. Открытый код, музыка, звуки и спрайты, опубликованные By ROlil Studio, доступны для свободного использования.</p>
+                    <p>5.2. By ROlil Studio не гарантирует безопасность и соответствие ожиданиям контента из открытых источников.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>6. Конфиденциальность и безопасность</h2>
+                    <p>6.1. By ROlil Studio обеспечивает защиту персональных данных пользователей.</p>
+                    <p>6.2. Доступ к персональным данным сотрудников студии строго ограничен.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>7. Ответственность</h2>
+                    <p>7.1. By ROlil Studio не несет ответственности за:</p>
+                    <ul>
+                        <li>Ошибки и баги в программном обеспечении</li>
+                        <li>Последствия использования продуктов</li>
+                        <li>Порчу оборудования при использовании продуктов</li>
+                    </ul>
+                    <p>7.2. Пользователь несет полную ответственность за соблюдение условий лицензионного соглашения.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>8. Коммерциализация</h2>
+                    <p>8.1. На момент публикации продукты By ROlil Studio являются бесплатными.</p>
+                    <p>8.2. By ROlil Studio оставляет за собой право вводить платные продукты.</p>
+                    <p>8.3. FNAF-подобные продукты (фан-игры) всегда остаются бесплатными, согласно официальному лицензионному соглашению FNAF.</p>
+                </div>
+
+                <div class="license-section">
+                    <h2>9. Сообщения об ошибках</h2>
+                    <p>9.1. Распространение информации об ошибках разрешено для помощи в их исправлении.</p>
+                    <p>9.2. Сообщения об ошибках должны быть направлены разработчикам через официальные каналы связи.</p>
+                </div>
+
+                <div class="license-footer">
+                    <p>© 2025 By ROlil Studio. Все права защищены.</p>
+                    <p>При нарушении условий лицензионного соглашения By ROlil Studio оставляет за собой право заблокировать доступ к продуктам.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 By ROlil Studio. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Notification System
+        function showNotification(type, title, message) {
+            const notification = document.getElementById('notification');
+            const icon = notification.querySelector('.notification-icon i');
+            const titleEl = notification.querySelector('.notification-title');
+            const messageEl = notification.querySelector('.notification-message');
+            
+            // Remove all classes
+            notification.classList.remove('error', 'warning', 'info');
+            
+            // Add appropriate class
+            notification.classList.add(type);
+            
+            // Update icon
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else {
+                icon.className = 'fas fa-info-circle';
+            }
+            
+            // Update content
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Close notification
+        document.querySelector('.notification-close').addEventListener('click', function() {
+            document.getElementById('notification').classList.remove('show');
+        });
+        
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference or use system preference
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            }
+            
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', function() {
+                const isDarkTheme = document.body.getAttribute('data-theme') === 'dark';
+                
+                if (isDarkTheme) {
+                    document.body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.className = 'fas fa-moon';
+                } else {
+                    document.body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.className = 'fas fa-sun';
+                }
+                
+                // Отправляем сообщение другим открытым вкладкам о смене темы
+                broadcastThemeChange(isDarkTheme ? 'light' : 'dark');
+            });
+            
+            // Слушаем события хранилища для синхронизации тем между вкладками
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    const newTheme = e.newValue;
+                    if (newTheme === 'dark') {
+                        document.body.setAttribute('data-theme', 'dark');
+                        themeIcon.className = 'fas fa-sun';
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                        themeIcon.className = 'fas fa-moon';
+                    }
+                }
+            });
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.setAttribute('data-theme', 'dark');
+                        themeIcon.className = 'fas fa-sun';
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                        themeIcon.className = 'fas fa-moon';
+                    }
+                }
+            });
+        });
+        
+        // Функция для отправки сообщения о смене темы другим вкладкам
+        function broadcastThemeChange(theme) {
+            localStorage.setItem('theme', theme);
+            // Устанавливаем метку времени для уверенности, что событие сработает
+            localStorage.setItem('theme_timestamp', new Date().getTime());
+        }
+    </script>
+</body>
+</html> 

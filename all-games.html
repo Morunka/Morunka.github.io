@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Все игры - By ROlil Studio</title>
+    <link rel="icon" type="image/png" href="Website-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Удаляю стили для праздничных эффектов */
+
+        :root {
+            --primary-color: #0066FF;
+            --accent-color: #6B46C1;
+            --background-color: #F8F9FA;
+            --text-color: #1A1A1A;
+            --white: #FFFFFF;
+            --transition: all 0.3s ease;
+            --error-color: #FF3B30;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --header-bg: #FFFFFF;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --footer-bg: #1A1A1A;
+            --footer-text: #FFFFFF;
+            --notification-bg: #FFFFFF;
+            --notification-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --notification-text: #666;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #6B9FFF;
+            --accent-color: #B39DFF;
+            --background-color: #1A1A1A;
+            --text-color: #E8E8E8;
+            --white: #2A2A2A;
+            --card-bg: #2A2A2A;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            --header-bg: #2A2A2A;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            --footer-bg: #1A1A1A;
+            --footer-text: #E8E8E8;
+            --notification-bg: #2A2A2A;
+            --notification-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            --notification-text: #CCCCCC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Кнопки управления */
+        .effects-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .effects-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .sparks-toggle {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            border: none;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+
+        .sparks-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            background: var(--header-bg);
+            padding: 0.8rem 0;
+            box-shadow: var(--header-shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 500px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .game-image:hover {
+            transform: scale(1.05);
+        }
+
+        .game-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+            position: relative;
+            height: 100%;
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        .game-description {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            height: auto;
+            overflow: visible;
+        }
+
+        .game-meta {
+            display: block !important;
+            margin-bottom: 0.5rem !important;
+            font-size: 0.9rem !important;
+            color: var(--text-color) !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .game-genre, .game-engine {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+
+        .game-genre i, .game-engine i {
+            font-size: 1.2rem !important;
+            color: var(--primary-color) !important;
+        }
+
+        .game-year {
+            color: var(--accent-color) !important;
+            font-weight: 500 !important;
+            margin-bottom: 0.5rem !important;
+            display: block !important;
+        }
+
+        .game-links {
+            display: flex !important;
+            gap: 0.5rem !important;
+            margin-top: 0.5rem !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .game-link {
+            display: inline-block !important;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 8px !important;
+            background: var(--primary-color) !important;
+            color: var(--white) !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            border: none !important;
+            cursor: pointer !important;
+            margin-top: 5px !important;
+            width: auto !important;
+            text-align: center !important;
+        }
+
+        .game-link:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3) !important;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+            align-self: flex-start;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--notification-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: var(--notification-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.error {
+            border-left: 4px solid #FF3B30;
+        }
+
+        .notification.warning {
+            border-left: 4px solid #FF9500;
+        }
+
+        .notification.info {
+            border-left: 4px solid #007AFF;
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+        }
+
+        .notification.error .notification-icon {
+            color: #FF3B30;
+        }
+
+        .notification.warning .notification-icon {
+            color: #FF9500;
+        }
+
+        .notification.info .notification-icon {
+            color: #007AFF;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--notification-text);
+            transition: color 0.3s ease;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
+        /* Поиск игр */
+        .search-container {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .search-input {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100%;
+            background: var(--card-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.2);
+        }
+
+        .search-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-filter {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .search-filter:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .search-filter.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .logic-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .logic-toggle:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .logic-toggle.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .search-results {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            font-style: italic;
+        }
+
+        /* Контейнер для мета-информации и ссылок */
+        .game-footer {
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            width: 100%;
+            position: relative;
+            bottom: 0;
+            z-index: 1;
+            background-color: var(--card-bg);
+            padding-bottom: 5px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Контейнер для модального окна добавлен в конце body -->
+
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">By ROlil Studio</a>
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Вернуться на главную</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-title">
+            <h1>Все игры студии</h1>
+            <p>Ознакомьтесь с полным каталогом игр, разработанных нашей студией</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" id="gameSearch" placeholder="Поиск игр по названию, описанию, жанру, движку или дате выпуска...">
+            <div class="search-controls">
+                <div class="search-filters">
+                    <button class="search-filter" data-filter="kogama">Kogama</button>
+                    <button class="search-filter" data-filter="scratch">Scratch</button>
+                    <button class="search-filter" data-filter="gamejolt">GameJolt</button>
+                    <button class="search-filter" data-filter="2022">2022</button>
+                    <button class="search-filter" data-filter="2023">2023</button>
+                    <button class="search-filter" data-filter="2024">2024</button>
+                    <button class="search-filter" data-filter="horror">Хоррор</button>
+                    <button class="search-filter" data-filter="fnaf">FNaF-Пародии</button>
+                    <button class="search-filter" data-filter="other">Прочее</button>
+                </div>
+                <div class="logic-toggle" id="logicToggle">
+                    <i class="fas fa-code-branch"></i>
+                    <span>Логика: ИЛИ</span>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="horror">Хоррор</button>
+            <button class="filter-btn" data-filter="fnaf">FNaF-Пародии</button>
+            <button class="filter-btn" data-filter="other">Прочее</button>
+            <button class="filter-btn" data-filter="new">Новые</button>
+        </div>
+
+        <div class="games-grid">
+            <!-- Хоррор игры -->
+            <div class="game-card" data-category="horror">
+                <img src="https://www.kogstatic.com/gen_cache/c3/c9/c3c9c29c-6e5f-4a73-bd03-798ff530e62c_600x240.jpg" alt="One Night at Mille" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">One Night at Mille</h3>
+                    <p class="game-description">Вы устраиваетесь в пекарню Mille Magic Bakery механиком, чтобы заработать деньги, но в время вашей первой ночной смены случается жуткое..</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-ghost"></i>
+                                <span>Хоррор</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/one-night-at-mille-1/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="horror">
+                <img src="https://www.kogstatic.com/gen_cache/3c/57/3c574042-779d-49f9-9977-2c529715fae6_600x240.jpg" alt="One Night at Mille 2" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">One Night at Mille 2</h3>
+                    <p class="game-description">Вы снова возвращаетесь в пекарню Mille Magic Bakery, но теперь вас ждут новые испытания и загадки...</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2023</span>
+                            <div class="game-genre">
+                                <i class="fas fa-ghost"></i>
+                                <span>Хоррор</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/one-night-at-mille-2/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="horror">
+                <img src="https://www.kogstatic.com/gen_cache/02/a7/02a74da6-251f-410c-8fec-9d73c6baeca6_600x240.jpg" alt="One Night at Mille 3" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">One Night at Mille 3</h3>
+                    <p class="game-description">Вам позвонил ваш близкий друг и сообщил вам о том что нужна помощь. Вы как хороший друг сразу же согласились и приехали ему помочь.</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-ghost"></i>
+                                <span>Хоррор</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/one-night-at-mille-3/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="horror">
+                <img src="https://www.kogstatic.com/gen_cache/f5/d5/f5d5cbd2-ec87-49c8-9bc4-2b953e81ad0c_600x240.jpg" alt="One Night at Mille 4" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">One Night at Mille 4</h3>
+                    <p class="game-description">Ничего уже не осталось. Но вы всё равно вернулись сюда..</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-ghost"></i>
+                                <span>Хоррор</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/one-night-at-mille-4/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://m.gjcdn.net/game-thumbnail/500/927326-nqq7xnxe-v4.webp" alt="Five Nights at Stickmans" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Five Nights at Stickmans</h3>
+                    <p class="game-description">Погрузитесь в атмосферу мистического хоррора в роли ночного охранника психиатрической больницы. В этом месте, где пациенты не спят по ночам, а электричество имеет свойство внезапно отключаться, вам предстоит провести пять опасных ночей, пытаясь выжить и раскрыть тайны этого жуткого места.</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2024</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Scratch</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://gamejolt.com/games/FNAS/927326" class="btn game-link" target="_blank">GameJolt</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://m.gjcdn.net/game-thumbnail/500/927351-9wkyvrkh-v4.webp" alt="Five Nights at Stickmans 2" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Five Nights at Stickmans 2</h3>
+                    <p class="game-description">Продолжение захватывающего хоррора! После исчезновения первого охранника, вы занимаете его место в печально известной психиатрической больнице. Исследуйте новый этаж, встретьтесь с новыми стикманами и погрузитесь глубже в мрачную историю этого места. Сможете ли вы раскрыть тайну исчезновения вашего предшественника и выжить в этом кошмаре?</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2024</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Scratch</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://gamejolt.com/games/FNAS2/927327" class="btn game-link" target="_blank">GameJolt</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Прочие игры -->
+            <div class="game-card" data-category="fnaf">
+                <img src="https://i.ibb.co/RGhdB00s/Flash.jpg" alt="Flash" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Flash</h3>
+                    <p class="game-description">Вспышка - это ваш единственный проводник в тёмном мире старого склада, где аниматроники оживают по ночам.</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2024</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Scratch</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://scratch.mit.edu/projects/946644846/" class="btn game-link" target="_blank">Scratch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="other">
+                <img src="https://www.kogstatic.com/gen_cache/45/99/45992fe2-8c1f-43ca-82b2-8701933a4769_600x240.jpg" alt="Progress.." class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Progress..</h3>
+                    <p class="game-description">Попробуйте в одиночку одалеть всех персонажей By ROlil Studio чтобы получить ценные призы и добиться прогресса!</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-gamepad"></i>
+                                <span>RPG</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/10019747/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="other">
+                <img src="https://www.kogstatic.com/gen_cache/1a/d3/1ad386ca-db97-4cd7-9f2d-9e379f2b5b4e_600x240.png" alt="Lumber Tycoon" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Lumber Tycoon</h3>
+                    <p class="game-description">Поиграйте в настоящий лесопромишленный симулятор в Kogama! Покупайте новые топоры, рубите новые деревья, улучшайте свой дом!</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2024</span>
+                            <div class="game-genre">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Тайкун</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/lumber-tycoon/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FNaF-Пародии -->
+            <div class="game-card" data-category="fnaf">
+                <img src="https://i.ibb.co/N22vRPYC/Protect-Pikacky.png" alt="Protect Pikacky" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Protect Pikacky</h3>
+                    <p class="game-description">Переделанная история The New Time at Pikacky и скрытие детали которые ранее не были раскрыты!</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2024</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Scratch</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://scratch.mit.edu/projects/946644846/" class="btn game-link" target="_blank">Scratch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://www.kogstatic.com/gen_cache/8f/81/8f8159c4-6524-4326-b881-6539b880f454_600x240.jpg" alt="The New Time at Pikacky" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">The New Time at Pikacky</h3>
+                    <p class="game-description">Недавно открылась новая закусочная Happy Pikacky и вы решили устроиться в неё эк#########.. Ночным орхранником!</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/the-new-time-at-pikacky/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://www.kogstatic.com/gen_cache/b7/0e/b70e8ed5-5808-4c99-9df5-b92806b55a4b_600x240.jpg" alt="The Old Time at Pikacky" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">The Old Time at Pikacky</h3>
+                    <p class="game-description">Они оказались слишком сильны.. Вы не смогли одолеть то что ими управляет.. Это было поражение.. Компания наняла нового специалиста, который точно должен всё исправить..</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/the-old-time-at-pikacky/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://www.kogstatic.com/gen_cache/5d/26/5d26bffc-118e-48d3-a0ad-6791855296ae_600x240.jpg" alt="The Scrap Time at Pikacky" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">The Scrap Time at Pikacky</h3>
+                    <p class="game-description">Вы победили, тьма ушла. Но у них всё ещё есть тела. Тела которые всё ещё горят желанием мести..</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2023</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/the-scrap-time-at-pikacky/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://www.kogstatic.com/gen_cache/dd/f5/ddf5eff3-23c3-49a4-818b-f7c84eda6acc_600x240.jpg" alt="The Is Coffe!" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">The Is Coffe!</h3>
+                    <p class="game-description">Новая кофейня открыта! Всё было хорошо, пока маскотов не похитили. Вам предстоит найти маскотов кофейни и узнать что произашло.</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/the-is-coffe/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://www.kogstatic.com/gen_cache/08/e6/08e69bbf-bae3-4e5f-bca1-bce6879bb4bc_600x240.jpg" alt="The Is Coffe 2" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">The Is Coffe 2</h3>
+                    <p class="game-description">Мы не знали что по истине ими управляет. Ещё один искатель пришёл чтобы точно покончить с этим.</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/the-is-coffe-2/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fnaf">
+                <img src="https://www.kogstatic.com/gen_cache/a6/02/a60271ac-d168-43a4-86ed-98d28dcdf2fb_600x240.png" alt="Five Nights at RockStar" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Five Nights at RockStar</h3>
+                    <p class="game-description">Попробуйте себя в роли ночного охранника в заброшенной пицерии рок звезды, где по ночам оживают аниматроники!</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2024</span>
+                            <div class="game-genre">
+                                <i class="fas fa-robot"></i>
+                                <span>FNaF-Пародии</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/five-nights-at-rockstar/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="other">
+                <img src="https://www.kogstatic.com/gen_cache/5f/ed/5fed733c-4678-411b-bd19-0819c01169dc_600x240.jpg" alt="Tycoon Pets!" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Tycoon Pets!</h3>
+                    <p class="game-description">Поиграйте за хозяина магазина животных, улучшайте свой магазин, покупайте новые виды животных!</p>
+                    <div class="game-footer">
+                        <div class="game-meta">
+                            <span class="game-year">Дата выпуска игры: 2022</span>
+                            <div class="game-genre">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Тайкун</span>
+                            </div>
+                            <div class="game-engine">
+                                <i class="fas fa-code"></i>
+                                <span>Kogama</span>
+                            </div>
+                        </div>
+                        <div class="game-links">
+                            <a href="https://www.kogama.com/games/play/tycoon-pets/" class="btn game-link" target="_blank">Kogama</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 By ROlil Studio. Все права защищены.</p>
+            <p><a href="license-agreement.html" class="license-link">Лицензионное соглашение</a></p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно для просмотра изображений -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <img id="modalImage" class="modal-image" src="" alt="Увеличенное изображение">
+            <button class="modal-close">&times;</button>
+        </div>
+    </div>
+
+    <!-- Подключаем скрипты -->
+    <script>
+        // Глобальные переменные
+        const STUDIO_BIRTHDAY = new Date('2023-08-01');
+
+        // Получаем элементы модального окна
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.modal-close');
+
+        // Добавляем обработчики для всех изображений игр
+        document.querySelectorAll('.game-image').forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = "flex";
+                modalImg.src = this.src;
+            });
+        });
+
+        // Закрытие модального окна при клике на крестик
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = "none";
+        });
+
+        // Закрытие модального окна при клике вне изображения
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        // Закрытие модального окна по клавише Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && modal.style.display === "flex") {
+                modal.style.display = "none";
+            }
+        });
+
+        // Инициализация при загрузке страницы
+        document.addEventListener("DOMContentLoaded", () => {
+            // Функционал фильтрации игр
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const gameCards = document.querySelectorAll('.game-card');
+
+            // Обработчик нажатия на кнопки фильтров
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('Filter button clicked:', button.getAttribute('data-filter'));
+                    
+                    // Удаляем активный класс у всех кнопок
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Добавляем активный класс на нажатую кнопку
+                    button.classList.add('active');
+                    
+                    // Получаем значение фильтра
+                    const filterValue = button.getAttribute('data-filter');
+                    console.log('Filter value:', filterValue);
+                    
+                    // Фильтруем игры
+                    gameCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        console.log('Card category:', category, 'Filter value:', filterValue);
+                        
+                        if (filterValue === 'all') {
+                            card.style.display = '';
+                        } else if (filterValue === 'new') {
+                            // Логика для новых игр - например, показываем игры 2024 года
+                            const yearElement = card.querySelector('.game-year');
+                            if (yearElement && yearElement.textContent.includes('2024')) {
+                                card.style.display = '';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        } else if (filterValue === category) {
+                            console.log('Match found! Showing card:', card.querySelector('.game-title').textContent);
+                            card.style.display = '';
+                        } else {
+                            console.log('No match. Hiding card:', card.querySelector('.game-title').textContent);
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Функционал поиска игр
+            const searchInput = document.getElementById('gameSearch');
+            const searchFilters = document.querySelectorAll('.search-filter');
+            const logicToggle = document.getElementById('logicToggle');
+            const searchResults = document.getElementById('searchResults');
+            
+            let activeFilters = [];
+            let isOrLogic = true; // По умолчанию ИЛИ логика
+            
+            // Обработчик поиска при вводе текста
+            if (searchInput) {
+                searchInput.addEventListener('input', applySearch);
+            }
+            
+            // Обработчик нажатия на фильтры поиска
+            if (searchFilters) {
+                searchFilters.forEach(filter => {
+                    filter.addEventListener('click', () => {
+                        filter.classList.toggle('active');
+                        
+                        const filterValue = filter.getAttribute('data-filter');
+                        
+                        if (filter.classList.contains('active')) {
+                            // Добавляем фильтр в активные
+                            if (!activeFilters.includes(filterValue)) {
+                                activeFilters.push(filterValue);
+                            }
+                        } else {
+                            // Удаляем фильтр из активных
+                            activeFilters = activeFilters.filter(f => f !== filterValue);
+                        }
+                        
+                        applySearch();
+                    });
+                });
+            }
+            
+            // Обработчик переключения логики поиска (И/ИЛИ)
+            if (logicToggle) {
+                logicToggle.addEventListener('click', () => {
+                    isOrLogic = !isOrLogic;
+                    logicToggle.classList.toggle('active');
+                    logicToggle.querySelector('span').textContent = `Логика: ${isOrLogic ? 'ИЛИ' : 'И'}`;
+                    
+                    applySearch();
+                });
+            }
+            
+            // Функция применения поиска
+            function applySearch() {
+                const searchText = searchInput ? searchInput.value.toLowerCase() : '';
+                let visibleCount = 0;
+                
+                gameCards.forEach(card => {
+                    const gameTitle = card.querySelector('.game-title').textContent.toLowerCase();
+                    const gameDescription = card.querySelector('.game-description').textContent.toLowerCase();
+                    const gameEngine = card.querySelector('.game-engine span').textContent.toLowerCase();
+                    const gameGenre = card.querySelector('.game-genre span').textContent.toLowerCase();
+                    const gameYear = card.querySelector('.game-year').textContent.toLowerCase();
+                    const gameLink = card.querySelector('.game-link').getAttribute('href').toLowerCase();
+                    
+                    // Проверка на совпадение с текстовым поиском
+                    const matchesText = searchText === '' || 
+                        gameTitle.includes(searchText) || 
+                        gameDescription.includes(searchText) || 
+                        gameEngine.includes(searchText) || 
+                        gameGenre.includes(searchText) || 
+                        gameYear.includes(searchText);
+                    
+                    // Проверка на совпадение с активными фильтрами
+                    let matchesFilters = true;
+                    
+                    if (activeFilters.length > 0) {
+                        if (isOrLogic) {
+                            // ИЛИ логика - подходит, если соответствует хотя бы одному фильтру
+                            matchesFilters = activeFilters.some(filter => {
+                                // Проверка на соответствие движку
+                                if (filter.toLowerCase() === 'kogama' && gameEngine.toLowerCase().includes('kogama')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие scratch
+                                if (filter.toLowerCase() === 'scratch' && gameEngine.toLowerCase().includes('scratch')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие gamejolt
+                                if (filter.toLowerCase() === 'gamejolt' && (gameLink.includes('gamejolt') || gameLink.includes('gjcdn'))) {
+                                    return true;
+                                }
+                                // Проверка на соответствие жанру
+                                if (filter.toLowerCase() === 'horror' && gameGenre.toLowerCase().includes('хоррор')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие фнаф
+                                if (filter.toLowerCase() === 'fnaf' && gameGenre.toLowerCase().includes('fnaf')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие прочее
+                                if (filter.toLowerCase() === 'other' && 
+                                    !gameGenre.toLowerCase().includes('fnaf') && 
+                                    !gameGenre.toLowerCase().includes('хоррор')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие году
+                                if (filter === '2022' || filter === '2023' || filter === '2024') {
+                                    return gameYear.includes(filter);
+                                }
+                                return false;
+                            });
+                        } else {
+                            // И логика - подходит, если соответствует всем фильтрам
+                            matchesFilters = activeFilters.every(filter => {
+                                // Проверка на соответствие движку
+                                if (filter.toLowerCase() === 'kogama' && gameEngine.toLowerCase().includes('kogama')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие scratch
+                                if (filter.toLowerCase() === 'scratch' && gameEngine.toLowerCase().includes('scratch')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие gamejolt
+                                if (filter.toLowerCase() === 'gamejolt' && (gameLink.includes('gamejolt') || gameLink.includes('gjcdn'))) {
+                                    return true;
+                                }
+                                // Проверка на соответствие жанру
+                                if (filter.toLowerCase() === 'horror' && gameGenre.toLowerCase().includes('хоррор')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие фнаф
+                                if (filter.toLowerCase() === 'fnaf' && gameGenre.toLowerCase().includes('fnaf')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие прочее
+                                if (filter.toLowerCase() === 'other' && 
+                                    !gameGenre.toLowerCase().includes('fnaf') && 
+                                    !gameGenre.toLowerCase().includes('хоррор')) {
+                                    return true;
+                                }
+                                // Проверка на соответствие году
+                                if (filter === '2022' || filter === '2023' || filter === '2024') {
+                                    return gameYear.includes(filter);
+                                }
+                                return false;
+                            });
+                        }
+                    }
+                    
+                    // Общий результат поиска
+                    const isVisible = matchesText && matchesFilters;
+                    
+                    card.style.display = isVisible ? '' : 'none';
+                    
+                    if (isVisible) {
+                        visibleCount++;
+                    }
+                });
+                
+                // Обновляем результаты поиска
+                if (searchResults) {
+                    if (searchText || activeFilters.length > 0) {
+                        searchResults.textContent = `Найдено игр: ${visibleCount}`;
+                    } else {
+                        searchResults.textContent = '';
+                    }
+                }
+                
+                // Если нет результатов, показываем сообщение
+                if (visibleCount === 0 && (searchText || activeFilters.length > 0)) {
+                    if (!document.querySelector('.no-results')) {
+                        const noResults = document.createElement('div');
+                        noResults.className = 'no-results';
+                        noResults.textContent = 'Игры не найдены. Попробуйте изменить параметры поиска.';
+                        document.querySelector('.games-grid').appendChild(noResults);
+                    }
+                } else {
+                    const noResults = document.querySelector('.no-results');
+                    if (noResults) {
+                        noResults.remove();
+                    }
+                }
+            }
+            
+            // Активируем фильтр "Все" по умолчанию
+            const defaultFilter = document.querySelector('.filter-btn[data-filter="all"]');
+            if (defaultFilter) {
+                defaultFilter.click();
+            }
+            
+            // Инициализация переключателя темы
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Проверяем сохраненную тему или системные настройки
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Применяем тему
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            }
+            
+            // Обработчик клика по кнопке переключения темы
+            themeToggle.addEventListener('click', function() {
+                const isDarkTheme = document.body.getAttribute('data-theme') === 'dark';
+                
+                if (isDarkTheme) {
+                    document.body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.className = 'fas fa-moon';
+                } else {
+                    document.body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.className = 'fas fa-sun';
+                }
+                
+                // Отправляем сообщение другим открытым вкладкам о смене темы
+                broadcastThemeChange(isDarkTheme ? 'light' : 'dark');
+            });
+            
+            // Слушаем события хранилища для синхронизации тем между вкладками
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    const newTheme = e.newValue;
+                    if (newTheme === 'dark') {
+                        document.body.setAttribute('data-theme', 'dark');
+                        themeIcon.className = 'fas fa-sun';
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                        themeIcon.className = 'fas fa-moon';
+                    }
+                }
+            });
+        });
+
+        // Функция для отправки сообщения о смене темы другим вкладкам
+        function broadcastThemeChange(theme) {
+            localStorage.setItem('theme', theme);
+            // Устанавливаем метку времени для уверенности, что событие сработает
+            localStorage.setItem('theme_timestamp', new Date().getTime());
+        }
+    </script>
+</body>
+</html> 

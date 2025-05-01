@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>By ROlil Studio</title>
+    <link rel="icon" type="image/png" href="Website-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Навигационная панель */
+        .navbar {
+            background-color: var(--background-color);
+            box-shadow: var(--header-shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        :root {
+            --primary-color: #0066FF;
+            --accent-color: #6B46C1;
+            --background-color: #F8F9FA;
+            --text-color: #1A1A1A;
+            --white: #FFFFFF;
+            --transition: all 0.3s ease;
+            --error-color: #FF3B30;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --header-bg: #FFFFFF;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --footer-bg: #1A1A1A;
+            --footer-text: #FFFFFF;
+            --notification-bg: #FFFFFF;
+            --notification-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --notification-text: #666;
+            --theme-toggle-shadow: rgba(0, 102, 255, 0.2); /* Тень для кнопки темы */
+        }
+
+        body.dark-theme {
+            --primary-color: #6B9FFF;
+            --accent-color: #B39DFF;
+            --background-color: #1A1A1A;
+            --text-color: #E8E8E8;
+            --white: #2A2A2A;
+            --card-bg: #2A2A2A;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            --header-bg: #2A2A2A;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            --footer-bg: #1A1A1A;
+            --footer-text: #E8E8E8;
+            --notification-bg: #2A2A2A;
+            --notification-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            --notification-text: #CCCCCC;
+            --theme-toggle-shadow: rgba(107, 159, 255, 0.3); /* Тень для кнопки темы - темная */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: var(--card-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 6rem 0;
+            border-radius: 15px;
+            margin-top: 5rem;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            /* Используем --primary-color для свечения, совпадающего с фоном */
+            box-shadow: 0 0 10px var(--primary-color); /* Уменьшен радиус размытия */
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+             /* Тень также будет использовать --primary-color */
+            box-shadow: 0 0 10px var(--primary-color); /* Уменьшен радиус размытия */
+             transform: translateY(-2px);
+        }
+
+        .btn-gray {
+            background: #444;
+            color: var(--white);
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .btn-gray:hover {
+            background: #444;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .logo {
+                font-size: 3rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+            position: relative;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+}
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Birthday Progress Bar */
+        .birthday-progress {
+            width: 100%;
+            height: 10px;
+            background: var(--card-bg);
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .birthday-progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+        }
+
+        /* Birthday Sparks Effect */
+        .sparks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .spark {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 10px var(--primary-color),
+                0 0 20px var(--primary-color);
+        }
+
+        /* Стили для праздничных искр */
+        body.new-year-theme .spark {
+            background: #FFD700;
+            box-shadow: 
+                0 0 10px #FFD700,
+                0 0 20px #FFD700;
+        }
+
+        body.halloween-theme .spark {
+            background: #FF6600;
+            box-shadow: 
+                0 0 10px #FF6600,
+                0 0 20px #FF6600;
+        }
+
+        @keyframes sparkFall {
+            0% {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Birthday Message */
+        .birthday-message {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-align: center;
+            margin: 1rem 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Team Section */
+        .team {
+            background: var(--background-color);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-info {
+            padding: 1.5rem 0;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .team-portfolio {
+            margin-top: 1rem;
+        }
+
+        /* Games Section */
+        .games {
+            background: var(--background-color);
+        }
+
+        .games-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-description {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .all-games-btn {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* News Section */
+        .news {
+            background: var(--background-color);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-description {
+            margin-bottom: 1rem;
+        }
+
+        /* Utils Section */
+        .utils {
+            background: var(--background-color);
+        }
+
+        .utils-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .utils-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .utility-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .utility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .util-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--background-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .home-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+            background: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            display: block;
+            width: fit-content;
+            margin: 2rem auto 0;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .home-link:hover {
+            transform: translateX(-50%) translateY(-2px);
+            /* Используем --primary-color для свечения */
+            box-shadow: 0 0 10px var(--primary-color); /* Уменьшен радиус размытия */
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+                transform: translateY(-100%);
+                transition: var(--transition);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                display: flex;
+            }
+        }
+
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 350px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--notification-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: var(--notification-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .notification.error .notification-icon {
+            color: var(--error-color);
+        }
+        
+        .notification.warning .notification-icon {
+            color: var(--warning-color);
+        }
+        
+        .notification.success .notification-icon {
+            color: var(--success-color);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--notification-text);
+            transition: color 0.3s ease;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            margin-left: 10px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Уменьшенная тень по умолчанию */
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 10px var(--theme-toggle-shadow); /* Используем переменную для тени при наведении */
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Birthday Countdown */
+        .birthday-countdown {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .birthday-countdown:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .birthday-countdown .stat-number {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .birthday-countdown .stat-label {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .birthday-progress {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Sparks Toggle Button */
+        .sparks-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none; /* По умолчанию скрыта */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .sparks-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .sparks-toggle i {
+            font-size: 1.5rem;
+        }
+
+        .sparks-toggle.active {
+            background: var(--accent-color);
+        }
+        /* Праздничные темы */
+        /* Новогодняя тема - светлая */
+        body.new-year-theme:not(.dark-theme) {
+            --primary-color: #FFD700;
+            --accent-color: #FF0000;
+            --background-color: #F8F9FA;
+            --text-color: #1A1A1A;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+            --header-bg: #FFFFFF;
+            --header-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+            --footer-bg: #1A1A1A;
+            --footer-text: #FFFFFF;
+            --notification-bg: #FFFFFF;
+            --notification-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+            --notification-text: #666;
+            --white: #FFFFFF;
+            --theme-toggle-shadow: rgba(255, 215, 0, 0.3); /* Золотая тень */
+        }
+
+        /* Новогодняя тема - темная */
+        body.new-year-theme.dark-theme {
+            --primary-color: #FFD700;
+            --accent-color: #FF0000;
+            --background-color: #1a472a;
+            --text-color: #FFFFFF;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+            --header-bg: #1a472a;
+            --header-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+            --footer-bg: #1a472a;
+            --footer-text: #FFFFFF;
+            --notification-bg: rgba(255, 255, 255, 0.1);
+            --notification-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+            --notification-text: #FFFFFF;
+            --white: #2A2A2A;
+            --theme-toggle-shadow: rgba(255, 215, 0, 0.4); /* Золотая тень - темная */
+        }
+
+        /* Хэллоуинская тема - светлая */
+        body.halloween-theme:not(.dark-theme) {
+            --primary-color: #FF6600;
+            --accent-color: #660066;
+            --background-color: #FFF5E6;
+            --text-color: #4A4A4A;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 5px 15px rgba(255, 102, 0, 0.2);
+            --header-bg: #FFFFFF;
+            --header-shadow: 0 2px 10px rgba(255, 102, 0, 0.2);
+            --footer-bg: #1A1A1A;
+            --footer-text: #FFFFFF;
+            --notification-bg: #FFFFFF;
+            --notification-shadow: 0 5px 15px rgba(255, 102, 0, 0.2);
+            --notification-text: #666;
+            --white: #FFFFFF;
+            --theme-toggle-shadow: rgba(255, 102, 0, 0.3); /* Оранжевая тень */
+        }
+
+        /* Хэллоуинская тема - темная */
+        body.halloween-theme.dark-theme {
+            --primary-color: #FF6600;
+            --accent-color: #660066;
+            --background-color: #1a1a1a;
+            --text-color: #FFA500;
+            --card-bg: #2a2a2a;
+            --card-shadow: 0 5px 15px rgba(255, 102, 0, 0.2);
+            --header-bg: #1a1a1a;
+            --header-shadow: 0 2px 10px rgba(255, 102, 0, 0.2);
+            --footer-bg: #1a1a1a;
+            --footer-text: #FFA500;
+            --notification-bg: #2a2a2a;
+            --notification-shadow: 0 5px 15px rgba(255, 102, 0, 0.2);
+            --notification-text: #FFA500;
+            --white: #2A2A2A;
+            --theme-toggle-shadow: rgba(255, 102, 0, 0.4); /* Оранжевая тень - темная */
+        }
+
+        /* Стили для кнопки управления эффектами */
+        .effects-toggle {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .effects-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px var(--primary-color);
+        }
+
+        .effects-toggle i {
+            font-size: 1.5rem;
+        }
+
+        /* Стили для новогодней кнопки эффектов */
+        body.new-year-theme .effects-toggle {
+            background: #FFD700;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        body.new-year-theme .effects-toggle:hover {
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Стили для хэллоуинской кнопки эффектов */
+        body.halloween-theme .effects-toggle {
+            background: #FF6600;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+
+        body.halloween-theme .effects-toggle:hover {
+            box-shadow: 0 5px 20px rgba(255, 102, 0, 0.5);
+        }
+
+        /* Стили для кнопок в день рождения студии */
+        body .sparks-toggle {
+            background: var(--accent-color);
+            box-shadow: 0 5px 15px rgba(107, 70, 193, 0.3);
+        }
+
+        body .sparks-toggle:hover {
+            box-shadow: 0 5px 20px var(--accent-color);
+        }
+
+        body.new-year-theme .sparks-toggle {
+            background: #FF0000;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        body.halloween-theme .sparks-toggle {
+            background: #660066;
+            box-shadow: 0 5px 15px rgba(102, 0, 102, 0.3);
+        }
+
+        /* При отключенных эффектах изменяем вид кнопки */
+        body.effects-disabled .effects-toggle {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+        }
+
+
+        /* Снежный эффект */
+        .snowflake {
+            position: fixed;
+            top: -50px; /* Увеличиваем начальное смещение сверху */
+            color: white;
+            font-size: 1.5em;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: snowfall linear infinite;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0; /* Оставляем начальную прозрачность */
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 0; /* Начинаем невидимыми */
+            }
+            10% { 
+                opacity: 1; /* Появляемся */
+            }
+            90% { 
+                opacity: 1; /* Остаемся видимыми */
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0; /* Исчезаем */
+            }
+        }
+
+        /* Хэллоуинские эффекты */
+        .halloween-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            background: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(255, 102, 0, 0.1) 0%, 
+                    transparent 50%),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(102, 0, 102, 0.05) 10%,
+                    rgba(102, 0, 102, 0.05) 20%
+                );
+        }
+
+        /* Праздничные иконки */
+        .holiday-icon {
+            position: fixed;
+            font-size: 2.5em;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 998;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        /* Стили для отключения эффектов */
+        body.effects-disabled .snowflake,
+        body.effects-disabled .halloween-effect,
+        body.effects-disabled #sparksContainer {
+            display: none !important;
+        }
+
+        /* Запасные классы для иконок на случай проблем с Font Awesome */
+        .effects-toggle .emoji-icon {
+            line-height: 1;
+            font-style: normal;
+        }
+
+        .effects-toggle .emoji-snowflake::before {
+            content: "❄";
+        }
+
+        .effects-toggle .emoji-ghost::before {
+            content: "👻";
+        }
+
+        .effects-toggle .emoji-star::before {
+            content: "⭐";
+        }
+
+        .effects-toggle .emoji-star-empty::before {
+            content: "☆";
+        }
+
+        /* Специальное свойство для праздничной темы, чтобы она работала с тёмной темой */
+        body.new-year-theme.dark-theme,
+        body.halloween-theme.dark-theme {
+            --card-bg: rgba(42, 42, 42, 0.9);
+            --text-color: #F8F9FA;
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    <div class="sparks-container" id="sparksContainer"></div>
+
+    <div id="notification" class="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title">Информация</div>
+            <div class="notification-message">Сообщение</div>
+        </div>
+        <button class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    <button class="sparks-toggle" id="sparksToggle" style="display: none;">
+        <i class="fas fa-star"></i>
+    </button>
+
+    <!-- Добавляем кнопку управления эффектами -->
+    <button class="effects-toggle" id="effectsToggle">
+        <i class="fas fa-star"></i>
+    </button>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">By ROlil Studio</div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">О студии</a>
+                <a href="#team" class="nav-link">Команда</a>
+                <a href="#games" class="nav-link">Игры</a>
+                <a href="#news" class="nav-link">Новости</a>
+                <a href="#utils" class="nav-link">Утилиты</a>
+                <a href="#contact" class="nav-link">Контакты</a>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="logo">By ROlil Studio</h1>
+                <p class="hero-description">
+                    Студия, основанная 1 мая 2021 года, специализирующаяся на разработке программного обеспечения, 
+                    игр, музыки, видео, анимации и дизайна. Наша страсть — создание уникальных инди-игр.
+                </p>
+                <a href="#about" class="btn">Узнать больше</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">Статистика студии</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="stat-number">1 Мая 2021</div>
+                    <div class="stat-label">Дата основания</div>
+                </div>
+                <div class="about-card">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Проектов</div>
+                </div>
+                <div class="about-card">
+                    <div class="stat-number">19</div>
+                    <div class="stat-label">Игр</div>
+                </div>
+                <div class="about-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Расширений</div>
+                </div>
+                <div class="about-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Скрипт</div>
+                </div>
+                <div class="about-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Утилиты</div>
+                </div>
+            </div>
+            <div class="birthday-countdown">
+                <div class="stat-number" id="daysUntilBirthday">...</div>
+                <div class="stat-label">Дней до дня рождения студии</div>
+                <div class="birthday-progress">
+                    <div class="birthday-progress-bar" id="birthdayProgress"></div>
+                </div>
+                <div class="birthday-message" id="birthdayMessage" style="display: none;">
+                    Сегодня день рождения студии!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="section team">
+        <div class="container">
+            <h2 class="section-title">Наша команда</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-info">
+                        <h3 class="team-name">Morunka</h3>
+                        <div class="team-role">Основатель и ведущий разработчик</div>
+                        <p>Специализируется на разработке игр и программного обеспечения</p>
+                        <div class="team-portfolio">
+                            <a href="portfolio.html" class="btn btn-outline">Портфолио</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Добавьте больше карточек команды по необходимости -->
+            </div>
+        </div>
+    </section>
+
+    <section id="games" class="section games">
+        <div class="container">
+            <h2 class="section-title">Наши игры</h2>
+            <div class="games-grid">
+                <div class="game-card">
+                    <img src="TheRace_EN.png" alt="Racing Cars Adventures" class="game-image">
+                    <div class="game-info">
+                        <h3 class="game-title">Racing Cars Adventures</h3>
+                        <p class="game-description">Погрузитесь в захватывающий мир гонок! Соревнуйтесь с друзьями в режиме два игрока или совершенствуйте свои навыки в одиночной игре. Уникальная физика, разнообразные трассы и потрясающая графика ждут вас!</p>
+                        <div class="game-meta">
+                            <span>Жанр: <i class="fas fa-car"></i> Аркады, <i class="fas fa-ghost"></i> Хорроры</span>
+                        </div>
+                        <a href="#" class="btn btn-gray">Скоро будет</a>
+                    </div>
+                </div>
+            </div>
+            <div class="all-games-btn">
+                <a href="all-games.html" class="btn">Все игры студии</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="section news">
+        <div class="container">
+            <h2 class="section-title">Новости студии</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <i class="fab fa-telegram news-icon"></i>
+                    <h3 class="news-title">Основной канал</h3>
+                    <p class="news-description">Главный канал студии с последними новостями, обновлениями и эксклюзивным контентом</p>
+                    <a href="https://t.me/By_RORlil" class="btn" target="_blank">Перейти</a>
+                </div>
+                <div class="news-card">
+                    <i class="fab fa-telegram news-icon"></i>
+                    <h3 class="news-title">Five Nights at Stickmans</h3>
+                    <p class="news-description">Официальный канал хоррор-игры Five Nights at Stickmans! Следите за разработкой, узнавайте о новых персонажах и функциях первыми!</p>
+                    <a href="https://t.me/FNASBF" class="btn" target="_blank">Перейти</a>
+                </div>
+                <div class="news-card">
+                    <i class="fab fa-telegram news-icon"></i>
+                    <h3 class="news-title">C.L.I.P - Проект про ИИ</h3>
+                    <p class="news-description">Уникальный проект, где искусственный интеллект создает и публикует собственный контент! Следите за развитием ИИ в реальном времени</p>
+                    <a href="https://t.me/CLIP_Project_AI" class="btn" target="_blank">Перейти</a>
+                </div>
+                <div class="news-card">
+                    <i class="fab fa-telegram news-icon"></i>
+                    <h3 class="news-title">Сюжеты персонажей наших игр</h3>
+                    <p class="news-description">Погрузитесь в увлекательные истории персонажей, созданных нашей студией! Узнайте их тайны, мотивы и судьбы</p>
+                    <a href="https://t.me/BRSanon_bot" class="btn" target="_blank">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="utils" class="section utils">
+        <div class="container">
+            <h2 class="section-title">Утилиты, скрипты и расширения</h2>
+            <div class="utils-filters">
+                <button class="filter-btn active" data-filter="penguinmode">Расширения для Penguinmode</button>
+                <button class="filter-btn" data-filter="code">Скрипты</button>
+                <button class="filter-btn" data-filter="other">Утилиты</button>
+            </div>
+            <div class="utils-grid penguinmode-utils">
+                <div class="utility-card">
+                    <i class="fas fa-code util-icon"></i>
+                    <h3>Telegram API Pack</h3>
+                    <p>Расширение для работы с Telegram API</p>
+                    <a href="https://github.com/Morunka/Telegram-API-TurboWarp-Pack-Edition" class="btn" target="_blank">Скачать</a>
+                </div>
+                <div class="utility-card">
+                    <i class="fas fa-puzzle-piece util-icon"></i>
+                    <h3>Scratch API</h3>
+                    <p>Расширение для работы со Scratch API</p>
+                    <a href="https://github.com/Morunka/Files/blob/main/ScratchAPI-TW.js" class="btn" target="_blank">Скачать</a>
+                </div>
+                <div class="utility-card">
+                    <i class="fas fa-robot util-icon"></i>
+                    <h3>GeMini API</h3>
+                    <p>Расширение для взаимодействия с нейросетью GeMini через API</p>
+                    <a href="https://github.com/Morunka/Files/blob/main/GeMiniAPI-TW.js" class="btn" target="_blank">Скачать</a>
+                </div>
+            </div>
+            <div class="utils-grid code-utils" style="display: none;">
+                <div class="utility-card">
+                    <i class="fas fa-ban util-icon"></i>
+                    <h3>Disable Context Menu</h3>
+                    <p>Скрипт для отключения контекстного меню и выделения контента на веб-странице</p>
+                    <a href="https://github.com/Morunka/Morunka.github.io/blob/main/DisableContextMenu.js" class="btn" target="_blank">Скачать</a>
+                </div>
+            </div>
+            <div class="utils-grid other-utils" style="display: none;">
+                <div class="utility-card">
+                    <i class="fas fa-music util-icon"></i>
+                    <h3>TS3 Music Downloader</h3>
+                    <p>Утилита для скачивания всей музыки из популярной компьютерной игры The Sims 3</p>
+                    <a href="https://telegra.ph/How-to-use-TS3-Music-Downloader-03-25" class="btn" target="_blank">Скачать</a>
+                </div>
+                <div class="utility-card">
+                    <i class="fas fa-shield-alt util-icon"></i>
+                    <h3>UNMiner Tool</h3>
+                    <p>Утилита для предотвращения запуска майнеров на вашем компьютере</p>
+                    <a href="https://telegra.ph/How-to-user-UNMiner-Tool-03-25" class="btn" target="_blank">Скачать</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="social-links">
+                <a href="https://t.me/BRSanon_bot" class="social-link"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.youtube.com/@FNABRC" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="https://github.com/Morunka" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://scratch.mit.edu/users/By-ROlil-CO/" class="social-link"><i class="fas fa-code"></i></a>
+            </div>
+            <a href="home.html" class="home-link btn" style="display: inline-block; margin-top: 2rem;">Домашняя страница студии</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 By ROlil Studio. Все права защищены.</p>
+            <p><a href="license-agreement.html" class="license-link">Лицензионное соглашение</a></p>
+        </div>
+    </footer>
+
+    <script src="holiday-effects.js"></script>
+    <script>
+        // Notification System
+        function showNotification(type, title, message) {
+            const notification = document.getElementById('notification');
+            if (!notification) return; // Добавлена проверка на существование элемента
+            const icon = notification.querySelector('.notification-icon i');
+            const titleEl = notification.querySelector('.notification-title');
+            const messageEl = notification.querySelector('.notification-message');
+            const closeBtn = notification.querySelector('.notification-close'); // Получаем кнопку закрытия
+
+            if (!icon || !titleEl || !messageEl || !closeBtn) return; // Проверка на дочерние элементы
+            
+            // Remove all classes
+            notification.className = 'notification'; // Сбрасываем классы
+            notification.classList.add(type); // Добавляем нужный класс
+            
+            // Update icon
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else {
+                icon.className = 'fas fa-info-circle';
+            }
+            
+            // Update content
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Добавляем слушатель кнопки закрытия уведомления (если элемент существует)
+        const notificationCloseButton = document.querySelector('#notification .notification-close');
+        if (notificationCloseButton) {
+             notificationCloseButton.addEventListener('click', function() {
+                const notification = document.getElementById('notification');
+                if (notification) {
+                    notification.classList.remove('show');
+                }
+            });
+        }
+
+        
+        // Global error handler
+        window.onerror = function(message, source, lineno, colno, error) {
+            showNotification('error', 'Ошибка JavaScript', `${message} (в ${source}:${lineno})`);
+            return true; // Prevent default browser error handling
+        };
+        
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(event) {
+            const reason = event.reason || 'Неизвестная ошибка Promise';
+            showNotification('error', 'Ошибка Promise', reason);
+        });
+
+        // --- Глобальные переменные и константы ---
+        const STUDIO_BIRTHDAY = new Date('2021-05-01');
+        let isBirthdayDebugMode = false;
+        let isSparksEnabled = localStorage.getItem('sparksEnabled') !== 'false'; // Инициализируем сразу
+        let sparkInterval = null;
+
+        // --- Функции ---
+
+        // Функция для отправки сообщения о смене темы другим вкладкам
+        function broadcastThemeChange(theme) {
+            try { // Добавим try-catch для localStorage
+            localStorage.setItem('theme', theme);
+            localStorage.setItem('theme_timestamp', new Date().getTime());
+            } catch (e) {
+                console.error("Ошибка записи в localStorage:", e);
+                showNotification('error', 'Ошибка хранилища', 'Не удалось синхронизировать тему.');
+            }
+        }
+
+        // Анимация чисел в статистике
+        function animateStats() {
+        const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                if (stat.textContent.includes('Мая')) return; // Пропускаем дату
+                const targetText = stat.textContent.replace(/\D/g,''); // Убираем нечисловые символы
+                const target = parseInt(targetText);
+                if (isNaN(target)) return;
+
+                stat.textContent = '0'; // Начинаем с нуля
+                let current = 0;
+                const duration = 1000; // Длительность анимации в мс
+                const stepTime = 20; // Интервал обновления в мс
+                const steps = duration / stepTime;
+                const increment = target / steps;
+
+                const updateCount = () => {
+                        current += increment;
+                    if (current < target) {
+                        stat.textContent = Math.ceil(current);
+                        setTimeout(updateCount, stepTime);
+                    } else {
+                        stat.textContent = target; // Устанавливаем точное значение в конце
+                    }
+                };
+                updateCount();
+            });
+        }
+
+        // --- Функции для эффектов ---
+
+        function createSpark() {
+            const container = document.getElementById('sparksContainer');
+            if (!container || document.body.classList.contains('effects-disabled')) return; // Проверяем отключенные эффекты
+
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            spark.style.left = Math.random() * window.innerWidth + 'px';
+            const animationDuration = 2 + Math.random() * 2;
+            spark.style.animation = `sparkFall ${animationDuration}s linear forwards`;
+            
+            const currentHoliday = getCurrentHoliday();
+            let color;
+            
+            if (currentHoliday === 'new-year') {
+                const colors = ['#FFD700', '#FF0000', '#FFFF00', '#FFA500'];
+                color = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.width = 6 + Math.random() * 4 + 'px';
+                spark.style.height = spark.style.width;
+            } else if (currentHoliday === 'halloween') {
+                const colors = ['#FF6600', '#660066', '#FFA500', '#9932CC'];
+                color = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.width = 4 + Math.random() * 6 + 'px';
+                spark.style.height = spark.style.width;
+            } else { // День рождения или нет праздника (используем стандартные)
+                const colors = [getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+                                getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim()];
+                 color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+                spark.style.background = color;
+                spark.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+            
+            container.appendChild(spark);
+            
+            setTimeout(() => {
+                if (spark.parentNode === container) { // Удаляем только если искра еще существует и не была удалена
+                    container.removeChild(spark);
+                }
+            }, animationDuration * 1000); // Удаляем после завершения анимации
+        }
+
+        function startSparkEffect() {
+            if (sparkInterval || !isSparksEnabled || document.body.classList.contains('effects-disabled')) return; // Не запускать, если уже запущен, выключен или эффекты отключены глобально
+            stopSparkEffect(); // На всякий случай остановим предыдущий
+
+            const container = document.getElementById('sparksContainer');
+            if (container) container.style.display = 'block'; // Показываем контейнер
+
+            for(let i = 0; i < 10; i++) { // Начальные искры
+                setTimeout(() => createSpark(), i * 100);
+            }
+            
+            sparkInterval = setInterval(createSpark, 150); // Интервал для новых искр
+        }
+
+        function stopSparkEffect() {
+            if (sparkInterval) {
+                clearInterval(sparkInterval);
+                sparkInterval = null;
+            }
+            const container = document.getElementById('sparksContainer');
+            if (container) {
+                 container.style.display = 'none'; // Явно скрываем контейнер
+                 // container.innerHTML = ''; // Пока не будем очищать, чтобы избежать мерцания
+            }
+        }
+
+        function toggleSparks() {
+            const sparksToggle = document.getElementById('sparksToggle');
+            if (!sparksToggle) return;
+            const sparkIcon = sparksToggle.querySelector('i');
+            
+            isSparksEnabled = !isSparksEnabled;
+            localStorage.setItem('sparksEnabled', isSparksEnabled);
+            
+            if (isSparksEnabled && !document.body.classList.contains('effects-disabled')) {
+                startSparkEffect();
+                 if (sparkIcon) sparkIcon.className = 'fas fa-star';
+                sparksToggle.classList.add('active');
+                showNotification('info', 'Эффект искр', 'Включен');
+            } else {
+                stopSparkEffect();
+                if (sparkIcon) sparkIcon.className = 'far fa-star';
+                sparksToggle.classList.remove('active');
+                showNotification('info', 'Эффект искр', 'Выключен');
+            }
+        }
+
+        function updateBirthdayInfo() {
+            console.log("updateBirthdayInfo called");
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const studioBirthdayMonth = 4; // Май (0-январь, 4-май)
+            const studioBirthdayDay = 1;
+            
+            let nextBirthday = new Date(currentYear, studioBirthdayMonth, studioBirthdayDay);
+            // Устанавливаем время на начало дня для корректного сравнения
+            today.setHours(0, 0, 0, 0);
+            nextBirthday.setHours(0, 0, 0, 0);
+
+            if (today.getTime() >= nextBirthday.getTime()) { // Если ДР уже прошел в этом году
+                nextBirthday.setFullYear(currentYear + 1);
+            }
+
+            const oneDay = 1000 * 60 * 60 * 24;
+            const daysUntil = Math.ceil((nextBirthday.getTime() - today.getTime()) / oneDay);
+
+            // Простая проверка на близость ко Дню Рождения (сам день + 7 дней до)
+            const isBirthday = today.getMonth() === studioBirthdayMonth && today.getDate() === studioBirthdayDay;
+                        const isNearBirthday = isBirthday || isBirthdayDebugMode; // Убрали проверку 7 дней до
+            
+            console.log(`Today: ${today.toDateString()}, Next Birthday: ${nextBirthday.toDateString()}, Days Until: ${daysUntil}, isBirthday: ${isBirthday}, isNearBirthday: ${isNearBirthday}, isSparksEnabled: ${isSparksEnabled}, effectsDisabled: ${document.body.classList.contains('effects-disabled')}`); // DEBUG
+
+            // Расчет прогресса (без изменений)
+            const yearStart = new Date(nextBirthday.getFullYear() - 1, studioBirthdayMonth, studioBirthdayDay);
+            const daysSinceLast = Math.floor((today.getTime() - yearStart.getTime()) / oneDay);
+            const daysInCycle = Math.floor((nextBirthday.getTime() - yearStart.getTime()) / oneDay);
+            const progress = daysInCycle > 0 ? Math.max(0, Math.min(100, (daysSinceLast / daysInCycle) * 100)) : 0;
+
+            const daysElement = document.getElementById('daysUntilBirthday');
+            if (daysElement) daysElement.textContent = daysUntil;
+            
+            const progressBar = document.getElementById('birthdayProgress');
+            if (progressBar) progressBar.style.width = `${progress}%`;
+
+            const birthdayMessage = document.getElementById('birthdayMessage');
+            if (birthdayMessage) birthdayMessage.style.display = isBirthday || isBirthdayDebugMode ? 'block' : 'none';
+
+            const sparksToggle = document.getElementById('sparksToggle');
+            if (sparksToggle) {
+                sparksToggle.style.display = isNearBirthday ? 'flex' : 'none';
+                 // Управляем эффектом искр
+                 if (isNearBirthday && isSparksEnabled && !document.body.classList.contains('effects-disabled')) {
+                    // console.log("Calling startSparkEffect from updateBirthdayInfo"); // DEBUG
+                    startSparkEffect();
+            } else {
+                    // console.log("Calling stopSparkEffect from updateBirthdayInfo"); // DEBUG
+                stopSparkEffect();
+                 }
+            }
+        }
+
+        window.toggleBirthdayMode = function() { // Debug command
+            isBirthdayDebugMode = !isBirthdayDebugMode;
+            console.log('Birthday debug mode:', isBirthdayDebugMode);
+            updateBirthdayInfo();
+            showNotification('info','Режим дня рождения', isBirthdayDebugMode ? 'Включен' : 'Выключен');
+        };
+
+        function getCurrentHoliday() {
+            if (window.testHolidayMode) return window.testHolidayMode;
+            const now = new Date();
+            const month = now.getMonth(); // 0-11
+            const day = now.getDate();
+
+            if ((month === 11 && day >= 20) || (month === 0 && day <= 10)) return 'new-year'; // Расширим период
+            if (month === 9 && day >= 24 && day <= 31) return 'halloween'; // Октябрь 24-31
+            if (month === 4 && day === 1) return 'birthday'; // Только 1 мая
+            
+            return null;
+        }
+
+        function createSnowflakes() {
+            console.log("Creating snowflakes..."); // DEBUG
+            if (document.querySelectorAll('.snowflake').length > 0) {
+                 console.log("...snowflakes already exist, skipping creation."); // DEBUG
+                 return; 
+            }
+            const snowflakes = ['❄', '❅', '❆']; 
+            const container = document.body; 
+            for (let i = 0; i < 30; i++) { 
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Немного медленнее
+                snowflake.style.opacity = Math.random() * 0.5 + 0.3; // Менее яркие
+                snowflake.style.fontSize = (Math.random() * 1 + 1) + 'em'; // Разный размер
+                snowflake.style.animationDelay = Math.random() * 5 + 's'; // Разная задержка
+                container.appendChild(snowflake);
+            }
+        }
+
+        function removeSnowflakes() {
+            console.log("Removing snowflakes..."); // DEBUG
+            document.querySelectorAll('.snowflake').forEach(flake => flake.remove());
+        }
+
+        function createHalloweenEffects() {
+            console.log("Creating Halloween effects..."); // DEBUG
+            if (document.querySelector('.halloween-effect-container')) {
+                console.log("...Halloween effects already exist, skipping creation."); // DEBUG
+                return; 
+            }
+             const effectContainer = document.createElement('div');
+             effectContainer.className = 'halloween-effect-container'; 
+
+            const effect = document.createElement('div');
+            effect.className = 'halloween-effect';
+             effectContainer.appendChild(effect);
+
+             const icons = ['🎃', '👻', '🦇', '🕷️']; // Убрали паутину
+             for (let i = 0; i < 15; i++) { // Уменьшим количество
+                const icon = document.createElement('div');
+                icon.className = 'holiday-icon';
+                icon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                 icon.style.left = Math.random() * 90 + 5 + 'vw'; // Отступы по краям
+                 icon.style.top = Math.random() * 90 + 5 + 'vh';
+                 //icon.style.animationDelay = Math.random() * 3 + 's';
+                 icon.style.transform = `scale(${Math.random() * 0.5 + 0.7})`; // Разный размер
+                 effectContainer.appendChild(icon);
+             }
+             document.body.appendChild(effectContainer);
+             console.log("Halloween effects created."); // DEBUG
+        }
+
+         function removeHalloweenEffects() {
+            console.log("Removing Halloween effects..."); // DEBUG
+            const container = document.querySelector('.halloween-effect-container');
+            if(container) container.remove();
+         }
+
+        function setEffectsButtonIcon(button, holiday, enabled) {
+            console.log(`Setting effects button icon for holiday: ${holiday}, enabled: ${enabled}`); // DEBUG
+            if (!button) {
+                 console.warn("setEffectsButtonIcon: Button not provided"); // DEBUG
+                 return;
+            }
+            let icon = button.querySelector('i');
+            if (!icon) {
+                 icon = document.createElement('i');
+                 button.innerHTML = ''; 
+                 button.appendChild(icon);
+            }
+
+            const fontAwesomeAvailable = typeof FontAwesome !== 'undefined' || document.styleSheets.length > 0 && Array.from(document.styleSheets).some(s => s.href && s.href.includes('font-awesome'));
+            console.log(`FontAwesome available: ${fontAwesomeAvailable}`); // DEBUG
+
+            icon.className = ''; // Сброс классов
+            let iconClass = ''; // Переменная для хранения класса/текста
+
+            if (fontAwesomeAvailable) {
+                         if (holiday === 'halloween') iconClass = enabled ? 'fas fa-ghost' : 'fas fa-ghost'; 
+                 else if (holiday === 'new-year') iconClass = enabled ? 'fas fa-snowflake' : 'far fa-snowflake';
+                 else iconClass = enabled ? 'fas fa-star' : 'far fa-star'; 
+                 icon.className = iconClass;
+            } else { 
+                 icon.className = 'emoji-icon'; 
+                 if (holiday === 'halloween') iconClass = enabled ? '👻' : '💀'; 
+                 else if (holiday === 'new-year') iconClass = enabled ? '❄️' : '☃️';
+                 else iconClass = enabled ? '⭐' : '☆';
+                 icon.textContent = iconClass;
+            }
+             console.log(`Icon set to: ${iconClass}`); // DEBUG
+        }
+
+        function toggleHolidayEffects(enabled, holiday) {
+            console.log(`toggleHolidayEffects called with enabled: ${enabled}, holiday: ${holiday}`); 
+            // --- Управление эффектами --- 
+            if (holiday === 'new-year') {
+                if (enabled) {
+                    createSnowflakes();
+                    startSparkEffect(); // <--- Запускаем искры для НГ
+                } else {
+                    removeSnowflakes();
+                    stopSparkEffect(); // <--- Останавливаем искры для НГ
+                }
+                removeHalloweenEffects(); 
+            } else if (holiday === 'halloween') {
+                enabled ? createHalloweenEffects() : removeHalloweenEffects();
+                removeSnowflakes(); 
+                stopSparkEffect(); // <--- Останавливаем искры для Хэллоуина
+            } else { // birthday или null
+                 removeSnowflakes();
+                 removeHalloweenEffects();
+                 // Искрами ДР управляет updateBirthdayInfo, но остановим если эффекты выключены
+                 if (!enabled && holiday === 'birthday') {
+                      console.log("Calling stopSparkEffect from toggleHolidayEffects (birthday disabled)");
+                      stopSparkEffect();
+                 } else if (holiday !== 'birthday') {
+                      console.log("Calling stopSparkEffect from toggleHolidayEffects (not birthday)");
+                      stopSparkEffect(); // Останавливаем искры если не ДР и не НГ/Хэллоуин
+                 } else if (enabled && holiday === 'birthday') {
+                      console.log("Triggering updateBirthdayInfo for birthday sparks check");
+                      updateBirthdayInfo(); // Проверим, нужно ли запускать искры ДР
+                 }
+            }
+        }
+
+        // --- Дебаг-функции (для вызова из консоли) ---
+        window.testHolidayTheme = function(holiday) {
+            console.log(`Testing holiday theme: ${holiday}`);
+            window.clearHolidayEffects(); // Очищаем, но НЕ инициализируем тему здесь
+            window.testHolidayMode = holiday;
+            
+            const effectsToggle = document.getElementById('effectsToggle');
+            document.body.classList.remove('effects-disabled');
+            localStorage.setItem('effectsEnabled', 'true');
+
+            // Применяем тему и эффекты
+            if (holiday === 'new-year') {
+                document.body.classList.add('new-year-theme');
+                createSnowflakes();
+                startSparkEffect();
+                 if(effectsToggle) {
+                     effectsToggle.style.display = 'flex';
+                     setEffectsButtonIcon(effectsToggle, holiday, true);
+                 }
+            } else if (holiday === 'halloween') {
+                document.body.classList.add('halloween-theme');
+                createHalloweenEffects();
+                if(effectsToggle) {
+                     effectsToggle.style.display = 'flex';
+                     setEffectsButtonIcon(effectsToggle, holiday, true);
+                 }
+            } else if (holiday === 'birthday') {
+                window.isBirthdayDebugMode = true;
+                updateBirthdayInfo();
+                if(effectsToggle) effectsToggle.style.display = 'none';
+            } else {
+                console.log("Clearing holiday test mode.");
+                 if(effectsToggle) effectsToggle.style.display = 'none';
+            }
+
+            console.log("Calling final initializeTheme in testHolidayTheme"); // DEBUG
+            initializeTheme(); // Вызываем Итоговую инициализацию темы ЗДЕСЬ
+        }
+
+        window.clearHolidayEffects = function() {
+            console.log("Clearing holiday effects and test mode");
+            window.testHolidayMode = null;
+            window.isBirthdayDebugMode = false; 
+            
+            document.body.classList.remove('new-year-theme', 'halloween-theme', 'effects-disabled');
+            localStorage.setItem('effectsEnabled', 'true'); 
+            
+            removeSnowflakes();
+            removeHalloweenEffects();
+            stopSparkEffect(); 
+
+            const effectsToggle = document.getElementById('effectsToggle');
+            if (effectsToggle) {
+                 effectsToggle.style.display = 'none'; 
+            }
+            updateBirthdayInfo(); 
+            
+            // УБИРАЕМ initializeTheme() отсюда
+        }
+
+        // --- ЕДИНЫЙ ОБРАБОТЧИК DOMContentLoaded ---
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM Fully Loaded and Parsed - Initializing..."); 
+
+            try {
+                // Получение элементов (с проверками)
+                const themeToggle = document.getElementById('themeToggle');
+                // themeIcon получается внутри initializeTheme
+                const effectsToggle = document.getElementById('effectsToggle');
+                const sparksToggle = document.getElementById('sparksToggle');
+                const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+                const navLinks = document.querySelector('.nav-links');
+                const utilsFilterBtns = document.querySelectorAll('.utils-filters .filter-btn');
+                const aboutSection = document.querySelector('.about'); 
+                console.log("Elements fetched");
+
+                // ВЫЗОВ ГЛОБАЛЬНОЙ initializeTheme
+                initializeTheme(); 
+
+                // --- Обработчики событий для кнопок --- 
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', function() { 
+                        console.log("themeToggle clicked"); // DEBUG
+                        const isDarkTheme = document.body.classList.contains('dark-theme');
+                        
+                        // Определяем новую тему и обновляем localStorage
+                        const newTheme = isDarkTheme ? 'light' : 'dark';
+                        localStorage.setItem('theme', newTheme);
+                        
+                        // Просто вызываем initializeTheme, она сама все применит
+                        initializeTheme(); 
+                        
+                        // Показываем уведомление
+                        showNotification('info', 'Тема изменена', newTheme === 'dark' ? 'Тёмная тема' : 'Светлая тема');
+                        
+                        // Отправляем сообщение другим вкладкам
+                        broadcastThemeChange(newTheme);
+                    });
+                } else { console.warn("Theme toggle button not found"); }
+
+                if (sparksToggle) {
+                     sparksToggle.addEventListener('click', toggleSparks);
+                     const sparkIcon = sparksToggle.querySelector('i');
+                     if(sparkIcon) sparkIcon.className = isSparksEnabled ? 'fas fa-star' : 'far fa-star';
+                     sparksToggle.classList.toggle('active', isSparksEnabled);
+                } else { console.warn("Sparks toggle button not found"); }
+
+                // --- Настройка и слушатель effectsToggle --- 
+                if (effectsToggle) {
+                    console.log("Setting up effectsToggle..."); // DEBUG
+                    // --- Начальная настройка кнопки при загрузке --- 
+                    const initialHoliday = getCurrentHoliday();
+                    if (initialHoliday && initialHoliday !== 'birthday') {
+                        effectsToggle.style.display = 'flex';
+                        const initialEffectsEnabled = localStorage.getItem('effectsEnabled') !== 'false';
+                        document.body.classList.toggle('effects-disabled', !initialEffectsEnabled);
+                        setEffectsButtonIcon(effectsToggle, initialHoliday, initialEffectsEnabled);
+                        if (initialEffectsEnabled) {
+                            toggleHolidayEffects(true, initialHoliday);
+                        }
+                        console.log("EffectsToggle initial setup complete for holiday:", initialHoliday); // DEBUG
+                        } else {
+                        effectsToggle.style.display = 'none';
+                        console.log("EffectsToggle hidden initially (no holiday or birthday)."); // DEBUG
+                    }
+
+                    // --- Добавляем слушатель КЛИКА --- 
+                    effectsToggle.addEventListener('click', function(event) { // Добавляем event
+                        console.log("effectsToggle clicked! Target:", event.target); // DEBUG с event.target
+                        const holidayNow = window.testHolidayMode || getCurrentHoliday(); 
+                        if (holidayNow && holidayNow !== 'birthday') { 
+                            const isDisabled = document.body.classList.toggle('effects-disabled');
+                            const effectsEnabled = !isDisabled;
+                            localStorage.setItem('effectsEnabled', effectsEnabled);
+                            setEffectsButtonIcon(effectsToggle, holidayNow, effectsEnabled); 
+                            toggleHolidayEffects(effectsEnabled, holidayNow);
+                    } else {
+                             console.log("effectsToggle clicked, but no relevant holiday active now."); 
+                        }
+                    });
+                    console.log("EffectsToggle listener attached."); // DEBUG
+
+                } else { 
+                    console.warn("Effects toggle button not found"); 
+                } // Конец if (effectsToggle)
+
+                console.log("Button listeners phase complete."); // DEBUG
+
+                // ... (обработчик клика без изменений) ... 
+
+            } catch (error) {
+                console.error("Error during button/theme initialization:", error);
+                showNotification('error', 'Ошибка инициализации', 'Не удалось настроить кнопки.');
+            }
+
+            // --- Другие инициализации (обернуты в try-catch) --- 
+            try {
+                // Системное изменение темы
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                    if (!localStorage.getItem('theme')) { 
+                        initializeTheme(); // Вызываем определенную выше функцию
+                        broadcastThemeChange(e.matches ? 'dark' : 'light');
+                    }
+                });
+
+                // Синхронизация тем между вкладками
+                window.addEventListener('storage', function(e) {
+                     if (e.key === 'theme' || e.key === 'theme_timestamp') { initializeTheme(); } // Вызываем определенную выше функцию
+                     if (e.key === 'effectsEnabled') { /* ... код ... */ }
+                     if (e.key === 'sparksEnabled') { /* ... код ... */ }
+                });
+                console.log("Theme listeners attached");
+            } catch (error) {
+                console.error("Error attaching theme listeners:", error);
+            }
+
+            try {
+                // Intersection Observer для анимации появления секций
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log("Section intersecting:", entry.target.id); // DEBUG
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target); 
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.section').forEach(section => {
+                     if(section) {
+                         console.log("Observing section:", section.id); // DEBUG
+                         observer.observe(section); 
+                    } else {
+                         console.warn("Found null section during querySelectorAll");
+                     }
+                });
+                 console.log("IntersectionObserver set up");
+            } catch (error) {
+                 console.error("Error setting up IntersectionObserver:", error);
+                 showNotification('error', 'Ошибка анимации', 'Не удалось настроить анимацию секций.');
+            }
+
+            try {
+                // Плавная прокрутка для навигации
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        if (!href || href === '#') return;
+                        try { 
+                            const targetElement = document.querySelector(href);
+                            if(targetElement) {
+                                e.preventDefault(); 
+                                targetElement.scrollIntoView({ behavior: 'smooth' });
+                                // Закрываем мобильное меню (код без изменений)
+                                // ... 
+                            }
+                        } catch (error) {
+                            console.error(`Error scrolling to: ${href}`, error);
+                        }
+                    });
+                });
+                console.log("Smooth scroll attached");
+            } catch (error) {
+                 console.error("Error setting up smooth scroll:", error);
+            }
+            
+            try {
+                // Мобильное меню
+                const mobileMenuBtn = document.querySelector('.mobile-menu-btn'); // Переопределение для локальной видимости
+                const navLinks = document.querySelector('.nav-links'); // Переопределение
+                if (mobileMenuBtn && navLinks) {
+                    mobileMenuBtn.addEventListener('click', () => { /* ... код ... */ });
+                } else { console.warn("Mobile menu button or nav links not found"); }
+                console.log("Mobile menu attached");
+            } catch (error) {
+                 console.error("Error setting up mobile menu:", error);
+            }
+            
+            try {
+                // Фильтрация утилит (исправленные селекторы)
+                const utilsFilterBtns = document.querySelectorAll('.utils-filters .filter-btn'); 
+                const utilsGrids = {
+                     penguinmode: document.querySelector('.utils-grid.penguinmode-utils'), // Исправлено
+                     code: document.querySelector('.utils-grid.code-utils'), // Исправлено
+                     other: document.querySelector('.utils-grid.other-utils') // Исправлено
+                };
+                if (utilsFilterBtns.length > 0 && utilsGrids.penguinmode && utilsGrids.code && utilsGrids.other) {
+                     // ... код добавления слушателей и инициализации ...
+                     console.log("Utility filters set up");
+                } else {
+                    console.warn("Utility filter elements not fully found"); 
+                    // Возможно, стоит проверить HTML на наличие классов utils-grid И penguinmode-utils/code-utils/other-utils одновременно
+                }
+            } catch (error) {
+                 console.error("Error setting up utility filters:", error);
+            }
+
+            try {
+                // Анимация чисел в статистике
+                const aboutSection = document.querySelector('.about'); // Переопределение
+                if (aboutSection) {
+                    const statsObserver = new IntersectionObserver((entries) => {
+                         entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                console.log("About section intersecting, animating stats..."); // DEBUG
+                                animateStats();
+                                statsObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.2 }); 
+                    statsObserver.observe(aboutSection);
+                } else { console.warn("About section for stats animation not found"); }
+                console.log("Stats animation observer set up");
+            } catch (error) {
+                 console.error("Error setting up stats animation:", error);
+            }
+
+            try {
+                // Проверка дня рождения и запуск таймера
+                updateBirthdayInfo();
+                setInterval(updateBirthdayInfo, 1000 * 60); 
+                console.log("Birthday check and timer started");
+            } catch (error) {
+                console.error("Error starting birthday check timer:", error);
+            }
+
+            console.log("Initialization finished.");
+
+        }); // --- КОНЕЦ ЕДИНОГО ОБРАБОТЧИКА DOMContentLoaded --- 
+
+        // --- Функция инициализации темы (ГЛОБАЛЬНАЯ) ---
+        function initializeTheme() {
+            console.log("Initializing theme..."); 
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const currentHoliday = getCurrentHoliday();
+            const themeIcon = document.getElementById('themeToggle')?.querySelector('i'); 
+            
+            document.body.classList.remove('dark-theme', 'new-year-theme', 'halloween-theme'); 
+
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-theme');
+                if (themeIcon) themeIcon.className = 'fas fa-sun';
+                } else {
+                if (themeIcon) themeIcon.className = 'fas fa-moon';
+            }
+            
+            if (currentHoliday === 'new-year') {
+                document.body.classList.add('new-year-theme');
+            } else if (currentHoliday === 'halloween') {
+                document.body.classList.add('halloween-theme');
+            }
+            console.log("Theme initialized with classes:", document.body.className); 
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,3105 @@
+/* Стили для скроллбара */
+@keyframes gradientScroll {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientScrollFast {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 0% 50%; }
+    75% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Прелоадер */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #0ff;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Общие стили */
+body {
+    background-image: url('BRC-Background.jpg');
+    background-size: 100%;
+    background-position: top left;
+    background-repeat: repeat-y;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow-x: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    min-height: 100vh;
+    min-width: 1200px;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+body::-webkit-scrollbar {
+    width: 14px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #fff, #0ff, #fff, #0ff);
+    background-size: 300% 300%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 5px rgba(0, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    animation: gradientScroll 5s ease infinite;
+}
+
+body::-webkit-scrollbar-thumb:hover, 
+body::-webkit-scrollbar-thumb:active {
+    background-size: 300% 300%;
+    animation: gradientScrollFast 2s ease infinite;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 8px rgba(0, 255, 255, 0.9);
+}
+
+/* Добавляем стили для горизонтального скроллбара */
+body::-webkit-scrollbar-horizontal {
+    height: 14px;
+}
+
+body::-webkit-scrollbar-track:horizontal {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+body::-webkit-scrollbar-thumb:horizontal {
+    background: linear-gradient(45deg, #fff, #0ff, #fff, #0ff);
+    background-size: 300% 300%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 5px rgba(0, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    animation: gradientScroll 5s ease infinite;
+}
+
+body::-webkit-scrollbar-thumb:horizontal:hover, 
+body::-webkit-scrollbar-thumb:horizontal:active {
+    background-size: 300% 300%;
+    animation: gradientScrollFast 2s ease infinite;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 8px rgba(0, 255, 255, 0.9);
+}
+
+/* Возвращаем стандартную ширину и восстанавливаем позиционирование */
+html, body {
+    min-width: 1200px; /* Уменьшаем минимальную ширину */
+    overflow-x: auto;
+}
+
+/* Восстанавливаем стили для шапки и заголовка */
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3000;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* Центрируем логотип */
+#logo {
+    margin: 20px auto;
+    text-align: center;
+    font-size: 36px;
+    font-family: 'Orbitron', sans-serif;
+    color: rgba(0, 255, 255, 0.8);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Стили для контейнера кнопок */
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    position: fixed;
+    top: 95px;
+    left: 0;
+    width: 100%;
+    z-index: 2800;
+}
+
+/* Правила для рекламных блоков - возвращаем absolute */
+.ad-container {
+    position: absolute !important; /* Возвращаем absolute вместо fixed */
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    z-index: 50;
+    box-sizing: border-box;
+}
+
+/* Реклама справа (Telegram API) */
+.ad-container.telegram-api-ad {
+    right: 50px !important; /* Уменьшаем отступ */
+    left: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+}
+
+.ad-container.telegram-api-ad:hover {
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* Реклама слева (CLIP) */
+.ad-container.clip-ad {
+    left: 50px !important; /* Уменьшаем отступ */
+    right: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+}
+
+.ad-container.clip-ad:hover {
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* Второй рекламный баннер (Brave) */
+.ad-container.brave-ad {
+    right: 50px !important; /* Уменьшаем отступ */
+    left: auto !important;
+    top: 75% !important;
+    transform: translateY(-50%) !important;
+    margin-top: 200px !important;
+}
+
+.ad-container.brave-ad:hover {
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* Медиа-запросы для адаптивности */
+@media screen and (max-width: 1600px) {
+    .ad-container.telegram-api-ad {
+        right: 20px !important;
+    }
+    
+    .ad-container.clip-ad {
+        left: 20px !important;
+    }
+    
+    .ad-container.brave-ad {
+        right: 20px !important;
+    }
+}
+
+/* Поисковая панель */
+.search-container {
+    position: fixed;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    padding: 5px 15px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    z-index: 2900;
+}
+
+/* Кнопки прокрутки */
+.scroll-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 3500;
+}
+
+/* Стили для меню */
+.description-container, .links-container, .docs-container, .dev-container, .team-container, .extensions-container, .games-container, .utils-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s, top 0.3s;
+    width: 60%;
+    max-width: 700px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    color: white;
+}
+
+/* Лого */
+#logo {
+    color: #0ff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+#logo:hover {
+    text-shadow: 0 0 20px rgba(0, 255, 255, 1);
+    transform: scale(1.05);
+}
+
+/* Панель кнопок навигации - добавляем фиксированные стили */
+.button-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    position: fixed !important;
+    top: 70px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 1900 !important;
+    overflow-x: auto;
+    min-width: 1600px !important;
+    margin: 0 auto !important;
+}
+
+/* Поисковая строка - зафиксирована по центру */
+.search-container {
+    position: fixed !important;
+    top: 130px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1300 !important;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    width: auto;
+    min-width: 800px !important;
+    box-sizing: border-box;
+}
+
+/* Кнопки прокрутки - всегда в правом нижнем углу */
+.scroll-buttons {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    z-index: 2500 !important;
+    left: auto !important;
+}
+
+/* Контейнеры меню - чтобы не накладывались на рекламу */
+.description-container,
+.links-container,
+.docs-container,
+.dev-container,
+.team-container,
+.extensions-container,
+.games-container,
+.utils-container {
+    max-width: 650px !important;
+    z-index: 1000 !important;
+    position: absolute !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Правила для рекламных блоков - увеличенные отступы */
+.ad-container {
+    position: fixed !important;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    z-index: 50 !important;
+    box-sizing: border-box;
+}
+
+/* Реклама справа (Telegram API) */
+.ad-container.telegram-api-ad {
+    right: 350px !important;
+    left: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+}
+
+.ad-container.telegram-api-ad:hover {
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* Реклама слева (CLIP) */
+.ad-container.clip-ad {
+    left: 350px !important;
+    right: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+}
+
+.ad-container.clip-ad:hover {
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* Второй рекламный баннер (Brave) */
+.ad-container.brave-ad {
+    right: 350px !important;
+    left: auto !important;
+    top: 75% !important;
+    transform: translateY(-50%) !important;
+    margin-top: 200px !important;
+}
+
+.ad-container.brave-ad:hover {
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* Медиа-запрос для обеспечения адаптивности при очень маленьких экранах */
+@media screen and (max-width: 1800px) {
+    html, body {
+        min-width: 1800px !important;
+    }
+    
+    .header-container,
+    .button-container,
+    .footer {
+        min-width: 1800px !important;
+    }
+    
+    /* Увеличиваем отступы для рекламы еще больше на маленьких экранах */
+    .ad-container.telegram-api-ad {
+        right: 400px !important;
+    }
+    
+    .ad-container.clip-ad {
+        left: 400px !important;
+    }
+    
+    .ad-container.brave-ad {
+        right: 400px !important;
+    }
+}
+
+/* Логотип */
+h1 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 5px 0;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Кнопки навигации */
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.3s, border 0.3s, background-color 0.3s, box-shadow 0.3s;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.button.active {
+    border: 2px solid white;
+    background-color: #555;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.button.characters {
+    font-size: 10px;
+}
+
+.button.license {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+/* Описание */
+.description {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    margin: 10px;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.description strong {
+    font-weight: normal;
+}
+
+/* Описание */
+.description-container {
+    visibility: hidden;
+    opacity: 0;
+    display: block;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 70%;
+    max-width: 650px;
+    z-index: 1000;
+}
+
+.description-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+/* Игры - списки */
+.games-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 650px;
+    gap: 15px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.games-list.fade-in {
+    animation: slideIn 0.5s ease-in-out forwards;
+}
+
+/* Стиль для сообщений загрузки и ошибок */
+.games-list p {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+}
+
+/* Ссылки */
+.links-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 450px !important;
+    height: auto !important; /* Меняем с фиксированной высоты на auto */
+    min-height: 150px; /* Добавляем минимальную высоту */
+    padding-bottom: 80px; /* Увеличиваем отступ снизу для подменю телеграма */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.links-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    width: 450px;
+    height: 150px !important;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+
+.links-container.telegram-active {
+    width: 500px !important;
+    min-height: 400px !important;
+    height: auto !important;
+    padding: 15px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.links-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.link-icon {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    margin: 0 8px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    cursor: pointer;
+    z-index: 2;
+    transform: scale(1);
+}
+
+.link-icon:hover {
+    transform: scale(1.1) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.gamejolt {
+    background-image: url('https://img.icons8.com/color/50/000000/gamejolt.png');
+}
+
+.kogama {
+    background-image: url('Kogama.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.youtube {
+    background-image: url('https://img.icons8.com/color/50/000000/youtube-play.png');
+}
+
+.telegram {
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    transition: background-image 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.telegram.back {
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/back.png');
+    transform: translateX(0);
+}
+
+.scratch {
+    background-image: url('https://img.icons8.com/color/50/000000/scratch.png');
+}
+
+.link-icon.kogamafriends {
+    background-image: url('KogamaFriends.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.link-icon.kogamafriends:hover {
+    transform: scale(1.1);
+}
+
+.links-row.telegram-active .gamejolt,
+.links-row.telegram-active .kogama,
+.links-row.telegram-active .youtube,
+.links-row.telegram-active .scratch {
+    display: none;
+}
+
+.links-row.telegram-active .kogamafriends {
+    display: none;
+}
+
+/* Стили для подменю телеграма */
+.telegram-links {
+    display: none;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    max-width: 470px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    pointer-events: none;
+    position: relative;
+}
+
+.links-row.telegram-active .telegram-links {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    margin: 0 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.links-row.telegram-active .telegram-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 90px;
+    padding: 6px;
+    margin: 4px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 2px solid transparent;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    animation: buttonFadeIn 0.5s ease forwards;
+    font-size: 13px;
+}
+
+@keyframes buttonFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.links-row.telegram-active .telegram-link:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    background-color: #555;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Документы */
+.docs-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 250, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.docs-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.docs-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Разработка */
+.dev-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.dev-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.dev-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.dev-info h2 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.dev-info p {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.dev-info .more-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dev-info .more-btn:hover {
+    background-color: #555;
+    transform: scale(1.05);
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Команда */
+.team-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 400px;
+    max-height: none;
+    overflow-y: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+
+.team-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.team-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.team-member {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.team-member h3 {
+    color: #0ff;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.team-role {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.contact-icon {
+    width: 30px;
+    height: 30px;
+    background-image: url('https://img.icons8.com/color/50/000000/telegram-app.png');
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s ease !important;
+}
+
+.contact-icon:hover {
+    transition: transform 0.3s ease !important;
+    transform: scale(1.2);
+}
+
+.team-divider {
+    width: 80%;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 255, 255, 0), rgba(0, 255, 255, 0.75), rgba(0, 255, 255, 0));
+}
+
+.team-join {
+    margin-top: 20px;
+    color: white;
+    text-align: center;
+}
+
+.team-join a {
+    color: #0ff;
+    text-decoration: none;
+}
+
+.team-join a:hover {
+    text-decoration: underline;
+}
+
+/* Расширения */
+.extensions-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.extensions-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.extensions-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.extensions-list .extension-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: none !important;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: none !important;
+}
+
+.extensions-list .extension-link:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Игры */
+.games-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 70%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+
+.games-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.games-container.show {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.game-card {
+    width: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.game-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+    flex-wrap: wrap;
+}
+
+.game-title {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    width: 100%;
+    word-break: break-word;
+}
+
+.game-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.game-description {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 10px 0;
+    word-wrap: break-word;
+}
+
+.game-version, .game-engine {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.game-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-play-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.game-play-btn:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.game-year {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Утилиты */
+.utils-container {
+    display: block;
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+
+.utils-container.hide {
+    opacity: 0;
+    visibility: hidden;
+    top: 120%;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.utils-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.utils-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.utils-list p {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.utils-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.utils-item .telegram-link {
+    opacity: 1;
+    transform: scale(1);
+    text-align: center;
+    width: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: none !important;
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.utils-item .telegram-link:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.other-utils-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 5px;
+}
+
+.other-utils-text a {
+    color: #0ff;
+    text-decoration: none;
+    margin: 0;
+    transition: color 0.3s ease;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+}
+
+.other-utils-text a:after {
+    content: " ";
+    white-space: pre;
+}
+
+.other-utils-text a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Анимация для списка утилит */
+.utils-list.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Активные состояния */
+.games-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.games-active .games-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.utils-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.utils-active .utils-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.active .description-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.links-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.links-active .links-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.docs-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.docs-active .docs-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.dev-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.dev-active .dev-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.team-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.team-active .team-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.extensions-active .header-container {
+    top: 0;
+    transform: translateY(0);
+}
+
+.extensions-active .extensions-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+/* Пасхалка */
+.easter-egg {
+    position: fixed;
+    top: 10px;
+    right: -300px;
+    z-index: 10000;
+    transition: right 0.5s ease-in-out;
+}
+
+.easter-egg.active {
+    right: 10px;
+}
+
+.easter-egg img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Футер */
+.footer {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+    font-size: 12px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Медиа-запросы */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+    .button-container {
+        padding: 6px;
+        gap: 10px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        top: 50px;
+    }
+    .button {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+    .button.characters {
+        font-size: 9px;
+    }
+    .button.license {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .description-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        padding: 8px;
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.hide {
+        width: 300px;
+        height: 60px;
+    }
+    .links-container.telegram-active {
+        width: 350px;
+        height: auto;
+        min-height: 150px;
+        padding: 15px;
+    }
+    .team-container {
+        width: 300px;
+        max-height: 300px;
+        padding: 10px;
+    }
+    .games-container, .utils-container {
+        width: 300px;
+        padding: 10px;
+    }
+    .game-card {
+        min-height: 180px;
+    }
+    .description {
+        font-size: 14px;
+    }
+    .link-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .telegram.back {
+        transform: translateX(0);
+    }
+    .active .header-container,
+    .links-active .header-container,
+    .docs-active .header-container,
+    .dev-active .header-container,
+    .team-active .header-container,
+    .extensions-active .header-container,
+    .games-active .header-container,
+    .utils-active .header-container {
+        top: 0;
+    }
+    .scroll-button {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+    .dev-info h2 {
+        font-size: 18px;
+    }
+    .dev-info p {
+        font-size: 12px;
+    }
+    .dev-info .more-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .team-member h3 {
+        font-size: 16px;
+    }
+    .team-member .team-role {
+        font-size: 10px;
+    }
+    .team-member .contact-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .team-join {
+        font-size: 10px;
+    }
+    .game-title {
+        font-size: 16px;
+    }
+    .game-version, .game-engine {
+        font-size: 10px;
+    }
+    .game-description {
+        font-size: 12px;
+    }
+    .game-play-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .game-year {
+        font-size: 10px;
+    }
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .filter-input, .filter-select {
+        padding: 6px;
+        font-size: 12px;
+        width: 100px;
+    }
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .page-info {
+        font-size: 12px;
+    }
+    .utils-item .telegram-link {
+        width: 120px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    .extensions-list .telegram-link {
+        width: 120px;
+        padding: 8px;
+        font-size: 12px;
+    }
+    .other-utils-text {
+        font-size: 12px;
+    }
+    .footer {
+        font-size: 10px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+    .button-container {
+        padding: 4px;
+        gap: 8px;
+        top: 40px;
+    }
+    .button {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    .button.characters {
+        font-size: 8px;
+    }
+    .button.license {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+    .description-container {
+        max-width: 95%;
+        padding: 8px;
+    }
+    .links-container, .docs-container, .dev-container, .extensions-container {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.hide {
+        width: 250px;
+        height: 50px;
+    }
+    .links-container.telegram-active {
+        width: 300px;
+        min-height: 120px;
+        padding: 10px;
+    }
+    .team-container {
+        width: 250px;
+        max-height: 250px;
+        padding: 8px;
+    }
+    .games-container, .utils-container {
+        width: 250px;
+        padding: 8px;
+    }
+    .game-card {
+        min-height: 160px;
+    }
+    .description {
+        font-size: 12px;
+    }
+    .link-icon {
+        width: 35px;
+        height: 35px;
+    }
+    .scroll-button {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
+    .dev-info h2 {
+        font-size: 16px;
+    }
+    .dev-info p {
+        font-size: 10px;
+    }
+    .dev-info .more-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .team-member h3 {
+        font-size: 14px;
+    }
+    .team-member .team-role {
+        font-size: 9px;
+    }
+    .team-member .contact-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .team-join {
+        font-size: 8px;
+    }
+    .game-title {
+        font-size: 14px;
+    }
+    .game-version, .game-engine {
+        font-size: 8px;
+    }
+    .game-description {
+        font-size: 10px;
+    }
+    .game-play-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .game-year {
+        font-size: 8px;
+    }
+    .category-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .filter-input, .filter-select {
+        padding: 5px;
+        font-size: 10px;
+        width: 80px;
+    }
+    .page-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    .page-info {
+        font-size: 10px;
+    }
+    .utils-item .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .extensions-list .telegram-link {
+        width: 100px;
+        padding: 6px;
+        font-size: 10px;
+    }
+    .other-utils-text {
+        font-size: 10px;
+    }
+    .footer {
+        font-size: 8px;
+        padding: 10px;
+    }
+}
+
+/* Поисковая строка - зафиксирована по центру */
+.search-container {
+    position: fixed !important;
+    top: 130px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1300 !important;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    width: auto;
+    min-width: 800px !important;
+    box-sizing: border-box;
+}
+
+.search-input {
+    width: 750px;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    order: 2;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:hover,
+.search-input:focus {
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    outline: none;
+}
+
+.search-engine-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.search-engine-btn:hover {
+    transform: scale(1.1);
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.search-engine-btn.active {
+    border: none !important;
+    box-shadow: none !important;
+    transform: scale(1.1);
+}
+
+/* Линия под активной кнопкой */
+.search-engine-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+/* Специфичные стили для кнопок поисковых систем */
+.search-engine-btn[data-engine="google"] {
+    background-size: cover;
+}
+
+.search-engine-btn[data-engine="brave"] {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    background-size: 85%;
+    background-position: center;
+    background-repeat: no-repeat;
+    outline: none;
+}
+
+.search-engine-btn[data-engine="yandex"] {
+    background-size: 90%;
+}
+
+/* Кнопка поиска */
+.search-button {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #00f, #0ff);
+    cursor: pointer;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    order: 3;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background-image: url('https://img.icons8.com/ios-filled/50/ffffff/search.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.search-button:hover {
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Общие стили для контейнеров */
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: default;
+}
+
+/* Стили для информации о последнем обновлении */
+.last-update {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    z-index: 3100;
+    background-color: transparent; /* Убираем фон, т.к. он будет наследоваться от шапки */
+    padding: 5px 10px;
+}
+
+/* Стили для контейнера с временем и датой */
+.clock-container {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    text-align: center;
+    margin-right: 300px;
+    z-index: 1500;
+}
+
+#current-time {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+#current-date {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* Стили для контейнера ОС и браузера */
+.os-browser-container {
+    position: absolute;
+    top: 50%;
+    right: 520px;
+    transform: translateY(-50%);
+    text-align: center;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#os-icon {
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+    border-radius: 50%;
+}
+
+#os-name {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    margin-bottom: 5px;
+}
+
+/* Контейнер браузера */
+.browser-container {
+    position: absolute;
+    top: 50%;
+    right: 620px;
+    transform: translateY(-50%);
+    text-align: center;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#browser-icon {
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+    border-radius: 50%;
+}
+
+#browser-name {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* Фильтры и кнопки в играх */
+.games-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-btn:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.category-btn.active {
+    background-color: #555;
+    border: 2px solid white;
+}
+
+.filter-input {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    width: 120px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-input::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+.filter-input:hover, .filter-input:focus {
+    outline: none;
+    border-color: white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.filter-select {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #0ff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-select:hover, .filter-select:focus {
+    outline: none;
+    border-color: white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.page-btn:hover {
+    transform: scale(1.1);
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.page-btn:disabled {
+    background-color: #222;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.page-info {
+    color: white;
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Активные стили для всех */
+.active .description-container,
+.links-active .links-container,
+.docs-active .docs-container,
+.dev-active .dev-container,
+.team-active .team-container, 
+.extensions-active .extensions-container,
+.games-active .games-container,
+.utils-active .utils-container {
+    display: block;
+}
+
+/* Добавляю селектор для того, чтобы контейнер с описанием отображался при загрузке страницы */
+body.active .description-container {
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+/* Второй рекламный баннер */
+.ad-container.brave-ad {
+    right: 80px;
+    top: 75%;
+    transform: translateY(-50%);
+    margin-top: 200px;
+}
+
+.ad-container.brave-ad:hover {
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* Стили для фиксированных элементов при горизонтальной прокрутке */
+.header-container,
+.button-container,
+.footer,
+.last-update {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (min-width: 1921px) {
+    /* Стили для очень больших экранов */
+    body {
+        padding-top: 100px;
+    }
+
+    h1 {
+        font-size: 56px;
+    }
+
+    .button-container {
+        top: 85px;
+        padding: 10px;
+    }
+
+    .button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    #current-time {
+        font-size: 28px;
+    }
+
+    #current-date {
+        font-size: 14px;
+    }
+
+    #os-icon, #browser-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    #os-name, #browser-name {
+        font-size: 14px;
+    }
+
+    .search-container {
+        top: 150px;
+    }
+
+    .search-input {
+        width: 800px;
+    }
+
+    .search-engine-btn, .search-button {
+        width: 35px;
+        height: 35px;
+    }
+
+    .ad-container {
+        width: 350px;
+    }
+
+    .ad-container h3 {
+        font-size: 18px;
+    }
+
+    .ad-container p {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1367px) and (max-width: 1920px) {
+    /* Стили для стандартных десктопных экранов */
+    .os-browser-container {
+        right: 480px;
+    }
+
+    .browser-container {
+        right: 580px;
+    }
+
+    .clock-container {
+        margin-right: 250px;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1366px) {
+    /* Стили для ноутбуков и малых настольных экранов */
+    h1 {
+        font-size: 42px;
+    }
+
+    .os-browser-container {
+        right: 400px;
+    }
+
+    .browser-container {
+        right: 480px;
+    }
+
+    .clock-container {
+        margin-right: 200px;
+    }
+
+    .search-input {
+        width: 650px;
+    }
+
+    .ad-container {
+        width: 280px;
+    }
+
+    .ad-container.telegram-api-ad {
+        right: 60px;
+    }
+
+    .ad-container.clip-ad {
+        left: 60px;
+    }
+
+    .ad-container.brave-ad {
+        right: 60px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Стили для планшетов в горизонтальной ориентации */
+    h1 {
+        font-size: 36px;
+    }
+
+    .button-container {
+        padding: 6px;
+        gap: 10px;
+    }
+
+    .button {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .os-browser-container {
+        right: 320px;
+    }
+
+    .browser-container {
+        right: 400px;
+    }
+
+    .clock-container {
+        margin-right: 150px;
+    }
+
+    #os-icon, #browser-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    #current-time {
+        font-size: 22px;
+    }
+
+    .search-input {
+        width: 550px;
+    }
+
+    .ad-container {
+        width: 250px;
+    }
+
+    .ad-container.telegram-api-ad {
+        right: 40px;
+    }
+
+    .ad-container.clip-ad {
+        left: 40px;
+    }
+
+    .ad-container.brave-ad {
+        right: 40px;
+    }
+
+    .description-container, .links-container, .docs-container, .dev-container, .team-container, .extensions-container, .games-container, .utils-container {
+        width: 80%;
+        max-width: 700px;
+    }
+}
+
+/* Медиа-запрос для малых экранов, который включает горизонтальную прокрутку */
+@media (max-width: 1000px) {
+    html {
+        overflow-x: auto;
+    }
+    
+    /* Принудительно устанавливаем минимальную ширину для сохранения макета */
+    body {
+        min-width: 1000px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Существующие стили для мобильных устройств */
+    /* ... existing code ... */
+
+    /* Дополнительные улучшения для мобильных */
+    .header-container {
+        flex-direction: column;
+        padding-bottom: 5px;
+        min-width: 1000px;
+    }
+
+    .os-browser-container, .browser-container, .clock-container {
+        position: relative;
+        transform: none;
+        top: auto;
+        right: auto;
+        margin: 5px 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #os-icon, #browser-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 5px;
+        margin-bottom: 0;
+    }
+
+    #current-time {
+        font-size: 18px;
+        margin-bottom: 0;
+        margin-right: 5px;
+    }
+
+    .search-container {
+        top: 150px;
+        width: 95%;
+        min-width: 1000px;
+    }
+
+    .search-input {
+        width: calc(100% - 100px);
+    }
+
+    .ad-container {
+        width: 220px;
+        padding: 10px;
+    }
+
+    .ad-container.telegram-api-ad {
+        right: 20px;
+    }
+
+    .ad-container.clip-ad {
+        left: 20px;
+    }
+
+    .ad-container.brave-ad {
+        position: fixed;
+        right: 20px;
+        bottom: 40px;
+        top: auto;
+        transform: none;
+        margin-top: 0;
+    }
+
+    .ad-container img {
+        max-height: 80px;
+    }
+
+    .ad-container h3 {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .ad-container p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Стили для маленьких мобильных устройств */
+    /* При этом все равно сохраняем минимальную ширину в 1000px для горизонтальной прокрутки */
+    body {
+        padding-top: 60px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .button-container {
+        top: 40px;
+        padding: 4px;
+        gap: 5px;
+    }
+
+    .button {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .search-container {
+        top: 120px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .search-engine-btn {
+        margin: 0 3px;
+    }
+
+    .search-input {
+        width: 100%;
+        margin: 5px 0;
+        order: 3;
+    }
+
+    .search-button {
+        order: 4;
+    }
+
+    .ad-container {
+        width: 180px;
+        padding: 8px;
+    }
+
+    .ad-container h3 {
+        font-size: 12px;
+    }
+
+    .ad-container p {
+        font-size: 10px;
+    }
+
+    .ad-container.brave-ad {
+        display: none; /* Скрываем третий рекламный блок на очень маленьких экранах */
+    }
+
+    .last-update {
+        font-size: 10px;
+    }
+}
+
+/* Кнопки горизонтальной прокрутки */
+.scroll-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 2px solid white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 5px rgba(0, 255, 255, 0.7);
+}
+
+.scroll-button:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 10px rgba(0, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+/* Стили для рекламных изображений */
+.ad-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.ad-container h3 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.ad-container p {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Телеграм подменю - анимация для contact-icon */
+.links-row.telegram-active .contact-icon {
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+/* Базовые адаптивные стили для всех разрешений экрана */
+html, body {
+    min-width: 1000px; /* Уменьшаем минимальную ширину */
+    overflow-x: auto;
+    scroll-behavior: smooth; /* Плавная прокрутка */
+}
+
+/* Адаптивные стили для шапки */
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3000;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* Адаптивные медиа-запросы для разных разрешений экрана */
+@media screen and (min-width: 1601px) {
+    /* Большие экраны */
+    body {
+        background-size: cover;
+        padding-top: 100px;
+    }
+    
+    /* Реклама справа (Telegram API) */
+    .ad-container.telegram-api-ad {
+        right: 80px !important;
+    }
+    
+    /* Реклама слева (CLIP) */
+    .ad-container.clip-ad {
+        left: 80px !important;
+    }
+    
+    /* Второй рекламный баннер (Brave) */
+    .ad-container.brave-ad {
+        right: 80px !important;
+    }
+}
+
+@media screen and (min-width: 1201px) and (max-width: 1600px) {
+    /* Средние экраны */
+    body {
+        background-size: cover;
+        padding-top: 90px;
+    }
+    
+    /* Реклама справа (Telegram API) */
+    .ad-container.telegram-api-ad {
+        right: 50px !important;
+    }
+    
+    /* Реклама слева (CLIP) */
+    .ad-container.clip-ad {
+        left: 50px !important;
+    }
+    
+    /* Второй рекламный баннер (Brave) */
+    .ad-container.brave-ad {
+        right: 50px !important;
+    }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1200px) {
+    /* Маленькие экраны */
+    body {
+        background-size: cover;
+        padding-top: 80px;
+    }
+    
+    .description-container, .links-container, .docs-container, .dev-container, .team-container, .extensions-container, .games-container, .utils-container {
+        width: 75%;
+    }
+    
+    /* Реклама справа (Telegram API) */
+    .ad-container.telegram-api-ad {
+        right: 30px !important;
+        width: 250px;
+    }
+    
+    /* Реклама слева (CLIP) */
+    .ad-container.clip-ad {
+        left: 30px !important;
+        width: 250px;
+    }
+    
+    /* Второй рекламный баннер (Brave) */
+    .ad-container.brave-ad {
+        right: 30px !important;
+        width: 250px;
+    }
+}
+
+/* Общие стили для рекламных блоков */
+.ad-container {
+    position: absolute !important;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    z-index: 50;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Добавляем тень для лучшей видимости */
+}
+
+/* Стили для мобильных устройств и маленьких экранов */
+@media screen and (max-width: 768px) {
+    body {
+        background-size: cover;
+        padding-top: 60px;
+    }
+    
+    .header-container {
+        padding-bottom: 5px;
+    }
+    
+    #logo {
+        font-size: 24px;
+        margin: 10px auto;
+    }
+    
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        top: 60px;
+    }
+    
+    .button {
+        font-size: 14px;
+        padding: 8px 12px;
+        width: 200px;
+        text-align: center;
+    }
+    
+    .description-container, .links-container, .docs-container, .dev-container, .team-container, .extensions-container, .games-container, .utils-container {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .last-update {
+        font-size: 10px;
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+    }
+    
+    .ad-container {
+        position: static !important;
+        width: 90%;
+        margin: 20px auto;
+        transform: none !important;
+    }
+    
+    .ad-container.clip-ad, .ad-container.telegram-api-ad, .ad-container.brave-ad {
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        transform: none !important;
+    }
+    
+    .ad-container.clip-ad:hover, .ad-container.telegram-api-ad:hover, .ad-container.brave-ad:hover {
+        transform: scale(1.05) !important;
+    }
+    
+    .search-container {
+        width: 90%;
+        flex-wrap: wrap;
+        justify-content: center;
+        top: 180px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #logo {
+        font-size: 20px;
+    }
+    
+    .button {
+        font-size: 12px;
+        padding: 6px 10px;
+        width: 180px;
+    }
+    
+    .search-container {
+        top: 210px;
+    }
+}
+
+/* Стили для блока с сообщением о мобильной версии */
+.mobile-warning {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-warning h2 {
+    color: rgba(0, 255, 255, 0.8);
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.mobile-warning p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    max-width: 80%;
+}
+
+.mobile-warning a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #0ff, #00f, #0ff);
+    background-size: 200% 200%;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    animation: gradientScroll 3s ease infinite;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.mobile-warning .close-warning {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.mobile-warning .close-warning:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+/* Улучшенные стили для мобильной версии */
+@media screen and (max-width: 999px) {
+    /* Основные стили для мобильного режима */
+    html, body {
+        min-width: auto !important;
+        width: 100% !important;
+        overflow-x: hidden !important; /* Предотвращаем горизонтальную прокрутку на мобильных */
+    }
+    
+    body {
+        padding-top: 150px;
+    }
+    
+    /* Стили для мобильной шапки */
+    .header-container {
+        height: auto;
+        padding: 10px 0;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    /* Мобильное меню в виде бургера */
+    .button-container {
+        position: relative;
+        top: auto;
+        flex-direction: column;
+        width: 100%;
+        padding: 5px;
+        gap: 5px;
+        margin-top: 5px;
+    }
+    
+    /* Мобильный режим для рекламных блоков - размещаем их внизу страницы в столбик */
+    .ad-container {
+        position: relative !important;
+        width: 90% !important;
+        max-width: 300px;
+        margin: 15px auto !important;
+        transform: none !important;
+    }
+    
+    /* Мобильное расположение рекламных блоков */
+    .ad-container.telegram-api-ad,
+    .ad-container.clip-ad,
+    .ad-container.brave-ad {
+        left: 50% !important;
+        right: auto !important;
+        top: auto !important;
+        transform: translateX(-50%) !important;
+        margin-top: 20px !important;
+    }
+    
+    /* Мобильные стили для описания */
+    .description {
+        font-size: 14px;
+        line-height: 1.4;
+        padding: 10px;
+    }
+    
+    /* Мобильные стили для меню */
+    .description-container, 
+    .links-container, 
+    .docs-container, 
+    .dev-container, 
+    .team-container, 
+    .extensions-container, 
+    .games-container, 
+    .utils-container {
+        width: 95%;
+        max-width: none;
+        padding: 15px;
+        margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    /* Мобильные стили для поисковой строки */
+    .search-container {
+        width: 95%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        padding: 5px;
+        top: 140px;
+    }
+    
+    .search-input {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    /* Мобильные стили для кнопок прокрутки */
+    .scroll-buttons {
+        bottom: 20px;
+        right: 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Ещё более узкие экраны (смартфоны) */
+@media screen and (max-width: 480px) {
+    #logo {
+        font-size: 18px;
+        padding: 5px;
+    }
+    
+    .button {
+        font-size: 12px;
+        padding: 6px;
+        width: 90%;
+    }
+    
+    .search-container {
+        top: 170px;
+    }
+    
+    /* Уменьшаем размеры для очень маленьких экранов */
+    .button-container {
+        gap: 3px;
+    }
+    
+    /* Уменьшаем рекламные блоки */
+    .ad-container {
+        max-width: 250px;
+        padding: 10px;
+    }
+    
+    /* Скрываем некоторые декоративные элементы */
+    .os-browser-container,
+    .browser-container,
+    .clock-container {
+        display: none;
+    }
+}
+
+/* Базовые классы для переключения версий */
+.mobile-version {
+    overflow-x: hidden !important;
+    min-width: auto !important;
+    width: 100% !important;
+}
+
+.desktop-version {
+    min-width: 1000px;
+}
+
+/* Стили для элементов в мобильной версии */
+.mobile-version .header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 3000;
+}
+
+.mobile-version .last-update {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 10px;
+}
+
+.mobile-version #logo {
+    font-size: 22px;
+    margin: 5px 0;
+}
+
+.mobile-version .button-container {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    width: 100%;
+    padding: 0 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+.mobile-version .button {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.mobile-version .search-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px;
+    z-index: 3000;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+.mobile-version .search-input {
+    width: calc(100% - 80px);
+    margin: 0;
+}
+
+.mobile-version .search-engine-btn {
+    width: 20px;
+    height: 20px;
+}
+
+.mobile-version .search-button {
+    width: 30px;
+    height: 30px;
+}
+
+.mobile-version .scroll-buttons {
+    right: 10px;
+    bottom: 70px;
+}
+
+/* Стили для меню в мобильной версии */
+.mobile-version .description-container, 
+.mobile-version .links-container, 
+.mobile-version .docs-container, 
+.mobile-version .dev-container, 
+.mobile-version .team-container, 
+.mobile-version .extensions-container, 
+.mobile-version .games-container, 
+.mobile-version .utils-container {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60%;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin-top: 80px;
+    padding-bottom: 100px; /* Больше места для содержимого и подменю */
+}
+
+/* Стили для ссылок Telegram в мобильной версии */
+.mobile-version .links-row.telegram-active .telegram-links {
+    padding-bottom: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.mobile-version .links-row.telegram-active .telegram-link {
+    width: 100%;
+    margin: 4px 0;
+    text-align: center;
+}
+
+/* Стили для рекламных блоков в мобильной версии */
+.mobile-version .ad-container {
+    position: relative !important;
+    width: 90% !important;
+    max-width: 280px;
+    margin: 15px auto !important;
+    transform: none !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.mobile-version .ad-container.telegram-api-ad,
+.mobile-version .ad-container.clip-ad,
+.mobile-version .ad-container.brave-ad {
+    position: static !important;
+    margin: 20px auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+}
+
+.game-links {
+    margin-top: 1rem;
+}
+
+.game-links p {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.game-link {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.game-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.code-utils {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .game-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .game-link {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        text-align: center;
+    }
+}

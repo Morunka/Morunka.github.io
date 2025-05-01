@@ -1,0 +1,5437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link rel="icon" type="image/png" href="Website-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0066FF;
+            --accent-color: #6B46C1;
+            --background-color: #F8F9FA;
+            --text-color: #1A1A1A;
+            --white: #FFFFFF;
+            --transition: all 0.3s ease;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --header-bg: #FFFFFF;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            --footer-bg: #1A1A1A;
+            --footer-text: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #6B9FFF;
+            --accent-color: #B39DFF;
+            --background-color: #1A1A1A;
+            --text-color: #E8E8E8;
+            --white: #2A2A2A;
+            --card-bg: #2A2A2A;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            --header-bg: #2A2A2A;
+            --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        #backgroundOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Под основным контентом, но над фоном body */
+            pointer-events: none; /* Чтобы не мешал кликам */
+            background-color: transparent; /* Изначально прозрачный */
+            backdrop-filter: none; /* Изначально без размытия */
+            transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+        }
+
+        /* Затемнение для фонового изображения */
+        /* body::before { ... } */ /* Стиль для body::before больше не нужен */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Поисковик в стиле Google */
+        .search-section {
+            background: none;
+            box-shadow: none;
+            padding: 2rem 0;
+            margin-bottom: 1rem; /* Уменьшено расстояние между поиском и быстрым доступом */
+            text-align: center;
+        }
+
+        .search-section:hover {
+            transform: none;
+            box-shadow: none;
+            opacity: 1;
+        }
+
+        .search-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-form {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Улучшения поисковой секции */
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 30px;
+            border: 2px solid var(--accent-color);
+            background: var(--bg-color-secondary);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .search-engines {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-engine-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            background: var(--bg-color-secondary);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .search-engine-btn.active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .search-engine-btn img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            font-size: 0; /* Убираем текст у картинок */
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: var(--accent-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .search-icon[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .search-mic-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Добавляем плавный переход для scale */
+        }
+
+        .search-mic-icon:hover {
+            /* color: #FF3B30; */ /* Убираем красный цвет при наведении */
+            color: var(--accent-color); /* Добавляем цвет как у иконки поиска */
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        /* Настройка прозрачности панелей */
+        .panel-opacity-controls {
+            position: fixed;
+            bottom: 150px;
+            right: 20px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .panel-opacity-controls:hover {
+            transform: scale(1.1);
+        }
+
+        .panel-opacity-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .panel-opacity-modal.show {
+            display: flex;
+        }
+
+        .panel-opacity-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .panel-opacity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-opacity-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .panel-opacity-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .panel-opacity-settings {
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-opacity-item {
+            margin-bottom: 1rem;
+        }
+
+        .panel-opacity-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .panel-opacity-slider {
+            width: 100%;
+            height: 8px;
+            background: var(--background-color);
+            border-radius: 10px;
+            appearance: none;
+            outline: none;
+        }
+
+        .panel-opacity-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Настройка интерфейса */
+        .interface-settings {
+            position: fixed;
+            bottom: 220px;
+            right: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .interface-settings:hover {
+            transform: scale(1.1);
+        }
+
+        .interface-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .interface-modal.show {
+            display: flex;
+        }
+
+        .interface-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .interface-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .interface-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .interface-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .interface-option {
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .interface-option-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .interface-option-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-label {
+            font-size: 0.9rem;
+        }
+
+        /* Меню настроек */
+        .menu-toggle {
+            position: fixed;
+            bottom: 290px;
+            right: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .collapsible-section {
+            background: var(--bg-color-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .section-content {
+            opacity: 0.95;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-content:hover {
+            opacity: 1;
+        }
+
+        /* Стили для свернутых секций */
+        .collapsible-section.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden;
+            pointer-events: none; /* Запрещаем взаимодействие со скрытыми элементами */
+            display: none; /* Полностью скрываем свернутые элементы */
+        }
+
+        /* Информация о пользователе */
+        .user-info-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .user-info-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .toggle-ip-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* Меню закладок */
+        .bookmarks-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bookmarks-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .bookmark-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .bookmark-inputs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .bookmark-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .bookmark-name-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .bookmarks-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bookmarks-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .bookmark-item, .note-item {
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bookmark-item:hover, .note-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .bookmark-item::before, .note-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .bookmark-item:hover::before, .note-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .bookmark-info {
+            flex: 1;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .bookmark-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--primary-color);
+        }
+
+        .bookmark-url {
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .bookmark-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 0.5rem;
+        }
+
+        .bookmark-action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .edit-action-btn {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .delete-action-btn {
+            background: #FF3B30;
+            color: var(--white);
+        }
+
+        /* Панель заметок */
+        .notes-section {
+            /* background: var(--card-bg); */ /* Убираем фон */
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */ /* Убираем тень */
+            /* transition: none; */ /* Убираем transition, т.к. нет hover эффекта */
+        }
+
+        /* Убираем hover эффекты для секции заметок */
+        .notes-section:hover {
+             transform: none;
+             box-shadow: none;
+        }
+
+        /* Центрируем заголовок заметок */
+        .notes-section h2 {
+             text-align: center;
+             /* Возможно, стоит убрать нижнюю линию отсюда, если она мешает */
+             /* &::after { content: none; } */
+        }
+
+        .note {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .note:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .note-input {
+            padding: 0.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--background-color);
+            color: var(--text-color);
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .note-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .note-status {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .note-status.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .emoji-picker {
+            position: relative;
+            z-index: 10;
+        }
+
+        .emoji-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .emoji-list.show {
+            display: grid;
+        }
+
+        .emoji-item {
+            cursor: pointer;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .notes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .note-item {
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-content {
+            margin-bottom: 1rem;
+            color: #000000; /* Фиксированный цвет текста */
+        }
+
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .note-date {
+            color: #000000; /* Фиксированный цвет текста для даты */
+        }
+
+        .delete-btn {
+            padding: 0.5rem 1rem;
+            background: #FF3B30;
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .delete-all-btn {
+            padding: 0.5rem 1rem;
+            background: #FF3B30;
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* Форматирование текста */
+        .text-formatting {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center; /* Центрируем кнопки по горизонтали */
+        }
+
+        /* Новая карточка для кнопок форматирования */
+        .formatting-card {
+             background: var(--card-bg); /* Фон как у карточек */
+             padding: 1rem;
+             border-radius: 10px; /* Скругление */
+             box-shadow: var(--card-shadow); /* Тень как у карточек */
+             margin-bottom: 1.5rem; /* Отступ снизу */
+             /* Можно добавить border, если нужно */
+             /* border: 1px solid var(--border-color); */
+        }
+
+        .format-btn {
+            padding: 0.8rem 1rem; /* Увеличиваем паддинг */
+            background: var(--background-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1rem; /* Увеличиваем размер шрифта */
+            transition: var(--transition); /* Добавляем плавный переход */
+        }
+
+        .format-btn:hover {
+             background: var(--primary-color-light); /* Легкий фон при наведении */
+             color: var(--white);
+        }
+
+        .format-btn.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Стили для редактирования закладок */
+        .bookmark-edit-form {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .bookmark-edit-form.show {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .bookmark-edit-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .bookmark-edit-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .bookmark-edit-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Стили для редактирования заметок */
+        .note-edit-form {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .note-edit-form.show {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .note-edit-input {
+            padding: 0.5rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .note-edit-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .note-edit-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Модальное окно подтверждения */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* Навигация */
+        .nav {
+            background: var(--header-bg);
+            box-shadow: var(--header-shadow);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative; /* Добавлено для псевдоэлемента */
+        }
+
+        .nav-link:hover {
+            /* color: var(--primary-color); */ /* Убираем синий цвет при наведении */
+            color: var(--text-color); /* Используем основной цвет текста */
+        }
+
+        /* Анимация подчеркивания для nav-link */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Переключатель темы */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Дата и время */
+        .datetime-section {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            background: none;
+            box-shadow: none;
+        }
+
+        .datetime-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .time {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .date {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .daily-wish {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .copy-time-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+            transition: color 0.3s ease;
+        }
+
+        .copy-time-btn:hover {
+            color: var(--accent-color);
+        }
+
+        /* Стили для выбора статуса в существующих заметках */
+        .note-status-select {
+            padding: 0.5rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* Футер */
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .license-link {
+            color: var(--footer-text); /* Используем переменную для цвета текста футера */
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            /* Добавляем подчеркивание при наведении, как в index.html */
+            position: relative; 
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+            /* Можно добавить эффект подчеркивания, если он был в index.html */
+            /* text-decoration: underline; */
+        }
+
+        /* Убираем подчеркивание из index.html, если оно не нужно */
+        .license-link::after {
+             content: none; /* Убираем возможное псевдо-подчеркивание */
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .background-settings:hover {
+            transform: scale(1.1);
+        }
+
+        .background-settings i {
+            font-size: 1.5rem;
+        }
+
+        .background-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .background-modal.show {
+            display: flex;
+        }
+
+        .background-modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .background-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .background-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .background-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .background-upload {
+            margin-bottom: 1.5rem;
+        }
+
+        .background-upload-label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1rem;
+        }
+
+        .background-upload-label:hover {
+            background: var(--accent-color);
+        }
+
+        .background-upload-input {
+            display: none;
+        }
+
+        .background-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .background-option-label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .background-option-slider {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .background-preset-title {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .background-presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .background-preset {
+            height: 80px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-preset:hover {
+            transform: scale(1.05);
+        }
+
+        .background-preset::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .background-preset:hover::after {
+            opacity: 1;
+        }
+
+        .background-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .background-action-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .background-save {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .background-save:hover {
+            background: var(--accent-color);
+        }
+
+        .background-reset {
+            background: #ff3b30;
+            color: var(--white);
+        }
+
+        .background-reset:hover {
+            background: #d9342d;
+        }
+
+        /* Стили для выпадающего меню истории поиска */
+        .search-history-dropdown {
+            position: absolute;
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            background: var(--card-bg);
+            border-radius: 0 0 15px 15px;
+            box-shadow: var(--card-shadow);
+            z-index: 10;
+            transition: max-height 0.3s ease;
+        }
+
+        .search-history-dropdown.show {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .search-history-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .search-history-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Стили для быстрых закладок */
+        .quick-bookmarks-section {
+            background: none;
+            box-shadow: none;
+            border: none;
+            padding: 1rem 0;
+        }
+
+        .quick-bookmarks-section h2 {
+            display: none;
+        }
+
+        .add-quick-bookmark-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--text-color);
+            border: none;
+            box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            padding: 0;
+            margin: 1rem auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-quick-bookmark-btn:hover {
+            box-shadow: 0 1px 8px rgba(32,33,36,0.5); /* Оставляем тень */
+            /* background: var(--white); */ /* Убираем изменение фона */
+        }
+
+        .quick-bookmarks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .quick-bookmark-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--background-color);
+            cursor: pointer;
+            position: relative;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .quick-bookmark-item.removing {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .quick-bookmark-item:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .quick-bookmarks-section:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .quick-bookmark-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 0.5rem;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .quick-bookmark-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            word-break: break-word;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .delete-quick-bookmark {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FF3B30;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .quick-bookmark-item:hover .delete-quick-bookmark {
+            opacity: 1;
+        }
+
+        .add-quick-bookmark-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .add-quick-bookmark-content {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .background-modal-header {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .background-modal-title {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .add-quick-bookmark-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .add-quick-bookmark-form input {
+            padding: 0.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .add-quick-bookmark-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        /* Стили для отключения анимаций */
+        .no-animations * {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        /* Стили для отключения скругленных углов */
+        .no-rounded-corners * {
+            border-radius: 0 !important;
+        }
+
+        /* Иконка микрофона в активном состоянии */
+        .search-mic-icon.listening {
+            color: #FF3B30 !important;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Стиль для хинта кнопок */
+        [title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Базовые улучшения для видимости элементов */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn:hover::after {
+            transform: translateX(0);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* Усиление контраста и видимости заголовков */
+        .search-section h2,
+        .quick-bookmarks-section h2,
+        .user-info-section h2,
+        .notes-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .search-section h2::after,
+        .quick-bookmarks-section h2::after,
+        .user-info-section h2::after,
+        .notes-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+        }
+
+        /* Улучшение видимости кнопок управления */
+        .menu-toggle,
+        .interface-settings,
+        .panel-opacity-controls,
+        .background-settings,
+        .theme-toggle {
+            transition: all 0.3s ease;
+            animation: pulse-subtle 2s infinite alternate;
+            z-index: 1000;
+        }
+
+        @keyframes pulse-subtle {
+            0% {
+                box-shadow: 0 0 5px rgba(0, 102, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(0, 102, 255, 0.6);
+            }
+        }
+
+        /* Стили для панели управления и кнопок */
+        .controls-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .theme-toggle,
+        .background-settings,
+        .panel-opacity-controls,
+        .interface-settings,
+        .menu-toggle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: fixed;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            bottom: 20px;
+        }
+
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Убираем нижний отступ у навигации */
+        .nav {
+            margin-bottom: 0 !important; 
+        }
+
+        .collapsible-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .license-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Настройки фона */
+        .background-settings {
+            bottom: 85px;
+        }
+
+        .panel-opacity-controls {
+            bottom: 150px;
+        }
+
+        .interface-settings {
+            bottom: 215px;
+        }
+
+        .menu-toggle {
+            bottom: 280px;
+        }
+
+        .theme-toggle:hover,
+        .background-settings:hover,
+        .panel-opacity-controls:hover,
+        .interface-settings:hover,
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .theme-toggle i,
+        .background-settings i,
+        .panel-opacity-controls i,
+        .interface-settings i,
+        .menu-toggle i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover i,
+        .background-settings:hover i,
+        .panel-opacity-controls:hover i,
+        .interface-settings:hover i,
+        .menu-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        .controls-panel > div:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .controls-panel > div i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .controls-panel > div:hover i {
+            transform: rotate(15deg);
+        }
+
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        /* Стили для настроек прозрачности */
+        .opacity-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opacity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .opacity-control label {
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .opacity-control input[type="range"] {
+            flex: 1;
+            height: 10px;
+            background: var(--bg-color);
+            border-radius: 5px;
+            -webkit-appearance: none;
+        }
+
+        .opacity-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .opacity-control input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Стили для настроек интерфейса */
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .interface-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interface-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .interface-option label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .interface-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .user-info {
+            text-align: left;
+            padding: 0.5rem 20px; /* Добавим паддинг как у .container */
+            margin: 0; /* Убираем все маржины */
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap; /* Добавим перенос для маленьких экранов */
+            gap: 1rem;
+            align-items: center;
+            background: var(--header-bg); /* Фон как у шапки для слияния */
+            box-shadow: var(--header-shadow); /* Тень как у шапки */
+            /* Добавим небольшой нижний отступ, если нужно визуально отделить от контента */
+            /* margin-bottom: 1rem; */ 
+        }
+
+        .user-info span {
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        /* Стили для кнопки голосового ввода */
+        .voice-input-btn {
+            transition: transform 0.5s ease; /* Увеличено время перехода */
+        }
+
+        .voice-input-btn:hover {
+            transform: scale(1.2); /* Плавное увеличение */
+        }
+
+        /* Кастомные стили для ползунков */
+        input[type="range"].background-option-slider {
+            -webkit-appearance: none; /* Убираем стандартный вид для Webkit */
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: var(--background-color); /* Цвет трека */
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            transition: opacity .2s;
+            margin-top: 0.5rem; /* Небольшой отступ сверху */
+            margin-bottom: 1rem; /* Убираем стандартный отступ снизу */
+        }
+
+        /* Стилизация ползунка (кружка) для Webkit */
+        input[type="range"].background-option-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color); /* Цвет ползунка */
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid var(--card-bg); /* Обводка в цвет фона карточки для эффекта */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Стилизация ползунка (кружка) для Firefox */
+        input[type="range"].background-option-slider::-moz-range-thumb {
+            width: 16px; /* Чуть меньше для FF */
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Стилизация трека для Firefox */
+        input[type="range"].background-option-slider::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            background: var(--background-color);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">By ROlil Studio</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="all-games.html" class="nav-link">Игры</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Информация о пользователе - ПЕРЕМЕЩЕНА СЮДА -->
+        <div class="user-info" id="userInfo">
+            <span id="osInfo">ОС: определение...</span>
+            <span id="browserInfo">Браузер: определение...</span>
+            <span id="screenInfo">Разрешение: определение...</span>
+            <span id="firstVisitInfo">Первое посещение: определение...</span>
+            <span id="ipInfo">IP: скрыто</span>
+            <button class="toggle-ip-btn" id="toggleIpBtn">Показать IP</button>
+        </div>
+
+    <div class="container">
+        <!-- Дата и время -->
+        <section class="datetime-section" id="datetimeSection">
+            <div class="datetime-display" id="datetimeDisplay">
+                    <div class="time" id="currentTime">Загрузка времени...</div>
+                <div class="date" id="currentDate">Загрузка даты...</div>
+                <div class="daily-wish" id="dailyWish">Загрузка пожелания...</div>
+                <button class="copy-time-btn" id="copyTimeBtn" onclick="copyTimeToClipboard()">Копировать время</button>
+            </div>
+        </section>
+
+        <!-- Поисковик -->
+        <section class="search-section" id="searchSection">
+            <h2>By ROlil Studio</h2>
+            <div class="search-engines">
+                <button class="search-engine-btn" data-engine="google">
+                    <img src="https://www.google.com/favicon.ico" alt="Google">
+                    Google
+                </button>
+                <button class="search-engine-btn" data-engine="bing">
+                    <img src="https://www.bing.com/favicon.ico" alt="Bing">
+                    Bing
+                </button>
+                <button class="search-engine-btn" data-engine="yandex">
+                    <img src="https://yandex.ru/favicon.ico" alt="Yandex">
+                    Yandex
+                </button>
+                <button class="search-engine-btn" data-engine="duckduckgo">
+                    <img src="https://duckduckgo.com/favicon.ico" alt="DuckDuckGo">
+                    DuckDuckGo
+                </button>
+                <button class="search-engine-btn" data-engine="yahoo">
+                    <img src="https://www.yahoo.com/favicon.ico" alt="Yahoo">
+                    Yahoo
+                </button>
+                <button class="search-engine-btn" data-engine="baidu">
+                    <img src="https://www.baidu.com/favicon.ico" alt="Baidu">
+                    Baidu
+                </button>
+            </div>
+            <form class="search-form" id="searchForm">
+                <div class="search-input-container">
+                <input type="text" class="search-input" placeholder="Введите поисковый запрос...">
+                    <i class="fas fa-search search-icon" id="searchBtn"></i>
+                    <i class="fas fa-microphone search-mic-icon" id="voiceSearchBtn"></i>
+                </div>
+            </form>
+        </section>
+
+        <!-- Модальное окно для добавления быстрых закладок -->
+        <div class="add-quick-bookmark-modal" id="addQuickBookmarkModal">
+            <div class="add-quick-bookmark-content">
+                <div class="background-modal-header">
+                    <div class="background-modal-title">Добавить быстрый доступ</div>
+                </div>
+                <form class="add-quick-bookmark-form" id="addQuickBookmarkForm">
+                    <input type="text" placeholder="Название" id="quickBookmarkName" required>
+                    <input type="url" placeholder="URL (например, https://example.com)" id="quickBookmarkUrl" required>
+                    <div class="add-quick-bookmark-actions">
+                        <button type="button" class="btn" id="cancelAddQuickBookmark">Отмена</button>
+                        <button type="submit" class="btn">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Быстрые закладки -->
+        <section class="quick-bookmarks-section collapsible-section" id="quickBookmarksSection">
+            <div class="quick-bookmarks-grid" id="quickBookmarksGrid"></div>
+            <button class="add-quick-bookmark-btn" id="addQuickBookmarkBtn">+</button>
+        </section>
+
+        <!-- Информация о пользователе -->
+        <!-- SECTION REMOVED as requested -->
+
+        <!-- Панель заметок -->
+        <section class="notes-section collapsible-section" id="notesSection">
+            <h2>Заметки</h2>
+            <form class="note-form" id="noteForm">
+                <textarea class="note-input" placeholder="Введите текст заметки..."></textarea>
+                <!-- Оборачиваем кнопки в карточку -->
+                <div class="formatting-card">
+                <div class="text-formatting">
+                    <button type="button" class="format-btn" id="boldBtn" title="Жирный текст"><b>B</b></button>
+                    <button type="button" class="format-btn" id="italicBtn" title="Курсив"><i>I</i></button>
+                    <button type="button" class="format-btn" id="underlineBtn" title="Подчеркнутый текст"><u>U</u></button>
+                    <button type="button" class="format-btn" id="strikethroughBtn" title="Зачеркнутый текст"><s>S</s></button>
+                    </div>
+                </div>
+                <div class="note-options">
+                    <select class="note-status" id="noteStatus">
+                        <option value="pending">В ожидании</option>
+                        <option value="in-progress">В процессе</option>
+                        <option value="completed">Выполнено</option>
+                        <option value="cancelled">Отменено</option>
+                    </select>
+                    <div class="emoji-picker">
+                        <button type="button" class="btn" id="emojiBtn">💻</button>
+                        <div class="emoji-list" id="emojiList"></div>
+                    </div>
+                    <input type="color" id="noteColor" value="#ffffff">
+                </div>
+                <button type="submit" class="btn">Добавить заметку</button>
+            </form>
+            <div class="notes-actions">
+                <button class="btn" id="exportNotesBtn">Экспорт заметок</button>
+                <button class="btn" id="importNotesBtn">Импорт заметок</button>
+                <button class="delete-all-btn" id="deleteAllNotesBtn">Удалить все заметки</button>
+            </div>
+            <div class="notes-list" id="notesList"></div>
+            <input type="file" id="noteFileInput" accept=".json" style="display: none;">
+        </section>
+    </div>
+
+    <!-- Модальное окно подтверждения -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>Подтверждение удаления</h3>
+            <p id="confirmMessage">Вы уверены, что хотите удалить все заметки? Это действие нельзя отменить.</p>
+            <div class="modal-buttons">
+                <button class="btn" id="confirmDeleteBtn">Удалить</button>
+                <button class="btn" id="cancelDeleteBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для настройки фона -->
+    <div class="background-modal" id="backgroundModal">
+        <div class="background-modal-content">
+            <div class="background-modal-header">
+                <div class="background-modal-title">Настройки фона</div>
+                <button class="background-modal-close" id="backgroundModalClose">&times;</button>
+            </div>
+            <div class="background-upload">
+                <label class="background-upload-label">
+                    <input type="file" class="background-upload-input" id="backgroundUpload" accept="image/*">
+                    <i class="fas fa-upload"></i> Загрузить изображение
+                </label>
+                <div id="uploadedImageInfo"></div>
+            </div>
+            <!-- Блок для ввода URL -->
+            <div class="background-url-input" style="display: flex; gap: 10px; margin-bottom: 1.5rem; align-items: center;">
+                <input type="url" id="backgroundUrlInput" class="background-input" placeholder="Или вставьте URL изображения..." style="flex: 1; padding: 0.8rem 1.2rem; border-radius: 20px; border: 1px solid var(--border-color, #ccc); background: var(--background-color); color: var(--text-color); font-size: 0.9rem;">
+                <button class="btn btn-small" id="applyBackgroundUrl" style="padding: 0.6rem 1rem; font-size: 0.9rem;">Применить URL</button>
+            </div>
+            <!-- Конец блока для URL -->
+            <div class="background-options">
+                <label class="background-option-label">
+                    Затемнение фона:
+                    <input type="range" class="background-option-slider" id="backgroundDarkness" min="0" max="95" value="50"> <!-- Максимум 95 для видимости контента -->
+                </label>
+                <label class="background-option-label">
+                    Размытие фона:
+                    <input type="range" class="background-option-slider" id="backgroundBlur" min="0" max="20" value="0">
+                </label>
+            </div>
+            <div class="background-actions">
+                <button class="background-action-btn background-save" id="backgroundSave">Сохранить</button>
+                <button class="background-action-btn background-reset" id="backgroundReset">Сбросить фон</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижняя панель управления -->
+    <div class="controls-panel">
+        <!-- Кнопка переключения темы -->
+        <div class="theme-toggle" id="themeToggle"> <!-- Атрибут title удален -->
+            <i class="fas fa-moon"></i>
+        </div>
+        
+        <!-- Кнопка настройки фона -->
+        <div class="background-settings" id="backgroundSettings"> <!-- Атрибут title удален -->
+            <i class="fas fa-image"></i>
+        </div>
+        
+        <!-- Удаленные кнопки -->
+        <!-- <div class="panel-opacity-controls" id="panelOpacityControls"> ... </div> -->
+        <!-- <div class="interface-settings" id="interfaceSettings"> ... </div> -->
+        <!-- <div class="menu-toggle" id="menuToggle"> ... </div> -->
+        </div>
+        
+    <!-- Модальные окна для удаленных кнопок -->
+    <!-- <div class="modal" id="panelOpacityModal"> ... </div> -->
+    <!-- <div class="modal" id="interfaceModal"> ... </div> -->
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 By ROlil Studio. Все права защищены.</p>
+            <p><a href="license-agreement.html" class="license-link">Лицензионное соглашение</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Функция для отображения закладок
+        function renderBookmarks() {
+            const bookmarksList = document.getElementById('bookmarksList');
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+            
+            bookmarksList.innerHTML = '';
+            
+            if (bookmarks.length === 0) {
+                bookmarksList.innerHTML = '<p>У вас пока нет закладок. Добавьте первую!</p>';
+                return;
+            }
+            
+            bookmarks.forEach((bookmark, index) => {
+                const bookmarkItem = document.createElement('div');
+                bookmarkItem.className = 'bookmark-item';
+                
+                bookmarkItem.innerHTML = `
+                    <div class="bookmark-info" data-url="${bookmark.url}">
+                        <div class="bookmark-title">${bookmark.name}</div>
+                        <div class="bookmark-url">${bookmark.url}</div>
+                    </div>
+                    <div class="bookmark-actions">
+                        <button class="bookmark-action-btn edit-action-btn" data-index="${index}">Изменить</button>
+                        <button class="bookmark-action-btn delete-action-btn" data-index="${index}">Удалить</button>
+                    </div>
+                `;
+                
+                bookmarksList.appendChild(bookmarkItem);
+                
+                // Обработчик клика по закладке для перехода
+                const bookmarkInfo = bookmarkItem.querySelector('.bookmark-info');
+                bookmarkInfo.addEventListener('click', () => {
+                    window.open(bookmark.url, '_blank');
+                });
+                
+                // Обработчик для кнопки редактирования
+                const editBtn = bookmarkItem.querySelector('.edit-action-btn');
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const index = e.target.dataset.index;
+                    const bookmarkForm = document.getElementById('bookmarkForm');
+                    const inputs = bookmarkForm.querySelectorAll('input');
+                    
+                    inputs[0].value = bookmarks[index].name;
+                    inputs[1].value = bookmarks[index].url;
+                    
+                    // Удаляем старую закладку
+                    bookmarks.splice(index, 1);
+                    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                    renderBookmarks();
+                });
+                
+                // Обработчик для кнопки удаления
+                const deleteBtn = bookmarkItem.querySelector('.delete-action-btn');
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const index = e.target.dataset.index;
+                    
+                    bookmarks.splice(index, 1);
+                    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                    renderBookmarks();
+                });
+            });
+        }
+
+        // Функция для отображения заметок
+        function renderNotes() {
+            const notesList = document.getElementById('notesList');
+            const notes = JSON.parse(localStorage.getItem('notes')) || [];
+            
+            notesList.innerHTML = '';
+            
+            if (notes.length === 0) {
+                notesList.innerHTML = '<p>У вас пока нет заметок. Создайте первую!</p>';
+                return;
+            }
+            
+            notes.forEach((note, index) => {
+                const noteItem = document.createElement('div');
+                noteItem.className = 'note-item';
+                noteItem.style.backgroundColor = note.color || '#ffffff';
+                
+                // Определение класса статуса для стилизации
+                let statusClass = '';
+                let statusText = '';
+                
+                switch(note.status) {
+                    case 'pending':
+                        statusClass = 'pending-status';
+                        statusText = 'В ожидании';
+                        break;
+                    case 'in-progress':
+                        statusClass = 'progress-status';
+                        statusText = 'В процессе';
+                        break;
+                    case 'completed':
+                        statusClass = 'completed-status';
+                        statusText = 'Выполнено';
+                        break;
+                    case 'cancelled':
+                        statusClass = 'cancelled-status';
+                        statusText = 'Отменено';
+                        break;
+                    default:
+                        statusClass = 'pending-status';
+                        statusText = 'В ожидании';
+                }
+                
+                noteItem.innerHTML = `
+                    <div class="note-header">
+                        <span class="note-status ${statusClass}">${statusText}</span>
+                        <span class="note-emoji">${note.emoji || ''}</span>
+                    </div>
+                    <div class="note-content">${note.content}</div>
+                    <div class="note-footer">
+                        <span class="note-date">${note.date}</span>
+                        <div class="note-actions">
+                            <button class="edit-btn" data-index="${index}">Изменить</button>
+                            <button class="delete-btn" data-index="${index}">Удалить</button>
+                        </div>
+                    </div>
+                `;
+                
+                notesList.appendChild(noteItem);
+                
+                // Обработчик для кнопки редактирования
+                const editBtn = noteItem.querySelector('.edit-btn');
+                editBtn.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    const noteForm = document.getElementById('noteForm');
+                    const textarea = noteForm.querySelector('textarea');
+                    const statusSelect = document.getElementById('noteStatus');
+                    const colorInput = document.getElementById('noteColor');
+                    
+                    textarea.value = notes[index].content;
+                    statusSelect.value = notes[index].status;
+                    colorInput.value = notes[index].color || '#ffffff';
+                    
+                    // Удаляем старую заметку
+                    notes.splice(index, 1);
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    renderNotes();
+                });
+                
+                // Обработчик для кнопки удаления
+                const deleteBtn = noteItem.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    
+                    notes.splice(index, 1);
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    renderNotes();
+                });
+            });
+        }
+
+        // Функция для получения информации о пользователе
+        function getUserInfo() {
+            // Получаем информацию о системе
+            const osInfo = document.getElementById('osInfo');
+            const browserInfo = document.getElementById('browserInfo');
+            const screenInfo = document.getElementById('screenInfo');
+            const firstVisitInfo = document.getElementById('firstVisitInfo');
+            const ipInfo = document.getElementById('ipInfo');
+            const toggleIpBtn = document.getElementById('toggleIpBtn');
+            
+            // Определяем ОС
+            const userAgent = window.navigator.userAgent;
+            let os = 'Неизвестная ОС';
+            if (userAgent.indexOf('Windows') !== -1) os = 'Windows';
+            else if (userAgent.indexOf('Mac') !== -1) os = 'MacOS';
+            else if (userAgent.indexOf('Linux') !== -1) os = 'Linux';
+            else if (userAgent.indexOf('Android') !== -1) os = 'Android';
+            else if (userAgent.indexOf('iOS') !== -1) os = 'iOS';
+            
+            // Определяем браузер
+            let browser = 'Неизвестный браузер';
+            if (userAgent.indexOf('Chrome') !== -1) browser = 'Chrome';
+            else if (userAgent.indexOf('Firefox') !== -1) browser = 'Firefox';
+            else if (userAgent.indexOf('Safari') !== -1) browser = 'Safari';
+            else if (userAgent.indexOf('Edge') !== -1) browser = 'Edge';
+            else if (userAgent.indexOf('Opera') !== -1) browser = 'Opera';
+            
+            // Получаем разрешение экрана
+            const screenWidth = window.screen.width;
+            const screenHeight = window.screen.height;
+            
+            // Получаем дату первого посещения
+            const firstVisit = localStorage.getItem('firstVisit');
+            if (!firstVisit) {
+                const now = new Date();
+                localStorage.setItem('firstVisit', now.toLocaleString());
+            }
+            
+            // Обновляем информацию на странице
+            if (osInfo) osInfo.textContent = `ОС: ${os}`;
+            if (browserInfo) browserInfo.textContent = `Браузер: ${browser}`;
+            if (screenInfo) screenInfo.textContent = `Разрешение: ${screenWidth}x${screenHeight}`;
+            if (firstVisitInfo) firstVisitInfo.textContent = `Первое посещение: ${firstVisit || 'определение...'}`;
+            if (ipInfo) ipInfo.textContent = 'IP: скрыто';
+
+            // Добавляем обработчик для кнопки IP
+            if (toggleIpBtn && ipInfo) {
+                // Устанавливаем начальное состояние атрибута при загрузке, если его нет
+                if (!ipInfo.hasAttribute('data-ip-state')) {
+                    ipInfo.setAttribute('data-ip-state', 'hidden');
+                }
+
+                toggleIpBtn.addEventListener('click', async () => {
+                    // Получаем элементы внутри обработчика на всякий случай
+                    const currentIpInfo = document.getElementById('ipInfo');
+                    const currentToggleIpBtn = document.getElementById('toggleIpBtn');
+                    
+                    if (!currentIpInfo || !currentToggleIpBtn) {
+                        console.error("[IP Button] ipInfo or toggleIpBtn not found inside handler!");
+                        return;
+                    }
+                    
+                    const currentState = currentIpInfo.getAttribute('data-ip-state');
+                    console.log("[IP Button] Clicked. Current state:", currentState);
+
+                    if (currentState === 'hidden') {
+                        // --- Показываем IP ---
+                        console.log("[IP Button] Attempting to show IP..."); // Отладка
+                        try {
+                            currentToggleIpBtn.textContent = 'Загрузка...';
+                            currentToggleIpBtn.disabled = true;
+
+                        const response = await fetch('https://api.ipify.org?format=json');
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            currentIpInfo.textContent = `IP: ${data.ip}`; // Используем currentIpInfo
+                            currentIpInfo.setAttribute('data-ip-state', 'shown'); // Используем currentIpInfo
+                            currentToggleIpBtn.textContent = 'Скрыть IP'; // Используем currentToggleIpBtn
+                            console.log("[IP Button] IP shown successfully."); // Отладка
+                    } catch (error) {
+                            console.error('[IP Button] Ошибка получения IP:', error);
+                            currentIpInfo.textContent = 'IP: ошибка получения'; // Используем currentIpInfo
+                            currentIpInfo.setAttribute('data-ip-state', 'hidden'); // Используем currentIpInfo
+                            currentToggleIpBtn.textContent = 'Показать IP'; // Используем currentToggleIpBtn
+                        } finally {
+                             currentToggleIpBtn.disabled = false; // Используем currentToggleIpBtn
+                        }
+                    } else if (currentState === 'shown') {
+                        // --- Скрываем IP ---
+                        console.log("[IP Button] Entered 'hide' block. Current state:", currentState);
+                        currentIpInfo.textContent = 'IP: скрыто'; // Используем currentIpInfo
+                        console.log("[IP Button] Set textContent to 'IP: скрыто'.");
+                        currentIpInfo.setAttribute('data-ip-state', 'hidden'); // Используем currentIpInfo
+                        console.log("[IP Button] Set data-ip-state to 'hidden'.");
+                        currentToggleIpBtn.textContent = 'Показать IP'; // Используем currentToggleIpBtn
+                        console.log("[IP Button] Set button text to 'Показать IP'.");
+                        console.log("[IP Button] IP hidden logic complete."); // Отладка
+                    } else {
+                        // Обработка непредвиденного состояния
+                        console.warn("[IP Button] Unexpected IP state:", currentState);
+                        currentIpInfo.textContent = 'IP: скрыто'; // Используем currentIpInfo
+                        currentIpInfo.setAttribute('data-ip-state', 'hidden'); // Используем currentIpInfo
+                        currentToggleIpBtn.textContent = 'Показать IP'; // Используем currentToggleIpBtn
+                    }
+                });
+            } else {
+                 // Логи ошибок, если элементы не найдены
+                 if (!toggleIpBtn) console.error("[IP Button] Кнопка toggleIpBtn не найдена");
+                 if (!ipInfo) console.error("[IP Button] Элемент ipInfo не найден");
+            }
+        }
+
+        // Функция для обновления даты и времени
+        function updateDateTime() {
+            const currentDateElement = document.getElementById('currentDate');
+            const currentTimeElement = document.getElementById('currentTime');
+            
+            // Добавляем проверку, существуют ли элементы
+            if (!currentDateElement || !currentTimeElement) {
+                console.error("[updateDateTime] Date or Time element not found!");
+                return; // Прекращаем выполнение функции, если элементы не найдены
+            }
+            
+            function updateTime() {
+                const now = new Date();
+                
+                // Форматирование даты
+            const options = { 
+                    weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                    day: 'numeric' 
+                };
+                currentDateElement.textContent = now.toLocaleDateString('ru-RU', options);
+                
+                // Форматирование времени
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+                currentTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+            
+            // Обновляем сразу и затем каждую секунду
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+
+        // Функция для обновления ежедневного пожелания
+        function updateDailyWish() {
+            const wishes = [
+                "Желаю продуктивного дня!",
+                "Пусть сегодня всё задуманное сбудется!",
+                "Удачи во всех начинаниях!",
+                "Пусть день принесёт радость и успех!",
+                "Вдохновения и энергии на весь день!",
+                "Желаю отличного настроения!",
+                "Пусть сегодня будет больше улыбок!",
+                "Желаю сил и терпения для достижения целей!",
+                "Пусть всё задуманное сегодня получится!",
+                "Желаю ярких идей и креативных решений!"
+            ];
+            
+            const dailyWishElement = document.getElementById('dailyWish');
+            
+            // Добавляем проверку, существует ли элемент
+            if (!dailyWishElement) {
+                console.error("[updateDailyWish] Daily Wish element not found!");
+                return; // Прекращаем выполнение функции, если элемент не найден
+            }
+            
+            // Определяем индекс пожелания на основе текущей даты
+            const today = new Date();
+            const dateString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+            
+            // Используем простой хеш-функцию для выбора пожелания
+            let hash = 0;
+            for (let i = 0; i < dateString.length; i++) {
+                hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+                hash |= 0;
+            }
+            
+            // Получаем положительное значение и выбираем пожелание
+            const wishIndex = Math.abs(hash) % wishes.length;
+            dailyWishElement.textContent = wishes[wishIndex];
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("[DOMContentLoaded] Script execution started."); // Отладка: Начало выполнения
+
+            // Инициализация времени, даты и пожелания
+            try {
+            updateDateTime();
+            updateDailyWish();
+                console.log("[DOMContentLoaded] DateTime and Wish updated."); // Отладка
+            } catch (e) {
+                console.error("[DOMContentLoaded] Error initializing DateTime/Wish:", e);
+            }
+            
+            // Проверяем сохраненную тему или системные предпочтения
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Устанавливаем тему при загрузке
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkMode)) {
+                document.body.setAttribute('data-theme', 'dark'); // Используем data-атрибут
+            } else {
+                 document.body.removeAttribute('data-theme');
+            }
+            updateThemeToggleButtonIcon(); // Обновляем иконку кнопки
+
+            
+            // Обработчик переключения темы
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                console.log("[Theme Toggle] Found button, adding listener."); // Отладка
+                themeToggle.addEventListener('click', function() {
+                    console.log("[Theme Toggle] Clicked!"); // Отладка
+                    const isDark = document.body.hasAttribute('data-theme');
+                    console.log("[Theme Toggle] Is currently dark?", isDark); // Отладка
+                        if (isDark) {
+                        document.body.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                        console.log("[Theme Toggle] Switched to light theme."); // Отладка
+            } else {
+                        document.body.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        console.log("[Theme Toggle] Switched to dark theme."); // Отладка
+                    }
+                    updateThemeToggleButtonIcon(); // Обновляем иконку кнопки
+                    
+                    // Синхронизация с другими открытыми вкладками (если нужна)
+                    // broadcastThemeChange(!isDark ? 'dark' : 'light'); 
+                });
+            } else {
+                 console.error("Кнопка themeToggle не найдена!");
+            }
+
+            // Слушатель изменения системной темы
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                 // Обновляем тему только если она не была установлена пользователем вручную
+                 if (!localStorage.getItem('theme')) {
+                     if (e.matches) {
+                         document.body.setAttribute('data-theme', 'dark');
+                     } else {
+                         document.body.removeAttribute('data-theme');
+                     }
+                     updateThemeToggleButtonIcon();
+                      // broadcastThemeChange(e.matches ? 'dark' : 'light');
+                 }
+            });
+
+            // Слушатель изменений в localStorage для синхронизации вкладок
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'theme') {
+                    if (e.newValue === 'dark') {
+                        document.body.setAttribute('data-theme', 'dark');
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                    }
+                     updateThemeToggleButtonIcon();
+                }
+            });
+
+            // Функция обновления иконки кнопки темы
+            function updateThemeToggleButtonIcon() {
+                const themeToggle = document.getElementById('themeToggle');
+                if (themeToggle) {
+                    const icon = themeToggle.querySelector('i');
+                    if (document.body.hasAttribute('data-theme')) {
+                         if (icon) icon.className = 'fas fa-sun';
+                    } else {
+                         if (icon) icon.className = 'fas fa-moon';
+                    }
+                }
+            }
+            
+            // Функция настройки поисковой формы
+            const setupSearchForm = () => {
+                const searchForm = document.getElementById('searchForm');
+                const searchEngineButtons = document.querySelectorAll('.search-engine-btn');
+                const searchBtn = document.getElementById('searchBtn');
+                
+                if (!searchForm || !searchBtn) return;
+                
+                // Загружаем последнюю использованную поисковую систему или устанавливаем Google по умолчанию
+                let currentEngine = localStorage.getItem('searchEngine') || 'google';
+                
+                // Устанавливаем Google как активную поисковую систему по умолчанию
+                searchEngineButtons.forEach(button => {
+                    if (button.getAttribute('data-engine') === 'google') {
+                        button.classList.add('active');
+                    }
+                    
+                    // Обработчик клика по кнопке поисковой системы
+                    button.addEventListener('click', function() {
+                        // Убираем активный класс у всех кнопок
+                        searchEngineButtons.forEach(btn => btn.classList.remove('active'));
+                        
+                        // Добавляем активный класс к нажатой кнопке
+                        this.classList.add('active');
+                        
+                        // Сохраняем выбранную поисковую систему
+                        currentEngine = this.getAttribute('data-engine');
+                        localStorage.setItem('searchEngine', currentEngine);
+                    });
+                });
+                
+                // Функция выполнения поиска
+                const performSearch = () => {
+                    const input = searchForm.querySelector('.search-input');
+                    if (!input) return;
+                    
+                    const query = input.value.trim();
+                    if (!query) return;
+                    
+                    // Сохраняем запрос в историю поиска
+                    const searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+                    
+                    // Удаляем дубликаты
+                    const index = searchHistory.indexOf(query);
+                    if (index !== -1) {
+                        searchHistory.splice(index, 1);
+                    }
+                    
+                    // Добавляем в начало и ограничиваем до 10 записей
+                    searchHistory.unshift(query);
+                    if (searchHistory.length > 10) {
+                        searchHistory.pop();
+                    }
+                    
+                    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                    
+                    // Формируем URL для поиска
+                    let searchUrl;
+                    
+                    switch(currentEngine) {
+                        case 'google':
+                            searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                            break;
+                        case 'youtube':
+                            searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+                            break;
+                        case 'bing':
+                            searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+                            break;
+                        case 'yandex':
+                            searchUrl = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
+                            break;
+                        case 'duckduckgo':
+                            searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+                            break;
+                        case 'yahoo':
+                            searchUrl = `https://search.yahoo.com/search?p=${encodeURIComponent(query)}`;
+                            break;
+                        case 'baidu':
+                            searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`;
+                            break;
+                        case 'brave':
+                            searchUrl = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+                            break;
+                        default:
+                            searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                    }
+                    
+                    // Открываем результаты поиска в новой вкладке
+                    window.open(searchUrl, '_blank');
+                };
+                
+                // Обработчик клика по иконке поиска
+                searchBtn.addEventListener('click', () => {
+                    performSearch();
+                });
+                
+                // Обработчик отправки формы
+                searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                    performSearch();
+                });
+                
+                // Обработчик нажатия Enter в поле поиска
+                const searchInput = searchForm.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+            e.preventDefault();
+                            performSearch();
+                        }
+                    });
+                }
+            };
+            
+            // Обработчики модальных окон
+            const setupModals = () => {
+                console.log("[setupModals] Function called."); // Отладка: Начало функции
+                // Настройка фона
+                const bgSettings = document.getElementById('backgroundSettings');
+                const bgModal = document.getElementById('backgroundModal');
+                const bgModalClose = document.getElementById('backgroundModalClose');
+                const backgroundUpload = document.getElementById('backgroundUpload');
+                const backgroundDarkness = document.getElementById('backgroundDarkness');
+                const backgroundBlur = document.getElementById('backgroundBlur');
+                // const backgroundPresets = document.getElementById('backgroundPresets'); // Удалено, т.к. элемент отсутствует
+                const backgroundPresets = null; // Объявляем переменную как null, чтобы избежать ReferenceError
+                const backgroundSave = document.getElementById('backgroundSave');
+                const backgroundReset = document.getElementById('backgroundReset');
+                const uploadedImageInfo = document.getElementById('uploadedImageInfo');
+                const backgroundUrlInput = document.getElementById('backgroundUrlInput'); // Новый элемент
+                const applyBackgroundUrlBtn = document.getElementById('applyBackgroundUrl'); // Новый элемент
+
+                
+                if (bgSettings && bgModal && bgModalClose) {
+                    console.log("[setupModals] Background modal elements found. Adding listener..."); // Отладка
+                    bgSettings.addEventListener('click', () => {
+                        console.log("[Background Settings] Button Clicked! Opening modal."); // Отладка: Клик по кнопке фона
+                        if (bgModal) {
+                        bgModal.style.display = 'flex';
+                            loadBackgroundSettings(); // Загружаем настройки при открытии
+                            console.log("[Background Settings] Modal display set to flex."); // Отладка
+                        } else {
+                            console.error("[Background Settings] bgModal is null inside click handler!");
+                        }
+                    });
+                    
+                    bgModalClose.addEventListener('click', () => {
+                        bgModal.style.display = 'none';
+                    });
+                    
+                     // Закрытие модального окна по клику вне содержимого
+                     bgModal.addEventListener('click', (e) => {
+                         if (e.target === bgModal) bgModal.style.display = 'none';
+                     });
+                } else {
+                    console.error("Элементы модального окна фона не найдены!");
+                    return; // Выходим, если базовые элементы не найдены
+                }
+
+                // --- Новая логика для фона --- 
+                let tempBgImage = null; // Временное хранение для загруженного фона (Data URL)
+                let lastBackgroundSource = null; // 'upload' или 'url', для сохранения
+                let currentBgUrlFromInput = null; // Хранение URL, введенного пользователем
+                let currentSettings = { bg: null, darkness: 50, blur: 0 }; // Текущие примененные/сохраненные настройки
+
+                const backgroundOverlay = document.getElementById('backgroundOverlay');
+                
+                // Функция ПРИМЕНЕНИЯ настроек фона (на body и оверлей)
+                const applyBackgroundStyles = (bgImage, darkness, blur) => {
+                    if (!backgroundOverlay) {
+                        console.error("backgroundOverlay not found!");
+                        return;
+                    }
+                    // Устанавливаем изображение на body
+                    document.body.style.backgroundImage = bgImage ? `url('${bgImage}')` : 'none';
+                    document.body.classList.toggle('has-background', !!bgImage);
+                    
+                    // Устанавливаем эффекты на оверлей
+                    backgroundOverlay.style.backgroundColor = bgImage ? `rgba(0, 0, 0, ${darkness / 100})` : 'transparent';
+                    backgroundOverlay.style.backdropFilter = bgImage && blur > 0 ? `blur(${blur}px)` : 'none';
+                    
+                    // Обновляем текущие настройки (для использования ползунками)
+                    currentSettings.bg = bgImage;
+                    currentSettings.darkness = darkness;
+                    currentSettings.blur = blur;
+                    
+                    // Обновляем значения ползунков в интерфейсе
+                    if (backgroundDarkness) backgroundDarkness.value = darkness;
+                    if (backgroundBlur) backgroundBlur.value = blur;
+                };
+                
+                // Загрузка изображения пользователя (только сохраняем во временную переменную)
+                if (backgroundUpload) {
+                    backgroundUpload.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                tempBgImage = event.target.result; // Сохраняем Data URL
+                                if (uploadedImageInfo) uploadedImageInfo.textContent = `Загружен: ${file.name} (не сохранен)`;
+                                // Предпросмотр (опционально, можно убрать если не нужно)
+                                applyBackgroundStyles(tempBgImage, backgroundDarkness?.value || 50, backgroundBlur?.value || 0);
+                            }
+                            reader.onerror = () => {
+                                console.error("Ошибка чтения файла");
+                                if (uploadedImageInfo) uploadedImageInfo.textContent = 'Ошибка загрузки файла';
+                                tempBgImage = null; // Сбрасываем временный фон
+                            }
+                            reader.readAsDataURL(file);
+                        } else if (file) {
+                             alert('Пожалуйста, выберите файл изображения.');
+                             backgroundUpload.value = '';
+                             if (uploadedImageInfo) uploadedImageInfo.textContent = '';
+                             tempBgImage = null;
+                             lastBackgroundSource = null;
+                        }
+                    });
+                } else {
+                     console.error("Элемент backgroundUpload не найден!");
+                }
+
+                // Обработка ползунков (применяем к текущему фону для предпросмотра)
+                 if (backgroundDarkness) {
+                     backgroundDarkness.addEventListener('input', () => {
+                         const currentBlurVal = backgroundBlur?.value || currentSettings.blur;
+                         // Используем tempBgImage если он загружен, иначе берем текущий фон
+                         const bgToPreview = tempBgImage || currentSettings.bg;
+                         applyBackgroundStyles(bgToPreview, backgroundDarkness.value, currentBlurVal);
+                     });
+                 } else {
+                     console.error("Элемент backgroundDarkness не найден!");
+                 }
+                 if (backgroundBlur) {
+                     backgroundBlur.addEventListener('input', () => {
+                         const currentDarknessVal = backgroundDarkness?.value || currentSettings.darkness;
+                         const bgToPreview = tempBgImage || currentSettings.bg;
+                          applyBackgroundStyles(bgToPreview, currentDarknessVal, backgroundBlur.value);
+                     });
+                 } else {
+                      console.error("Элемент backgroundBlur не найден!");
+                 }
+
+                // Применение фона по URL
+                if (applyBackgroundUrlBtn && backgroundUrlInput) {
+                    applyBackgroundUrlBtn.addEventListener('click', () => {
+                        const url = backgroundUrlInput.value.trim();
+                        if (url) {
+                            // Простая проверка URL (можно улучшить)
+                            if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')) {
+                                applyBackgroundStyles(url, backgroundDarkness?.value || 50, backgroundBlur?.value || 0);
+                                tempBgImage = null; // Сбрасываем загруженный файл
+                                if (backgroundUpload) backgroundUpload.value = '';
+                                lastBackgroundSource = 'url'; // Запоминаем источник
+                                currentBgUrlFromInput = url; // Сохраняем примененный URL
+                                if (uploadedImageInfo) uploadedImageInfo.textContent = `Применен URL (не сохранен)`;
+                            } else {
+                                alert('Пожалуйста, введите корректный URL (начинается с http:// или https://).');
+                            }
+                        } else {
+                            alert('Пожалуйста, введите URL изображения.');
+                        }
+                    });
+                } else {
+                    console.error("Элементы для ввода URL фона не найдены!");
+                }
+
+                // Сохранение настроек
+                if (backgroundSave) {
+                    backgroundSave.addEventListener('click', () => {
+                        const darkness = backgroundDarkness?.value || 50;
+                        const blur = backgroundBlur?.value || 0;
+                        let finalBg = null;
+                        let savedSettings = { darkness, blur }; // Настройки для сохранения
+                        let bgSaved = false;
+
+                        // Определяем, что сохранять: URL, загруженный файл или текущий фон
+                        if (lastBackgroundSource === 'url') {
+                            finalBg = currentBgUrlFromInput; // Берем URL из поля ввода, если он был применен
+                        } else if (lastBackgroundSource === 'upload' && tempBgImage) {
+                            finalBg = tempBgImage; // Берем Data URL загруженного файла
+                        } else {
+                            finalBg = currentSettings.bg; // Иначе оставляем текущий фон
+                        }
+
+                        applyBackgroundStyles(finalBg, darkness, blur); // Применяем финальные стили
+                        
+                        // Пытаемся сохранить фон, если он есть
+                        if (finalBg && lastBackgroundSource === 'url') {
+                           // Сохраняем URL (ошибки квоты маловероятны)
+                           savedSettings = { bg: finalBg, darkness, blur, type: 'url' };
+                           localStorage.setItem('backgroundSettings', JSON.stringify(savedSettings));
+                           bgSaved = true;
+                           console.log("Фон (URL) успешно сохранен в localStorage.");
+
+                        } else if (finalBg && lastBackgroundSource === 'upload') {
+                             try {
+                                // Пытаемся сохранить Data URL
+                                 const settingsToTry = { bg: finalBg, darkness, blur };
+                                 localStorage.setItem('backgroundSettings', JSON.stringify(settingsToTry));
+                                 savedSettings = settingsToTry; // Обновляем сохраненные настройки, если успешно
+                                 bgSaved = true;
+                                 console.log("Фон успешно сохранен в localStorage.");
+                             } catch (e) {
+                                 if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') { // Проверяем ошибку квоты
+                                     console.warn("Ошибка QuotaExceededError при сохранении фона. Сохраняем только темноту/размытие.");
+                                     alert("Загруженное изображение слишком большое для сохранения на будущее. Используйте URL для больших изображений. Настройки затемнения и размытия сохранены.");
+                                     // Сохраняем только темноту и размытие
+                                     localStorage.setItem('backgroundSettings', JSON.stringify({ darkness, blur })); 
+                                 } else {
+                                     console.error("Ошибка сохранения фона в localStorage:", e);
+                                     alert("Не удалось сохранить фон.");
+                                 }
+                                 bgSaved = false; // Фон не был сохранен
+                             }
+                        } else { // Если finalBg пустой (сброс)
+                              // Если фона нет (сброс), сохраняем только темноту/размытие (или пустой объект)
+                              localStorage.setItem('backgroundSettings', JSON.stringify({ darkness, blur }));
+                         }
+                         
+                         tempBgImage = null; // Всегда сбрасываем временный фон после попытки сохранения
+                         lastBackgroundSource = null; // Сбрасываем источник
+                         currentBgUrlFromInput = null; // Сбрасываем URL из поля ввода
+                         if (backgroundUrlInput) backgroundUrlInput.value = ''; // Очищаем поле URL
+
+                         if (uploadedImageInfo) {
+                            if (finalBg && bgSaved) {
+                                 uploadedImageInfo.textContent = 'Фон установлен и сохранен';
+                            } else if (finalBg && !bgSaved) {
+                                 uploadedImageInfo.textContent = 'Фон установлен (не сохранен из-за размера)';
+                            } else {
+                                 uploadedImageInfo.textContent = '';
+                            }
+                         }
+                         bgModal.style.display = 'none'; // Закрываем окно
+                     });
+                 } else {
+                      console.error("Элемент backgroundSave не найден!");
+                 }
+
+                // Сброс настроек
+                if (backgroundReset) {
+                    backgroundReset.addEventListener('click', () => {
+                        localStorage.removeItem('backgroundSettings');
+                        tempBgImage = null; // Сбрасываем временный фон
+                        currentBgUrlFromInput = null; // Сбрасываем URL
+                        lastBackgroundSource = null; // Сбрасываем источник
+                        applyBackgroundStyles(null, 50, 0); // Применяем пустой фон и дефолтные значения
+                        if (backgroundUpload) backgroundUpload.value = '';
+                        if (backgroundUrlInput) backgroundUrlInput.value = ''; // Очищаем поле URL
+                        if (uploadedImageInfo) uploadedImageInfo.textContent = '';
+                        bgModal.style.display = 'none';
+                    });
+                } else {
+                    console.error("Элемент backgroundReset не найден!");
+                }
+
+                 // Загрузка сохраненных настроек при старте
+                 const loadBackgroundSettings = () => {
+                      const saved = localStorage.getItem('backgroundSettings');
+                      if (saved) {
+                           try {
+                                const settings = JSON.parse(saved);
+                                // Извлекаем URL из сохраненного значения (уже не нужно, т.к. храним напрямую)
+                                const bgUrl = settings.bg || null; 
+                                const darkness = settings.darkness !== undefined ? settings.darkness : 50;
+                                const blur = settings.blur !== undefined ? settings.blur : 0;
+
+                                applyBackgroundStyles(bgUrl, darkness, blur);
+                                if (uploadedImageInfo) uploadedImageInfo.textContent = bgUrl ? 'Фон загружен из сохранения' : '';
+                                
+                           } catch (e) {
+                                console.error("Ошибка загрузки настроек фона: ", e);
+                                localStorage.removeItem('backgroundSettings'); 
+                                applyBackgroundStyles(null, 50, 0); // Применяем дефолт
+                           }
+                      } else {
+                           applyBackgroundStyles(null, 50, 0); // Дефолтное состояние
+                      }
+                 };
+                 loadBackgroundSettings(); // Загружаем настройки сразу
+
+            }; // Конец setupModals
+            
+            // Вызываем функции настройки
+            setupSearchForm();
+            setupModals();
+            setupInteractiveItems();
+            console.log("[DOMContentLoaded] Setup functions called (Search, Modals, Interactive)."); // Отладка
+            
+            // Загружаем и отображаем данные
+            if (typeof getUserInfo === 'function') getUserInfo();
+            // if (typeof renderBookmarks === 'function') renderBookmarks(); // Удаляем этот вызов, т.к. нет элемента bookmarksList
+            if (typeof renderNotes === 'function') renderNotes();
+            if (typeof updateDateTime === 'function') updateDateTime();
+            if (typeof updateDailyWish === 'function') updateDailyWish();
+            
+            // Настройка выпадающего списка истории поиска
+            if (typeof setupSearchHistory === 'function') setupSearchHistory();
+            
+            // Настройка быстрых закладок
+            // if (typeof setupQuickBookmarks === 'function') setupQuickBookmarks(); // Заменено на initQuickBookmarks ниже
+            initQuickBookmarks(); // Вызываем функцию инициализации
+            renderQuickBookmarks(); // Вызываем функцию для отображения
+            
+            // Настройка прозрачности панелей
+            //if (typeof setupPanelOpacity === 'function') setupPanelOpacity();
+            
+            // Настройка интерфейса
+            //if (typeof setupInterfaceSettings === 'function') setupInterfaceSettings();
+            
+            // Настройка сворачивания/разворачивания меню
+            //if (typeof setupMenuToggle === 'function') setupMenuToggle();
+            
+            // Настройка голосового поиска
+            if (typeof setupVoiceSearch === 'function') setupVoiceSearch();
+            console.log("[DOMContentLoaded] Final setup functions called (History, QuickBookmarks, Opacity, Interface, Menu, Voice)."); // Отладка
+        });
+        
+        // Функция настройки прозрачности панелей
+        function setupPanelOpacity() {
+            const panelOpacityControls = document.getElementById('panelOpacityControls');
+            const panelOpacityModal = document.getElementById('panelOpacityModal');
+            const panelOpacityClose = document.getElementById('panelOpacityClose');
+            
+            if (!panelOpacityControls || !panelOpacityModal || !panelOpacityClose) {
+                console.error('Элементы для настройки прозрачности не найдены');
+                return;
+            }
+            
+            const searchOpacity = document.getElementById('searchOpacity');
+            const bookmarksOpacity = document.getElementById('bookmarksOpacity');
+            const userInfoOpacity = document.getElementById('userInfoOpacity');
+            const notesOpacity = document.getElementById('notesOpacity');
+            const resetOpacityBtn = document.getElementById('resetOpacityBtn');
+            
+            // Получаем элементы панелей
+            const searchSection = document.getElementById('searchSection');
+            const quickBookmarksSection = document.getElementById('quickBookmarksSection');
+            const userInfoSection = document.getElementById('userInfoSection'); // Может быть null, если секция удалена
+            const notesSection = document.getElementById('notesSection');
+            
+            // Загрузка сохраненных настроек прозрачности
+            const savedSearchOpacity = localStorage.getItem('searchOpacity') || '0.95';
+            const savedBookmarksOpacity = localStorage.getItem('bookmarksOpacity') || '0.95';
+            const savedUserInfoOpacity = localStorage.getItem('userInfoOpacity') || '0.95';
+            const savedNotesOpacity = localStorage.getItem('notesOpacity') || '0.95';
+            
+            // Устанавливаем значения ползунков
+            if (searchOpacity) searchOpacity.value = savedSearchOpacity;
+            if (bookmarksOpacity) bookmarksOpacity.value = savedBookmarksOpacity;
+            if (userInfoOpacity) userInfoOpacity.value = savedUserInfoOpacity;
+            if (notesOpacity) notesOpacity.value = savedNotesOpacity;
+            
+            // Применяем сохраненные настройки
+            if (searchSection) searchSection.style.opacity = savedSearchOpacity;
+            if (quickBookmarksSection) quickBookmarksSection.style.opacity = savedBookmarksOpacity;
+            if (userInfoSection) userInfoSection.style.opacity = savedUserInfoOpacity;
+            if (notesSection) notesSection.style.opacity = savedNotesOpacity;
+            
+            // Открытие модального окна
+            panelOpacityControls.addEventListener('click', function() {
+                panelOpacityModal.style.display = 'flex';
+            });
+            
+            // Закрытие модального окна
+            panelOpacityClose.addEventListener('click', function() {
+                panelOpacityModal.style.display = 'none';
+            });
+            
+            // Обработчики изменения ползунков
+            if (searchOpacity && searchSection) {
+                searchOpacity.addEventListener('input', function() {
+                    searchSection.style.opacity = this.value;
+                    localStorage.setItem('searchOpacity', this.value);
+                });
+            }
+            
+            if (bookmarksOpacity && quickBookmarksSection) {
+                bookmarksOpacity.addEventListener('input', function() {
+                    quickBookmarksSection.style.opacity = this.value;
+                    localStorage.setItem('bookmarksOpacity', this.value);
+                });
+            }
+            
+            if (userInfoOpacity && userInfoSection) {
+                userInfoOpacity.addEventListener('input', function() {
+                    userInfoSection.style.opacity = this.value;
+                    localStorage.setItem('userInfoOpacity', this.value);
+                });
+            }
+            
+            if (notesOpacity && notesSection) {
+                notesOpacity.addEventListener('input', function() {
+                    notesSection.style.opacity = this.value;
+                    localStorage.setItem('notesOpacity', this.value);
+                });
+            }
+            
+            // Сброс настроек прозрачности
+            if (resetOpacityBtn) {
+                resetOpacityBtn.addEventListener('click', function() {
+                    const defaultOpacity = '0.95';
+                    
+                    if (searchOpacity) searchOpacity.value = defaultOpacity;
+                    if (bookmarksOpacity) bookmarksOpacity.value = defaultOpacity;
+                    if (userInfoOpacity) userInfoOpacity.value = defaultOpacity;
+                    if (notesOpacity) notesOpacity.value = defaultOpacity;
+                    
+                    if (searchSection) searchSection.style.opacity = defaultOpacity;
+                    if (quickBookmarksSection) quickBookmarksSection.style.opacity = defaultOpacity;
+                    if (userInfoSection) userInfoSection.style.opacity = defaultOpacity;
+                    if (notesSection) notesSection.style.opacity = defaultOpacity;
+                    
+                    localStorage.removeItem('searchOpacity');
+                    localStorage.removeItem('bookmarksOpacity');
+                    localStorage.removeItem('userInfoOpacity');
+                    localStorage.removeItem('notesOpacity');
+                });
+            }
+        }
+        
+        // Функция настройки интерфейса
+        function setupInterfaceSettings() {
+            const interfaceSettings = document.getElementById('interfaceSettings');
+            const interfaceModal = document.getElementById('interfaceModal');
+            const interfaceClose = document.getElementById('interfaceClose');
+            
+            if (!interfaceSettings || !interfaceModal || !interfaceClose) {
+                console.error('Элементы для настройки интерфейса не найдены');
+                return;
+            }
+            
+            // Открытие модального окна
+            interfaceSettings.addEventListener('click', function() {
+                interfaceModal.style.display = 'flex';
+            });
+            
+            // Закрытие модального окна
+            interfaceClose.addEventListener('click', function() {
+                interfaceModal.style.display = 'none';
+            });
+            
+            // Переключатели настроек
+            const toggles = document.querySelectorAll('.interface-option input[type="checkbox"]');
+            if (toggles.length === 0) {
+                console.error('Переключатели настроек не найдены');
+                // Не возвращаемся, т.к. модальное окно все еще должно работать
+            }
+            
+            // Загружаем сохраненные настройки
+            const savedSettings = JSON.parse(localStorage.getItem('interfaceSettings') || '{}');
+            
+            // Устанавливаем значения переключателей из сохраненных настроек
+            toggles.forEach(toggle => {
+                const id = toggle.id;
+                if (savedSettings[id] !== undefined) {
+                    toggle.checked = savedSettings[id];
+                }
+                
+                // Обработчик изменения состояния переключателя
+                toggle.addEventListener('change', function() {
+                    // Сохраняем новое состояние
+                    savedSettings[id] = this.checked;
+                    localStorage.setItem('interfaceSettings', JSON.stringify(savedSettings));
+                    
+                    // Применяем настройки
+                    applyInterfaceSettings();
+                });
+            });
+            
+            // Применяем настройки при загрузке
+            applyInterfaceSettings();
+            
+            // Функция применения настроек интерфейса
+            function applyInterfaceSettings() {
+                // Применяем настройки для анимаций
+                const animationsToggle = document.getElementById('animationsToggle');
+                if (animationsToggle) {
+                    if (!animationsToggle.checked) {
+                        document.body.classList.add('no-animations');
+                    } else {
+                        document.body.classList.remove('no-animations');
+                    }
+                }
+                
+                // Закругленные углы
+                const roundedCornersToggle = document.getElementById('roundedCornersToggle');
+                if (roundedCornersToggle) {
+                    if (!roundedCornersToggle.checked) {
+                        document.body.classList.add('no-rounded-corners');
+                    } else {
+                        document.body.classList.remove('no-rounded-corners');
+                    }
+                }
+                
+                // Видимость секций
+                const dateTimeToggle = document.getElementById('dateTimeToggle');
+                const userInfoToggle = document.getElementById('userInfoToggle'); // Может быть null
+                const notesToggle = document.getElementById('notesToggle');
+                
+                const datetimeSection = document.getElementById('datetimeSection');
+                const userInfoSection = document.getElementById('userInfoSection'); // Может быть null
+                const notesSection = document.getElementById('notesSection');
+                
+                if (dateTimeToggle && datetimeSection) {
+                    datetimeSection.style.display = dateTimeToggle.checked ? 'block' : 'none';
+                }
+                
+                if (userInfoToggle && userInfoSection) {
+                    userInfoSection.style.display = userInfoToggle.checked ? 'block' : 'none';
+                }
+                
+                if (notesToggle && notesSection) {
+                    notesSection.style.display = notesToggle.checked ? 'block' : 'none';
+                }
+                
+                // Голосовой поиск
+                const voiceSearchToggle = document.getElementById('voiceSearchToggle');
+                const searchMicIcon = document.getElementById('voiceSearchBtn');
+                
+                if (voiceSearchToggle && searchMicIcon) {
+                    searchMicIcon.style.display = voiceSearchToggle.checked ? 'block' : 'none';
+                }
+            }
+        } // <<< Добавляем недостающую фигурную скобку от setupPanelOpacity
+        
+        // Функция для сворачивания/разворачивания меню
+        function setupMenuToggle() { // <-- Восстанавливаем и эту строку
+            const menuToggle = document.getElementById('menuToggle');
+            if (!menuToggle) {
+                console.error('Кнопка сворачивания меню не найдена');
+                return;
+            }
+            
+            const sections = document.querySelectorAll('.collapsible-section');
+            if (sections.length === 0) {
+                console.error('Сворачиваемые секции не найдены');
+                return;
+            }
+            
+            let allCollapsed = false;
+            
+            // Получаем сохраненное состояние меню
+            const savedMenuState = localStorage.getItem('menuCollapsed');
+            if (savedMenuState === 'true') {
+                toggleAllSections(true);
+                allCollapsed = true;
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-expand');
+                }
+            }
+            
+            menuToggle.addEventListener('click', function() {
+                toggleAllSections(!allCollapsed);
+                allCollapsed = !allCollapsed;
+                
+                // Изменяем иконку
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    if (allCollapsed) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-expand');
+                    } else {
+                        icon.classList.remove('fa-expand');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+                
+                // Сохраняем состояние меню
+                localStorage.setItem('menuCollapsed', allCollapsed);
+            });
+            
+            // Добавляем горячую клавишу для сворачивания/разворачивания (Esc)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    toggleAllSections(!allCollapsed);
+                    allCollapsed = !allCollapsed;
+                    
+                    // Изменяем иконку
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        if (allCollapsed) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-expand');
+                    } else {
+                            icon.classList.remove('fa-expand');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                    
+                    localStorage.setItem('menuCollapsed', allCollapsed);
+                }
+            });
+            
+            // Функция для переключения состояния всех секций
+            function toggleAllSections(collapsed) {
+                sections.forEach(section => {
+                    if (collapsed) {
+                        section.classList.add('collapsed');
+                } else {
+                        section.classList.remove('collapsed');
+                    }
+                });
+            }
+        }
+        
+        // Функция настройки голосового поиска
+        function setupVoiceSearch() {
+            const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+            const searchInput = document.querySelector('.search-input');
+            
+            if (!voiceSearchBtn || !searchInput) {
+                console.error('Элементы для голосового поиска не найдены');
+                return;
+            }
+            
+            // Проверяем поддержку распознавания речи в браузере
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                // Инициализируем объект распознавания речи
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'ru-RU';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                
+                // Обработчик распознанного текста
+                recognition.onresult = function(event) {
+                    const speechResult = event.results[0][0].transcript;
+                    searchInput.value = speechResult;
+                    
+                    // Мигаем кнопкой для обратной связи
+                    voiceSearchBtn.style.color = '#4CAF50';
+                    setTimeout(() => {
+                        voiceSearchBtn.style.color = '';
+                    }, 1000);
+                };
+                
+                // Обработчик ошибок
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error', event.error);
+                    
+                    // Мигаем кнопкой красным для обратной связи
+                    voiceSearchBtn.style.color = '#FF3B30';
+                    setTimeout(() => {
+                        voiceSearchBtn.style.color = '';
+                    }, 1000);
+                };
+                
+                // Обработчик завершения распознавания
+                recognition.onend = function() {
+                    voiceSearchBtn.classList.remove('listening');
+                    voiceSearchBtn.style.color = '';
+                };
+                
+                // Обработчик клика по кнопке микрофона
+                voiceSearchBtn.addEventListener('click', function() {
+                    if (voiceSearchBtn.classList.contains('listening')) {
+                        recognition.stop();
+                        voiceSearchBtn.classList.remove('listening');
+                        voiceSearchBtn.style.color = '';
+                } else {
+                        recognition.start();
+                        voiceSearchBtn.classList.add('listening');
+                        
+                        // Добавляем стиль для активного состояния
+                        voiceSearchBtn.style.color = '#FF3B30';
+                    }
+                });
+            } else {
+                // Если распознавание речи не поддерживается
+                voiceSearchBtn.style.display = 'none';
+                console.warn('Голосовой поиск не поддерживается в этом браузере');
+            }
+        }
+
+        // Обработчики закладок и заметок
+        function setupInteractiveItems() {
+            // Очистка формы заметок
+            const clearNoteFormBtn = document.querySelector('.clear-note-btn');
+            if (clearNoteFormBtn) {
+                clearNoteFormBtn.addEventListener('click', () => {
+                    const noteForm = document.getElementById('noteForm');
+                    if (noteForm) {
+                        const textarea = noteForm.querySelector('textarea');
+                        if (textarea) textarea.value = '';
+                    }
+                });
+            }
+            
+            // Обработчики удаления всех данных
+            const deleteAllBookmarksBtn = document.getElementById('deleteAllBookmarksBtn');
+            if (deleteAllBookmarksBtn) {
+                deleteAllBookmarksBtn.addEventListener('click', () => {
+                    if (confirm('Вы уверены, что хотите удалить все закладки? Это действие нельзя отменить.')) {
+                        localStorage.removeItem('bookmarks');
+                        localStorage.removeItem('quickBookmarks');
+                        if (typeof renderBookmarks === 'function') renderBookmarks();
+                    }
+                });
+            }
+            
+            const deleteAllNotesBtn = document.getElementById('deleteAllNotesBtn');
+            if (deleteAllNotesBtn) {
+                deleteAllNotesBtn.addEventListener('click', () => {
+                    if (confirm('Вы уверены, что хотите удалить все заметки? Это действие нельзя отменить.')) {
+                        localStorage.removeItem('notes');
+                        if (typeof renderNotes === 'function') renderNotes();
+                    }
+                });
+            }
+            
+            // Обработчики экспорта и импорта данных
+            const exportNotesBtn = document.getElementById('exportNotesBtn');
+            if (exportNotesBtn) {
+                exportNotesBtn.addEventListener('click', () => {
+                    const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(notes));
+                    const downloadAnchorNode = document.createElement('a');
+                    downloadAnchorNode.setAttribute("href", dataStr);
+                    downloadAnchorNode.setAttribute("download", "notes.json");
+                    document.body.appendChild(downloadAnchorNode);
+                    downloadAnchorNode.click();
+                    downloadAnchorNode.remove();
+                });
+            }
+            
+            const importNotesBtn = document.getElementById('importNotesBtn');
+            const noteFileInput = document.getElementById('noteFileInput');
+            if (importNotesBtn && noteFileInput) {
+                importNotesBtn.addEventListener('click', () => {
+                    noteFileInput.click();
+                });
+                
+                noteFileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            const notes = JSON.parse(e.target.result);
+                            localStorage.setItem('notes', JSON.stringify(notes));
+                            if (typeof renderNotes === 'function') renderNotes();
+                        } catch (error) {
+                            alert('Ошибка при импорте заметок: ' + error.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                });
+            }
+            
+            // Кнопки форматирования текста для заметок
+            const boldBtn = document.getElementById('boldBtn');
+            const italicBtn = document.getElementById('italicBtn');
+            const underlineBtn = document.getElementById('underlineBtn');
+            const strikethroughBtn = document.getElementById('strikethroughBtn');
+            const noteInput = document.querySelector('.note-input');
+            
+            if (noteInput) {
+                const formatText = (format) => {
+                    const start = noteInput.selectionStart;
+                    const end = noteInput.selectionEnd;
+                    const selectedText = noteInput.value.substring(start, end);
+            let formattedText = '';
+                    
+                    switch(format) {
+                case 'bold':
+                            formattedText = `<b>${selectedText}</b>`;
+                    break;
+                case 'italic':
+                            formattedText = `<i>${selectedText}</i>`;
+                    break;
+                case 'underline':
+                            formattedText = `<u>${selectedText}</u>`;
+                    break;
+                case 'strikethrough':
+                            formattedText = `<s>${selectedText}</s>`;
+                    break;
+            }
+            
+                    // Заменяем выделенный текст на форматированный
+                    noteInput.value = noteInput.value.substring(0, start) + formattedText + noteInput.value.substring(end);
+                    
+                    // Устанавливаем фокус обратно на textarea
+                    noteInput.focus();
+                    
+                    // Устанавливаем курсор после вставленного текста
+                    noteInput.selectionStart = start + formattedText.length;
+                    noteInput.selectionEnd = start + formattedText.length;
+                };
+                
+                if (boldBtn) boldBtn.addEventListener('click', () => formatText('bold'));
+                if (italicBtn) italicBtn.addEventListener('click', () => formatText('italic'));
+                if (underlineBtn) underlineBtn.addEventListener('click', () => formatText('underline'));
+                if (strikethroughBtn) strikethroughBtn.addEventListener('click', () => formatText('strikethrough'));
+            }
+            
+            // Обработчик формы заметок
+            const noteForm = document.getElementById('noteForm');
+            if (noteForm) {
+                noteForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const textarea = this.querySelector('textarea');
+                    if (!textarea) return;
+                    
+                    const noteContent = textarea.value.trim();
+                    if (!noteContent) return;
+                    
+                    const statusSelect = document.getElementById('noteStatus');
+                    const colorInput = document.getElementById('noteColor');
+                    
+                    const status = statusSelect ? statusSelect.value : 'pending';
+                    const color = colorInput ? colorInput.value : '#ffffff';
+                    
+                    const note = {
+                        content: noteContent,
+                        status: status,
+                        color: color,
+                        date: new Date().toLocaleString(),
+                        emoji: '📝'
+                    };
+                    
+                    const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+                    notes.push(note);
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    
+                    // Очищаем форму
+                    textarea.value = '';
+                    
+                    // Обновляем список заметок
+                    if (typeof renderNotes === 'function') {
+                        renderNotes();
+                    }
+                });
+            }
+        }
+
+        // Функция копирования времени
+        function copyTimeToClipboard() {
+            const timeElement = document.getElementById('currentTime');
+            const time = timeElement.textContent;
+            
+            navigator.clipboard.writeText(time).then(() => {
+                const copyBtn = document.getElementById('copyTimeBtn');
+                copyBtn.textContent = 'Скопировано!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Копировать время';
+                }, 2000);
+            }).catch(err => {
+                console.error('Ошибка при копировании: ', err);
+            });
+        }
+
+        // Инициализация голосового поиска
+        function initVoiceSearch() {
+            const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+            const searchInput = document.querySelector('.search-input');
+            
+            if (!voiceSearchBtn || !searchInput) return;
+            
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'ru-RU';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    searchInput.value = transcript;
+                    voiceSearchBtn.classList.remove('listening');
+                };
+                
+                recognition.onerror = function() {
+                    voiceSearchBtn.classList.remove('listening');
+                };
+                
+                recognition.onend = function() {
+                    voiceSearchBtn.classList.remove('listening');
+                };
+                
+                voiceSearchBtn.addEventListener('click', function() {
+                    if (voiceSearchBtn.classList.contains('listening')) {
+                        recognition.stop();
+                        voiceSearchBtn.classList.remove('listening');
+                    } else {
+                        recognition.start();
+                        voiceSearchBtn.classList.add('listening');
+                    }
+                });
+            } else {
+                voiceSearchBtn.style.display = 'none';
+            }
+        }
+
+        // Инициализация быстрых закладок
+        function initQuickBookmarks() {
+            const addQuickBookmarkBtn = document.getElementById('addQuickBookmarkBtn');
+            const addQuickBookmarkModal = document.getElementById('addQuickBookmarkModal');
+            const cancelAddQuickBookmark = document.getElementById('cancelAddQuickBookmark');
+            const addQuickBookmarkForm = document.getElementById('addQuickBookmarkForm');
+            
+            if (!addQuickBookmarkBtn || !addQuickBookmarkModal || !cancelAddQuickBookmark || !addQuickBookmarkForm) return;
+            
+            // Открытие модального окна
+            addQuickBookmarkBtn.addEventListener('click', () => {
+                addQuickBookmarkModal.style.display = 'flex';
+            });
+            
+            // Закрытие модального окна по кнопке отмены
+            cancelAddQuickBookmark.addEventListener('click', () => {
+                addQuickBookmarkModal.style.display = 'none';
+                addQuickBookmarkForm.reset();
+            });
+            
+            // Закрытие модального окна по клику на фон
+            addQuickBookmarkModal.addEventListener('click', (e) => {
+                if (e.target === addQuickBookmarkModal) {
+                    addQuickBookmarkModal.style.display = 'none';
+                    addQuickBookmarkForm.reset();
+                }
+            });
+            
+            // Обработка отправки формы
+            addQuickBookmarkForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const nameInput = document.getElementById('quickBookmarkName');
+                const urlInput = document.getElementById('quickBookmarkUrl');
+                
+                if (!nameInput || !urlInput) return;
+                
+                const name = nameInput.value.trim();
+                const url = urlInput.value.trim();
+                
+                if (!name || !url) return;
+                
+                const quickBookmarks = JSON.parse(localStorage.getItem('quickBookmarks') || '[]');
+                quickBookmarks.push({ name, url });
+                localStorage.setItem('quickBookmarks', JSON.stringify(quickBookmarks));
+                
+                // Очищаем форму и закрываем модальное окно
+                addQuickBookmarkForm.reset();
+                addQuickBookmarkModal.style.display = 'none';
+                
+                // Обновляем отображение быстрых закладок
+                renderQuickBookmarks();
+            });
+        }
+
+        // Функция для отображения быстрых закладок
+        function renderQuickBookmarks() {
+            const quickBookmarksGrid = document.getElementById('quickBookmarksGrid');
+            if (!quickBookmarksGrid) return;
+            
+            const quickBookmarks = JSON.parse(localStorage.getItem('quickBookmarks') || '[]');
+            
+            quickBookmarksGrid.innerHTML = '';
+            
+            quickBookmarks.forEach((bookmark, index) => {
+                const bookmarkItem = document.createElement('div');
+                bookmarkItem.className = 'quick-bookmark-item';
+                
+                // Создаем контейнер для иконки
+                const iconContainer = document.createElement('div');
+                iconContainer.className = 'quick-bookmark-icon';
+                
+                // Создаем элемент иконки глобуса по умолчанию
+                const defaultIcon = document.createElement('i');
+                defaultIcon.className = 'fas fa-globe';
+                iconContainer.appendChild(defaultIcon);
+
+                // Пытаемся получить URL favicon
+                let faviconUrl = '';
+                try {
+                    // Используем Google сервис для получения favicon (более надежный)
+                    faviconUrl = `https://www.google.com/s2/favicons?sz=32&domain=${new URL(bookmark.url).hostname}`;
+                } catch (e) {
+                    console.error(`Неверный URL для закладки ${bookmark.name}: ${bookmark.url}`);
+                    // Оставляем иконку глобуса по умолчанию
+                }
+
+                if (faviconUrl) {
+                    const faviconImg = document.createElement('img');
+                    faviconImg.width = 32;
+                    faviconImg.height = 32;
+                    faviconImg.style.borderRadius = '50%';
+                    faviconImg.src = faviconUrl;
+
+                    // Когда favicon успешно загрузится
+                    faviconImg.onload = () => {
+                        iconContainer.innerHTML = ''; // Убираем глобус
+                        iconContainer.appendChild(faviconImg); // Добавляем favicon
+                    };
+
+                    // Если при загрузке favicon произошла ошибка
+                    faviconImg.onerror = () => {
+                        // Если favicon не загрузился, глобус уже должен быть на месте
+                        // Можно добавить дополнительную обработку ошибки, если нужно
+                         console.warn(`Не удалось загрузить favicon для ${bookmark.url}`);
+                         // Убедимся, что глобус точно есть, если вдруг onload сработал некорректно ранее
+                         if (!iconContainer.querySelector('i.fa-globe')) {
+                             iconContainer.innerHTML = '';
+                             iconContainer.appendChild(defaultIcon.cloneNode(true));
+                         }
+                    };
+                }
+                
+                bookmarkItem.innerHTML = `
+                    ${iconContainer.outerHTML}
+                    <div class="quick-bookmark-title">${bookmark.name}</div>
+                    <div class="delete-quick-bookmark" onclick="deleteQuickBookmark(${index})">×</div>
+                `;
+                
+                bookmarkItem.addEventListener('click', (e) => {
+                    // Предотвращаем переход по ссылке при клике на кнопку удаления
+                    if (!e.target.classList.contains('delete-quick-bookmark')) {
+                        window.open(bookmark.url, '_blank');
+                    }
+                });
+                
+                quickBookmarksGrid.appendChild(bookmarkItem);
+            });
+        }
+
+        // Функция удаления быстрой закладки
+        function deleteQuickBookmark(index) {
+            const quickBookmarks = JSON.parse(localStorage.getItem('quickBookmarks') || '[]');
+            const bookmarkElement = document.querySelectorAll('.quick-bookmark-item')[index];
+            
+            if (bookmarkElement) {
+                bookmarkElement.classList.add('removing');
+                setTimeout(() => {
+                    quickBookmarks.splice(index, 1);
+                    localStorage.setItem('quickBookmarks', JSON.stringify(quickBookmarks));
+                    renderQuickBookmarks();
+                }, 300);
+            }
+        }
+
+    </script>
+    <!-- <script src="home.js"></script> -->
+    <div id="backgroundOverlay"></div> <!-- Добавляем оверлей для эффектов фона -->
+</body>
+</html> 
