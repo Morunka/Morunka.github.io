@@ -1,4 +1,0 @@
-GameName="Five Nights at Stickmans"
-GameVersion="3.0.0 PLUS"
-Game%Dev="5,4%"
-GameMoreLink="https://t.me/By_RORlil/388"
