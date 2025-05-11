@@ -1,0 +1,150 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(https://images.wallpaperscraft.ru/image/single/gorod_ulitsa_tuman_137173_1920x1080.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main h1 {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 50px;
+}
+.main p {
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: left;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+.project {
+    background-color: #f0f0f0;
+    border-radius: 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.185);
+    padding: 20px;
+    margin: 10px;
+    width: 280px;
+}
+
+.project h2 {
+    margin-top: 0;
+    text-align: center;
+}This just a test up container
+
+.project p {
+    margin: 0;
+}
+.main h2 {
+    text-align: center;
+}
+.up-container {
+    margin: auto;
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 20px;
+    padding: center;
+    margin: 0;
+}
+
+.up-container a {
+    text-align: center;
+    margin: auto;
+}
+
+.main {
+    margin: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    padding: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: white;
+}
+
+.page-start {
+    background-color: #c2c2c2;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+
+.page {
+    background-color:  #c2c2c2;
+    margin: auto;
+}
+
+.warn p {
+    background-color: rgb(255, 0, 0);
+    border-radius: 0px;
+    margin: auto;
+    color: rgb(217, 255, 0);
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: left;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.warn {
+    background-color: red;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.projects {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .progress-bar {
+    height: 15px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    margin: auto;
+    max-width: 600px;
+  }
+  
+  #progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .skills h2 {
+    text-align: center;
+  }
+
+  .progress-button {
+    display: flex;
+    margin: auto;
+    background-color: #c2c2c2;
+    text-align: center;
+    border: 0;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+
+  .progress-button:hover {
+    display: flex;
+    margin: auto;
+    background-color: #7c7c7c;
+    text-align: center;
+    border: 0;
+    margin-bottom: 20px;
+    padding: 10px;
+  }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>By ROlil Studio</title>
+        <link rel="stylesheet" href="rolil-styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="icon" type="image/jpg" href="Website-icon.jpg">
+        </head>
+    <body>
+        <div class="up-container">
+            <h1>By ROlil Studio</h1>
+            <div class="up-line"></div>
+            <div calss="buttons">
+                <button class="int-button" onclick="window.location.href='comments.html'"><i class="fa-solid fa-message fa-2x"></i></button> <!--Comments button-->
+                <button class="int-button" onclick="window.location.href='news.html'"><i class="fa-solid fa-newspaper fa-2x"></i></button> <!--News button-->
+                <button class="int-button selected"><i class="fa-solid fa-address-card fa-2x"></i></button> <!--Me button-->
+                <button class="int-button" onclick="window.location.href='about.html'"><i class="fa-solid fa-circle-info fa-2x"></i></button> <!--About button-->
+                <button class="int-button" onclick="window.location.href='projects.html'"><i class="fa-solid fa-diagram-project fa-2x"></i></button> <!--Projects button-->
+                <button class="int-button" onclick="window.location.href='index.html'"><i class="fa-solid fa-house fa-2x"></i></button> <!--Home button-->
+            </div>
+        </div>
+        <div class="page-start">
+            <h1>Информация о пользователе</h1>
+        </div>
+        <div class="container">
+            <h2 class="center">Ниже будет приведенна некоторая информация о вас:</h2><br>
+            <p><b>Операционная система: </b><span id="os-info"></span></p>
+            <p><b>Брауйзер: </b><span id="browser-info"></span></p>
+            <p><b>Разрешение экрана: </b><span id="screen-size"></span></p>
+            <p><b>Ваш IP: </b><span id="ip-address" style="display: none;">Загрузка</span><button onclick="toggleIP()" class="game-link" style="color: white; width: auto;">Показать</button></p>
+            <p><b>Язык брауйзера: </b><span id="browser-lang"></span></p>
+            <p><b>Часовой пояс: </b><span id="time-zone"></span></p>
+            <p><b>Устройство: </b><span id="device-type"></span></p>
+            <p><b>JavaScript: </b><span id="js-info"></span></p>
+            <p><b>Cookies: </b> <span id="cookies-info"></span></p>
+            <p><b>LocalStorage: </b><span id="localstorage-info"></span></p>
+            <p><b>Useragent: </b><spawn id="user-agent"></spawn></p><br>
+            <p>Внимание: всю информацию выше мы НЕ сохраняем на наших серверах (на данный момент у нас вообще нет собственных серверов) и файлах, не используем её и не кому не передаём! Подробнее вы можете прочитать в нашей <a class="link" href="privacity.html">политике</a></p><br>
+        </div>
+        <div class="ender"></div>
+        <script src="scripts.js"></script>
+    </body>
+</html>
