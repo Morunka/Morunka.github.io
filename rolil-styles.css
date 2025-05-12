@@ -197,7 +197,7 @@ body {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     width: 50%;
-    height: 25px;
+    height: auto;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.185);
   }
 
@@ -287,4 +287,53 @@ body {
     text-align: center;
     margin: auto;
     margin-top: 10px;
+  }
+
+@media (max-width: 1000px) {
+  .page-start {
+    width: 90%;
+  }
+  .container {
+    width: 90%;
+  }
+  .ender-style {
+    width: 90%;
+  }
+  .read-only {
+    width: 90%;
+  }
+  .projects-scroll-container {
+    width: 90%;
+  }
+  .a-list {
+    width: 90%;
+  }
+}
+
+  @media (max-width: 800px) {
+    .up-container {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 550px) {
+    .up-container {
+      font-size: 15px;
+    }
+    .int-button {
+      width: 40px;
+      height: 40px;
+    }
+    .up-container {
+      height: auto;
+    }
+    .container h2 {
+      font-size: 20px;
+    }
+    .page-start {
+      margin-top: 20px;
+    }
+    .mini-page-start {
+      width: 80%;
+    }
   }

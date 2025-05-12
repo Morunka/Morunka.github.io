@@ -164,16 +164,54 @@ fetch("Coping/Ender.html")
     });
   });
 
+  function manageUpLine() {
+    const div = document.querySelector('.up-line');
+    const screenIsSmall = window.innerWidth <= 870;
+  
+    if (div) {
+      if (screenIsSmall) {
+        div.style.display = 'none';
+        div.style.position = '';
+      } else {
+        div.style.display = 'block';
+        div.style.position = 'relative';
+      }
+    }
+  }
+  
+  function managePageIcon() {
+    const img = document.querySelector('.page-icon-container img');
+    const screenIsSmall = window.innerWidth <= 1024;
+  
+    if (img) {
+      if (screenIsSmall) {
+        img.style.display = 'none';
+      } else {
+        img.style.display = 'block';
+      }
+    }
+  }
+  
+  // Вызов при загрузке
+  manageUpLine();
+  managePageIcon();
+  
+  // Слушатели изменения размера
+  window.addEventListener('resize', manageUpLine);
+  window.addEventListener('resize', managePageIcon);  
+
+// Выводим userAgent
   const userAgent = navigator.userAgent;
+
 // Выводим операционную систему
-  let os = "Неизвестная ОС";
+  let os = "Unknown";
   if (userAgent.includes("Windows")) os = "Windows";
-  else if (userAgent.includes("Mac")) os = "macOS";
-  else if (userAgent.includes("Linux")) os = "Linux";
-  else if (/Android/i.test(userAgent)) os = "Android";
-  else if (/iPhone|iPad/i.test(userAgent)) os = "iOS";
+  if (userAgent.includes("Mac")) os = "macOS";
+  if (userAgent.includes("Linux")) os = "Linux";
+  if (userAgent.includes("Android")) os = "Android";
+  if (userAgent.includes("Android")|("IPad")|("Mac")|("IPhone"));
 // Выводим брауйзер
-  let browser = "Неизвестный браузер";
+  let browser = "Unknown";
   if (userAgent.includes("Chrome") && !userAgent.includes("Edge") && !userAgent.includes("OPR")) browser = "Chrome";
   else if (userAgent.includes("Firefox")) browser = "Firefox";
   else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) browser = "Safari";
@@ -190,7 +228,9 @@ fetch("Coping/Ender.html")
 // Выводим пояс
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 // Выводим устройство
-  const devicetype = screen.width < 768 ? "Mobile" : "Desktop";
+  let devicetype
+  if (userAgent.includes("Mobile")) devicetype = "Mobile";
+  else devicetype = "Desktop"
 // Выводим скрипт
   const jsEnabled = true
 // Выводим куки
