@@ -192,6 +192,16 @@ fetch("Coping/Ender.html")
     }
   }
   
+  // Функция поисковика
+  function search() {
+    const query = document.getElementById('query').value.trim();
+    const engine = document.getElementById('engine').value;
+    if (query) {
+      const url = engine + encodeURIComponent(query);
+      window.open(url, '_blank');
+    }
+  }
+
   // Вызов при загрузке
   manageUpLine();
   managePageIcon();

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>By ROlil Search</title>
+        <link rel="stylesheet" href="rolil-styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="search-styles.css">
+        <link rel="icon" type="image/jpg" href="Website-icon.jpg">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="up-container">
+            <h1>By ROlil Search</h1>
+            <div class="up-line"></div>
+            <div class="buttons">
+                <button class="int-button" onclick="window.location.href='comments.html'"><i class="fa-solid fa-message fa-2x"></i></button> <!--Comments button-->
+                <button class="int-button" onclick="window.location.href='news.html'"><i class="fa-solid fa-newspaper fa-2x"></i></button> <!--News button-->
+                <button class="int-button" onclick="window.location.href='me.html'"><i class="fa-solid fa-address-card fa-2x"></i></button> <!--Me button-->
+                <button class="int-button" onclick="window.location.href='about.html'"><i class="fa-solid fa-circle-info fa-2x"></i></button> <!--About button-->
+                <button class="int-button" onclick="window.location.href='projects.html'" ><i class="fa-solid fa-diagram-project fa-2x"></i></button> <!--Projects button-->
+                <button class="int-button" onclick="window.location.href='index.html'"><i class="fa-solid fa-house fa-2x"></i></button> <!--Home button-->
+            </div>
+        </div>
+        <div class="searcher">
+            <h1>By ROlil Search</h1>
+        </div>
+        <div class="search">
+                <input id="query" type="text" placeholder="Введите ваш поисковой запрос" style="width: 490px; color: white; background-color: #303238; font-size: 17px; border-radius: 5px; outline: none;">
+                <button onclick="search()">Поиск</button>
+                <select id="engine">
+                    <option value="https://www.google.com/search?q=">Google</option>
+                    <option value="https://yandex.ru/search/?text=">Yandex</option>
+                    <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+                    <option value="https://www.bing.com/search?q=">Bing</option>
+                    <option value="https://search.brave.com/search?q=">Brave</option>
+                    <option value="https://www.qwant.com/?q=">Qwant</option>
+                    <option value="https://search.yahoo.com/search?p=">Yahoo</option>
+                    <option value="https://www.ecosia.org/search?q=">Ecosia</option>
+                    <option value="https://www.mojeek.com/search?q=">Mojeek</option>
+                    <option value="https://you.com/search?q=">You.com</option>
+                    <option value="https://neeva.com/search?q=">Neeva</option>
+                    <option value="https://www.wolframalpha.com/input?i=">WolframAlpha</option>
+                    <option value="https://www.startpage.com/sp/search?q=">StartPage</option>
+                    <option value="https://searx.be/search?q=">Searx (be)</option>
+                    <option value="https://searx.org/search?q=">Searx (org)</option>
+                    <option value="https://www.gibiru.com/results.html?q=">Gibiru</option>
+                    <option value="https://www.swisscows.com/en/web?query=">Swisscows</option>
+                    <option value="https://www.baidu.com/s?wd=">Baidu (Китай)</option>
+                    <option value="https://www.naver.com/search.naver?query=">Naver (Корея)</option>
+                    <option value="https://www.yep.com/web?q=">Yep</option>
+                    <option value="https://www.dogpile.com/serp?q=">Dogpile</option>
+                    <option value="https://www.excite.com/search?q=">Excite</option>
+                    <option value="https://www.webcrawler.com/serp?q=">WebCrawler</option>
+                    <option value="https://www.info.com/serp?q=">Info.com</option>
+                    <option value="https://www.ask.com/web?q=">Ask</option>
+                    <option value="https://www.teoma.com/serp?q=">Teoma</option>
+                    <option value="https://search.aol.com/aol/search?q=">AOL Search</option>
+                </select>
+
+        </div>
+        <script src="scripts.js"></script>
+    </body>
+</html>

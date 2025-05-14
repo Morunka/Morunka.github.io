@@ -215,9 +215,9 @@ body {
 
   .a-list {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     background-color: #79929c;
     margin: auto;
     padding: 5px;

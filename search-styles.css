@@ -1,0 +1,42 @@
+body {
+    background-image: url(https://images.wallpaperscraft.ru/image/single/gorod_zdaniia_arhitektura_172575_1920x1080.jpg);
+    background-size: 3500px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.searcher {
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 150px;
+}
+
+.search {
+    color: white;
+    background-color: #50535e;
+    width: 500px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    height: auto;
+    align-items: center;
+}
+
+#engine {
+    background-color: #79929c;
+    color: white;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 10px;
+    outline: none;
+}
+
+.search button {
+    background-color: #79929c;
+    color: white;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 170px;
+}
