@@ -21,6 +21,8 @@ body {
     border-radius: 10px;
     height: auto;
     align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #engine {
@@ -39,4 +41,32 @@ body {
     margin: auto;
     margin-top: 10px;
     margin-left: 170px;
+}
+
+.search-box {
+    width: 490px;
+    color: white;
+    background-color: #303238;
+    font-size: 17px;
+    border-radius: 5px;
+    outline: none;
+}
+
+@media (max-width: 500px) {
+    .search button {
+        margin: auto;
+    }
+    .search {
+        margin-top: auto;
+        width: 100%;
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    .search-box {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .searcher {
+        font-size: 15px;
+    }
 }

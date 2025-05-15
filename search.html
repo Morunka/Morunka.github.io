@@ -26,7 +26,8 @@
             <h1>By ROlil Search</h1>
         </div>
         <div class="search">
-                <input id="query" type="text" placeholder="Введите ваш поисковой запрос" style="width: 490px; color: white; background-color: #303238; font-size: 17px; border-radius: 5px; outline: none;">
+            <input id="query" class="search-box" type="text" placeholder="Введите ваш поисковой запрос">
+            <div class="search-container">
                 <button onclick="search()">Поиск</button>
                 <select id="engine">
                     <option value="https://www.google.com/search?q=">Google</option>
@@ -57,7 +58,7 @@
                     <option value="https://www.teoma.com/serp?q=">Teoma</option>
                     <option value="https://search.aol.com/aol/search?q=">AOL Search</option>
                 </select>
-
+            </div>
         </div>
         <script src="scripts.js"></script>
     </body>
