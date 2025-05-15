@@ -164,6 +164,14 @@ fetch("Coping/Ender.html")
     });
   });
 
+    fetch("Coping/google-analytics.html")
+  .then(response => response.text())
+  .then(html => {
+    document.querySelectorAll(".google-analytics").forEach(el => {
+      el.innerHTML = html;
+    });
+  });
+
   function manageUpLine() {
     const div = document.querySelector('.up-line');
     const screenIsSmall = window.innerWidth <= 870;
