@@ -40,17 +40,61 @@ body {
     border-radius: 5px;
     margin: auto;
     margin-top: 10px;
-    margin-left: 170px;
+    border: 1px solid white;
 }
+
+.search button:hover {
+    background-color: #303238;
+}
+
+.engine:hover {
+    background-color: #303238 !important;
+}
+
+.engine {
+    border: 1px solid white;
+}
+
 
 .search-box {
     width: 490px;
+}
+
+.search-style {
     color: white;
     background-color: #303238;
     font-size: 17px;
     border-radius: 5px;
     outline: none;
 }
+
+.edit-tab,
+.delete-tab {
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0) !important;
+  border: none !important;
+  cursor: pointer;
+  user-select: none;
+}
+
+.center-div {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.sc-a {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+
 
 @media (max-width: 500px) {
     .search button {
@@ -68,5 +112,16 @@ body {
     }
     .searcher {
         font-size: 15px;
+    }
+
+    .sc-a {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 240px) {
+    .sc-b {
+        width: 100%;
+        box-sizing: border-box;
     }
 }

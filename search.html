@@ -27,10 +27,10 @@
             <h1>By ROlil Search</h1>
         </div>
         <div class="search">
-            <input id="query" class="search-box" type="text" placeholder="Введите ваш поисковой запрос">
+            <input id="query" class="search-box search-style" type="text" placeholder="Введите ваш поисковой запрос">
             <div class="search-container">
                 <button onclick="search()">Поиск</button>
-                <select id="engine">
+                <select class="engine" id="engine">
                     <option value="https://www.google.com/search?q=">Google</option>
                     <option value="https://yandex.ru/search/?text=">Yandex</option>
                     <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
@@ -60,7 +60,21 @@
                     <option value="https://search.aol.com/aol/search?q=">AOL Search</option>
                 </select>
             </div>
+            <a id="toggleAddTabBtn" class="link drag-false" onclick="toggleAddTab()" style="font-size: 13px; margin-top: 5px;">Открыть меню вкладок</a>
+            <div id="addTabSection" style="display: none;">
+                <h2 class="center">Добавить вкладку</h2>
+                <div class="search-container sc-a">
+                    <input class="search-style sc-b" id="tabName" placeholder="Имя вкладки" />
+                    <input class="search-style sc-b" id="tabUrl" placeholder="https://example.com" />
+                </div>
+                <div class="center-div">
+                    <button onclick="addTab()" style="margin-top: 10px;">Добавить</button>
+                </div>
+                <h2 class="center" id="tabsHeader">Мои вкладки</h2>
+            </div>
+            <div id="tabsContainer"></div>
         </div>
         <script src="scripts.js"></script>
+        <script src="search-script.js"></script>
     </body>
 </html>
