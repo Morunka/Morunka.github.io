@@ -1,53 +1,924 @@
 <!DOCTYPE html>
-<html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <title>By ROlil Studio</title>
-        <link rel="stylesheet" href="rolil-styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <link rel="icon" type="image/jpg" href="Website-icon.jpg">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <div class="google-analytics"></div>
-    <body>
-        <div class="up-container">
-            <h1>By ROlil Studio</h1>
-            <div class="up-line"></div>
-            <div class="buttons">
-                <button class="int-button" onclick="window.location.href='comments.html'"><i class="fa-solid fa-message fa-2x"></i></button> <!--Comments button-->
-                <button class="int-button" onclick="window.location.href='news.html'"><i class="fa-solid fa-newspaper fa-2x"></i></button> <!--News button-->
-                <button class="int-button" onclick="window.location.href='me.html'"><i class="fa-solid fa-address-card fa-2x"></i></button> <!--Me button-->
-                <button class="int-button" onclick="window.location.href='about.html'"><i class="fa-solid fa-circle-info fa-2x"></i></button> <!--About button-->
-                <button class="int-button" onclick="window.location.href='projects.html'"><i class="fa-solid fa-diagram-project fa-2x"></i></button> <!--Projects button-->
-                <button class="int-button selected"><i class="fa-solid fa-house fa-2x"></i></button> <!--Home button-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>By ROlil Warehouse</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="By ROlil Studio - Leading enterprise solutions provider. Explore our professional web applications, project portfolio, and digital services. Founded in 2021.">
+    <meta name="keywords" content="By ROlil Studio, enterprise solutions, web development, professional services, digital transformation">
+    <meta name="author" content="By ROlil Studio">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="By ROlil Studio - Enterprise Solutions Hub">
+    <meta property="og:description" content="Leading enterprise solutions provider with professional web applications and digital services.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="By ROlil Studio">
+    <meta property="twitter:description" content="Leading enterprise solutions provider with professional web applications and digital services.">
+    
+    <style>
+        :root {
+            /* Light theme colors */
+            --primary-color: #1a365d;
+            --secondary-color: #2d5aa0;
+            --accent-color: #0066cc;
+            --success-color: #38a169;
+            --warning-color: #ed8936;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --bg-tertiary: #edf2f7;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Dark theme colors */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #2b6cb0;
+                --secondary-color: #3182ce;
+                --accent-color: #4299e1;
+                --success-color: #48bb78;
+                --warning-color: #ed8936;
+                --text-primary: #f7fafc;
+                --text-secondary: #e2e8f0;
+                --text-muted: #a0aec0;
+                --bg-primary: #1a202c;
+                --bg-secondary: #2d3748;
+                --bg-tertiary: #4a5568;
+                --border-color: #4a5568;
+                --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+                --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Manual theme override classes */
+        [data-theme="light"] {
+            --primary-color: #1a365d;
+            --secondary-color: #2d5aa0;
+            --accent-color: #0066cc;
+            --success-color: #38a169;
+            --warning-color: #ed8936;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --bg-tertiary: #edf2f7;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #2b6cb0;
+            --secondary-color: #3182ce;
+            --accent-color: #4299e1;
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #a0aec0;
+            --bg-primary: #1a202c;
+            --bg-secondary: #2d3748;
+            --bg-tertiary: #4a5568;
+            --border-color: #4a5568;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .theme-toggle .sun-icon {
+            display: none;
+        }
+
+        .theme-toggle .moon-icon {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .sun-icon {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .moon-icon {
+            display: none;
+        }
+        
+        .header-bar {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .navigation {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+        
+        .section-subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .service-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            transition: background 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+            transition: background 0.3s ease;
+        }
+        
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .service-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-color);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+            border-color: var(--accent-color);
+        }
+        
+        .about-section {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .about-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .archived-section {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .archived-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        
+        .archived-title::before {
+            content: '📁';
+            margin-right: 0.5rem;
+        }
+        
+        .game-section {
+            margin: 1.5rem 0;
+        }
+        
+        .game-title {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            margin-left: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .game-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .game-link {
+            padding: 8px 16px;
+            background: var(--warning-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .game-link:hover {
+            background: #c05621;
+            transform: translateY(-1px);
+        }
+        
+        .legacy-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1rem;
+            padding: 10px 20px;
+            background: var(--text-muted);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .legacy-link:hover {
+            background: var(--text-secondary);
+            transform: translateY(-1px);
+        }
+        
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 2rem 1rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-links {
+                justify-content: center;
+            }
+
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        /* Loading animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Ripple effect */
+        @keyframes ripple {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Dark theme specific enhancements */
+        @media (prefers-color-scheme: dark) {
+            .service-card:hover {
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+            }
+
+            .navigation {
+                backdrop-filter: blur(10px) saturate(180%);
+                background: rgba(26, 32, 44, 0.8);
+            }
+        }
+
+        /* Smooth theme transition */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navigation">
+        <div class="nav-container">
+            <a href="/rolil-web" class="logo">
+                By ROlil Warehouse
+            </a>
+            <div class="lang-selector">
+                <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="switchLanguage('ru')">RU</button>
             </div>
         </div>
-        <div class="page-icon-container">
+    </nav>
+    
+    <section class="hero-section">
+        <div class="hero-content">
+            <!-- English Hero -->
+            <div id="en-hero" class="lang-content active">
+                <h1 class="hero-title">Build the games, build the web</h1>
+                <p class="hero-subtitle">We - a studio that develops simple games and modern web solutions, and this is our navigation page</p>
+            </div>
+            
+            <!-- Russian Hero -->
+            <div id="ru-hero" class="lang-content">
+                <h1 class="hero-title">Строим игры, строим веб</h1>
+                <p class="hero-subtitle">Мы - студия которая занимается разработкой простых игр и современных веб-решений и это наша навигационная страница</p>
+            </div>
         </div>
-        <div class="page-start">
-            <h1>Домашняя страница</h1>
-                <div class="page-icon-container">
-                    <img src="By-ROlil-Studio-Big.jpg" width="150px" height="150px" class="page-icon">
+    </section>
+    
+    <div class="container">
+        <!-- English Content -->
+        <div id="en-content" class="lang-content active">
+            <div class="section-title">Our Web Applications</div>
+            <p class="section-subtitle">Explore our universe today</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3 class="service-title">Main Page</h3>
+                    <p class="service-description">Main page of the website where you can learn more about our studio and its projects</p>
+                    <a href="/rolil-web" class="btn btn-primary">Let's go!</a>
                 </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">ToDo List "Focus"</h3>
+                    <p class="service-description">ToDo list "Focus" was created to demonstrate Firebase working together with Frontend application with authentication system</p>
+                    <a href="/todo-focus" class="btn btn-primary">Let's go!</a>
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <div class="about-content">
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">2021</div>
+                            <div class="stat-label">Founded</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); line-height: 1.7;">
+                            <strong>By ROlil Studio</strong> was founded on May 1st, 2021 by Morunka. We strive to bring ideas to life, we want to help people who dream of creating their own game or application.
+                            If you don't know exactly what you want, then we are not on the same path. Always open for connections - <a href="/rolil-web/#/contacts">Morunka</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="archived-section">
+                <h3 class="archived-title">Archive</h3>
+                <div class="game-section">
+                    <p class="game-title"><strong>Racing Cars Adventures</strong></p>
+                    <div class="game-links">
+                        <a href="https://www.newgrounds.com/portal/view/979044" target="_blank" class="game-link">Newgrounds</a>
+                        <a href="https://by-rolil-studio.itch.io/racing-cars-adventures" target="_blank" class="game-link">Itch.io</a>
+                        <a href="https://gamejolt.com/games/Racing_Cars_Adventures/990861" target="_blank" class="game-link">GameJolt</a>
+                    </div><br>
+                    <a href="/old-index.html" class="legacy-link">Old Website</a>
+                </div>
+            </div>
         </div>
-        <div class="container">
-            <h2><i>Что такое By ROlil Studio?</i></h2>
-            <p>By ROlil Studio — студия котрая занимается разработкой игр и простейшего ПО на PenguinMod.</p>
-            <p class="center">By ROlil Studio была основана 1 Мая 2021 года Морункой (Morunka)</p>
-            <h2 class="mini-page-start">Недавние проекты</h2>
+        
+        <!-- Russian Content -->
+        <div id="ru-content" class="lang-content">
+            <div class="section-title">Наши веб-приложения</div>
+            <p class="section-subtitle">Изучите нашу вселенную уже сегодня</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3 class="service-title">Главная страница</h3>
+                    <p class="service-description">Главная страница сайта где вы можете узнать больше о нашей студии и её проектах</p>
+                    <a href="/rolil-web" class="btn btn-primary">Вперед!</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">ToDo список «Фокус»</h3>
+                    <p class="service-description">Список задач «Фокус» был создан для предоставления работы Firebase вместе с Frontend частью приложения с системой аутентификации</p>
+                    <a href="/todo-focus" class="btn btn-primary">Вперед!</a>
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <div class="about-content">
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">2021</div>
+                            <div class="stat-label">Основана</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4+</div>
+                            <div class="stat-label">Лет Опыта</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="color: var(--text-secondary); line-height: 1.7;">
+                            <strong>By ROlil Studio</strong> была основана 1 мая 2021 года Морункой. Мы стремимся к воплощению идей в жизни, мы хотим помочь людям мечтающим создать свою игру или приложение.
+                            Если вы точно не знаете чего хотите, то нам не по пути. Всегда открыт для связей - <a href="/rolil-web/#/contacts">Morunka</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="archived-section">
+                <h3 class="archived-title">Архив</h3>
+                <div class="game-section">
+                    <p class="game-title"><strong>Racing Cars Adventures</strong></p>
+                    <div class="game-links">
+                        <a href="https://www.newgrounds.com/portal/view/979044" target="_blank" class="game-link">Newgrounds</a>
+                        <a href="https://by-rolil-studio.itch.io/racing-cars-adventures" target="_blank" class="game-link">Itch.io</a>
+                        <a href="https://gamejolt.com/games/Racing_Cars_Adventures/990861" target="_blank" class="game-link">GameJolt</a>
+                    </div><br>
+                    <a href="/old-index.html" class="legacy-link">Старый сайт</a>
+                </div>
+            </div>
         </div>
-        <div class="projects-scroll-container">
-            <div class="Racing-Cars-Adventures-card"></div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">By ROlil Studio</div>
+            <p class="footer-text">Build the games, build the web</p>
+            <div class="footer-bottom">
+                <p>© 2025 By ROlil Studio. All rights reserved.</p>
+            </div>
         </div>
-        <div class="container">
-            <p class="center"><a href="projects.html" class="link">Все наши проекты</a></p>
-            <p class="center"><a href="about.html" class="link">Больше информации о студии</a></p>
-            <p class="center"><a href="https://www.donationalerts.com/r/morunka" class="link">Поддержать студию</a></p>
-            <!--<p class="center"><a href="wiki.html" class="link">By ROlil Wiki</a></p>-->
-            <p class="center"><a href="search.html" class="link">By ROlil Search</a></p><br>
-        </div>
-        <div class="ender"></div>
-        <script src="scripts.js"></script>
-        <script src="index-script.js"></script>
-    </body>
+    </footer>
+    
+    <script>
+        function switchLanguage(lang) {
+            // Hide all language content
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected language content
+            document.getElementById(lang + '-content').classList.add('active');
+            document.getElementById(lang + '-hero').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update HTML lang attribute for accessibility
+            document.documentElement.lang = lang === 'en' ? 'en' : 'ru';
+        }
+        
+        // Enhanced interactivity and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation to main container
+            const container = document.querySelector('.container');
+            container.classList.add('fade-in');
+            
+            // Add hover effects to service cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s ease-out;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+            
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Add intersection observer for animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe service cards for scroll animation
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+                // Load saved language preference or default to 'en'
+                function loadLanguagePreference() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            switchLanguage(savedLang);
+        }
+
+        // Save language preference to localStorage
+        function saveLanguagePreference(lang) {
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Switch language function
+        function switchLanguage(lang) {
+            // Save the preference
+            saveLanguagePreference(lang);
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+            
+            // Show/hide content based on language
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected language content
+            document.querySelectorAll(`#${lang}-hero, #${lang}-content`).forEach(content => {
+                content.classList.add('active');
+            });
+        }
+
+        // Load language preference when page loads
+        document.addEventListener('DOMContentLoaded', loadLanguagePreference);
+    </script>
+</body>
 </html>
