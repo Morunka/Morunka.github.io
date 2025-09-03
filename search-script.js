@@ -145,7 +145,7 @@ function toggleAddTab() {
 
   const isHidden = section.style.display === 'none' || section.style.display === '';
   section.style.display = isHidden ? 'block' : 'none';
-  button.textContent = isHidden ? 'Закрыть меню вкладок' : 'Открыть меню вкладок';
+  button.textContent = isHidden ? 'Close tab menu' : 'Open tab menu';
 }
 
   // Функция поисковика

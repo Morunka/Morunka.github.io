@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>By ROlil Search</title>
@@ -13,23 +13,14 @@
     <body>
         <div class="up-container">
             <h1>By ROlil Search</h1>
-            <div class="up-line"></div>
-            <div class="buttons">
-                <button class="int-button" onclick="window.location.href='comments.html'"><i class="fa-solid fa-message fa-2x"></i></button> <!--Comments button-->
-                <button class="int-button" onclick="window.location.href='news.html'"><i class="fa-solid fa-newspaper fa-2x"></i></button> <!--News button-->
-                <button class="int-button" onclick="window.location.href='me.html'"><i class="fa-solid fa-address-card fa-2x"></i></button> <!--Me button-->
-                <button class="int-button" onclick="window.location.href='about.html'"><i class="fa-solid fa-circle-info fa-2x"></i></button> <!--About button-->
-                <button class="int-button" onclick="window.location.href='projects.html'" ><i class="fa-solid fa-diagram-project fa-2x"></i></button> <!--Projects button-->
-                <button class="int-button" onclick="window.location.href='index.html'"><i class="fa-solid fa-house fa-2x"></i></button> <!--Home button-->
-            </div>
         </div>
         <div class="searcher">
             <h1>By ROlil Search</h1>
         </div>
         <div class="search">
-            <input id="query" class="search-box search-style" type="text" placeholder="Введите ваш поисковой запрос">
+            <input id="query" class="search-box search-style" type="text" placeholder="Enter your search query">
             <div class="search-container">
-                <button onclick="search()">Поиск</button>
+                <button onclick="search()">Search</button>
                 <select class="engine" id="engine">
                     <option value="https://www.google.com/search?q=">Google</option>
                     <option value="https://yandex.ru/search/?text=">Yandex</option>
@@ -48,8 +39,8 @@
                     <option value="https://searx.org/search?q=">Searx (org)</option>
                     <option value="https://www.gibiru.com/results.html?q=">Gibiru</option>
                     <option value="https://www.swisscows.com/en/web?query=">Swisscows</option>
-                    <option value="https://www.baidu.com/s?wd=">Baidu (Китай)</option>
-                    <option value="https://www.naver.com/search.naver?query=">Naver (Корея)</option>
+                    <option value="https://www.baidu.com/s?wd=">Baidu (China)</option>
+                    <option value="https://www.naver.com/search.naver?query=">Naver (Korea)</option>
                     <option value="https://www.yep.com/web?q=">Yep</option>
                     <option value="https://www.dogpile.com/serp?q=">Dogpile</option>
                     <option value="https://www.excite.com/search?q=">Excite</option>
@@ -60,17 +51,17 @@
                     <option value="https://search.aol.com/aol/search?q=">AOL Search</option>
                 </select>
             </div>
-            <a id="toggleAddTabBtn" class="link drag-false" onclick="toggleAddTab()" style="font-size: 13px; margin-top: 5px;">Открыть меню вкладок</a>
+            <a id="toggleAddTabBtn" class="link drag-false" onclick="toggleAddTab()" style="font-size: 13px; margin-top: 5px;">Open tab menu</a>
             <div id="addTabSection" style="display: none;">
-                <h2 class="center">Добавить вкладку</h2>
+                <h2 class="center">Add a tab</h2>
                 <div class="search-container sc-a">
-                    <input class="search-style sc-b" id="tabName" placeholder="Имя вкладки" />
+                    <input class="search-style sc-b" id="tabName" placeholder="Tab Name" />
                     <input class="search-style sc-b" id="tabUrl" placeholder="https://example.com" />
                 </div>
                 <div class="center-div">
-                    <button onclick="addTab()" style="margin-top: 10px;">Добавить</button>
+                    <button onclick="addTab()" style="margin-top: 10px;">Add</button>
                 </div>
-                <h2 class="center" id="tabsHeader">Мои вкладки</h2>
+                <h2 class="center" id="tabsHeader">My tabs</h2>
             </div>
             <div id="tabsContainer"></div>
         </div>

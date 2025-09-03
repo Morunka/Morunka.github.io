@@ -1,0 +1,62 @@
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: black;
+}
+h3 {
+    margin-top: 4rem;
+    text-align: center;
+    color: black;
+}
+button {
+    margin: auto;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body {
+    background-color: white;
+}
+p {
+    text-align: center;
+    max-width: 30%;
+    margin: auto;
+}
+img {
+    display: block;
+    margin: auto;
+    width: 20rem;
+    height: 20rem;
+}
+
+@media (max-width: 600px) {
+    h1,h3 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        max-width: 80%;
+    }
+    
+    img {
+        width: 15rem;
+        height: 15rem;
+    }
+}
+
+@media (max-width: 400px) {
+    h1,h3 {
+        font-size: 1.2rem;
+    }
+    
+    p {
+        font-size: 0.9rem;
+    }
+
+    img {
+        width: 10rem;
+        height: 10rem;
+    }
+}
