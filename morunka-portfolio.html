@@ -1,79 +1,1306 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Morunka портфолио</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morunka</title>
+  <meta name="description" content="Russian developer, web, games, vue.js - that's about me.">
+  <meta name="keywords" content="Developing, Vue.js, Node.js, web, Godot, Morunka, ROlil Studio">
+  <meta name="author" content="Morunka">
+  <link rel="icon" type="image/x-icon" sizes="512x512" href="morunka.jpg"/>
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://morunka.github.io/morunka-portfolio.html ">
+  <meta property="og:title" content="Morunka">
+  <meta property="og:description" content="Russian developer, web, games, vue.js - that's about me.">
+  
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://morunka.github.io/morunka-portfolio.html ">
+  <meta property="twitter:title" content="Morunka">
+  <meta property="twitter:description" content="Russian developer, web, games, vue.js - that's about me.">
+  
+  <link rel="canonical" href="https://morunka.github.io/morunka-portfolio.html ">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com ">
+  <link rel="preconnect" href="https://fonts.gstatic.com " crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+
+  <!-- Contentful SDK from CDN -->
+  <script src="https://unpkg.com/contentful@latest/dist/contentful.browser.min.js"></script>
+  
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org ",
+    "@type": "Person",
+    "name": "Morunka",
+    "jobTitle": "Game/web developer",
+    "description": "Russian developer, web, games, vue.js - that's about me.",
+    "url": "https://morunka.github.io/morunka-portfolio.html ",
+    "sameAs": [
+      "https://github.com/Morunka ",
+      "https://t.me/MEOW_MUR920 ",
+      "https://x.com/MEOW_MUR920 "
+    ]
+  }
+  </script>
+  
+  <style>
+    /* VARIABLES - FIXED THEMES */
+    :root {
+      --bg-color: #121212;
+      --text-color: #EAEAEA;
+      --primary-color: #007BFF;
+      --primary-hover-color: #3395ff;
+      --accent-color: #28a745;
+      --card-bg-color: #1E1E1E;
+      --border-color: #383838;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+      --gradient-bg: linear-gradient(135deg, var(--bg-color), #232323);
+      --header-bg-color: rgba(18, 18, 18, 0.8);
+      --input-bg-color: #2a2a2a;
+    }
+    
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-color: #f0f2f5;
+        --text-color: #333;
+        --primary-color: #007BFF;
+        --primary-hover-color: #0056b3;
+        --accent-color: #28a745;
+        --card-bg-color: #fff;
+        --border-color: #ddd;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --gradient-bg: linear-gradient(135deg, var(--bg-color), var(--card-bg-color));
+        --header-bg-color: rgba(255, 255, 255, 0.8);
+        --input-bg-color: #ffffff;
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    section {
+      padding: 60px 0;
+    }
+    
+    h1, h2, h3 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+    }
+    
+    h2 {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+    
+    /* HEADER */
+    header {
+      background-color: var(--header-bg-color);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+      padding: 8px 0;
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-color);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+    
+    /* HERO SECTION */
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: var(--gradient-bg);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .hero-title {
+      margin: 0;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .brand-gradient {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-subtitle {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      margin: 20px auto;
+      color: var(--text-color);
+      max-width: 600px;
+      animation: fadeInUp 1s ease-out 0.2s backwards;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover-color);
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.5); /* Glow effect */
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-color);
+      border-color: var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.5); /* Glow effect */
+    }
+    
+    /* STATS SECTION */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .stat-card {
+      text-align: center;
+      padding: 20px;
+      background: var(--card-bg-color);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .stat-value {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--primary-color);
+      line-height: 1;
+    }
+    
+    .stat-label {
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ABOUT SECTION */
+    .about {
+      background: var(--card-bg-color);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-image {
+      text-align: center;
+    }
+
+    .about-image img {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary-color);
+      box-shadow: 0 10px 30px var(--shadow-color);
+    }
+
+    .about-text {
+      padding: 20px 0;
+    }
+
+    .about-text h2 {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .about-text h2::after {
+      left: 0;
+      transform: none;
+    }
+
+    .about-description {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-color);
+    }
+
+    .about-description blockquote {
+      border-left: 4px solid var(--primary-color);
+      margin: 20px 0;
+      padding: 15px 20px;
+      background: var(--bg-color);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+    }
+
+    .about-description strong {
+      color: var(--primary-color);
+    }
+
+    .about-description em {
+      color: var(--accent-color);
+    }
+
+    /* SKILLS SECTION */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .skills-group {
+      text-align: center;
+    }
+
+    .skills-group h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .skill-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .skill-card {
+      background: var(--card-bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      width: 100%;
+      max-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .skill-card:hover {
+      box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+    }
+    
+    .skill-card-image {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .skill-card h4 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    /* PROJECTS SECTION */
+    .projects {
+      background: var(--card-bg-color);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .project-card {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 8px 25px var(--shadow-color);
+    }
+    
+    /* MODIFIED: Project image styles for logo overlay */
+    .project-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--primary-color);
+      position: relative; /* Needed for absolute positioning of children */
+    }
+    
+    .project-image::after { /* Dark overlay on hover */
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .project-card:hover .project-image::after {
+      opacity: 1;
+    }
+    
+    /* NEW: Style for the overlay logo */
+    .project-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      z-index: 2; /* To appear above the overlay */
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+      transition: transform 0.3s ease;
+      border-radius: 30px;
+    }
+
+    .project-card:hover .project-logo {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .project-image-fallback {
+      background: var(--gradient-bg);
+    }
+
+    .project-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .project-title {
+      font-size: 1.3rem;
+      margin: 0 0 10px;
+      color: var(--primary-color);
+    }
+
+    .project-description {
+      margin: 10px 0;
+      color: #999;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .tech-tag {
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .project-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    /* PSEUDONYMS SECTION - IMPROVED VISUAL */
+    .pseudonyms {
+      background: var(--gradient-bg);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pseudonyms::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 123, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(40, 167, 69, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(0, 123, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .pseudonyms .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pseudonyms h2 {
+      margin-bottom: 60px;
+      position: relative;
+    }
+    
+    .pseudonyms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .pseudonym-card {
+      background: var(--card-bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .pseudonym-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      border-radius: 15px 15px 0 0;
+    }
+
+    .pseudonym-card:hover {
+      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    }
+
+    .pseudonym-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-color);
+      margin: 0 0 8px 0;
+    }
+
+    .pseudonym-tag {
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      background: rgba(0, 123, 255, 0.1);
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .pseudonym-card:nth-child(1) .pseudonym-tag { background: rgba(0, 123, 255, 0.1); color: var(--primary-color); }
+    .pseudonym-card:nth-child(2) .pseudonym-tag { background: rgba(40, 167, 69, 0.1); color: var(--accent-color); }
+    .pseudonym-card:nth-child(3) .pseudonym-tag { background: rgba(255, 193, 7, 0.1); color: #ffc107; }
+    .pseudonym-card:nth-child(4) .pseudonym-tag { background: rgba(220, 53, 69, 0.1); color: #dc3545; }
+    .pseudonym-card:nth-child(5) .pseudonym-tag { background: rgba(111, 66, 193, 0.1); color: #6f42c1; }
+
+    /* CONTACT SECTION - ENHANCED */
+    .contact {
+      background: var(--card-bg-color);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .contact h2 {
+      margin-bottom: 20px;
+    }
+    
+    .contact-intro {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-size: 1.1rem;
+      color: #aaa;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .social-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.8rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      transform: scale(0);
+    }
+
+    .social-btn:hover::before {
+      transform: scale(1);
+    }
+
+    .social-btn i {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .social-btn:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Individual social button styles */
+    .social-btn.telegram { background: rgba(0, 136, 204, 0.1); border: 2px solid #0088cc; color: #0088cc; }
+    .social-btn.telegram::before { background: #0088cc; }
+    .social-btn.telegram:hover i { color: white; }
+
+    .social-btn.github { background: rgba(200, 200, 200, 0.1); border: 2px solid #888; color: var(--text-color); }
+    .social-btn.github::before { background: #fff; }
+    .social-btn.github:hover i { color: #121212; }
+
+    .social-btn.tenchat { background: rgba(0, 123, 255, 0.1); border: 2px solid #007bff; color: #007bff; }
+    .social-btn.tenchat::before { background: #007bff; }
+    .social-btn.tenchat:hover i { color: white; }
+
+    .social-btn.resume { background: rgba(40, 167, 69, 0.1); border: 2px solid #28a745; color: #28a745; }
+    .social-btn.resume::before { background: #28a745; }
+    .social-btn.resume:hover i { color: white; }
+
+    .social-btn.twitter { background: rgba(29, 161, 242, 0.1); border: 2px solid #1da1f2; color: #1da1f2; }
+    .social-btn.twitter::before { background: #1da1f2; }
+    .social-btn.twitter:hover i { color: white; }
+
+    @media (prefers-color-scheme: light) {
+      .social-btn.github { background: rgba(51, 51, 51, 0.1); border: 2px solid #333; color: #333; }
+      .social-btn.github::before { background: #333; }
+      .social-btn.github:hover i { color: white; }
+    }
+
+    /* Contact Form Styles */
+    .contact-form-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 30px;
+      background: var(--bg-color);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-title {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    #contact-form .form-group {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--input-bg-color);
+      color: var(--text-color);
+      font-size: 1rem;
+      font-family: 'Roboto', sans-serif;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    #contact-form input:focus,
+    #contact-form textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    #contact-form textarea {
+      resize: vertical;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.1rem;
+      justify-content: center;
+    }
+
+    #form-result {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid var(--border-color);
+      margin-top: 40px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; gap: 15px; text-align: center; }
+      .nav-links { justify-content: center; }
+      .hero { padding: 80px 20px; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .btn { width: 200px; justify-content: center; }
+      .about-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+      .about-text h2 { text-align: center; }
+      .about-text h2::after { left: 50%; transform: translateX(-50%); }
+      .about-image img { width: 200px; height: 200px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .pseudonyms-grid { grid-template-columns: 1fr; gap: 20px; }
+      .social-links { gap: 20px; }
+      .social-btn { width: 60px; height: 60px; font-size: 1.5rem; }
+      section { padding: 40px 0; }
+      #contact-form .form-group { flex-direction: column; gap: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 15px; }
+      .hero { padding: 60px 15px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+      .skill-card-grid { grid-template-columns: 1fr; }
+      .social-btn { width: 55px; height: 55px; font-size: 1.3rem; }
+      .contact-form-container { padding: 20px; }
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+  </style>
 </head>
-<div class="google-analytics"></div>
 <body>
-    <div class="up-container">
-        <a><a href="https://t.me/MEOW_MUR920">Telegram</a> <a href="https://scratch.mit.edu/users/By-ROlil-CO/">Scratch</a> <a href="https://gamejolt.com/@By-ROlil-CO">GameJolt</a> <a href="https://github.com/Morunka">Github</a></a>
+
+  <header>
+    <div class="container header-content">
+      <a href="#hero" class="logo" aria-label="Morunka Portfolio Home">Morunka</a>
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="#hero" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#pseudonyms">Pseudonyms</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-    <div class="main">
-        <div class="page-start">
-            <h1>Morunka</h1>
+  </header>
+  
+  <main>
+    <section id="hero" class="hero">
+      <div class="container">
+        <h1 class="hero-title">Meet <span class="brand-gradient">Morunka</span></h1>
+        <p class="hero-subtitle">
+          Russian developer, web, games, vue.js - that's about me.
+        </p>
+        <div class="cta-buttons">
+          <a href="https://github.com/Morunka/Morunka.github.io/raw/refs/heads/main/Downloads/%D0%9C%D0%BE%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B9%D0%A8%D0%A1.docx " 
+             class="btn btn-primary" 
+             download="Morunka-Portfolio.docx"
+             aria-label="Download CV">
+            <i class="fas fa-download" aria-hidden="true"></i>
+            Download CV
+          </a>
+          <a href="#contact" class="btn btn-secondary" aria-label="Get in touch">
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+            Get In Touch
+          </a>
         </div>
-        <p>Всем привет! Меня зовут Морунка, я начинающий программист. Сейчас я изучаю <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, <a href="https://en.wikipedia.org/wiki/CSS">CSS</a> и <a href="https://en.wikipedia.org/wiki/Javascript">JavaScript</a>, а также отлично разбираюсь в <a href="https://scratch.mit.edu/">Scratch</a>, <a href="https://turbowarp.org/">TurboWarp</a> и <a href="https://penguinmod.com/">PenguinMod</a>. Вы можете связатсья с мной в <a href="https://t.me/MEOW_MUR920">Telegram</a>
-        <p>Я хочу отметить что я разработчик не играющий в игры (вообще не в какие). Я могу создавать веб-страницы под заказ, все мои навыки создания веб-страниц пока-что вы можете увидеть на этой странице моего портфолио.</p>
-        <div class="warn">
-            <p><b>Так-же я хочу отметить что <u>я не профессионал в создании сайтов</u>, пока-что я умею создавать только самые простые веб-страницы (однако создавать я их все равно умею)!</b></p>
-        </div>
-        <p>В целом есть ещё парочка мест где вы можете меня найти, все эти места закрепленны сверху на веб-странице, так-что вы меня не потеряете!</p>
-        <p>Так-же я активно занимаюсь освоением английского языка. В ближайшем будущим я хочу перейти на игровой движок Godot. <b>Баги в старых играх исправлять не собираюсь :p</b></p>
-        <p>Интересные факты: я являюсь основателем <a href="https://morunka.github.io/index.html">By ROlil Studio</a>, мне 15 лет (на момент 29 апреля 2025 года) и я живу в россии</p>
-        <div class="page">
-            <h2>Мои проекты</h2>
-        </div>
-        <p>У меня естьS, огромное количество проектов, поэтому в этом разделе будут только самые лучшие и самые новые проекты, однако если вам нужны вообще все проекты в которых я участвовал, то вот <a href="https://morunka.github.io/all-games.html">ссылка</a>. Так-же я не обещяю что буду обновлять список моих проектов при появлении новых, так-как есть полный список всех проектов где проекты при появлении почти сразу же добавляются.</a></p>
-        <p>В всех проектах на которые я буду ссылаться в этом раздле я имел роль программиста ну или же того человека, который придумывал всю логику и заставлял её работать. Так-же почти в всех моих проектах я делал всё сам.</p>
-        <div class="projects">
-            <div class="container">
-                <div class="project">
-                    <h2>Racing cars adventures</h2>
-                    <p>Динамичная гоночная игра, сочетающая классические аркадные заезды и скрытые тайны, ожидающие внимательных игроков.</p>
-                    <p size="5"><i>Использованные технологии: <a href="https://scratch.mit.edu">Scratch</a>, <a href="https://penguinmod.com/">PenguinMod</i></a>.</p>
-                </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-image">
+            <img src="morunka.jpg" alt="Morunka - Full-stack Developer" loading="lazy">
+          </div>
+          <div class="about-text">
+            <h2>About Me</h2>
+            <div class="about-description" id="about-description">
+              <p>Welcome! I'm <strong>Morunka</strong>, <em> a developer from Russia</em>, I create games on <strong>Godot</strong>, write websites on <strong>Vue.js</strong> and I am actively <b>developing <a href="https://morunka.github.io/rolil-web ">my studio</a> </b>on the topic of IT and video games ^^</p>
+              <blockquote>
+              My goal is simple: to make it easy for you to know about my lores and help you in journey.
+              </blockquote>
+              
+              <p>Now <b>I am studying <strong>English</strong> and learning programming.</b> I was born on <em>August 15, 2009</em>, now I am 16 years old.</p>
+              
+              <p><strong>I made this website</strong> so that you always have access to <em>my contacts and links</em> :3</p>
+
+              <p><b>I use <strong>Linux Arch</strong> OS,</b> I am in the <strong>Arch community</strong> and I will be happy if you Linux fun too ><</p>
             </div>
-            <div class="container">
-                <div class="project">
-                    <h2>The slithers arcado</h2>
-                    <p>Игра на стадии разработки, описание пока отутствует.</p>
-                </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <section id="skills" class="skills">
+      <div class="container">
+        <h2>Technologies & Skills</h2>
+        <div class="skills-grid">
+          
+          <div class="skills-group">
+            <h3>Tools & DevOps</h3>
+            <div class="skill-card-grid">
+              <div class="skill-card">
+                <img src="https://img.icons8.com/color/96/git.png " alt="Git" class="skill-card-image" loading="lazy">
+                <h4>Git</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/?size=100&id=24895&format=png&color=000000" alt="npm" class="skill-card-image" loading="lazy">
+                <h4>npm</h4>
+              </div>
+              <div class="skill-card">
+                <img src=" https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/vue.webp " alt="Konsole" class="skill-card-image" loading="lazy">
+                <h4>Vue.js</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Firebase_Studio_logo.svg " alt="Firebase Studio" class="skill-card-image" loading="lazy">
+                <h4>Firebase studio</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/color/96/visual-studio-code-2019.png " alt="VS Code" class="skill-card-image" loading="lazy">
+                <h4>VS Code</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/color/96/intellij-idea.png " alt="IntelliJ IDEA" class="skill-card-image" loading="lazy">
+                <h4>IntelliJ IDEA</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/godot.webp " alt="Godot" class="skill-card-image" loading="lazy">
+                <h4>Godot</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/?size=100&id=pzBwti6QHuKh&format=png&color=000000" alt="GameMaker" class="skill-card-image" loading="lazy">
+                <h4>GameMaker</h4>
+              </div>
+              <div class="skill-card">
+                <img src=" https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/inkscape.webp " alt="Inkscape" class="skill-card-image" loading="lazy">
+                <h4>Inkscape</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/gimp.webp " alt="GIMP" class="skill-card-image" loading="lazy">
+                <h4>GIMP</h4>
+              </div>
             </div>
+          </div>
+  
+          <div class="skills-group">
+            <h3>Other</h3>
+            <div class="skill-card-grid">
+              <div class="skill-card">
+                <img src="https://img.icons8.com/fluency/96/markdown.png " alt="Markdown" class="skill-card-image" loading="lazy">
+                <h4>Markdown</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/fluency/96/bash.png " alt="Bash Scripting" class="skill-card-image" loading="lazy">
+                <h4>Bash Scripting</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/color/96/linux.png " alt="Linux Administration" class="skill-card-image" loading="lazy">
+                <h4>Linux Administration</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/color/96/artificial-intelligence.png " alt="AI Use" class="skill-card-image" loading="lazy">
+                <h4>AI Use</h4>
+              </div>
+              <div class="skill-card">
+                <img src="https://img.icons8.com/color/96/windows-10.png " alt="Windows System Install & Optimize" class="skill-card-image" loading="lazy">
+                <h4>Windows System Install & Optimize</h4>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="page">
-            <h2>Мои навыки</h2>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <div class="container">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid" id="projects-container">
+          <!-- Placeholder while loading -->
+          <p style="margin: auto;">Loading projects...</p>
         </div>
-        <div class="skills">
-            <h2><b>Cписок всех моих навыков:</b></h2><br>
-            <p>• Разработка самого простейшего ПО на <a href="https://scratch.mit.edu/">Scratch</a>, <a href="https://turbowarp.org/">TurboWarp</a> и <a href="https://penguinmod.com/">PenguinMod</a> (например: мой IP адрес, анти майнер, проверка подключения к сети и много чего ещё)</p>
-            <p>• Создание проектов на <a href="https://scratch.mit.edu/">Scratch</a>, <a href="https://turbowarp.org/">TurboWarp</a>, <a href="https://penguinmod.com/">PenguinMod</a> и Kogama</p>
-            <p>• Создание простейших веб-сайтов (на подобии этого)</p>
-            <p>• Установка Windows</p>
-            <p>• Настройка Windows и LinuxArch</p>
-            <p>• Почти не разбераюсь в <a href="https://en.wikipedia.org/wiki/Javascript">JS</a>, лучше разбераюсь в <a href="https://en.wikipedia.org/wiki/CSS">CSS</a> и <a href="https://en.wikipedia.org/wiki/HTML">HTML</a></p>
+      </div>
+    </section>
+
+    <!-- IMPROVED: Pseudonyms Section with better visual design -->
+    <section id="pseudonyms" class="pseudonyms">
+      <div class="container">
+        <h2>My Pseudonyms</h2>
+        <div class="pseudonyms-grid">
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">Morunka</div>
+            <div class="pseudonym-tag">Primary</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">rOwHat</div>
+            <div class="pseudonym-tag">Robox</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">Ro</div>
+            <div class="pseudonym-tag">Old</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">ROlil</div>
+            <div class="pseudonym-tag">Old/Kogama</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">CoDe1011</div>
+            <div class="pseudonym-tag">War Robots</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">Igor Mostovoj</div>
+            <div class="pseudonym-tag">Real Name</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">ROBuilder</div>
+            <div class="pseudonym-tag">Old/Roblox BI</div>
+          </div>
+          <div class="pseudonym-card">
+            <div class="pseudonym-name">Mister Lite</div>
+            <div class="pseudonym-tag">Kogama freinds</div>
+          </div>
         </div>
-        <p><i>На данный момент это все мои навыки! Если я чему-то ещё научусь то я обязательно добавлю это сюда!</i></p>
-        <div class="page">
-            <h2>Примеры</h2>
+      </div>
+    </section>
+
+    <!-- ENHANCED: Contact Section with form -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Let's Connect</h2>
+        <p class="contact-intro">
+          I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out to me through social media or by using the contact form below.
+        </p>
+        <div class="social-links">
+          <a href="https://t.me/MEOW_MUR920 " 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="social-btn telegram" 
+             aria-label="Contact via Telegram">
+            <i class="fab fa-telegram" aria-hidden="true"></i>
+          </a>
+          <a href="https://github.com/Morunka " 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="social-btn github" 
+             aria-label="View GitHub profile">
+            <i class="fab fa-github" aria-hidden="true"></i>
+          </a>
+          <a href="https://tenchat.ru/Morunka " 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="social-btn tenchat" 
+             aria-label="Connect on TenChat">
+            <i class="fas fa-comments" aria-hidden="true"></i>
+          </a>
+          <a href="https://novorossiysk.hh.ru/resume/fb573192ff0ee4b48e0039ed1f3734574e4a53 " 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="social-btn resume" 
+             aria-label="View resume on hh.ru">
+            <i class="fas fa-file-alt" aria-hidden="true"></i>
+          </a>
+          <a href="https://x.com/MEOW_MUR920 " 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="social-btn twitter" 
+             aria-label="Follow on X (Twitter)">
+            <i class="fab fa-twitter" aria-hidden="true"></i>
+          </a>
         </div>
-        <p>В этой вкладке я специально покажу вам что я умею делать на веб-страницах!</p>
-        <p>Вот пример прогресс-бара:</p>
-        <button onclick="fillProgress()" class="progress-button"><b>Нажми на меня!</b></button>
-        <div class="progress-bar">
-          <div id="progress-fill" style="width: 0%;"></div>
+        
+        <h3 class="form-title">Send a Direct Message</h3>
+        <div class="contact-form-container">
+          <form id="contact-form">
+            
+            <input type="hidden" name="access_key" value="93837c4f-30c5-4b93-960e-5ee170c5cda1">
+            <input type="hidden" name="subject" value="New Message from your Portfolio!">
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+            <div class="form-group">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <textarea name="message" placeholder="Your Message" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit-btn">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+          <div id="form-result"></div>
         </div>
-        <br><br>
-        <p>Ну и вообщем это пока-что всё что я могу c JavaScript..</p>
-        <div class="page">
-            <h2>Дополнительно</h2>
-        </div>
-        <p>Если вы намеренно хотите связатсья с мной чтобы я сделал для вас какой-то проект, то вы можете нажать на кнопку ниже. Эта кнопка переведёт вас на контакт с мной где я чаще всего нахожусь.</p>
-        <button class="progress-button" onclick="window.location.href='https://t.me/MEOW_MUR920'"><b>Связаться с Morunka</b></button>
-        <br><br>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Morunka. All rights reserved.</p>
     </div>
-    <br><br><br>
-    <script src="scripts.js"></script>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Navigation Logic (unchanged) ---
+      const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+      const sections = document.querySelectorAll('section[id]');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetSection = document.getElementById(targetId);
+          
+          if (targetSection) {
+            const headerHeight = document.querySelector('header').offsetHeight;
+            const targetPosition = targetSection.offsetTop - headerHeight - 20;
+            
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+      });
+
+      const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '-80px 0px -60% 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href').substring(1) === entry.target.id) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+
+
+      // --- MODIFIED: Contentful Project Fetching Logic ---
+      const SPACE_ID = 'yq9354xhgs2n';
+      const ACCESS_TOKEN = 'SaEPbh6FIoNCKuGRIXRezbw1eTLIOAfY7ZZ6on6Td9I';
+
+      const client = contentful.createClient({
+        space: SPACE_ID,
+        accessToken: ACCESS_TOKEN,
+      });
+
+      const projectsContainer = document.getElementById('projects-container');
+
+      const fetchProjects = async () => {
+        try {
+          const response = await client.getEntries({
+            content_type: 'project',
+            'fields.inPortfolio': true,
+            limit: 3,
+            order: '-fields.releaseDate'
+          });
+
+          if (response.items.length > 0) {
+            projectsContainer.innerHTML = '';
+            response.items.forEach(item => {
+              const fields = item.fields;
+              
+              const imageUrl = fields.previewImage ? `https:${fields.previewImage.fields.file.url}` : '';
+              const logoUrl = fields.logoImage ? `https:${fields.logoImage.fields.file.url}` : '';
+
+              const tagsHtml = fields.tags
+                ? fields.tags.split(',').map(tag => `<span class="tech-tag">${tag.trim()}</span>`).join('')
+                : '';
+              
+              // NEW: Conditionally create the GitHub link
+              let githubLinkHtml = '';
+              if (fields.githubUrl) {
+                githubLinkHtml = `
+                  <a href="${fields.githubUrl}" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View project code">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                    Code
+                  </a>
+                `;
+              }
+
+              const projectCard = `
+                <div class="project-card">
+                  <div 
+                    class="project-image ${!imageUrl ? 'project-image-fallback' : ''}" 
+                    style="background-image: url(${imageUrl})">
+                    ${logoUrl ? `<img src="${logoUrl}" alt="${fields.title} Logo" class="project-logo">` : ''}
+                    ${!imageUrl && !logoUrl ? `<i class="fas ${fields.fontawesomeIcon || 'fa-code'}" aria-hidden="true"></i>` : ''}
+                  </div>
+                  <div class="project-content">
+                    <h3 class="project-title">${fields.title}</h3>
+                    <p class="project-description">${fields.description}</p>
+                    <div class="project-tech">
+                      ${tagsHtml}
+                    </div>
+                    <div class="project-links">
+                      <a href="${fields.url || '#'}" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View project demo">
+                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        Demo
+                      </a>
+                      ${githubLinkHtml}
+                    </div>
+                  </div>
+                </div>
+              `;
+              projectsContainer.innerHTML += projectCard;
+            });
+          } else {
+            projectsContainer.innerHTML = '<p>No projects to display at the moment.</p>';
+          }
+        } catch (error) {
+          console.error('Error fetching projects from Contentful:', error);
+          projectsContainer.innerHTML = '<p>Could not load projects. Please try again later.</p>';
+        }
+      };
+
+      fetchProjects();
+
+
+      // --- Contact Form Submission Logic with Feedback (unchanged) ---
+      const form = document.getElementById('contact-form');
+      const result = document.getElementById('form-result');
+
+      form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const formData = new FormData(form);
+          const object = Object.fromEntries(formData);
+          const json = JSON.stringify(object);
+          
+          result.innerHTML = "Sending...";
+          result.style.color = 'var(--text-color)';
+
+          fetch('https://api.web3forms.com/submit', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json'
+                  },
+                  body: json
+              })
+              .then(async (response) => {
+                  let jsonResponse = await response.json();
+                  if (response.status == 200) {
+                      result.innerHTML = "Message sent successfully!";
+                      result.style.color = 'var(--accent-color)';
+                  } else {
+                      console.log(response);
+                      result.innerHTML = jsonResponse.message;
+                      result.style.color = '#dc3545';
+                  }
+              })
+              .catch(error => {
+                  console.log(error);
+                  result.innerHTML = "Something went wrong!";
+                  result.style.color = '#dc3545';
+              })
+              .then(function() {
+                  form.reset();
+                  setTimeout(() => {
+                      result.innerHTML = '';
+                  }, 5000);
+              });
+      });
+
+    });
+  </script>
 </body>
 </html>

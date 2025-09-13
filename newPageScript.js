@@ -17,4 +17,4 @@ window.location.href = newLink
 
 setTimeout(function() {
 window.location.href = newLink;
-}, 1000);
+}, 0);
